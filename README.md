@@ -22,7 +22,7 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 
 关注公众号：**程序员的小故事**，回复"勾搭"进群交流。
 
-ps: 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin),集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发。
+ps: **推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin),集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发**。
 
 ![wx-gzh](https://newbee-mall.oss-cn-beijing.aliyuncs.com/wx-gzh/%E6%89%AB%E7%A0%81%E5%85%B3%E6%B3%A8.png)
 
