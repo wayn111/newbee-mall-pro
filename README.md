@@ -161,6 +161,7 @@ ps: 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/s
 - [spring-projects](https://github.com/spring-projects/spring-boot)
 - [thymeleaf](https://github.com/thymeleaf/thymeleaf)
 - [mybatis](https://github.com/mybatis/mybatis-3)
+- [mybatis-plus](https://mp.baomidou.com/)
 - [ColorlibHQ](https://github.com/ColorlibHQ/AdminLTE)
 - [tonytomov](https://github.com/tonytomov/jqGrid)
 - [t4t5](https://github.com/t4t5/sweetalert)
