@@ -1,0 +1,52 @@
+server:
+  port: 84
+  servlet:
+    context-path: /mall
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 300
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+
+
+# 日志配置
+logging:
+  level:
+    com.wayn: debug
+    org.springframework: info
+    com.baomidou: debug
+
+# spring
+spring:
+  thymeleaf:
+    suffix: .html
+    cache: false
+    encoding: UTF-8
+  # 服务模块
+  devtools:
+    restart:
+      # 热部署开关
+      enabled: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+
+# mybatis plus
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-field: flag  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  type-aliases-package: com.wayn.**.entity
+
+# wayn配置
+wayn:
+  uploadDir: E:/wayn/upload

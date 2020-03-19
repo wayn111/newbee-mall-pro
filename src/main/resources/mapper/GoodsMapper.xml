@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.GoodsDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Goods">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_intro" property="goodsIntro"/>
+        <result column="goods_category_id" property="goodsCategoryId"/>
+        <result column="goods_cover_img" property="goodsCoverImg"/>
+        <result column="goods_carousel" property="goodsCarousel"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="selling_price" property="sellingPrice"/>
+        <result column="stock_num" property="stockNum"/>
+        <result column="tag" property="tag"/>
+        <result column="goods_sell_status" property="goodsSellStatus"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="goods_detail_content" property="goodsDetailContent"/>
+    </resultMap>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.controller.vo.SearchPageGoodsVO">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_intro" property="goodsIntro"/>
+        <result column="goods_cover_img" property="goodsCoverImg"/>
+        <result column="selling_price" property="sellingPrice"/>
+    </resultMap>
+
+    <sql id="selectGoods">
+        select t.goods_id, t.goods_name, t.goods_intro, t.goods_category_id, t.goods_cover_img,
+        t.goods_carousel, t.original_price, t.selling_price, t.stock_num,
+        t.tag, t.goods_sell_status, t.update_time, t.update_user, t.create_time,
+        t.update_time, t.goods_detail_content
+        from tb_newbee_mall_goods_info t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Goods" resultMap="BaseResultMap">
+        <include refid="selectGoods"></include>
+        <where>
+            1 = 1
+            <if test="goods.goodsCategoryId!=null">
+                and goods_category_id = #{goods.goodsCategoryId}
+            </if>
+            <if test="goods.goodsName!=null and goods.goodsName != ''">
+                and goods_name LIKE CONCAT('%',#{goods.goodsName},'%')
+            </if>
+            <if test="goods.goodsIntro!=null and goods.goodsIntro != ''">
+                and goods_intro LIKE CONCAT('%',#{goods.goodsIntro},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.controller.vo.SearchObjVO"
+            resultMap="SearchVOResultMap">
+        <include refid="selectGoods"></include>
+        <where>
+            1 = 1
+            <if test="searchObjVO.keyword!=null and searchObjVO.keyword!=''">
+                and (goods_name like CONCAT('%',#{searchObjVO.keyword},'%') or goods_intro like
+                CONCAT('%',#{searchObjVO.keyword},'%'))
+            </if>
+            <if test="searchObjVO.goodsCategoryId!=null and searchObjVO.goodsCategoryId!=''">
+                and goods_category_id = #{searchObjVO.goodsCategoryId}
+            </if>
+        </where>
+    </select>
+</mapper>

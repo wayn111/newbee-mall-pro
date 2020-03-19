@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.CarouselsDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Carousels">
+        <id column="carousel_id" property="carouselId"/>
+        <result column="carousel_url" property="carouselUrl"/>
+        <result column="redirect_url" property="redirectUrl"/>
+        <result column="carousel_rank" property="carouselRank"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+    </resultMap>
+
+    <sql id="selectCarousels">
+        select t.carousel_id, t.carousel_url, t.redirect_url, t.carousel_rank, t.is_deleted, t.update_time, t.update_user, t.create_time
+        from tb_newbee_mall_carousel t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Carousels" resultMap="BaseResultMap">
+        <include refid="selectCarousels"></include>
+        <where>
+            t.is_deleted = 0
+        </where>
+        <!--<where>
+            <if test="carouselId != null and carouselId != 0">
+                AND carousel_id = #{carouselId}
+            </if>
+            <if test="carouselUrl != null and carouselUrl != ''">
+                AND carousel_url = #{carouselUrl}
+            </if>
+            <if test="redirectUrl != null and redirectUrl != ''">
+                AND redirect_url = #{redirectUrl}
+            </if>
+            <if test="carouselRank != null and carouselRank != 0">
+                AND carousel_rank = #{carouselRank}
+            </if>
+            <if test="isDeleted != null and isDeleted != 0">
+                AND is_deleted = #{isDeleted}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="createUser != null and createUser != ''">
+                AND create_user = #{createUser}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime}
+            </if>
+            <if test="updateUser != null and updateUser != ''">
+                AND update_user = #{updateUser}
+            </if>
+        </where>-->
+    </select>
+</mapper>

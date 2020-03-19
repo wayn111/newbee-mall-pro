@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('NewBee商城-搜索','search')">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<!-- nav -->
+<nav th:replace="mall/header::nav-fragment"></nav>
+
+<!--分类筛选-->
+<div class="classify">
+    <div class="category">
+        <div class="category_bar">
+            <th:block th:if="${searchPageCategoryVO!=null}">
+                <div class="fm c">
+                    <a href="##" class="qqq" th:text="${searchPageCategoryVO.secondLevelCategoryName}">newbee-mall</a>
+                    <div>
+                        <th:block th:each="thirdLevelCategory : ${searchPageCategoryVO.thirdLevelCategoryList}">
+                            <a th:href="@{${'/search?goodsCategoryId='+thirdLevelCategory.categoryId}}"
+                               th:text="${thirdLevelCategory.categoryName}">newbee-mall</a>
+                        </th:block>
+                    </div>
+                </div>
+                <i><img src="mall/image/search/right-@1x.png" alt=""></i>
+                <div class="findword">
+                    <input type="hidden" id="goodsCategoryId" th:value="${goodsCategoryId}">
+                    <span>[[${searchPageCategoryVO.currentCategoryName}]]</span>
+                    <span style="float: right;display: block">关键词 "
+                        [[${keyword}]]
+                        "</span>
+                </div>
+            </th:block>
+            <th:block th:if="${searchPageCategoryVO==null}">
+                <th:block th:if="${keyword!=null and keyword !=''}">
+                    <div class="findword">搜索 "
+                        <th:block th:text="${keyword}"></th:block>
+                        "
+                    </div>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<!--排序-->
+<div class="sort">
+    <div class="list">
+        <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='}">
+            <div th:class="${orderBy==null || orderBy=='default'?'active':''}">推荐</div>
+        </a>
+        <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx=goodsId'}">
+            <div th:class="${orderBy=='goodsId'?'active':''}">新品</div>
+        </a>
+        <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx=sellingPrice'}">
+            <div th:class="${orderBy=='sellingPrice'?'active':''}">价格</div>
+        </a>
+    </div>
+</div>
+
+<div class="goods_item center">
+    <div class="main center">
+        <th:block th:if="${#lists.isEmpty(pageResult.records)}">
+            未查询到商品
+        </th:block>
+        <th:block th:unless="${#lists.isEmpty(pageResult.records)}">
+            <th:block th:each="goods : ${pageResult.records}">
+                <div class="item_card_frame">
+                    <div class="item_card"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank"><img
+                            th:src="@{${goods.goodsCoverImg}}" th:alt="${goods.goodsName}"></a></div>
+                    <div class="item_brand text-truncate"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank"
+                                               th:text="${goods.goodsName}">newbee.ltd</a></div>
+                    <div class="item_sub_intro text-truncate" th:text="${goods.goodsIntro}">newbee.ltd</div>
+                    <div class="item_price" th:text="${goods.sellingPrice+'.00元'}">1299.00元</div>
+                </div>
+            </th:block>
+        </th:block>
+        <div class="clear"></div>
+    </div>
+    <div class="pages">
+        <div class="page_wrap">
+            <th:block th:if="${null != pageResult and !#lists.isEmpty(pageResult.records)}">
+            <span class="page_span1">
+                 <a th:href="@{${pageResult.current==1}?'##':'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current-1}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}">
+                                    < 上一页
+                                </a>
+                <th:block th:if="${pageResult.current-2 >=1}"><a
+                        th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current-2}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}"
+                        th:text="${pageResult.current -2}">1</a></th:block>
+                <th:block th:if="${pageResult.current-1 >=1}"><a
+                        th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current-1}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}"
+                        th:text="${pageResult.current -1}">1</a></th:block>
+                <a href="##" class="active" th:text="${pageResult.current}">1</a>
+                <th:block th:if="${pageResult.current+1<=pageResult.pages}"><a
+                        th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current+1}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}"
+                        th:text="${pageResult.current +1}">1</a></th:block>
+                <th:block th:if="${pageResult.current+2<=pageResult.pages}"><a
+                        th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current+2}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}"
+                        th:text="${pageResult.current +2}">1</a></th:block>
+                 <a th:href="@{${pageResult.current>=pageResult.pages}?'##':'/search?keyword='+${keyword==null?'':keyword}+'&pageNumber=' + ${pageResult.current+1}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='+${#lists.isEmpty(pageResult.orders)?'':pageResult.orders[0].column}}">
+                                    下一页 >
+                                </a>
+					</span>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div th:replace="mall/footer::footer-fragment"></div>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+</body>
+</html>

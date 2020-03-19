@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="admin/header :: header-fragment"/>
+    <style>
+        .ui-jqgrid tr.jqgrow td {
+            white-space: normal !important;
+            height: auto;
+            vertical-align: text-top;
+            padding-top: 2px;
+        }
+
+        a {
+            color: #1baeae;
+            text-decoration: none;
+            background-color: transparent;
+            -webkit-text-decoration-skip: objects;
+        }
+
+        a:hover {
+            color: white;
+            background-color: #1baeae;
+        }
+
+        .search-content {
+            padding: 20px 30px;
+            border-bottom: 1px rgba(0,0,0,.125)solid;
+        }
+        .m-l{
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <th:block th:include="admin/header :: navbar-fragment"/>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <th:block th:include="admin/sidebar :: sidebar-fragment(${path})"/>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <!--                        <h1 class="m-0 text-dark">carousels</h1>-->
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">goods</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">商品管理</h3>
+                    </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form">
+                            <div class="form-group">
+                                <label class="">商品名</label>
+                                <input type="text" class="form-control" id="gooodsName">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">商品简介</label>
+                                <input type="text" class="form-control" id="goodsIntro">
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l" onclick="javascrip:$('#search-form')[0].reset();">重置</button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
+                    <!-- .card-body -->
+                    <div class="card-body">
+                        <div class="grid-btn">
+                            <button class="btn btn-info" onclick="addGoods()"><i
+                                    class="fa fa-plus"></i>&nbsp;添加商品
+                            </button>
+                            <button class="btn btn-info" onclick="editGoods()"><i
+                                    class="fa fa-pencil-square-o"></i>&nbsp;修改商品
+                            </button>
+                            <button class="btn btn-success" onclick="putUpGoods()"><i
+                                    class="fa fa-arrow-up"></i>&nbsp;上架商品
+                            </button>
+                            <button class="btn btn-danger" onclick="putDownGoods()"><i
+                                    class="fa fa-arrow-down"></i>&nbsp;下架商品
+                            </button>
+                        </div>
+                        <table id="jqGrid" class="table table-bordered">
+                        </table>
+                        <div id="jqGridPager"></div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div><!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <th:block th:include="admin/footer :: footer-fragment"/>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/admin/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<!-- jqgrid -->
+<script th:src="@{/admin/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/admin/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<script th:src="@{/admin/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/admin/dist/js/public.js}"></script>
+<script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
+<script th:src="@{/admin/dist/js/newbee_mall_goods.js}"></script>
+</body>
+</html>

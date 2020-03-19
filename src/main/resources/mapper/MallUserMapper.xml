@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.MallUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.MallUser">
+        <id column="user_id" property="userId"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="login_name" property="loginName"/>
+        <result column="password_md5" property="passwordMd5"/>
+        <result column="introduce_sign" property="introduceSign"/>
+        <result column="address" property="address"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="locked_flag" property="lockedFlag"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="selectMallUser">
+        select t.user_id, t.nick_name, t.login_name, t.password_md5, t.introduce_sign,
+        t.address, t.is_deleted, t.locked_flag, t.create_time
+        from tb_newbee_mall_user t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.MallUser" resultMap="BaseResultMap">
+        <include refid="selectMallUser"></include>
+        <where>
+            t.is_deleted = 0
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.GoodsCategoryDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.GoodsCategory">
+        <id column="category_id" property="categoryId"/>
+        <result column="category_level" property="categoryLevel"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="category_rank" property="categoryRank"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_user" property="createUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_user" property="updateUser"/>
+    </resultMap>
+
+    <sql id="selectCategory">
+        select t.category_id, t.category_level, t.parent_id, t.category_name, t.category_rank,
+        t.is_deleted, t.create_user, t.update_user, t.create_time, t.update_time
+        from tb_newbee_mall_goods_category t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.GoodsCategory" resultMap="BaseResultMap">
+        <include refid="selectCategory"></include>
+        <where>
+            t.is_deleted = 0
+            <if test="goodsCategory.parentId != null">
+                AND t.parent_id = #{goodsCategory.parentId}
+            </if>
+            <if test="goodsCategory.categoryLevel != null">
+                AND t.category_level = #{goodsCategory.categoryLevel}
+            </if>
+        </where>
+    </select>
+</mapper>

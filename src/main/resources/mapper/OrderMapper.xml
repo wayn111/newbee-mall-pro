@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.OrderDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="pay_status" property="payStatus"/>
+        <result column="pay_type" property="payType"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="extra_info" property="extraInfo"/>
+        <result column="user_address" property="userAddress"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="VOResultMap" type="ltd.newbee.mall.controller.vo.OrderListVO">
+        <id column="order_id" property="orderId"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="total_price" property="totalPrice"/>
+        <result column="pay_type" property="payType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="user_address" property="userAddress"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="selectOrder">
+        select t.order_id, t.order_no, t.user_id, t.total_price, t.pay_status,
+        t.pay_type, t.pay_time, t.order_status, t.extra_info, t.user_address,
+        t.is_deleted, t.create_time, t.update_time
+        from tb_newbee_mall_order t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Order" resultMap="BaseResultMap">
+        <include refid="selectOrder"></include>
+        <where>
+            t.is_deleted = 0
+        </where>
+    </select>
+
+    <select id="selectListVOPage" parameterType="ltd.newbee.mall.entity.Order" resultMap="VOResultMap">
+        <include refid="selectOrder"></include>
+        <where>
+            t.is_deleted = 0
+            and t.user_id = #{order.userId}
+        </where>
+        order by create_time desc
+    </select>
+</mapper>
