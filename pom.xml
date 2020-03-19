@@ -25,7 +25,6 @@
         <mybatis.plus.version>3.3.1.tmp</mybatis.plus.version>
         <druid.version>1.1.14</druid.version>
         <bitwalker.version>1.19</bitwalker.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
         <swagger.version>2.9.2</swagger.version>
         <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
         <fastjson.version>1.2.60</fastjson.version>
@@ -38,7 +37,7 @@
         <velocity.version>1.7</velocity.version>
         <ip2region.version>1.7.2</ip2region.version>
         <hessian.version>4.0.38</hessian.version>
-        <kaptcha.version>0.0.9</kaptcha.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
         <jsoup.version>1.9.2</jsoup.version>
     </properties>
 
@@ -113,7 +112,7 @@
 
         <!-- 验证码 -->
         <dependency>
-            <groupId>com.github.axet</groupId>
+            <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
         </dependency>
