@@ -24,7 +24,16 @@
     <select id="selectListPage" parameterType="ltd.newbee.mall.entity.MallUser" resultMap="BaseResultMap">
         <include refid="selectMallUser"></include>
         <where>
-            t.is_deleted = 0
+            1 = 1
+            <if test="mallUser.nickName != null and mallUser.nickName != ''">
+                and nick_name LIKE CONCAT('%',#{mallUser.nickName},'%')
+            </if>
+            <if test="mallUser.loginName!=null and mallUser.loginName != ''">
+                and login_name LIKE CONCAT('%',#{mallUser.loginName},'%')
+            </if>
+            <if test="mallUser.lockedFlag!=null">
+                and locked_flag LIKE CONCAT('%',#{mallUser.lockedFlag},'%')
+            </if>
         </where>
     </select>
 </mapper>

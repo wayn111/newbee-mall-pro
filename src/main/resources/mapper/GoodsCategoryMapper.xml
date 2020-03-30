@@ -32,6 +32,9 @@
             <if test="goodsCategory.categoryLevel != null">
                 AND t.category_level = #{goodsCategory.categoryLevel}
             </if>
+            <if test="goodsCategory.categoryName != null and goodsCategory.categoryName != ''">
+                and t.category_name LIKE CONCAT('%',#{goodsCategory.categoryName},'%')
+            </if>
         </where>
     </select>
 </mapper>

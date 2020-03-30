@@ -36,10 +36,22 @@
         from tb_newbee_mall_order t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Order" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.controller.vo.OrderVO" resultMap="BaseResultMap">
         <include refid="selectOrder"></include>
         <where>
             t.is_deleted = 0
+            <if test="order.orderNo != null and order.orderNo != ''">
+                and order_no LIKE CONCAT('%',#{order.orderNo},'%')
+            </if>
+            <if test="order.orderStatus != null">
+                and order_status = #{order.orderStatus}
+            </if>
+            <if test="order.startTime != null and order.startTime != ''">
+                and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{order.startTime},'%Y-%m-%d')
+            </if>
+            <if test="order.endTime != null and order.endTime != ''">
+                and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{order.endTime},'%Y-%m-%d')
+            </if>
         </where>
     </select>
 

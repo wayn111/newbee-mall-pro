@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="admin/header :: header-fragment"/>
+    <link rel="stylesheet" th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
     <style>
         .ui-jqgrid tr.jqgrow td {
             white-space: normal !important;
@@ -57,7 +58,39 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">订单管理</h3>
-                    </div> <!-- /.card-body -->
+                    </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form" action="javascript:;">
+                            <div class="form-group">
+                                <label class="">订单号</label>
+                                <input type="text" class="form-control" id="orderNum">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">订单状态</label>
+                                <select class="form-control" id="orderStatus">
+                                    <option value="" selected>请选择</option>
+                                    <option value="0">待支付</option>
+                                    <option value="1">已支付</option>
+                                    <option value="2">配货完成</option>
+                                    <option value="3">出库成功</option>
+                                    <option value="4">交易成功</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">创建时间</label>
+                                <input type="text" class="w-210 form-control" id="createTime">
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l"
+                                    onclick="javascrip:$('#search-form')[0].reset();">重置
+                            </button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
+                    <!-- .card-body -->
                     <div class="card-body">
                         <div class="grid-btn">
                             <button class="btn btn-info" onclick="orderEdit()"><i
@@ -190,6 +223,8 @@
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
+<script th:src="@{/admin/plugins/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/admin/plugins/daterangepicker/daterangepicker.js}"></script>
 <script th:src="@{/admin/dist/js/newbee_mall_order.js}"></script>
 </body>
 </html>

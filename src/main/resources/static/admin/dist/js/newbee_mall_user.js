@@ -62,9 +62,16 @@ $(function () {
  * jqGrid重新加载
  */
 function reload() {
-    var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+    var nickName = $('#nickName').val() || '';
+    var loginName = $('#loginName').val() || '';
+    var lockedFlag = $('#lockedFlag').val() || '';
     $("#jqGrid").jqGrid('setGridParam', {
-        page: page
+        page: 1,
+        postData: {
+            nickName: nickName,
+            loginName: loginName,
+            lockedFlag: lockedFlag
+        }
     }).trigger("reloadGrid");
 }
 

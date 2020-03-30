@@ -81,3 +81,15 @@ ul.thumbnails.image_picker_selector li .thumbnail.selected {
 .success > td {
     background-color: #bee5eb;
 }
+
+.search-content {
+    padding: 20px 30px;
+    border-bottom: 1px rgba(0,0,0,.125)solid;
+}
+.m-l {
+    margin-left: 15px;
+}
+
+.w-210 {
+    width: 210px !important;
+}

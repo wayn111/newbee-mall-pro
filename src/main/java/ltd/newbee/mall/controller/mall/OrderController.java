@@ -105,12 +105,7 @@ public class OrderController extends BaseController {
     @PutMapping("/orders/{orderNo}/cancel")
     @ResponseBody
     public R cancelOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        //todo 判断订单userId
-        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
-            throw new BusinessException("当前订单用户异常");
-        }
+        Order order = judgeOrderUserId(orderNo, session);
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_PAID.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
@@ -124,12 +119,7 @@ public class OrderController extends BaseController {
     @PutMapping("/orders/{orderNo}/finish")
     @ResponseBody
     public R finishOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        //todo 判断订单userId
-        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
-            throw new BusinessException("当前订单用户异常");
-        }
+        Order order = judgeOrderUserId(orderNo, session);
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_EXPRESS.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
@@ -140,15 +130,27 @@ public class OrderController extends BaseController {
         return R.success();
     }
 
-
-    @GetMapping("/selectPayType")
-    public String selectPayType(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session) {
+    /**
+     * 判断订单关联用户id和当前登陆用户是否一致
+     *
+     * @param orderNo
+     * @param session
+     * @return
+     */
+    private Order judgeOrderUserId(String orderNo, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
         //todo 判断订单userId
         if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("当前订单用户异常");
         }
+        return order;
+    }
+
+
+    @GetMapping("/selectPayType")
+    public String selectPayType(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session) {
+        Order order = judgeOrderUserId(orderNo, session);
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
@@ -161,12 +163,7 @@ public class OrderController extends BaseController {
 
     @GetMapping("/payPage")
     public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session, @RequestParam("payType") int payType) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        //todo 判断订单userId
-        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
-            throw new BusinessException("当前订单用户异常");
-        }
+        Order order = judgeOrderUserId(orderNo, session);
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
@@ -183,9 +180,8 @@ public class OrderController extends BaseController {
 
     @GetMapping("/paySuccess")
     @ResponseBody
-    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType) {
-        System.out.println(1324);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
+        Order order = judgeOrderUserId(orderNo, session);
         if (order != null) {
             //todo 判断订单状态
             if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()

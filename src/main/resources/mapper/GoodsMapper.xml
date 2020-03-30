@@ -46,6 +46,9 @@
             <if test="goods.goodsCategoryId!=null">
                 and goods_category_id = #{goods.goodsCategoryId}
             </if>
+            <if test="goods.goodsSellStatus!=null">
+                and goods_sell_status = #{goods.goodsSellStatus}
+            </if>
             <if test="goods.goodsName!=null and goods.goodsName != ''">
                 and goods_name LIKE CONCAT('%',#{goods.goodsName},'%')
             </if>

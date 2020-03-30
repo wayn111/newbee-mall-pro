@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ltd.newbee.mall.controller.vo.MallUserVO;
 import ltd.newbee.mall.controller.vo.OrderListVO;
+import ltd.newbee.mall.controller.vo.OrderVO;
 import ltd.newbee.mall.controller.vo.ShopCatVO;
 import ltd.newbee.mall.dao.OrderDao;
 import ltd.newbee.mall.entity.Goods;
@@ -47,8 +48,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     }
 
     @Override
-    public IPage selectPage(Page<Order> page, Order order) {
-        return orderDao.selectListPage(page, order);
+    public IPage selectPage(Page<Order> page, OrderVO orderVO) {
+        return orderDao.selectListPage(page, orderVO);
     }
 
     @Transactional

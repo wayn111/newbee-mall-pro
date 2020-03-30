@@ -74,11 +74,13 @@ $(function () {
 function reload() {
     var goodsName = $('#gooodsName').val() || '';
     var goodsIntro = $('#goodsIntro').val() || '';
+    var goodsSellStatus = $('#goodsSellStatus').val() || '';
     $("#jqGrid").jqGrid('setGridParam', {
         page: 1,
         postData: {
             goodsName: goodsName,
-            goodsIntro: goodsIntro
+            goodsIntro: goodsIntro,
+            goodsSellStatus: goodsSellStatus
         }
     }).trigger("reloadGrid");
 }

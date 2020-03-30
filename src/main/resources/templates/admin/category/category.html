@@ -38,7 +38,22 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">分类管理</h3>
-                    </div> <!-- /.card-header -->
+                    </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form" action="javascript:;">
+                            <div class="form-group">
+                                <label class="">分类名称</label>
+                                <input type="text" class="form-control" id="categoryNameSearch">
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l" onclick="javascrip:$('#search-form')[0].reset();">重置</button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
+                    <!-- /.card-header -->
                     <div class="card-body">
                         <div class="grid-btn">
                             <button class="btn btn-info" onclick="categoryAdd()"><i

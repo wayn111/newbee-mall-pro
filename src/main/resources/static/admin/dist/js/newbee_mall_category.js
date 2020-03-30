@@ -47,9 +47,12 @@ $(function () {
  * jqGrid重新加载
  */
 function reload() {
-    var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+    var categoryName = $('#categoryNameSearch').val() || '';
     $("#jqGrid").jqGrid('setGridParam', {
-        page: page
+        page: 1,
+        postData: {
+            categoryName: categoryName
+        }
     }).trigger("reloadGrid");
 }
 

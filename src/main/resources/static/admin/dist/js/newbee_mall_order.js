@@ -94,15 +94,42 @@ $(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
     });
 
+    $('#createTime').daterangepicker({
+        autoUpdateInput: false,
+        showDropdowns: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(12, 'hour'),
+        locale: {
+            format: 'YYYY/MM/DD'
+        }
+    });
+
+    $('#createTime').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+    });
+
 });
 
 /**
  * jqGrid重新加载
  */
 function reload() {
-    var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+    debugger
+    var orderNo = $('#orderNo').val() || '';
+    var orderStatus = $('#orderStatus').val() || '';
+    var createTime = $('#createTime').val() || '';
+    var timeArr = createTime && createTime.split('-') || ['', ''];
+    var startTime = timeArr[0].trim();
+    var endTime = timeArr[1].trim();
+
     $("#jqGrid").jqGrid('setGridParam', {
-        page: page
+        page: 1,
+        postData: {
+            orderNo: orderNo,
+            orderStatus: orderStatus,
+            startTime: startTime,
+            endTime: endTime
+        }
     }).trigger("reloadGrid");
 }
 

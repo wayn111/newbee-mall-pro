@@ -45,7 +45,34 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">会员管理</h3>
-                    </div> <!-- /.card-body -->
+                    </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form" action="javascript:;">
+                            <div class="form-group">
+                                <label class="">昵称</label>
+                                <input type="text" class="form-control" id="nickName">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">登录名称</label>
+                                <input type="text" class="form-control" id="loginName">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">身份状态</label>
+                                <select class="form-control" id="lockedFlag">
+                                    <option value="" selected>请选择</option>
+                                    <option value="0">正常</option>
+                                    <option value="1">锁定</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l" onclick="javascrip:$('#search-form')[0].reset();">重置</button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
+                    <!-- .card-body -->
                     <div class="card-body">
                         <div class="grid-btn">
                             <button class="btn btn-info" onclick="lockUser(0)"><i
