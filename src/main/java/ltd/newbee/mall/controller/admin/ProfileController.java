@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("admin/profile")
-public class ProfileContorller extends BaseController {
+public class ProfileController extends BaseController {
 
     private static final String PREFIX = "admin/profile";
 

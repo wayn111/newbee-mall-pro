@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/users")
-public class MemberController extends BaseController {
+public class MemberManagerController extends BaseController {
 
     private static final String PREFIX = "admin/members";
 

@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/indexConfigs")
-public class IndexConfigController extends BaseController {
+public class IndexCfgManagerController extends BaseController {
 
     private static final String PREFIX = "admin/indexConfigs";
 

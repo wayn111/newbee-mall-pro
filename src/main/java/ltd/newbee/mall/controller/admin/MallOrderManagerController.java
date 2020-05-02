@@ -25,7 +25,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/orders")
-public class MallOrderController extends BaseController {
+public class MallOrderManagerController extends BaseController {
 
     private static final String PREFIX = "admin/order";
 

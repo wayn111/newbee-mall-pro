@@ -8,15 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class BaseController {
-    @Autowired
-    protected HttpServletRequest request;
-
-    @Autowired
-    protected HttpServletResponse response;
 
     @Autowired
     protected HttpSession session;
@@ -45,7 +39,7 @@ public class BaseController {
      * @return
      */
     protected <T> Page<T> getPage(int pageNumber, int pageSize) {
-        return new Page<T>(pageNumber, pageSize);
+        return new Page<>(pageNumber, pageSize);
     }
 
     protected <T> Page<T> getPage(HttpServletRequest request) {
@@ -53,6 +47,10 @@ public class BaseController {
         long pageNumber = Long.parseLong(StringUtils.isNotEmpty(pageNumber1) ? pageNumber1 : "1");
         String pageSize1 = request.getParameter(Constants.PAGE_SIZE);
         long pageSize = Long.parseLong(StringUtils.isNotEmpty(pageSize1) ? pageSize1 : "10");
+        return gettPage(request, pageNumber, pageSize);
+    }
+
+    private <T> Page<T> gettPage(HttpServletRequest request, long pageNumber, long pageSize) {
         String sortName = request.getParameter("sidx");
         String sortOrder = request.getParameter("order");
         Page<T> tPage = new Page<>(pageNumber, pageSize);
@@ -70,19 +68,7 @@ public class BaseController {
     protected <T> Page<T> getPage(HttpServletRequest request, long pageSize) {
         String pageNumber1 = request.getParameter(Constants.PAGE_NUMBER);
         long pageNumber = Long.parseLong(StringUtils.isNotEmpty(pageNumber1) ? pageNumber1 : "1");
-        String pageSize1 = request.getParameter(Constants.PAGE_SIZE);
-        String sortName = request.getParameter("sidx");
-        String sortOrder = request.getParameter("order");
-        Page<T> tPage = new Page<>(pageNumber, pageSize);
-        if (StringUtils.isNotEmpty(sortName)) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setColumn(sortName.replaceAll("[A-Z]", "_$0").toLowerCase());
-            if (Constants.ORDER_DESC.equals(sortOrder)) {
-                orderItem.setAsc(false);
-            }
-            tPage.addOrder(orderItem);
-        }
-        return tPage;
+        return gettPage(request, pageNumber, pageSize);
     }
 
 

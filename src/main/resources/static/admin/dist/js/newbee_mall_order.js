@@ -21,6 +21,9 @@ $(function () {
         rownumWidth: 20,
         autowidth: true,
         multiselect: true,
+        sortable: true,
+        sortname: 'createTime', //设置默认的排序列
+        sortorder: 'desc',
         pager: "#jqGridPager",
         jsonReader: {
             root: "records",
@@ -114,7 +117,6 @@ $(function () {
  * jqGrid重新加载
  */
 function reload() {
-    debugger
     var orderNo = $('#orderNo').val() || '';
     var orderStatus = $('#orderStatus').val() || '';
     var createTime = $('#createTime').val() || '';

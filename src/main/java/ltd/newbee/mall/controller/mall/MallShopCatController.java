@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class ShopCatController extends BaseController {
+public class MallShopCatController extends BaseController {
 
     @Autowired
     private ShopCatService shopCatService;
@@ -42,11 +42,11 @@ public class ShopCatController extends BaseController {
     @GetMapping("shop-cart")
     public String save(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Long itemsTotal = 0L;
+        long itemsTotal = 0L;
         double priceTotal = 0;
         List<ShopCatVO> collect = shopCatService.getShopcatVOList(mallUserVO.getUserId());
         if (CollectionUtils.isNotEmpty(collect)) {
-            itemsTotal = collect.stream().count();
+            itemsTotal = collect.size();
             for (ShopCatVO shopCatVO : collect) {
                 priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
             }

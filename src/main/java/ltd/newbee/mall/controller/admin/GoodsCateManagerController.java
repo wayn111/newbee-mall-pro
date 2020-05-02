@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin/categories")
-public class GoodsCategoryController extends BaseController {
+public class GoodsCateManagerController extends BaseController {
 
     private static final String PREFIX = "admin/category";
 
@@ -56,25 +56,26 @@ public class GoodsCategoryController extends BaseController {
     public R listForSelect(@RequestParam("categoryId") Long categoryId) {
         GoodsCategory category = goodsCategoryService.getById(categoryId);
         // 既不是一级分类也不是二级分类则为不返回数据
-        if (category == null || category.getCategoryLevel() == Constants.CATEGORY_LEVEL_THREE) {
+        if (category == null || category.getCategoryLevel().equals(Constants.CATEGORY_LEVEL_THREE)) {
             return R.error("参数异常！");
         }
-        Map categoryResult = new HashMap(2);
-        if (category.getCategoryLevel() == Constants.CATEGORY_LEVEL_ONE) {
-            //如果是一级分类则返回当前一级分类下的所有二级分类，以及二级分类列表中第一条数据下的所有三级分类列表
-            //查询一级分类列表中第一个实体的所有二级分类
+        Map<String, List<GoodsCategory>> categoryResult = new HashMap<>(2);
+        // 如果是一级分类则返回当前一级分类下的所有二级分类，以及二级分类列表中第一条数据下的所有三级分类列表
+        if (category.getCategoryLevel().equals(Constants.CATEGORY_LEVEL_ONE)) {
+            // 查询一级分类列表中第一个实体的所有二级分类
             List<GoodsCategory> secondLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
                     .eq("category_level", Constants.CATEGORY_LEVEL_TWO).eq("parent_id", categoryId));
             if (!CollectionUtils.isEmpty(secondLevelCategories)) {
-                //查询二级分类列表中第一个实体的所有三级分类
+                // 查询二级分类列表中第一个实体的所有三级分类
                 List<GoodsCategory> thirdLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
                         .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.get(0).getCategoryId()));
                 categoryResult.put("secondLevelCategories", secondLevelCategories);
                 categoryResult.put("thirdLevelCategories", thirdLevelCategories);
             }
         }
+        // 如果是二级分类则返回当前分类下的所有三级分类列表
         if (category.getCategoryLevel().equals(Constants.CATEGORY_LEVEL_TWO)) {
-            //如果是二级分类则返回当前分类下的所有三级分类列表
+            // 查询二级分类列表中第一个实体的所有三级分类
             List<GoodsCategory> thirdLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
                     .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", categoryId));
             categoryResult.put("thirdLevelCategories", thirdLevelCategories);

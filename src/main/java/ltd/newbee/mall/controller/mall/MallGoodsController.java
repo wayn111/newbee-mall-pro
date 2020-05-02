@@ -33,7 +33,7 @@ public class MallGoodsController extends BaseController {
     public String searchPage(SearchObjVO searchObjVO, HttpServletRequest request) {
         Page<SearchPageGoodsVO> page = getPage(request, Constants.GOODS_SEARCH_PAGE_LIMIT);
         String keyword = searchObjVO.getKeyword();
-        IPage iPage = goodsService.findMallGoodsListBySearch(page, searchObjVO);
+        IPage<Goods> iPage = goodsService.findMallGoodsListBySearch(page, searchObjVO);
         request.setAttribute("keyword", keyword);
         request.setAttribute("pageResult", iPage);
         Long goodsCategoryId = searchObjVO.getGoodsCategoryId();

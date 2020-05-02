@@ -9,8 +9,8 @@ import ltd.newbee.mall.entity.Goods;
 
 public interface GoodsService extends IService<Goods> {
 
-    IPage selectPage(Page<Goods> page, Goods goods);
+    IPage<Goods> selectPage(Page<Goods> page, Goods goods);
 
-    IPage findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
+    IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
 }

@@ -24,7 +24,6 @@
     <select id="selectListPage" parameterType="ltd.newbee.mall.entity.MallUser" resultMap="BaseResultMap">
         <include refid="selectMallUser"></include>
         <where>
-            1 = 1
             <if test="mallUser.nickName != null and mallUser.nickName != ''">
                 and nick_name LIKE CONCAT('%',#{mallUser.nickName},'%')
             </if>

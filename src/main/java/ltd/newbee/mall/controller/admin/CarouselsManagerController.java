@@ -15,7 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/carousels")
-public class CarouselsController extends BaseController {
+public class CarouselsManagerController extends BaseController {
 
     private static final String PREFIX = "admin/carousels";
 
@@ -25,7 +25,6 @@ public class CarouselsController extends BaseController {
     @GetMapping
     public String index(HttpServletRequest request) {
         request.setAttribute("path", "newbee_mall_carousel");
-
         return PREFIX + "/carousels";
     }
 
@@ -44,7 +43,7 @@ public class CarouselsController extends BaseController {
      */
     @PostMapping("/save")
     @ResponseBody
-    public R save(@RequestBody Carousels carousels, HttpServletRequest request) {
+    public R save(@RequestBody Carousels carousels) {
         carouselsService.save(carousels);
         return R.success();
     }
@@ -54,7 +53,7 @@ public class CarouselsController extends BaseController {
      */
     @PostMapping("/update")
     @ResponseBody
-    public R update(@RequestBody Carousels carousels, HttpServletRequest request) {
+    public R update(@RequestBody Carousels carousels) {
         carouselsService.updateById(carousels);
         return R.success();
     }
@@ -64,7 +63,7 @@ public class CarouselsController extends BaseController {
      */
     @GetMapping("/info/{id}")
     @ResponseBody
-    public R Info(@PathVariable("id") Integer id, HttpServletRequest request) {
+    public R Info(@PathVariable("id") Integer id) {
         return R.success().add("data", carouselsService.getById(id));
     }
 

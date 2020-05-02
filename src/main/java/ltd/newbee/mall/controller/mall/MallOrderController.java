@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
-public class OrderController extends BaseController {
+public class MallOrderController extends BaseController {
 
     @Autowired
     private ShopCatService shopCatService;

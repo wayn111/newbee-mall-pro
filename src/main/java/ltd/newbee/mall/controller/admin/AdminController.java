@@ -30,7 +30,7 @@ public class AdminController extends BaseController {
     }
 
     @RequestMapping("login")
-    public String login(HttpServletRequest request) {
+    public String login() {
         return "admin/login";
     }
 

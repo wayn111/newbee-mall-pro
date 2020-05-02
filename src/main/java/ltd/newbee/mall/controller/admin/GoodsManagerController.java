@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/goods")
-public class GoodsController extends BaseController {
+public class GoodsManagerController extends BaseController {
 
     private static final String PREFIX = "admin/goods";
 
@@ -97,7 +97,7 @@ public class GoodsController extends BaseController {
                     if (firstGoodsCategory != null && firstGoodsCategory.getCategoryLevel().equals(Constants.CATEGORY_LEVEL_ONE)) {
                         List<GoodsCategory> firstLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
                                 .eq("category_level", Constants.CATEGORY_LEVEL_ONE).eq("parent_id", firstGoodsCategory.getParentId()));
-                        //所有分类数据都得到之后放到request对象中供前端读取
+                        // 所有分类数据都得到之后放到request对象中供前端读取
                         request.setAttribute("firstLevelCategories", firstLevelCategories);
                         request.setAttribute("secondLevelCategories", secondLevelCategories);
                         request.setAttribute("thirdLevelCategories", thirdLevelCategories);

@@ -2,7 +2,8 @@ package ltd.newbee.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;import ltd.newbee.mall.controller.vo.SearchObjVO;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ltd.newbee.mall.controller.vo.SearchObjVO;
 import ltd.newbee.mall.controller.vo.SearchPageGoodsVO;
 import ltd.newbee.mall.dao.GoodsDao;
 import ltd.newbee.mall.entity.Goods;
@@ -17,12 +18,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
     private GoodsDao goodsDao;
 
     @Override
-    public IPage selectPage(Page<Goods> page, Goods goods) {
+    public IPage<Goods> selectPage(Page<Goods> page, Goods goods) {
         return goodsDao.selectListPage(page, goods);
     }
 
     @Override
-    public IPage findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO) {
+    public IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO) {
         return goodsDao.findMallGoodsListBySearch(page, searchObjVO);
     }
 

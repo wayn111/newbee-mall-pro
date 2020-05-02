@@ -30,34 +30,5 @@
             t.config_type = #{indexConfig.configType}
             and t.is_deleted = 0
         </where>
-        <!--<where>
-            <if test="carouselId != null and carouselId != 0">
-                AND carousel_id = #{carouselId}
-            </if>
-            <if test="carouselUrl != null and carouselUrl != ''">
-                AND carousel_url = #{carouselUrl}
-            </if>
-            <if test="redirectUrl != null and redirectUrl != ''">
-                AND redirect_url = #{redirectUrl}
-            </if>
-            <if test="carouselRank != null and carouselRank != 0">
-                AND carousel_rank = #{carouselRank}
-            </if>
-            <if test="isDeleted != null and isDeleted != 0">
-                AND is_deleted = #{isDeleted}
-            </if>
-            <if test="createTime != null">
-                AND create_time = #{createTime}
-            </if>
-            <if test="createUser != null and createUser != ''">
-                AND create_user = #{createUser}
-            </if>
-            <if test="updateTime != null">
-                AND update_time = #{updateTime}
-            </if>
-            <if test="updateUser != null and updateUser != ''">
-                AND update_user = #{updateUser}
-            </if>
-        </where>-->
     </select>
 </mapper>

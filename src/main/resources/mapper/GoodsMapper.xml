@@ -42,7 +42,6 @@
     <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Goods" resultMap="BaseResultMap">
         <include refid="selectGoods"></include>
         <where>
-            1 = 1
             <if test="goods.goodsCategoryId!=null">
                 and goods_category_id = #{goods.goodsCategoryId}
             </if>
@@ -62,7 +61,6 @@
             resultMap="SearchVOResultMap">
         <include refid="selectGoods"></include>
         <where>
-            1 = 1
             <if test="searchObjVO.keyword!=null and searchObjVO.keyword!=''">
                 and (goods_name like CONCAT('%',#{searchObjVO.keyword},'%') or goods_intro like
                 CONCAT('%',#{searchObjVO.keyword},'%'))
@@ -70,6 +68,7 @@
             <if test="searchObjVO.goodsCategoryId!=null and searchObjVO.goodsCategoryId!=''">
                 and goods_category_id = #{searchObjVO.goodsCategoryId}
             </if>
+            and goods_sell_status = 0
         </where>
     </select>
 </mapper>
