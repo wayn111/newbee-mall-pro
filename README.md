@@ -6,7 +6,7 @@
 
  
 
-> **推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin),集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发**。
+> 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin),集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发。
 
 ![newbee-logo](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/newbee-logo.png?x-oss-process=image/resize,h_240,w_480)
 
