@@ -33,6 +33,7 @@
             <if test="mallUser.lockedFlag!=null">
                 and locked_flag LIKE CONCAT('%',#{mallUser.lockedFlag},'%')
             </if>
+            and is_deleted = 0
         </where>
     </select>
 </mapper>

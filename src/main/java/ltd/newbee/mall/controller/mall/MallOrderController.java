@@ -1,10 +1,15 @@
 package ltd.newbee.mall.controller.mall;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.config.AlipayConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.vo.*;
 import ltd.newbee.mall.entity.Order;
@@ -18,6 +23,7 @@ import ltd.newbee.mall.service.OrderService;
 import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
+import ltd.newbee.mall.util.http.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +31,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Controller
@@ -41,6 +49,9 @@ public class MallOrderController extends BaseController {
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    private AlipayConfig alipayConfig;
 
     @GetMapping("saveOrder")
     public String saveOrder(HttpSession session) {
@@ -162,7 +173,7 @@ public class MallOrderController extends BaseController {
     }
 
     @GetMapping("/payPage")
-    public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session, @RequestParam("payType") int payType) {
+    public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session, @RequestParam("payType") int payType) throws UnsupportedEncodingException {
         Order order = judgeOrderUserId(orderNo, session);
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
@@ -172,6 +183,45 @@ public class MallOrderController extends BaseController {
         request.setAttribute("orderNo", orderNo);
         request.setAttribute("totalPrice", order.getTotalPrice());
         if (payType == 1) {
+            request.setCharacterEncoding("utf-8");
+            // 初始化
+            AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig.getGateway(), alipayConfig.getAppId(),
+                    alipayConfig.getRsaPrivateKey(), alipayConfig.getFormat(), alipayConfig.getCharset(), alipayConfig.getAlipayPublicKey(),
+                    alipayConfig.getSigntype());
+            // 创建API对应的request
+            AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+            // 在公共参数中设置回跳和通知地址
+            String url = HttpUtil.getRequestContext(request);
+            alipayRequest.setReturnUrl(url + "/orders/" + order.getOrderNo());
+            alipayRequest.setNotifyUrl(url + "/paySuccess?orderNo=" + order.getOrderNo() + "&payType=" + 1);
+
+            // 填充业务参数
+
+            // 必填
+            // 商户订单号，需保证在商户端不重复
+            String out_trade_no = order.getOrderNo() + new Random().nextInt(9999);
+            // 销售产品码，与支付宝签约的产品码名称。目前仅支持FAST_INSTANT_TRADE_PAY
+            String product_code = "FAST_INSTANT_TRADE_PAY";
+            // 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]。
+            String total_amount = order.getTotalPrice() + "";
+            // 订单标题
+            String subject = "支付宝测试";
+
+            // 选填
+            // 商品描述，可空
+            String body = "商品描述";
+
+            alipayRequest.setBizContent("{" + "\"out_trade_no\":\"" + out_trade_no + "\"," + "\"product_code\":\""
+                    + product_code + "\"," + "\"total_amount\":\"" + total_amount + "\"," + "\"subject\":\"" + subject
+                    + "\"," + "\"body\":\"" + body + "\"}");
+            // 请求
+            String form = "";
+            try {
+                form = alipayClient.pageExecute(alipayRequest).getBody();//调用SDK生成表单
+                request.setAttribute("form", form);
+            } catch (AlipayApiException e) {
+                e.printStackTrace();
+            }
             return "mall/alipay";
         } else {
             return "mall/wxpay";

@@ -38,6 +38,7 @@
         <ip2region.version>1.7.2</ip2region.version>
         <hessian.version>4.0.38</hessian.version>
         <kaptcha.version>2.3.2</kaptcha.version>
+        <alipay.version>3.1.0</alipay.version>
         <jsoup.version>1.9.2</jsoup.version>
     </properties>
 
@@ -115,6 +116,13 @@
             <groupId>com.github.penggle</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
+        </dependency>
+
+        <!--支付宝依赖-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>${alipay.version}</version>
         </dependency>
 
     </dependencies>
