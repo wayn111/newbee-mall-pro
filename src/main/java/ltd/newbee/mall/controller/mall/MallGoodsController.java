@@ -36,6 +36,8 @@ public class MallGoodsController extends BaseController {
         IPage<Goods> iPage = goodsService.findMallGoodsListBySearch(page, searchObjVO);
         request.setAttribute("keyword", keyword);
         request.setAttribute("pageResult", iPage);
+        request.setAttribute("orderBy", searchObjVO.getSidx());
+        request.setAttribute("order", searchObjVO.getOrder());
         Long goodsCategoryId = searchObjVO.getGoodsCategoryId();
         if (goodsCategoryId != null) {
             Goods goods = new Goods();

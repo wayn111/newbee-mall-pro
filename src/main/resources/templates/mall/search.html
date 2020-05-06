@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="mall/header::head-fragment('NewBee商城-搜索','search')">
+<head>
+    <th:block th:include="mall/header::head-fragment('NewBee商城-搜索','search')"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.css" rel="stylesheet">
 </head>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
@@ -46,13 +48,15 @@
 <div class="sort">
     <div class="list">
         <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx='}">
-            <div th:class="${orderBy==null || orderBy=='default'?'active':''}">推荐</div>
+            <div th:class="${orderBy==null || orderBy==''?'active':''}">推荐</div>
         </a>
         <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx=goodsId'}">
             <div th:class="${orderBy=='goodsId'?'active':''}">新品</div>
         </a>
-        <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx=sellingPrice'}">
-            <div th:class="${orderBy=='sellingPrice'?'active':''}">价格</div>
+        <a th:href="@{'/search?keyword='+${keyword==null?'':keyword}+'&goodsCategoryId='+${goodsCategoryId==null?'':goodsCategoryId}+'&sidx=sellingPrice&order='+${order=='asc'?'desc':'asc'}}">
+            <div th:class="${orderBy=='sellingPrice'?'active':''}">价格
+                <i th:class="${orderBy=='sellingPrice'?order=='asc'?'fa fa-sort-up':'fa fa-sort-down':'fa fa-sort'}"></i>
+            </div>
         </a>
     </div>
 </div>
@@ -67,8 +71,9 @@
                 <div class="item_card_frame">
                     <div class="item_card"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank"><img
                             th:src="@{${goods.goodsCoverImg}}" th:alt="${goods.goodsName}"></a></div>
-                    <div class="item_brand text-truncate"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank"
-                                               th:text="${goods.goodsName}">newbee.ltd</a></div>
+                    <div class="item_brand text-truncate"><a th:href="@{'/goods/detail/'+${goods.goodsId}}"
+                                                             target="_blank"
+                                                             th:text="${goods.goodsName}">newbee.ltd</a></div>
                     <div class="item_sub_intro text-truncate" th:text="${goods.goodsIntro}">newbee.ltd</div>
                     <div class="item_price" th:text="${goods.sellingPrice+'.00元'}">1299.00元</div>
                 </div>

@@ -8,7 +8,24 @@ import lombok.Data;
 @Data
 public class SearchObjVO {
 
-    String keyword;
+    /**
+     * 查询条件
+     */
+    private String keyword;
 
-    Long goodsCategoryId;
+    /**
+     * 分类条件
+     */
+    private Long goodsCategoryId;
+
+    /**
+     * 排序字段条件
+     */
+    private String sidx;
+
+    /**
+     * 排序 asc desc
+     */
+    private String order;
+
 }
