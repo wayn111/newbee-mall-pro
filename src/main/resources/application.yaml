@@ -10,17 +10,10 @@ server:
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
 
-
-# 日志配置
-logging:
-  level:
-    com.wayn: debug
-    org.springframework: info
-    com.baomidou: debug
-
 # spring
 spring:
   thymeleaf:
+    prefix: classpath:/templates/
     suffix: .html
     cache: false
     encoding: UTF-8

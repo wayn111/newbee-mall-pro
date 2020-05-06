@@ -47,7 +47,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/**")
                 .excludePathPatterns("/register")
                 .excludePathPatterns("/login")
-                .excludePathPatterns("/logout");
+                .excludePathPatterns("/logout")
+                .excludePathPatterns("/**/captcha")
+                .excludePathPatterns("/**/*.jpg")
+                .excludePathPatterns("/**/*.png")
+                .excludePathPatterns("/**/*.gif")
+                .excludePathPatterns("/**/*.map")
+                .excludePathPatterns("/**/*.css")
+                .excludePathPatterns("/**/*.js");
 
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
         registry.addInterceptor(new AdminLoginInterceptor())
