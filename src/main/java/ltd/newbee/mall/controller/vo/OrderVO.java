@@ -12,7 +12,7 @@ public class OrderVO {
 
     private Long userId;
 
-    private Double totalPrice;
+    private Integer totalPrice;
 
     private Byte payStatus;
 

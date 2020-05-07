@@ -1,7 +1,8 @@
 package ltd.newbee.mall.controller.mall;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.vo.MallUserVO;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class MallUserController extends BaseController {
@@ -87,6 +89,7 @@ public class MallUserController extends BaseController {
         }
         MallUser mallUser = new MallUser();
         mallUser.setLoginName(loginName);
+        mallUser.setNickName(UUID.randomUUID().toString().substring(0, 5));
         mallUser.setPasswordMd5(Md5Utils.hash(password));
         mallUserService.save(mallUser);
         return R.success();

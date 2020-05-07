@@ -90,7 +90,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
                 if (goodsService.updateBatchById(collect1)) {
                     // 生成订单号
                     String orderNo = NumberUtil.genOrderNo();
-                    double priceTotal = 0;
+                    int priceTotal = 0;
                     for (ShopCatVO shopCatVO : shopcatVOList) {
                         priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
                     }

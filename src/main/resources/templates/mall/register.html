@@ -57,14 +57,6 @@
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
 <script type="text/javascript">
-
-    //部署时未开发注册方法
-    function register2() {
-        swal('未开放，请联系作者获得测试账号', {
-            icon: "error",
-        });
-    }
-
     //注册按钮onclick事件改为register()即可
     function register() {
         var loginName = $("#loginName").val();
@@ -90,13 +82,13 @@
         }
         //验证
         var params = $("#registerForm").serialize();
-        var url = '/register';
+        var url = _ctx + '/register';
         $.ajax({
             type: 'POST',//方法类型
             url: url,
             data: params,
             success: function (result) {
-                if (result.resultCode == 200) {
+                if (result.code == 200) {
                     swal({
                         title: "注册成功",
                         text: "是否跳转至登录页?",
@@ -105,17 +97,16 @@
                         dangerMode: true,
                     }).then((flag) => {
                             if (flag) {
-                                window.location.href = '/login';
+                                window.location.href = _ctx + '/login';
                             }
                         }
                     )
                     ;
                 } else {
-                    swal(result.message, {
+                    swal(result.msg, {
                         icon: "error",
                     });
                 }
-                ;
             },
             error: function () {
                 swal("操作失败", {

@@ -42,11 +42,11 @@ public class MallShopCatController extends BaseController {
     @GetMapping("shop-cart")
     public String save(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        long itemsTotal = 0L;
-        double priceTotal = 0;
+        int itemsTotal = 0;
+        int priceTotal = 0;
         List<ShopCatVO> collect = shopCatService.getShopcatVOList(mallUserVO.getUserId());
         if (CollectionUtils.isNotEmpty(collect)) {
-            itemsTotal = collect.size();
+            long l = itemsTotal = collect.size();
             for (ShopCatVO shopCatVO : collect) {
                 priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
             }
@@ -58,13 +58,13 @@ public class MallShopCatController extends BaseController {
     }
 
     @GetMapping("shop-cart/settle")
-    public String delete(HttpServletRequest request, HttpSession session) {
+    public String settle(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         List<ShopCat> cats = shopCatService.list(new QueryWrapper<ShopCat>().eq("user_id", mallUserVO.getUserId()));
         if (CollectionUtils.isEmpty(cats)) {
             return "shop-cart";
         }
-        double priceTotal = 0;
+        int priceTotal = 0;
         List<ShopCatVO> collect = shopCatService.getShopcatVOList(mallUserVO.getUserId());
         if (CollectionUtils.isNotEmpty(collect)) {
             for (ShopCatVO shopCatVO : collect) {

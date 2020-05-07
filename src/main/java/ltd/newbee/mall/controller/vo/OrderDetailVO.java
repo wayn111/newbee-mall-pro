@@ -10,7 +10,7 @@ public class OrderDetailVO {
 
     private String orderNo;
 
-    private Double totalPrice;
+    private Integer totalPrice;
 
     private Byte payStatus;
 
