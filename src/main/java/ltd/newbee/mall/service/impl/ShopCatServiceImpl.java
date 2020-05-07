@@ -29,24 +29,26 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
 
     @Override
     public void saveShopCat(ShopCat shopCat) {
-        Goods goods = goodsService.getById(shopCat.getGoodsId());
         ShopCat temp = getById(shopCat.getCartItemId());
+        // 购物车商品不存在
         if (temp == null) {
             temp = getOne(new QueryWrapper<ShopCat>()
                     .eq("user_id", shopCat.getUserId())
                     .eq("goods_id", shopCat.getGoodsId()));
             if (temp != null) shopCat.setGoodsCount(temp.getGoodsCount());
         }
+        // 购物车商品已存在，修改数量
         if (temp != null) {
             Integer goodsCount = shopCat.getGoodsCount();
             temp.setGoodsCount(goodsCount != null ? goodsCount : temp.getGoodsCount() + 1);
             // 超出单个商品的最大数量
             if (temp.getGoodsCount() > 10) {
-                throw new BusinessException("该商品最多购买10个");
+                throw new BusinessException("商品最多购买10个");
             }
             updateById(temp);
             return;
         }
+        Goods goods = goodsService.getById(shopCat.getGoodsId());
         // 商品已经下架
         if (goods.getGoodsSellStatus() == 1) {
             throw new BusinessException("该商品已经下架");
