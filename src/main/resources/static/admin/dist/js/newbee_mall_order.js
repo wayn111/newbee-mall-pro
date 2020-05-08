@@ -140,7 +140,7 @@ function reload() {
  * @param orderId
  */
 function openOrderItems(orderId) {
-    $('.modal-title').html('订单详情');
+    $('#orderItemModalLabel').html('订单详情');
     $.ajax({
         type: 'GET',//方法类型
         url: _ctx + '/admin/orders/order-items/' + orderId,
@@ -175,7 +175,7 @@ function openOrderItems(orderId) {
  */
 function openExpressInfo(orderId) {
     var rowData = $("#jqGrid").jqGrid("getRowData", orderId);
-    $('.modal-title').html('收件信息');
+    $('#expressInfoModalLabel').html('收件信息');
     $('#expressInfoModal').modal('show');
     $("#userAddressInfo").html(rowData.userAddress);
 }
@@ -190,7 +190,7 @@ function orderEdit() {
         return;
     }
     var rowData = $("#jqGrid").jqGrid("getRowData", id);
-    $('.modal-title').html('订单编辑');
+    $('#orderInfoModalLabel').html('订单编辑');
     $('#orderInfoModal').modal('show');
     $("#orderId").val(id);
     $("#userAddress").val(rowData.userAddress);

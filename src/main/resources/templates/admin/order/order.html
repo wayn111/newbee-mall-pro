@@ -96,13 +96,13 @@
                             <button class="btn btn-info" onclick="orderEdit()"><i
                                     class="fa fa-pencil-square-o"></i>&nbsp;修改订单
                             </button>
-                            <button class="btn btn-info" onclick="orderCheckDone()"><i
+                            <button class="btn btn-default" onclick="orderCheckDone()"><i
                                     class="fa fa-truck"></i>&nbsp;配货完成
                             </button>
-                            <button class="btn btn-info" onclick="orderCheckOut()"><i
+                            <button class="btn btn-warning" onclick="orderCheckOut()"><i
                                     class="fa fa-truck"></i>&nbsp;出库
                             </button>
-                            <button class="btn btn-danger" onclick="closeOrder()"><i
+                            <button class="btn btn-success" onclick="closeOrder()"><i
                                     class="fa fa-trash-o"></i>&nbsp;关闭订单
                             </button>
                         </div>
@@ -114,7 +114,7 @@
             </div><!-- /.container-fluid -->
         </div>
         <div class="content">
-            <!-- 模态框（Modal） -->
+            <!-- 模态框（Modal）订单编辑 -->
             <div class="modal fade" id="orderInfoModal" tabindex="-1" role="dialog"
                  aria-labelledby="orderInfoModalLabel">
                 <div class="modal-dialog" role="document">
@@ -156,7 +156,7 @@
             <!-- /.modal -->
         </div>
         <div class="content">
-            <!-- 模态框（Modal） -->
+            <!-- 模态框（Modal） 查看收件人信息 -->
             <div class="modal fade" id="expressInfoModal" tabindex="-1" role="dialog"
                  aria-labelledby="expressInfoModalLabel">
                 <div class="modal-dialog" role="document">
@@ -180,7 +180,7 @@
             <!-- /.modal -->
         </div>
         <div class="content">
-            <!-- 模态框（Modal） -->
+            <!-- 模态框（Modal） 清单详情 -->
             <div class="modal fade" id="orderItemModal" tabindex="-1" role="dialog"
                  aria-labelledby="orderItemModalLabel">
                 <div class="modal-dialog" role="document">
