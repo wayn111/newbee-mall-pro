@@ -6,7 +6,7 @@
  * @returns {boolean}
  */
 function isNull(obj) {
-    if (obj == null || obj == undefined || obj.trim() == "") {
+    if (obj == null || obj == undefined || ($.type(obj) == 'string' && obj.trim() == "")) {
         return true;
     }
     return false;

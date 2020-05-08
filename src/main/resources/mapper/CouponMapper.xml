@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.CouponDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Coupon">
+        <result column="coupon_id" property="couponId"/>
+        <result column="name" property="name"/>
+        <result column="coupon_desc" property="couponDesc"/>
+        <result column="coupon_total" property="couponTotal"/>
+        <result column="discount" property="discount"/>
+        <result column="min" property="min"/>
+        <result column="coupon_limit" property="couponLimit"/>
+        <result column="coupon_type" property="couponType"/>
+        <result column="status" property="status"/>
+        <result column="goods_type" property="goodsType"/>
+        <result column="goods_value" property="goodsValue"/>
+        <result column="code" property="code"/>
+        <result column="days" property="days"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="selectCoupon">
+        select t.coupon_id, t.name, t.coupon_desc, t.coupon_total, t.discount, t.min, t.is_deleted,
+        t.coupon_limit, t.coupon_type, t.status, t.goods_type, t.goods_value, t.code, t.days, t.create_time, t.update_time
+        from tb_newbee_mall_coupon t
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Coupon" resultMap="BaseResultMap">
+        <include refid="selectCoupon"></include>
+        <where>
+            and t.is_deleted = 0
+        </where>
+    </select>
+</mapper>

@@ -43,7 +43,7 @@ tbody > tr > th {font-weight: normal; }
 .panel .table { margin:0 0; }
 .panel .pagination { margin:0; }
 .panel-default>.panel-heading {background-color: #f5f5f5;}
-.row{
+.container-fluid > .row{
 	border-top: 1px solid #ddd;
 	margin:0;
 	padding:20px 2px 0px 2px;

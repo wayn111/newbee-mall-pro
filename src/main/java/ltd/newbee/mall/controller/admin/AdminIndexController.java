@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("admin")
-public class AdminController extends BaseController {
+public class AdminIndexController extends BaseController {
     @Autowired
     private AdminUserService adminUserService;
 

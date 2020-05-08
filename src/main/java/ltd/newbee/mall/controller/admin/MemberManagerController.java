@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("admin/users")
 public class MemberManagerController extends BaseController {
 
-    private static final String PREFIX = "admin/members";
+    private static final String PREFIX = "admin/member";
 
     @Autowired
     private MallUserService mallUserService;
