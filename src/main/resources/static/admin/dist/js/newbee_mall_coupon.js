@@ -46,6 +46,7 @@ $(function () {
         if (cellvalue == 0) {
             return "无限制";
         }
+        return cellvalue;
     }
 
     function typeFormatter(cellvalue) {
