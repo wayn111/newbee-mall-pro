@@ -24,7 +24,7 @@ public class MallShopCatController extends BaseController {
     private ShopCatService shopCatService;
 
     @ResponseBody
-    @RequestMapping(value = "shop-cart", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value = "shopCart", method = {RequestMethod.POST, RequestMethod.PUT})
     public R save(@RequestBody ShopCat shopCat, HttpSession session) {
         shopCat.setUserId(((MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY)).getUserId());
         shopCatService.saveShopCat(shopCat);
@@ -32,14 +32,14 @@ public class MallShopCatController extends BaseController {
     }
 
     @ResponseBody
-    @DeleteMapping("shop-cart/{id}")
+    @DeleteMapping("shopCart/{id}")
     public R delete(@PathVariable("id") Long shopCatId) {
         shopCatService.removeById(shopCatId);
         return R.success();
     }
 
 
-    @GetMapping("shop-cart")
+    @GetMapping("shopCart")
     public String save(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         int itemsTotal = 0;
@@ -54,10 +54,10 @@ public class MallShopCatController extends BaseController {
         request.setAttribute("itemsTotal", itemsTotal);
         request.setAttribute("priceTotal", priceTotal);
         request.setAttribute("myShoppingCartItems", collect);
-        return "mall/cat";
+        return "mall/shop-cat";
     }
 
-    @GetMapping("shop-cart/settle")
+    @GetMapping("shopCart/settle")
     public String settle(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         List<ShopCat> cats = shopCatService.list(new QueryWrapper<ShopCat>().eq("user_id", mallUserVO.getUserId()));

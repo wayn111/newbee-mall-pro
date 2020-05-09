@@ -28,7 +28,7 @@ public class IndexCfgManagerController extends BaseController {
         IndexConfigTypeEnum indexConfigTypeEnumByType = IndexConfigTypeEnum.getIndexConfigTypeEnumByType(configType);
         request.setAttribute("path", indexConfigTypeEnumByType.getName());
         request.setAttribute("configType", configType);
-        return PREFIX + "/indexConfigs";
+        return PREFIX + "/index-configs";
     }
 
     @ResponseBody

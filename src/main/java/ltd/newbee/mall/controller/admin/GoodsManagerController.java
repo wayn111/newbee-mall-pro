@@ -55,7 +55,7 @@ public class GoodsManagerController extends BaseController {
                 request.setAttribute("thirdLevelCategories", thirdLevelCategories);
             }
         }
-        return PREFIX + "/addOrEdit";
+        return PREFIX + "/add-edit";
     }
 
     @GetMapping("/edit/{goodsId}")
@@ -108,7 +108,7 @@ public class GoodsManagerController extends BaseController {
                 }
             }
         }
-        return PREFIX + "/addOrEdit";
+        return PREFIX + "/add-edit";
     }
 
     /**
