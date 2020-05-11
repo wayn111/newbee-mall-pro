@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="mall/header::head-fragment('NewBee商城-首页','index')"/>
+    <link rel="stylesheet" th:href="@{'/mall/styles/coupon.css'}">
+</head>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<slot id="content">
+    <nav th:replace="mall/header::nav-fragment"></nav>
+
+    <div id="coupon">
+        <h2>为你推荐优惠卷</h2>
+        <a href="##" class="more">查看更多>></a>
+        <ul>
+            <!-- 已配置推荐商品则显示配置内容 -->
+            <th:block th:each="coupon : ${coupons}">
+                <li>
+                    <a href="javascript:;" th:onclick="'saveCoupon('+${coupon.couponId}+')'">
+                        <div class="left-desc">
+                            <div class="q-price ">
+                                <em>¥</em>
+                                <strong th:text="${coupon.discount}">50</strong>
+                                <span class="q-limit" data-tips="" th:text="'满'+${coupon.min}+'元可用'">满1000元可用</span>
+                            </div>
+                            <div class="q-name" th:text="${coupon.name}">
+                                限时满减券
+                            </div>
+                            <div class="q-desc">
+                                <div th:text="${coupon.couponDesc}" th:title="${coupon.couponDesc}">全场通用</div>
+                                <div th:text="'有效期：'+${coupon.days}+'天'">有效期：7天</div>
+                            </div>
+                        </div>
+                        <div class="right-desc" th:style="${coupon.saleOut?'background-color:gray;':''}"
+                             th:text="${coupon.saleOut?'领完了':'立即领取'}">
+                            立即领取
+                        </div>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</slot>
+<div th:replace="mall/footer::footer-fragment"></div>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
+<script type="text/javascript">
+    function saveCoupon(couponId) {
+        $.ajax({
+            type: 'POST',
+            url: _ctx + '/coupon/' + couponId,
+            success: function (result) {
+                if (result.code == 200) {
+                    swal("领取成功", {
+                        icon: "success"
+                    });
+                    // window.location = _ctx + "coupon";
+                } else {
+                    swal(result.msg, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("领取失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+</script>
+</body>
+</html>

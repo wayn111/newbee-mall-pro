@@ -34,4 +34,22 @@
             and t.is_deleted = 0
         </where>
     </select>
+
+    <!--
+    查询可用的优惠卷，不包括已经领完的
+    WHERE
+    t.is_deleted = 0
+    AND t.coupon_type = 0
+    AND t.STATUS = 0
+    AND (
+    t.coupon_total = 0
+    OR t.coupon_total > ( SELECT count(*) FROM tb_newbee_mall_coupon_user u WHERE u.user_id = 1 AND u.coupon_id = t.coupon_id ))-->
+    <select id="selectAvailableCoupon" resultMap="BaseResultMap">
+        <include refid="selectCoupon"></include>
+        <where>
+            t.is_deleted = 0
+            AND t.coupon_type = 0
+            AND t.STATUS = 0
+        </where>
+    </select>
 </mapper>

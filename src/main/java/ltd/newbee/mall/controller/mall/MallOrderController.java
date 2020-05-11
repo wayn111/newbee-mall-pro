@@ -12,15 +12,15 @@ import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.config.AlipayConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.vo.*;
+import ltd.newbee.mall.entity.Coupon;
+import ltd.newbee.mall.entity.CouponUser;
 import ltd.newbee.mall.entity.Order;
 import ltd.newbee.mall.entity.OrderItem;
 import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.enums.PayStatusEnum;
 import ltd.newbee.mall.enums.PayTypeEnum;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.OrderItemService;
-import ltd.newbee.mall.service.OrderService;
-import ltd.newbee.mall.service.ShopCatService;
+import ltd.newbee.mall.service.*;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
@@ -51,17 +51,23 @@ public class MallOrderController extends BaseController {
     private OrderItemService orderItemService;
 
     @Autowired
+    private CouponUserService couponUserService;
+
+    @Autowired
+    private CouponService couponService;
+
+    @Autowired
     private AlipayConfig alipayConfig;
 
     @GetMapping("saveOrder")
-    public String saveOrder(HttpSession session) {
+    public String saveOrder(Long couponUserId, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         List<ShopCatVO> shopcatVOList = shopCatService.getShopcatVOList(mallUserVO.getUserId());
         // 购物车中无数据则跳转至错误页
         if (CollectionUtils.isEmpty(shopcatVOList)) {
             throw new BusinessException("购物车中无数据");
         }
-        String orderNo = orderService.saveOrder(mallUserVO, shopcatVOList);
+        String orderNo = orderService.saveOrder(mallUserVO, couponUserId, shopcatVOList);
         return redirectTo("orders/" + orderNo);
     }
 
@@ -69,21 +75,26 @@ public class MallOrderController extends BaseController {
     public String orderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        if (order != null && order.getUserId().equals(mallUserVO.getUserId())) {
-            List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", order.getOrderId()));
-            if (CollectionUtils.isNotEmpty(orderItems)) {
-                List<OrderItemVO> itemVOList = MyBeanUtil.copyList(orderItems, OrderItemVO.class);
-                OrderDetailVO orderDetailVO = new OrderDetailVO();
-                BeanUtils.copyProperties(order, orderDetailVO);
-                orderDetailVO.setOrderStatusString(OrderStatusEnum.getOrderStatusEnumByStatus(orderDetailVO.getOrderStatus()).getName());
-                orderDetailVO.setPayTypeString(PayTypeEnum.getPayTypeEnumByType(orderDetailVO.getPayType()).getName());
-                orderDetailVO.setNewBeeMallOrderItemVOS(itemVOList);
-                request.setAttribute("orderDetailVO", orderDetailVO);
-                return "mall/order-detail";
-            }
+        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("订单项异常");
         }
-        throw new BusinessException("订单详情异常");
+        List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", order.getOrderId()));
+        if (CollectionUtils.isEmpty(orderItems)) {
+            throw new BusinessException("订单项异常");
+        }
+        List<OrderItemVO> itemVOList = MyBeanUtil.copyList(orderItems, OrderItemVO.class);
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        BeanUtils.copyProperties(order, orderDetailVO);
+        orderDetailVO.setOrderStatusString(OrderStatusEnum.getOrderStatusEnumByStatus(orderDetailVO.getOrderStatus()).getName());
+        orderDetailVO.setPayTypeString(PayTypeEnum.getPayTypeEnumByType(orderDetailVO.getPayType()).getName());
+        orderDetailVO.setNewBeeMallOrderItemVOS(itemVOList);
+        request.setAttribute("orderDetailVO", orderDetailVO);
+        CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>().eq("order_id", order.getOrderId()));
+        if (couponUser != null) {
+            Coupon coupon = couponService.getById(couponUser.getCouponId());
+            request.setAttribute("discount", coupon.getDiscount());
+        }
+        return "mall/order-detail";
     }
 
     @GetMapping("/orders")

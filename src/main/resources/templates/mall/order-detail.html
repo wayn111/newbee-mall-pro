@@ -192,6 +192,10 @@
                                         <th>运费：</th>
                                         <td><span class="num">0</span>元</td>
                                     </tr>
+                                    <tr th:if="${discount != null}">
+                                        <th>优惠卷抵扣：</th>
+                                        <td><span class="num" id="discount" th:text="${discount}">10.00</span>元</td>
+                                    </tr>
                                     <tr>
                                         <th class="total">商品总价：</th>
                                         <td class="total"><span class="num"

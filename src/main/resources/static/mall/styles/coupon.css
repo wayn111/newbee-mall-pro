@@ -1,0 +1,232 @@
+/*领取优惠卷页面*/
+#coupon {
+    width: 1226px;
+    position: relative;
+    flex-shrink: 0;
+    height: 730px;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+}
+
+#coupon > h2 {
+    height: 58px;
+    line-height: 58px;
+}
+
+#coupon .more {
+    position: absolute;
+    top: 18px;
+    right: 30px;
+}
+
+#coupon .more:hover {
+    color: #1baeae;
+}
+
+#coupon ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#coupon ul li {
+    width: 296px;
+    height: 120px;
+    background-color: #fff;
+    margin: 5px;
+}
+
+#coupon ul li:hover {
+    box-shadow: 0px 0px 30px #ccc;
+    position: relative;
+    top: -2px;
+    right: -3px;
+}
+
+#coupon ul a {
+    display: flex;
+}
+
+#coupon ul a .left-desc {
+    width: 292px;
+    height: 120px;
+}
+
+#coupon ul a .left-desc .q-price {
+    height: 50%;
+    max-width: 190px;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#coupon ul a .left-desc .q-price em {
+    display: inline;
+    font: 400 18px arial;
+    vertical-align: top;
+    margin: 3px 3px 0 0;
+    color: red;
+}
+
+#coupon ul a .left-desc .q-price strong {
+    display: inline;
+    font: 400 34px arial;
+    vertical-align: top;
+    color: red;
+}
+
+#coupon ul a .left-desc .q-price .q-limit {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bolder;
+    margin: 18px 0 0 10px;
+    vertical-align: top;
+}
+
+#coupon ul a .left-desc .q-name {
+    font-weight: 500;
+    height: 30%;
+    padding: 0 10px;
+    line-height: 22px;
+}
+
+#coupon ul a .left-desc .q-desc {
+    height: 20%;
+    padding: 0 10px;
+    font-size: 8px;
+    color: lightslategray;
+    line-height: 12px;
+}
+
+#coupon ul a .left-desc .q-desc div:first-child {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+#coupon ul a .left-desc .q-desc div:last-child {
+    position: relative;
+    right: -150px;
+    top: -12px;
+}
+
+
+#coupon ul a .right-desc {
+    width: 70px;
+    max-width: 190px;
+    color: white;
+    font-size: 18px;
+    letter-spacing: 6px;
+    background-color: red;
+    text-align: center;
+    line-height: 56px;
+    writing-mode: tb-rl;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*订单结算*/
+#my-coupon {
+    width: 882px;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 20px;
+}
+
+#my-coupon ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#my-coupon ul li {
+    width: 280px;
+    height: 120px;
+    background-color: lightgrey;
+    margin: 5px;
+}
+
+#my-coupon ul li.active {
+    border: orange 2px solid;
+}
+
+#my-coupon ul li:hover {
+    box-shadow: 0px 0px 30px #ccc;
+    position: relative;
+    top: -2px;
+    right: -3px;
+}
+
+#my-coupon ul a {
+    display: flex;
+}
+
+#my-coupon ul a .left-desc {
+    width: 292px;
+    height: 120px;
+}
+
+#my-coupon ul a .left-desc .q-price {
+    height: 50%;
+    max-width: 190px;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#my-coupon ul a .left-desc .q-price em {
+    display: inline;
+    font: 400 18px arial;
+    vertical-align: top;
+    margin: 3px 3px 0 0;
+    color: red;
+}
+
+#my-coupon ul a .left-desc .q-price strong {
+    display: inline;
+    font: 400 34px arial;
+    vertical-align: top;
+    color: red;
+}
+
+#my-coupon ul a .left-desc .q-price .q-limit {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bolder;
+    margin: 18px 0 0 10px;
+    vertical-align: top;
+}
+
+#my-coupon ul a .left-desc .q-name {
+    font-weight: 500;
+    height: 30%;
+    padding: 0 10px;
+    line-height: 22px;
+}
+
+#my-coupon ul a .left-desc .q-desc {
+    height: 20%;
+    padding: 0 10px;
+    font-size: 8px;
+    color: lightslategray;
+    line-height: 12px;
+}
+
+#my-coupon ul a .left-desc .q-desc div:first-child {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+#my-coupon ul a .left-desc .q-desc div:last-child {
+    position: relative;
+    right: -150px;
+    top: -12px;
+}

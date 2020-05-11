@@ -9,20 +9,16 @@ import ltd.newbee.mall.controller.vo.OrderListVO;
 import ltd.newbee.mall.controller.vo.OrderVO;
 import ltd.newbee.mall.controller.vo.ShopCatVO;
 import ltd.newbee.mall.dao.OrderDao;
-import ltd.newbee.mall.entity.Goods;
-import ltd.newbee.mall.entity.Order;
-import ltd.newbee.mall.entity.OrderItem;
+import ltd.newbee.mall.entity.*;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.GoodsService;
-import ltd.newbee.mall.service.OrderItemService;
-import ltd.newbee.mall.service.OrderService;
-import ltd.newbee.mall.service.ShopCatService;
+import ltd.newbee.mall.service.*;
 import ltd.newbee.mall.util.NumberUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +38,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     @Autowired
     private OrderItemService orderItemService;
 
+    @Autowired
+    private CouponService couponService;
+
+    @Autowired
+    private CouponUserService couponUserService;
+
     @Override
     public IPage selectMyOrderPage(Page<OrderListVO> page, Order order) {
         return orderDao.selectListVOPage(page, order);
@@ -54,7 +56,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
 
     @Transactional
     @Override
-    public String saveOrder(MallUserVO mallUserVO, List<ShopCatVO> shopcatVOList) {
+    public String saveOrder(MallUserVO mallUserVO, Long couponUserId, List<ShopCatVO> shopcatVOList) {
         List<Long> goodsIdList = shopcatVOList.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
         List<Long> cartItemIdList = shopcatVOList.stream().map(ShopCatVO::getCartItemId).collect(Collectors.toList());
         List<Goods> goods = goodsService.listByIds(goodsIdList);
@@ -94,6 +96,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
                     for (ShopCatVO shopCatVO : shopcatVOList) {
                         priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
                     }
+                    // 如果使用了优惠卷
+                    if (couponUserId != null) {
+                        CouponUser couponUser = couponUserService.getById(couponUserId);
+                        Coupon coupon = couponService.getById(couponUser.getCouponId());
+                        priceTotal -= coupon.getDiscount();
+                    }
                     // 总价异常
                     if (priceTotal <= 0) {
                         throw new BusinessException("订单价格异常");
@@ -116,8 +124,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
                             orderItem.setOrderId(order.getOrderId());
                             return orderItem;
                         }).collect(Collectors.toList());
+                        // 如果使用了优惠卷，则更新优惠卷状态
+                        if (couponUserId != null) {
+                            CouponUser couponUser = new CouponUser();
+                            couponUser.setCouponUserId(couponUserId);
+                            couponUser.setStatus((byte) 1);
+                            couponUser.setUsedTime(new Date());
+                            couponUser.setOrderId(order.getOrderId());
+                            couponUserService.updateById(couponUser);
+                        }
                         if (orderItemService.saveBatch(orderItems)) {
-                            //所有操作成功后，将订单号返回，以供Controller方法跳转到订单详情
+                            // 所有操作成功后，将订单号返回，以供Controller方法跳转到订单详情
                             return orderNo;
                         }
                     }

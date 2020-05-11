@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="mall/header::head-fragment('NewBee商城-订单结算','order-detail')">
+<head>
+    <th:block th:include="mall/header::head-fragment('NewBee商城-订单结算','order-detail')"/>
+    <link rel="stylesheet" th:href="@{'/mall/styles/coupon.css'}">
 </head>
 <link th:href="@{/mall/css/bootstrap-modal.css}" rel="stylesheet">
 <body>
@@ -58,7 +60,6 @@
                                 </div>
                                 <table class="order-items-table">
                                     <tbody>
-
                                     <th:block th:each="item : ${myShoppingCartItems}">
                                         <tr>
                                             <td class="col col-thumb">
@@ -84,6 +85,43 @@
                                     </th:block>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="order-detail-info">
+                                <h3>可用优惠卷</h3>
+                                <div id="my-coupon">
+                                    <!-- 已配置推荐商品则显示配置内容 -->
+                                    <ul>
+                                        <th:block th:each="coupon : ${coupons}">
+                                            <li>
+                                                <a href="javascript:;"
+                                                   th:onclick="">
+                                                    <div class="left-desc">
+                                                        <input type="hidden" th:value="${coupon.couponUserId}">
+                                                        <div class="q-price ">
+                                                            <em>¥</em>
+                                                            <strong th:text="${coupon.discount}">50</strong>
+                                                            <span class="q-limit" data-tips=""
+                                                                  th:text="'满'+${coupon.min}+'元可用'">满1000元可用</span>
+                                                        </div>
+                                                        <div class="q-name" th:text="${coupon.name}">
+                                                            限时满减券
+                                                        </div>
+                                                        <div class="q-desc">
+                                                            <div th:text="${coupon.couponDesc}"
+                                                                 th:title="${coupon.couponDesc}">全场通用
+                                                            </div>
+                                                            <div th:text="'有效期：'+${#dates.format(coupon.endTime, 'yyyy-MM-dd')}">
+                                                                有效期：2020-12-12
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                                <div class="actions">
+                                </div>
                             </div>
                             <div id="editAddr" class="order-detail-info">
                                 <h3>收货信息</h3>
@@ -120,6 +158,10 @@
                                 <table class="total-table">
                                     <tbody>
                                     <tr>
+                                        <th>优惠卷抵扣：</th>
+                                        <td><span class="num" id="discount">10.00</span>元</td>
+                                    </tr>
+                                    <tr>
                                         <th>商品总价：</th>
                                         <td><span class="num" th:text="${priceTotal+'.00'}">1299.00</span>元</td>
                                     </tr>
@@ -129,7 +171,8 @@
                                     </tr>
                                     <tr>
                                         <th class="total">应付金额：</th>
-                                        <td class="total"><span class="num" th:text="${priceTotal+'.00'}">1299.00</span>元
+                                        <td class="total"><span class="num" id="priceTotal"
+                                                                th:text="${priceTotal+'.00'}">1299.00</span>元
                                         </td>
                                     </tr>
                                     </tbody>
@@ -195,7 +238,7 @@
             });
             return;
         }
-        window.location.href = _ctx + '/saveOrder';
+        window.location.href = _ctx + '/saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
     });
 
     function openUpdateModal() {
@@ -233,6 +276,24 @@
             }
         });
     });
+
+    $('.order-detail-total table tr:first').hide();
+
+    $('#my-coupon ul li').on('click', function (e) {
+        var priceTotal = [[${priceTotal}]];
+        if ($(e.target).closest('li').hasClass('active')) {
+            $(e.target).closest('li').removeClass('active');
+            $('.order-detail-total table tr:first').hide();
+            $('#priceTotal').text(priceTotal)
+            return;
+        }
+        $(e.target).closest('li').siblings().removeClass('active');
+        $(e.target).closest('li').addClass('active')
+        var discount = $('#my-coupon ul li.active div.left-desc .q-price strong').text();
+        $('#discount').text(discount);
+        $('.order-detail-total table tr:first').show();
+        $('#priceTotal').text(parseInt(priceTotal) - parseInt(discount))
+    })
 </script>
 </body>
 </html>

@@ -16,6 +16,6 @@ public interface OrderService extends IService<Order> {
 
     IPage selectPage(Page<Order> page, OrderVO orderVO);
 
-    String saveOrder(MallUserVO mallUserVO, List<ShopCatVO> shopcatVOList);
+    String saveOrder(MallUserVO mallUserVO, Long couponUserId, List<ShopCatVO> shopcatVOList);
 
 }

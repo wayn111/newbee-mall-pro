@@ -36,6 +36,17 @@ public class GoodsManagerController extends BaseController {
         return PREFIX + "/goods";
     }
 
+    /**
+     * 列表
+     */
+    @GetMapping("/list")
+    @ResponseBody
+    public IPage list(Goods goods, HttpServletRequest request) {
+        Page<Goods> page = getPage(request);
+        return goodsService.selectPage(page, goods);
+    }
+
+
     @GetMapping("/add")
     public String add(HttpServletRequest request) {
         request.setAttribute("path", "goods-add-edit");
@@ -110,17 +121,6 @@ public class GoodsManagerController extends BaseController {
         }
         return PREFIX + "/add-edit";
     }
-
-    /**
-     * 列表
-     */
-    @GetMapping("/list")
-    @ResponseBody
-    public IPage list(Goods goods, HttpServletRequest request) {
-        Page<Goods> page = getPage(request);
-        return goodsService.selectPage(page, goods);
-    }
-
 
     /**
      * 批量修改销售状态

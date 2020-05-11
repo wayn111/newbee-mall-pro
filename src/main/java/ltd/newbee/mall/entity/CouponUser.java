@@ -3,6 +3,7 @@ package ltd.newbee.mall.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@TableName("tb_newbee_mall_coupon_user")
 public class CouponUser implements Serializable {
     private static final long serialVersionUID = 3630793779817995152L;
 

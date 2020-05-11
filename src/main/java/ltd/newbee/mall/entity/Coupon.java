@@ -35,7 +35,7 @@ public class Coupon implements Serializable {
 
     private Byte status;
 
-    private String goodsType;
+    private Byte goodsType;
 
     private String goodsValue;
 
