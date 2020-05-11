@@ -96,6 +96,7 @@ var vm = new Vue({
     el: '#app',
     data: {
         title: '',
+        goodsValueLabel: '',
         form: {
             name: '',
             couponDesc: '',
@@ -107,6 +108,7 @@ var vm = new Vue({
             couponType: 0,
             status: 0,
             goodsType: 0,
+            goodsValue: ''
         }
     },
     methods: {
@@ -132,8 +134,21 @@ var vm = new Vue({
                     return
                 }
                 that.form = res.map.data
+                if (that.form.goodsType == 1) {
+                    that.goodsValueLabel = '类目id';
+                } else if (that.form.goodsType == 2) {
+                    that.goodsValueLabel = '商品id'
+                }
             }, 'json')
             $('#couponModal').modal('show');
+        },
+        changeGoodsType(goodsType) {
+            this.form.goodsValue = '';
+            if (goodsType == 1) {
+                this.goodsValueLabel = '类目id'
+            } else if (goodsType == 2) {
+                this.goodsValueLabel = '商品id'
+            }
         },
         reset() {
             $('#edit-error-msg').css("display", "none");
@@ -148,6 +163,7 @@ var vm = new Vue({
                 couponType: 0,
                 status: 0,
                 goodsType: 0,
+                goodsValue: ''
             }
         },
         save() {
@@ -175,6 +191,11 @@ var vm = new Vue({
             if (isNull(form.days) || form.days < 0) {
                 $('#edit-error-msg').css("display", "block");
                 $('#edit-error-msg').html("请输入有效天数且不能小于0！");
+                return;
+            }
+            if (form.goodsType != 0 && isNull(form.goodsValue)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("请输入" + this.goodsValueLabel + "！");
                 return;
             }
             var url = _ctx + '/admin/coupon/save';
