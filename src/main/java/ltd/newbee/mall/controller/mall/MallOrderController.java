@@ -131,7 +131,7 @@ public class MallOrderController extends BaseController {
         //todo 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_PAID.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
-            throw new BusinessException("订单关闭异常");
+            throw new BusinessException("订单无法关闭");
         }
         order.setOrderStatus((byte) OrderStatusEnum.ORDER_CLOSED_BY_MALLUSER.getOrderStatus());
         orderService.updateById(order);
