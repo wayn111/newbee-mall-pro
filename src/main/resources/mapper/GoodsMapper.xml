@@ -42,6 +42,9 @@
     <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Goods" resultMap="BaseResultMap">
         <include refid="selectGoods"></include>
         <where>
+            <if test="goods.goodsId!=null">
+                and goods_id = #{goods.goodsId}
+            </if>
             <if test="goods.goodsCategoryId!=null">
                 and goods_category_id = #{goods.goodsCategoryId}
             </if>

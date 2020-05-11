@@ -27,6 +27,9 @@ $(function () {
         rownumWidth: 20,
         autowidth: true,
         multiselect: true,
+        sortable: true,
+        sortname: 'createTime', //设置默认的排序列
+        sortorder: 'desc',
         pager: "#jqGridPager",
         jsonReader: {
             root: "records",
@@ -72,12 +75,14 @@ $(function () {
  * jqGrid重新加载
  */
 function reload() {
-    var goodsName = $('#gooodsName').val() || '';
+    var goodsId = $('#goodsId').val() || '';
+    var goodsName = $('#goodsName').val() || '';
     var goodsIntro = $('#goodsIntro').val() || '';
     var goodsSellStatus = $('#goodsSellStatus').val() || '';
     $("#jqGrid").jqGrid('setGridParam', {
         page: 1,
         postData: {
+            goodsId: goodsId,
             goodsName: goodsName,
             goodsIntro: goodsIntro,
             goodsSellStatus: goodsSellStatus
