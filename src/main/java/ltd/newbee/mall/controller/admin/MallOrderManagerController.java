@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.controller.vo.OrderItemVO;
 import ltd.newbee.mall.controller.vo.OrderVO;
+import ltd.newbee.mall.entity.Coupon;
 import ltd.newbee.mall.entity.Order;
 import ltd.newbee.mall.entity.OrderItem;
 import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.enums.PayStatusEnum;
 import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.service.CouponUserService;
 import ltd.newbee.mall.service.OrderItemService;
 import ltd.newbee.mall.service.OrderService;
 import ltd.newbee.mall.util.MyBeanUtil;
@@ -35,6 +37,9 @@ public class MallOrderManagerController extends BaseController {
     @Autowired
     private OrderItemService orderItemService;
 
+    @Autowired
+    private CouponUserService couponUserService;
+
     @GetMapping
     public String index(HttpServletRequest request) {
         request.setAttribute("path", "orders");
@@ -54,9 +59,14 @@ public class MallOrderManagerController extends BaseController {
     @ResponseBody
     @GetMapping("order-items/{orderId}")
     public R getOrderItems(@PathVariable("orderId") Long orderId) {
+        R success = R.success();
         List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", orderId));
         List<OrderItemVO> orderItemVOS = MyBeanUtil.copyList(orderItems, OrderItemVO.class);
-        return R.success().add("data", orderItemVOS);
+        Coupon coupon = couponUserService.getCoupon(orderId);
+        if (coupon != null) {
+            success.add("discount", coupon.getDiscount());
+        }
+        return success.add("data", orderItemVOS);
     }
 
     @ResponseBody

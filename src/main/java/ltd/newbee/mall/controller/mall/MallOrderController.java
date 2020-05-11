@@ -13,7 +13,6 @@ import ltd.newbee.mall.config.AlipayConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.vo.*;
 import ltd.newbee.mall.entity.Coupon;
-import ltd.newbee.mall.entity.CouponUser;
 import ltd.newbee.mall.entity.Order;
 import ltd.newbee.mall.entity.OrderItem;
 import ltd.newbee.mall.enums.OrderStatusEnum;
@@ -89,9 +88,8 @@ public class MallOrderController extends BaseController {
         orderDetailVO.setPayTypeString(PayTypeEnum.getPayTypeEnumByType(orderDetailVO.getPayType()).getName());
         orderDetailVO.setNewBeeMallOrderItemVOS(itemVOList);
         request.setAttribute("orderDetailVO", orderDetailVO);
-        CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>().eq("order_id", order.getOrderId()));
-        if (couponUser != null) {
-            Coupon coupon = couponService.getById(couponUser.getCouponId());
+        Coupon coupon = couponUserService.getCoupon(order.getOrderId());
+        if (coupon != null) {
             request.setAttribute("discount", coupon.getDiscount());
         }
         return "mall/order-detail";

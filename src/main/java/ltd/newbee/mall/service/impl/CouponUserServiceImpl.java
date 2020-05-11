@@ -53,4 +53,13 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
         couponUser.setCreateTime(new Date());
         return save(couponUser);
     }
+
+    @Override
+    public Coupon getCoupon(Long orderId) {
+        CouponUser couponUser = getOne(new QueryWrapper<CouponUser>().eq("order_id", orderId));
+        if (couponUser != null) {
+            return couponService.getById(couponUser.getCouponId());
+        }
+        return null;
+    }
 }

@@ -154,6 +154,9 @@ function openOrderItems(orderId) {
                         + result.map.data[i].goodsCount + ' 商品编号 '
                         + result.map.data[i].goodsId + ";<br>";
                 }
+                if (result.map.discount) {
+                    itemString += '<br> 满减：' + result.map.discount + '.00元';
+                }
                 $("#orderItemString").html(itemString);
             } else {
                 swal(result.msg, {
