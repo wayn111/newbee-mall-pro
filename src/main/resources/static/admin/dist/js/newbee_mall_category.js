@@ -207,7 +207,6 @@ function deleteCagegory() {
             }
         }
     )
-    ;
 }
 
 

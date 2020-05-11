@@ -180,7 +180,6 @@ function deleteCarousel() {
             }
         }
     )
-    ;
 }
 
 

@@ -169,7 +169,6 @@ function deleteConfig () {
             }
         }
     )
-    ;
 }
 
 
