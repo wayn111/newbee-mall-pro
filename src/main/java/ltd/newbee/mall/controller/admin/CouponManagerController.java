@@ -54,6 +54,7 @@ public class CouponManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody Coupon coupon) {
+        coupon.setUpdateTime(new Date());
         couponService.updateById(coupon);
         return R.success();
     }
