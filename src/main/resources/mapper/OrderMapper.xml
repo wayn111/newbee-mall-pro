@@ -29,6 +29,11 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
+    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.controller.vo.CountMallVO">
+        <result column="days" property="days"/>
+        <result column="total_price" property="totalPrice"/>
+    </resultMap>
+
     <sql id="selectOrder">
         select t.order_id, t.order_no, t.user_id, t.total_price, t.pay_status,
         t.pay_type, t.pay_time, t.order_status, t.extra_info, t.user_address,
@@ -62,5 +67,14 @@
             and t.user_id = #{order.userId}
         </where>
         order by create_time desc
+    </select>
+    <select id="countMallTransactionAmount" resultMap="CountMallVOMap">
+        SELECT
+            DATE_FORMAT( c.create_time, '%Y-%m-%d' ) days,
+            sum( c.total_price ) total_price
+        FROM
+            ( SELECT * FROM tb_newbee_mall_order WHERE create_time <![CDATA[ >= ]]>  DATE_SUB( now(), INTERVAL 15 DAY ) ) AS c
+        GROUP BY
+            days;
     </select>
 </mapper>

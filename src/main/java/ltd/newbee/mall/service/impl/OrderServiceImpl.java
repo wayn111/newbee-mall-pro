@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import ltd.newbee.mall.controller.vo.MallUserVO;
-import ltd.newbee.mall.controller.vo.OrderListVO;
-import ltd.newbee.mall.controller.vo.OrderVO;
-import ltd.newbee.mall.controller.vo.ShopCatVO;
+import ltd.newbee.mall.controller.vo.*;
 import ltd.newbee.mall.dao.OrderDao;
 import ltd.newbee.mall.entity.*;
 import ltd.newbee.mall.exception.BusinessException;
@@ -142,5 +139,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             }
         }
         throw new BusinessException("结算异常");
+    }
+
+    @Override
+    public List<CountMallVO> countMallTransactionAmount() {
+        return orderDao.countMallTransactionAmount();
     }
 }

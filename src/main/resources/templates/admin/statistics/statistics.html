@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="admin/header :: header-fragment"/>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <th:block th:include="admin/header :: navbar-fragment"/>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <th:block th:include="admin/sidebar :: sidebar-fragment(${path})"/>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <!--                        <h1 class="m-0 text-dark">统计信息</h1>-->
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">统计信息</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">统计信息</h3>
+                    </div>
+                    <!-- .card-body -->
+                    <div class="card-body">
+                        <div class="panel panel-default">
+                            <div style="padding: 10px 0 20px 10px;">
+                                <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+                                <div id="main" style="width: 100%;height:400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <th:block th:include="admin/footer :: footer-fragment"/>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/admin/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 3 -->
+<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/admin/dist/js/echarts.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script th:inline="javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '商城15天交易额/单价：万元'
+        },
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: [[${xAxisData}]]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            // data: [820, 932, 901, 934, 1290, 1330, 1320],
+            data: [[${seriesData}]],
+            type: 'line'
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

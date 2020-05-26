@@ -3,10 +3,7 @@ package ltd.newbee.mall.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import ltd.newbee.mall.controller.vo.MallUserVO;
-import ltd.newbee.mall.controller.vo.OrderListVO;
-import ltd.newbee.mall.controller.vo.OrderVO;
-import ltd.newbee.mall.controller.vo.ShopCatVO;
+import ltd.newbee.mall.controller.vo.*;
 import ltd.newbee.mall.entity.Order;
 
 import java.util.List;
@@ -18,4 +15,5 @@ public interface OrderService extends IService<Order> {
 
     String saveOrder(MallUserVO mallUserVO, Long couponUserId, List<ShopCatVO> shopcatVOList);
 
+    List<CountMallVO> countMallTransactionAmount();
 }
