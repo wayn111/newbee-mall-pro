@@ -28,16 +28,19 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryDao, Good
 
     @Override
     public List<GoodsCategoryVO> treeList() {
+        // 查询所有分类
         List<GoodsCategory> list = list(new QueryWrapper<GoodsCategory>().eq("is_deleted", 0));
         List<GoodsCategoryVO> voList = MyBeanUtil.copyList(list, GoodsCategoryVO.class);
         List<GoodsCategoryVO> root = new ArrayList<>();
         for (GoodsCategoryVO goodsCategoryVO : voList) {
+            // 添加一级分类
             if (goodsCategoryVO.getParentId() == 0) {
                 root.add(goodsCategoryVO);
             }
             Long id = goodsCategoryVO.getCategoryId();
             List<GoodsCategoryVO> subList = new ArrayList<>();
             for (GoodsCategoryVO categoryVO : voList) {
+                // 添加二级或者三级分类
                 if (categoryVO.getParentId().equals(id)) {
                     subList.add(categoryVO);
                     goodsCategoryVO.setSubCategoryVOS(subList);
