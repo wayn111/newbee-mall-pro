@@ -580,7 +580,7 @@
                 }
                 
                 // fixing Opera 9.64
-                if (doc.body && doc.body.innerHTML == "false") {
+                if (doc.body && (doc.body.innerHTML == "false" || doc.body.innerHTML == "")) {
                     // In Opera 9.64 event was fired second time
                     // when body.innerHTML changed from false 
                     // to server response approx. after 1 sec
