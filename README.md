@@ -1,14 +1,13 @@
-**后台管理模块添加了优惠卷管理以及搜索功能**
-![优惠卷管理管理](./images/优惠卷管理.jpg)
-![分类管理](./images/分类管理.png)
-![商品管理](./images/商品管理.png)
-![会员管理](./images/会员管理.png)
-![订单管理](./images/订单管理.png)
+**后台管理模块添加了优惠卷管理，统计分析以及搜索功能**
+
+| ![优惠卷管理](./images/优惠卷管理.jpg) | ![统计分析](./images/统计分析.png) |
+| ---------------------------------- | ---------------------------------- |
+| ![分类管理](./images/分类管理.png) | ![商品管理](./images/商品管理.png) |
+| ![会员管理](./images/会员管理.png) | ![订单管理](./images/订单管理.png) |
 
 **前台添加了优惠卷领取页面，再订单结算页面添加优惠卷使用**
 ![优惠卷领取](./images/优惠卷领取.png)
-![订单结算](./images/订单结算.png)
- 
+![优惠卷领取](./images/优惠卷领取.png)
 
 > 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin),集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发。
 
@@ -126,7 +125,7 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 - 订单结算
 
 	![settle](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/settle.png)
-			
+	
 - 订单列表
 
 	![orders](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/orders.png)	
