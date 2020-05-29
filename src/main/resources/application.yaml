@@ -27,6 +27,13 @@ spring:
     time-zone: GMT+8
   profiles:
     active: dev
+  task:
+    execution:
+      pool:
+        core-size: 10
+        max-size: 20
+        queue-capacity: 5
+      thread-name-prefix: wayntask
 
 # mybatis plus
 mybatis-plus:
