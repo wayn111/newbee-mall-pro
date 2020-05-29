@@ -7,8 +7,10 @@ import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.vo.MallUserVO;
 import ltd.newbee.mall.entity.MallUser;
+import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.service.MallUserService;
 import ltd.newbee.mall.util.R;
+import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -40,7 +42,10 @@ public class MallUserController extends BaseController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(HttpServletRequest request) {
+        if (HttpUtil.isAjax(request)) {
+            throw new BusinessException("请先登陆！");
+        }
         return "mall/login";
     }
 
