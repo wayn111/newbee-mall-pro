@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.entity.Coupon;
 import ltd.newbee.mall.service.CouponService;
+import ltd.newbee.mall.service.CouponUserService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class CouponManagerController extends BaseController {
 
     @Autowired
     private CouponService couponService;
+
+    @Autowired
+    private CouponUserService couponUserService;
 
     @GetMapping
     public String index(HttpServletRequest request) {
@@ -56,6 +60,21 @@ public class CouponManagerController extends BaseController {
     public R update(@RequestBody Coupon coupon) {
         coupon.setUpdateTime(new Date());
         couponService.updateById(coupon);
+        couponUserService.update();
+        //  当修改状态为可用时，又要修改对应
+        if (coupon.getStatus() == 2) {
+            couponUserService.update()
+                    .eq("coupon_id", coupon.getCouponId())
+                    .eq("status", 0)
+                    .set("status", 3)
+                    .update();
+        } else if (coupon.getStatus() == 0) {
+            couponUserService.update()
+                    .eq("coupon_id", coupon.getCouponId())
+                    .eq("status", 3)
+                    .set("status", 0)
+                    .update();
+        }
         return R.success();
     }
 
