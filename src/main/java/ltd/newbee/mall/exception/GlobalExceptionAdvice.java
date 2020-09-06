@@ -56,12 +56,26 @@ public class GlobalExceptionAdvice extends BaseController {
         return new ModelAndView("error/500", map);
     }
 
+    /**
+     * 处理文件上传过大bug
+     *
+     * @param e
+     * @param request
+     * @return
+     */
     @ExceptionHandler({MaxUploadSizeExceededException.class})
     public Object handleBusinessException(MaxUploadSizeExceededException e, HttpServletRequest request) {
         log.error(e.getMessage(), e);
         return R.error(e.getMessage());
     }
 
+    /**
+     * 处理全局异常
+     *
+     * @param e
+     * @param request
+     * @return
+     */
     @ExceptionHandler({Exception.class})
     public Object handleException(Exception e, HttpServletRequest request) {
         log.error(e.getMessage(), e);
