@@ -6,6 +6,7 @@ import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -53,6 +54,12 @@ public class GlobalExceptionAdvice extends BaseController {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", e.getMessage());
         return new ModelAndView("error/500", map);
+    }
+
+    @ExceptionHandler({MaxUploadSizeExceededException.class})
+    public Object handleBusinessException(MaxUploadSizeExceededException e, HttpServletRequest request) {
+        log.error(e.getMessage(), e);
+        return R.error(e.getMessage());
     }
 
     @ExceptionHandler({Exception.class})
