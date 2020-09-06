@@ -52,7 +52,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/register")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/logout")
-                .excludePathPatterns("/common/captcha")
+                .excludePathPatterns("/common/**")
                 .excludePathPatterns("/**/*.jpg")
                 .excludePathPatterns("/**/*.png")
                 .excludePathPatterns("/**/*.gif")
