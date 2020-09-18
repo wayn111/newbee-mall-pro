@@ -1,7 +1,7 @@
 package ltd.newbee.mall.controller.admin;
 
 import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.controller.vo.CountMallVO;
+import ltd.newbee.mall.controller.vo.DayTransactionAmountVO;
 import ltd.newbee.mall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,10 +23,10 @@ public class StatisticsController extends BaseController {
 
     @GetMapping
     public String index(HttpServletRequest request) {
-        List<CountMallVO> countMallVOS = orderService.countMallTransactionAmount();
+        List<DayTransactionAmountVO> countMallVOS = orderService.countMallTransactionAmount();
         ArrayList<String> xAxisData = new ArrayList<>();
         ArrayList<Long> seriesData = new ArrayList<>();
-        for (CountMallVO countMallVO : countMallVOS) {
+        for (DayTransactionAmountVO countMallVO : countMallVOS) {
             xAxisData.add(countMallVO.getDays());
             seriesData.add(countMallVO.getTotalPrice());
         }

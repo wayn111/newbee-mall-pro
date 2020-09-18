@@ -3,7 +3,7 @@ package ltd.newbee.mall.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.controller.vo.CountMallVO;
+import ltd.newbee.mall.controller.vo.DayTransactionAmountVO;
 import ltd.newbee.mall.controller.vo.OrderListVO;
 import ltd.newbee.mall.controller.vo.OrderVO;
 import ltd.newbee.mall.entity.Order;
@@ -16,5 +16,5 @@ public interface OrderDao extends BaseMapper<Order> {
 
     IPage selectListPage(Page<Order> page, OrderVO order);
 
-    List<CountMallVO> countMallTransactionAmount();
+    List<DayTransactionAmountVO> countMallTransactionAmount();
 }

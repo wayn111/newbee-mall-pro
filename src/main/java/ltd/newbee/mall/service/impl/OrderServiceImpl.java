@@ -142,7 +142,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     }
 
     @Override
-    public List<CountMallVO> countMallTransactionAmount() {
+    public List<DayTransactionAmountVO> countMallTransactionAmount() {
         return orderDao.countMallTransactionAmount();
     }
 }

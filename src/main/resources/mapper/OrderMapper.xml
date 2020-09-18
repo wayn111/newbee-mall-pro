@@ -29,7 +29,7 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.controller.vo.CountMallVO">
+    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.controller.vo.DayTransactionAmountVO">
         <result column="days" property="days"/>
         <result column="total_price" property="totalPrice"/>
     </resultMap>
