@@ -66,7 +66,7 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
     }
 
     @Override
-    public List<ShopCatVO> getShopcatVOList(Long userId) {
+    public List<ShopCatVO> getShopCatVOList(Long userId) {
         List<ShopCatVO> collect = new ArrayList<>();
         List<ShopCat> cats = list(new QueryWrapper<ShopCat>().eq("user_id", userId));
         List<Long> goodsIds = cats.stream().map(ShopCat::getGoodsId).collect(Collectors.toList());

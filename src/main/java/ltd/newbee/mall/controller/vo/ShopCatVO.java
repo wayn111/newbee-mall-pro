@@ -2,6 +2,9 @@ package ltd.newbee.mall.controller.vo;
 
 import lombok.Data;
 
+/**
+ * 购物车VO对象
+ */
 @Data
 public class ShopCatVO {
     private Long cartItemId;

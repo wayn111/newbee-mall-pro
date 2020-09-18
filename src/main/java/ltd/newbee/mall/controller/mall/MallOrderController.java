@@ -61,7 +61,7 @@ public class MallOrderController extends BaseController {
     @GetMapping("saveOrder")
     public String saveOrder(Long couponUserId, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        List<ShopCatVO> shopcatVOList = shopCatService.getShopcatVOList(mallUserVO.getUserId());
+        List<ShopCatVO> shopcatVOList = shopCatService.getShopCatVOList(mallUserVO.getUserId());
         // 购物车中无数据则跳转至错误页
         if (CollectionUtils.isEmpty(shopcatVOList)) {
             throw new BusinessException("购物车中无数据");

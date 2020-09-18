@@ -6,5 +6,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ltd.newbee.mall.entity.MallUser;
 
 public interface MallUserService extends IService<MallUser> {
+
+    /**
+     * 分页查询
+     * @param page 分页对象
+     * @param mallUser 商品用户对象
+     * @return 分页数据
+     */
     IPage selectPage(Page<MallUser> page, MallUser mallUser);
 }

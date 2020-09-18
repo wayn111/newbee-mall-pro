@@ -53,7 +53,7 @@ public class MallShopCatController extends BaseController {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         int itemsTotal = 0;
         int priceTotal = 0;
-        List<ShopCatVO> collect = shopCatService.getShopcatVOList(mallUserVO.getUserId());
+        List<ShopCatVO> collect = shopCatService.getShopCatVOList(mallUserVO.getUserId());
         if (CollectionUtils.isNotEmpty(collect)) {
             itemsTotal = collect.size();
             for (ShopCatVO shopCatVO : collect) {
@@ -74,7 +74,7 @@ public class MallShopCatController extends BaseController {
             return "shop-cart";
         }
         int priceTotal = 0;
-        List<ShopCatVO> collect = shopCatService.getShopcatVOList(mallUserVO.getUserId());
+        List<ShopCatVO> collect = shopCatService.getShopCatVOList(mallUserVO.getUserId());
         if (CollectionUtils.isNotEmpty(collect)) {
             for (ShopCatVO shopCatVO : collect) {
                 priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();

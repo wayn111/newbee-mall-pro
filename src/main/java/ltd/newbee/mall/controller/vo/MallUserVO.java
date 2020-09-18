@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * 商城用户VO对象
+ */
 @Data
 public class MallUserVO {
     private Long userId;

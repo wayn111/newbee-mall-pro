@@ -7,5 +7,11 @@ import ltd.newbee.mall.entity.Carousels;
 
 public interface CarouselsService extends IService<Carousels> {
 
+    /**
+     * 分页查询
+     * @param page 分页对象
+     * @param carousels 轮播图对象
+     * @return 分页数据
+     */
     IPage selectPage(Page<Carousels> page, Carousels carousels);
 }
