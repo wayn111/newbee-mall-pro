@@ -39,6 +39,23 @@
                     <div class="card-header">
                         <h3 class="card-title">统计信息</h3>
                     </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form" action="javascript:;">
+                            <div class="form-group">
+                                <label class="">查询天数</label>
+                                <input type="text" class="form-control" id="beforeDayNum"
+                                       th:placeholder="${defaultDayNum }">
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l"
+                                    onclick="javascrip:$('#search-form')[0].reset();">重置
+                            </button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
                     <!-- .card-body -->
                     <div class="card-body">
                         <div class="panel panel-default">
@@ -70,33 +87,63 @@
 <script th:src="@{/admin/dist/js/echarts.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+<script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script th:inline="javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '商城15天交易额/单价：元'
-        },
-        tooltip: {},
-        xAxis: {
-            type: 'category',
-            // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            data: [[${xAxisData}]]
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            // data: [820, 932, 901, 934, 1290, 1330, 1320],
-            data: [[${seriesData}]],
-            type: 'line'
-        }]
-    };
+    function init(xAxisData, seriesData) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '商城15天交易额/单价：元'
+            },
+            tooltip: {},
+            xAxis: {
+                type: 'category',
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: xAxisData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                // data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line',
+                data: seriesData
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+    function reload() {
+        var beforeDayNum = $('#beforeDayNum').val() || [[${defaultDayNum}]];
+        $.ajax({
+            type: 'GET',//方法类型
+            url: _ctx + '/admin/statistics/transactionAmount/' + beforeDayNum,
+            success: function (result) {
+                if (result.code == 200) {
+                    init(result.map.xAxisData, result.map.seriesData);
+                } else {
+                    swal(result.msg, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+
+    $(function () {
+        init([[${xAxisData}]], [[${seriesData}]]);
+    });
 </script>
 </body>
 </html>

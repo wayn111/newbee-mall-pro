@@ -37,7 +37,8 @@ public interface OrderService extends IService<Order> {
 
     /**
      * 计算商城订单交易金额
-     * @return 15日内交易金额集合
+     * @param dayNum 查询天数
+     * @return 返回参数天内交易金额集合
      */
-    List<DayTransactionAmountVO> countMallTransactionAmount();
+    List<DayTransactionAmountVO> countMallTransactionAmount(Integer dayNum);
 }

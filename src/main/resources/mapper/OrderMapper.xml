@@ -73,7 +73,7 @@
             DATE_FORMAT( c.create_time, '%Y-%m-%d' ) days,
             sum( c.total_price ) total_price
         FROM
-            ( SELECT * FROM tb_newbee_mall_order WHERE create_time <![CDATA[ >= ]]>  DATE_SUB( now(), INTERVAL 15 DAY ) ) AS c
+            ( SELECT * FROM tb_newbee_mall_order WHERE create_time <![CDATA[ >= ]]>  DATE_SUB( now(), INTERVAL #{dayNum} DAY ) ) AS c
         GROUP BY
             days;
     </select>

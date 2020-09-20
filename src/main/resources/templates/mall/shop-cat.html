@@ -48,7 +48,7 @@
                         <div class="sub_content fl ">
                         </div>
                         <div class="sub_content cover fl"><img th:src="@{${item.goodsCoverImg}}"></div>
-                        <div class="sub_content fl ft20"><a th:href="@{'/goods/detail/' + ${item.goodsId}}">[[${item.goodsName}</a></div>
+                        <div class="sub_content fl ft20"><a th:href="@{'/goods/detail/' + ${item.goodsId}}">[[${item.goodsName}]]</a></div>
                         <div class="sub_content fl" th:text="${item.sellingPrice+'元'}">1299元</div>
                         <div class="sub_content fl">
                             <input class="goods_count" th:id="${'goodsCount'+item.cartItemId}" type="number"

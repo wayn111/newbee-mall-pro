@@ -16,5 +16,5 @@ public interface OrderDao extends BaseMapper<Order> {
 
     IPage selectListPage(Page<Order> page, OrderVO order);
 
-    List<DayTransactionAmountVO> countMallTransactionAmount();
+    List<DayTransactionAmountVO> countMallTransactionAmount(Integer dayNum);
 }

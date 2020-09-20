@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     }
 
     @Override
-    public List<DayTransactionAmountVO> countMallTransactionAmount() {
-        return orderDao.countMallTransactionAmount();
+    public List<DayTransactionAmountVO> countMallTransactionAmount(Integer dayNum) {
+        if (dayNum < 0) {
+            return Collections.emptyList();
+        }
+        return orderDao.countMallTransactionAmount(dayNum);
     }
 }
