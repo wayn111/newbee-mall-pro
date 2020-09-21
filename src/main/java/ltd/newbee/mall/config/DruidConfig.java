@@ -25,7 +25,6 @@ public class DruidConfig {
         return druidProperties.dataSource(dataSource);
     }
 
-
     /**
      * 去除监控页面底部的广告
      */
