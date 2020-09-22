@@ -28,9 +28,12 @@ public class MallCouponController {
     private CouponUserService couponUserService;
 
     @GetMapping("coupon")
-    public String index(HttpServletRequest request) {
-        MallUserVO mallUserVO = (MallUserVO) request.getSession().getAttribute(Constants.MALL_USER_SESSION_KEY);
-        List<CouponVO> coupons = couponService.selectAvailableCoupon(mallUserVO.getUserId());
+    public String index(HttpServletRequest request, HttpSession session) {
+        Long userId = null;
+        if (session.getAttribute(Constants.MALL_USER_SESSION_KEY) != null) {
+            userId = ((MallUserVO) request.getSession().getAttribute(Constants.MALL_USER_SESSION_KEY)).getUserId();
+        }
+        List<CouponVO> coupons = couponService.selectAvailableCoupon(userId);
         request.setAttribute("coupons", coupons);
         return "mall/coupon";
     }

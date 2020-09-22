@@ -47,12 +47,14 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
         List<Coupon> coupons = couponDao.selectAvailableCoupon();
         List<CouponVO> couponVOS = MyBeanUtil.copyList(coupons, CouponVO.class);
         for (CouponVO couponVO : couponVOS) {
-            couponVO.setHasReceived(true);
-            CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>()
-                    .eq("user_id", userId)
-                    .eq("coupon_id", couponVO.getCouponId()));
-            if (Objects.isNull(couponUser)) {
-                couponVO.setHasReceived(false);
+            couponVO.setHasReceived(false);
+            if (userId != null) {
+                CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>()
+                        .eq("user_id", userId)
+                        .eq("coupon_id", couponVO.getCouponId()));
+                if (Objects.nonNull(couponUser)) {
+                    couponVO.setHasReceived(true);
+                }
             }
             if (couponVO.getCouponTotal() != 0) {
                 int count = couponUserService.count(new QueryWrapper<CouponUser>()
