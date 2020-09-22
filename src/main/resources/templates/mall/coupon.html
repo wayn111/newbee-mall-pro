@@ -31,8 +31,9 @@
                                 <div th:text="'有效期：'+${coupon.days}+'天'">有效期：7天</div>
                             </div>
                         </div>
-                        <div class="right-desc" th:style="${coupon.saleOut?'background-color:gray;':''}"
-                             th:text="${coupon.saleOut?'领完了':'立即领取'}">
+                        <div class="right-desc"
+                             th:style="${coupon.saleOut?'background-color:gray;':coupon.hasReceived?'background-color:lightgray;':''}"
+                             th:text="${coupon.saleOut?'领完了':coupon.hasReceived?'已领取':'立即领取'}">
                             立即领取
                         </div>
                     </a>
