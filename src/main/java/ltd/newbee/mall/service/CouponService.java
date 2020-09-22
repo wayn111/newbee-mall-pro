@@ -24,8 +24,9 @@ public interface CouponService extends IService<Coupon> {
      * 查询可用的优惠卷
      *
      * @return 可用优惠劵集合
+     * @param userId 用户ID
      */
-    List<CouponVO> selectAvailableCoupon();
+    List<CouponVO> selectAvailableCoupon(Long userId);
 
     /**
      * 获取用户的优惠劵

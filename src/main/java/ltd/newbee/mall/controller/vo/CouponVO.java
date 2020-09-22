@@ -1,5 +1,6 @@
 package ltd.newbee.mall.controller.vo;
 
+import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -36,4 +37,6 @@ public class CouponVO implements Serializable {
     private String code;
 
     private Short days;
+
+    private boolean hasReceived;
 }

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,10 +43,17 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
     }
 
     @Override
-    public List<CouponVO> selectAvailableCoupon() {
+    public List<CouponVO> selectAvailableCoupon(Long userId) {
         List<Coupon> coupons = couponDao.selectAvailableCoupon();
         List<CouponVO> couponVOS = MyBeanUtil.copyList(coupons, CouponVO.class);
         for (CouponVO couponVO : couponVOS) {
+            couponVO.setHasReceived(true);
+            CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>()
+                    .eq("user_id", userId)
+                    .eq("coupon_id", couponVO.getCouponId()));
+            if (Objects.isNull(couponUser)) {
+                couponVO.setHasReceived(false);
+            }
             if (couponVO.getCouponTotal() != 0) {
                 int count = couponUserService.count(new QueryWrapper<CouponUser>()
                         .eq("coupon_id", couponVO.getCouponId()));
