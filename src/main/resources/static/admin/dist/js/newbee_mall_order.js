@@ -102,9 +102,7 @@ $(function () {
         showDropdowns: true,
         startDate: moment().startOf('hour'),
         endDate: moment().startOf('hour').add(12, 'hour'),
-        locale: {
-            format: 'YYYY/MM/DD'
-        }
+        locale: datepickerLocale()
     });
 
     $('#createTime').on('apply.daterangepicker', function (ev, picker) {

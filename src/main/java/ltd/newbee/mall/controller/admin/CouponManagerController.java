@@ -3,6 +3,7 @@ package ltd.newbee.mall.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.controller.vo.CouponVO;
 import ltd.newbee.mall.entity.Coupon;
 import ltd.newbee.mall.service.CouponService;
 import ltd.newbee.mall.service.CouponUserService;
@@ -33,9 +34,9 @@ public class CouponManagerController extends BaseController {
 
     @ResponseBody
     @GetMapping("/list")
-    public IPage list(Coupon coupon, HttpServletRequest request) {
+    public IPage list(CouponVO couponVO, HttpServletRequest request) {
         Page<Coupon> page = getPage(request);
-        return couponService.selectPage(page, coupon);
+        return couponService.selectPage(page, couponVO);
     }
 
     /**

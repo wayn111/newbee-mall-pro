@@ -80,15 +80,42 @@ $(function () {
     $(window).resize(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
     });
+
+    $('#createTime').daterangepicker({
+        autoUpdateInput: false,
+        showDropdowns: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(12, 'hour'),
+        locale: datepickerLocale()
+    });
+
+    $('#createTime').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+    });
 });
 
 /**
  * jqGrid重新加载
  */
 function reload() {
+    var couponName = $('#couponName').val() || '';
+    var couponType = $('#couponType').val() || '';
+    var status = $('#status').val() || '';
+    var createTime = $('#createTime').val() || '';
+    var timeArr = createTime && createTime.split('-') || ['', ''];
+    var startTime = timeArr[0].trim();
+    var endTime = timeArr[1].trim();
+
     var page = $("#jqGrid").jqGrid('getGridParam', 'page');
     $("#jqGrid").jqGrid('setGridParam', {
-        page: page
+        page: page,
+        postData: {
+            name: couponName,
+            couponType: couponType,
+            status: status,
+            startTime: startTime,
+            endTime: endTime
+        }
     }).trigger("reloadGrid");
 }
 

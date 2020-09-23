@@ -12,6 +12,7 @@ import java.util.Date;
 @Data
 @TableName("tb_newbee_mall_order")
 public class Order {
+
     @TableId(type = IdType.AUTO)
     private Long orderId;
 

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="admin/header :: header-fragment"/>
+    <link rel="stylesheet" th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
 </head>
 </header>
 <style>
@@ -47,7 +48,46 @@
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">优惠卷管理</h3>
-                    </div> <!-- /.card-body -->
+                    </div>
+
+                    <!-- search-content -->
+                    <div class="search-content">
+                        <form class="form-inline" id="search-form" action="javascript:;">
+                            <div class="form-group">
+                                <label class="">优惠劵名称</label>
+                                <input type="text" class="form-control" id="couponName">
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">优惠劵类型</label>
+                                <select class="form-control" id="couponType">
+                                    <option value="" selected>请选择</option>
+                                    <option value="0">通用卷</option>
+                                    <option value="1">注册赠卷</option>
+                                    <option value="2">兑换卷</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">优惠劵状态</label>
+                                <select class="form-control" id="status">
+                                    <option value="" selected>请选择</option>
+                                    <option value="0">上架</option>
+                                    <option value="1">过期</option>
+                                    <option value="2">下架</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="m-l">创建时间</label>
+                                <input type="text" class="w-210 form-control" id="createTime">
+                            </div>
+                            <button type="button" class="btn btn-success m-l" onclick="reload()">搜索</button>
+                            <button type="button" class="btn btn-info m-l"
+                                    onclick="javascrip:$('#search-form')[0].reset();">重置
+                            </button>
+                        </form>
+                    </div>
+                    <!-- /search-content -->
+
+                    <!-- .card-body -->
                     <div class="card-body">
                         <div class="grid-btn">
                             <button class="btn btn-info" @click="couponAdd()"><i
@@ -63,7 +103,9 @@
                         <table id="jqGrid" class="table table-bordered">
                         </table>
                         <div id="jqGridPager"></div>
-                    </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card-body -->
+
                 </div>
             </div><!-- /.container-fluid -->
         </div>
@@ -208,6 +250,8 @@
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
+<script th:src="@{/admin/plugins/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/admin/plugins/daterangepicker/daterangepicker.js}"></script>
 <script src="https://cdn.bootcss.com/vue/2.6.11/vue.js"></script>
 <script th:src="@{/admin/dist/js/newbee_mall_coupon.js}"></script>
 </body>

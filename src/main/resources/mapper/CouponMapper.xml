@@ -32,6 +32,21 @@
         <include refid="selectCoupon"></include>
         <where>
             and t.is_deleted = 0
+            <if test="coupon.name != null and coupon.name != ''">
+                and name LIKE CONCAT('%',#{coupon.name},'%')
+            </if>
+            <if test="coupon.couponType != null">
+                and coupon_type = #{coupon.couponType}
+            </if>
+            <if test="coupon.status != null">
+                and status = #{coupon.status}
+            </if>
+            <if test="coupon.startTime != null and coupon.startTime != ''">
+                and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{coupon.startTime},'%Y-%m-%d')
+            </if>
+            <if test="coupon.endTime != null and coupon.endTime != ''">
+                and DATE_FORMAT(t.create_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{coupon.endTime},'%Y-%m-%d')
+            </if>
         </where>
     </select>
 
