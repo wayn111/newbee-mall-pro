@@ -37,7 +37,7 @@ public class MallIndexController {
         List<Goods> recommendGoodses = indexConfigService.listIndexConfig(IndexConfigTypeEnum.INDEX_GOODS_RECOMMOND, Constants.INDEX_GOODS_RECOMMOND_NUMBER);
         List<Carousels> carousels = carouselsService.list(new QueryWrapper<Carousels>()
                 .eq("is_deleted", 0)
-                .orderByDesc("carousel_rank"));
+                .orderByAsc("carousel_rank"));
         request.setAttribute("categories", root);// 分类数据
         request.setAttribute("carousels", carousels);// 轮播图
         request.setAttribute("hotGoodses", hotGoodses);// 热销商品

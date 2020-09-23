@@ -80,16 +80,25 @@
             });
             return false;
         }
-        //验证
+        var url = _ctx + '/login?destPath=';
+        // 添加目标地址
+        var destPath = window.location.href.split('?')[1];
+        if (destPath) {
+            url = url + destPath;
+        }
+        // 验证
         var params = $("#loginForm").serialize();
-        var url = _ctx + '/login';
         $.ajax({
             type: 'POST',//方法类型
             url: url,
             data: params,
             success: function (result) {
                 if (result.code == 200) {
-                    window.location.href = _ctx + '/index';
+                    if (result.map.destPath) {
+                        window.location.href = _ctx + result.map.destPath;
+                    } else {
+                        window.location.href = _ctx + 'index';
+                    }
                 } else {
                     swal(result.msg, {
                         icon: "error",

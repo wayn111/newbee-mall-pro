@@ -53,7 +53,9 @@ public class MallUserController extends BaseController {
     @PostMapping("/login")
     public R doLogin(MallUserVO mallUserVO,
                      @RequestParam("verifyCode") String verifyCode,
+                     @RequestParam("destPath") String destPath,
                      HttpSession session) {
+        R success = R.success();
         String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
         if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
             return R.error("验证码错误");
@@ -69,7 +71,10 @@ public class MallUserController extends BaseController {
         }
         BeanUtils.copyProperties(user, mallUserVO);
         session.setAttribute(Constants.MALL_USER_SESSION_KEY, mallUserVO);
-        return R.success();
+        if (StringUtils.isNotEmpty(destPath)) {
+            success.add("destPath", destPath.split("=")[1]);
+        }
+        return success;
     }
 
     @GetMapping("/register")
