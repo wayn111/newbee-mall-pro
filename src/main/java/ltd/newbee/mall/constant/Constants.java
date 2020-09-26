@@ -2,7 +2,10 @@ package ltd.newbee.mall.constant;
 
 public class Constants {
 
-    public static final String FILE_UPLOAD_DIC = "D:\\upload\\";//上传文件的默认url前缀，根据部署设置自行修改
+    /**
+     * 上传文件的默认url前缀，根据部署设置自行修改
+     */
+    public static final String FILE_UPLOAD_DIC = "D:\\upload\\";
 
     public static final Byte CATEGORY_LEVEL_ONE = 1;
     public static final Byte CATEGORY_LEVEL_TWO = 2;
