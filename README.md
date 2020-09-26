@@ -1,3 +1,5 @@
+##### 在线地址：<a href="http://wayn.xin/mall">newebeemall</a>
+
 **后台管理模块添加了优惠卷管理，统计分析以及搜索功能**
 
 | ![优惠卷管理](./images/优惠卷管理.jpg) | ![统计分析](./images/统计分析.png) |
