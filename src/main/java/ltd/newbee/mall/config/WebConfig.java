@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /** 本地文件上传路径 */
         registry.addResourceHandler("/upload/**").addResourceLocations("file:" + uploadDir + "/");
-        registry.addResourceHandler("/goods-img/**").addResourceLocations("file:" + Constants.FILE_UPLOAD_DIC);
+        registry.addResourceHandler("/goods-img/**").addResourceLocations("file:" + uploadDir + "/");
     }
 
     @Override
