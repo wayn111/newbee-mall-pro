@@ -202,7 +202,7 @@ public class MallOrderController extends BaseController {
             // 在公共参数中设置回跳和通知地址
             String url = HttpUtil.getRequestContext(request);
             alipayRequest.setReturnUrl(url + "/orders/" + order.getOrderNo());
-            alipayRequest.setNotifyUrl(url + "/paySuccess?orderNo=" + order.getOrderNo() + "&payType=" + 1);
+            alipayRequest.setNotifyUrl(url + "/alipaySuccess/" + order.getOrderNo() + "/");
 
             // 填充业务参数
 
@@ -234,6 +234,24 @@ public class MallOrderController extends BaseController {
             return "mall/alipay";
         } else {
             return "mall/wxpay";
+        }
+    }
+
+    @RequestMapping("/alipaySuccess/{orderNo}/{payType}")
+    public void alipaySuccess(@PathVariable("orderNo") String orderNo, @PathVariable("payType") int payType, HttpSession session) {
+        Order order = judgeOrderUserId(orderNo, session);
+        if (order != null) {
+            //todo 判断订单状态
+            if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                    || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+                throw new BusinessException("订单关闭异常");
+            }
+            order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+            order.setPayType((byte) payType);
+            order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+            order.setPayTime(new Date());
+            order.setUpdateTime(new Date());
+            orderService.updateById(order);
         }
     }
 
