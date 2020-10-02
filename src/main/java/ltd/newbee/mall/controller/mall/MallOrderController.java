@@ -201,7 +201,7 @@ public class MallOrderController extends BaseController {
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             // 在公共参数中设置回跳和通知地址
             String url = HttpUtil.getRequestContext(request);
-            alipayRequest.setReturnUrl(url + "/orders/" + order.getOrderNo());
+            alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo());
             alipayRequest.setNotifyUrl(url + "/alipaySuccess/" + order.getOrderNo() + "/");
 
             // 填充业务参数
@@ -224,7 +224,7 @@ public class MallOrderController extends BaseController {
                     + product_code + "\"," + "\"total_amount\":\"" + total_amount + "\"," + "\"subject\":\"" + subject
                     + "\"," + "\"body\":\"" + body + "\"}");
             // 请求
-            String form = "";
+            String form;
             try {
                 form = alipayClient.pageExecute(alipayRequest).getBody();//调用SDK生成表单
                 request.setAttribute("form", form);
@@ -237,9 +237,46 @@ public class MallOrderController extends BaseController {
         }
     }
 
+    @GetMapping("/returnOrders/{orderNo}")
+    public String returnOrderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
+            throw new BusinessException("订单项异常");
+        }
+        List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", order.getOrderId()));
+        if (CollectionUtils.isEmpty(orderItems)) {
+            throw new BusinessException("订单项异常");
+        }
+        List<OrderItemVO> itemVOList = MyBeanUtil.copyList(orderItems, OrderItemVO.class);
+        OrderDetailVO orderDetailVO = new OrderDetailVO();
+        BeanUtils.copyProperties(order, orderDetailVO);
+        orderDetailVO.setOrderStatusString(OrderStatusEnum.getOrderStatusEnumByStatus(orderDetailVO.getOrderStatus()).getName());
+        orderDetailVO.setPayTypeString(PayTypeEnum.getPayTypeEnumByType(orderDetailVO.getPayType()).getName());
+        orderDetailVO.setNewBeeMallOrderItemVOS(itemVOList);
+        request.setAttribute("orderDetailVO", orderDetailVO);
+        Coupon coupon = couponUserService.getCoupon(order.getOrderId());
+        if (coupon != null) {
+            request.setAttribute("discount", coupon.getDiscount());
+        }
+        // 将notifyUrl中逻辑放到此处
+        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+            throw new BusinessException("订单关闭异常");
+        }
+        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+        order.setPayType((byte) 1);
+        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+        order.setPayTime(new Date());
+        order.setUpdateTime(new Date());
+        orderService.updateById(order);
+        return "mall/order-detail";
+    }
+
     @RequestMapping("/alipaySuccess/{orderNo}/{payType}")
     public void alipaySuccess(@PathVariable("orderNo") String orderNo, @PathVariable("payType") int payType, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
+        // 沙箱环境此处无法调用？，将此处代码放到returnUrl跳转中
+        /*Order order = judgeOrderUserId(orderNo, session);
         if (order != null) {
             //todo 判断订单状态
             if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
@@ -252,26 +289,24 @@ public class MallOrderController extends BaseController {
             order.setPayTime(new Date());
             order.setUpdateTime(new Date());
             orderService.updateById(order);
-        }
+        }*/
     }
 
     @GetMapping("/paySuccess")
     @ResponseBody
     public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
-        if (order != null) {
-            //todo 判断订单状态
-            if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                    || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-                throw new BusinessException("订单关闭异常");
-            }
-            order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-            order.setPayType((byte) payType);
-            order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-            order.setPayTime(new Date());
-            order.setUpdateTime(new Date());
-            orderService.updateById(order);
+        //todo 判断订单状态
+        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+            throw new BusinessException("订单关闭异常");
         }
+        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+        order.setPayType((byte) payType);
+        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+        order.setPayTime(new Date());
+        order.setUpdateTime(new Date());
+        orderService.updateById(order);
         return R.success();
     }
 

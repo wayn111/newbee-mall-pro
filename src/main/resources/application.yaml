@@ -52,7 +52,7 @@ mybatis-plus:
 
 # wayn配置
 wayn:
-  uploadDir: E:/wayn/upload
+  uploadDir: D:\\upload
 
 # alipay
 alipay:
