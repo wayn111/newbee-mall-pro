@@ -112,7 +112,6 @@ function editGoods() {
  * 上架
  */
 function putUpGoods() {
-    debugger
     var ids = getSelectedRows();
     if (ids == null) {
         return;

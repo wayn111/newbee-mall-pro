@@ -146,7 +146,6 @@ function carouselEdit() {
 }
 
 function deleteCarousel() {
-    debugger
     var ids = getSelectedRows();
     if (ids == null) {
         return;
