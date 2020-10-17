@@ -13,12 +13,12 @@ $(function () {
             'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'multiimage',
             'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
             'anchor', 'link', 'unlink'],
-        uploadJson: _ctx + '/common/upload',
+        uploadJson: _ctx + 'common/upload',
         filePostName: 'file'
     });
 
     new AjaxUpload('#uploadGoodsCoverImg', {
-        action: _ctx + '/common/upload',
+        action: _ctx + 'common/upload',
         name: 'file',
         autoSubmit: true,
         responseType: "json",
@@ -149,7 +149,7 @@ $('#saveButton').click(function () {
         });
         return;
     }
-    var url = _ctx + '/admin/goods/save';
+    var url = _ctx + 'admin/goods/save';
     var swlMessage = '保存成功';
     var data = {
         "goodsName": goodsName,
@@ -165,7 +165,7 @@ $('#saveButton').click(function () {
         "goodsSellStatus": goodsSellStatus
     };
     if (goodsId > 0) {
-        url = _ctx + '/admin/goods/update';
+        url = _ctx + 'admin/goods/update';
         swlMessage = '修改成功';
         data = {
             "goodsId": goodsId,
@@ -200,7 +200,7 @@ $('#saveButton').click(function () {
                     confirmButtonClass: 'btn btn-success',
                     buttonsStyling: false
                 }).then(function () {
-                    window.location.href =  _ctx + "/admin/goods";
+                    window.location.href =  _ctx + "admin/goods";
                 })
             } else {
                 $('#goodsModal').modal('hide');
@@ -218,12 +218,12 @@ $('#saveButton').click(function () {
 });
 
 $('#cancelButton').click(function () {
-    window.location.href = _ctx + "/admin/goods";
+    window.location.href = _ctx + "admin/goods";
 });
 
 $('#levelOne').on('change', function () {
     $.ajax({
-        url: _ctx + '/admin/categories/listForSelect?categoryId=' + $(this).val(),
+        url: _ctx + 'admin/categories/listForSelect?categoryId=' + $(this).val(),
         type: 'GET',
         success: function (result) {
             if (result.code == 200) {
@@ -257,7 +257,7 @@ $('#levelOne').on('change', function () {
 
 $('#levelTwo').on('change', function () {
     $.ajax({
-        url: _ctx + '/admin/categories/listForSelect?categoryId=' + $(this).val(),
+        url: _ctx + 'admin/categories/listForSelect?categoryId=' + $(this).val(),
         type: 'GET',
         success: function (result) {
             if (result.code == 200) {

@@ -115,7 +115,7 @@
      * 跳转至结算页面
      */
     function settle() {
-        window.location.href = _ctx + '/shopCart/settle'
+        window.location.href = _ctx + 'shopCart/settle'
     }
 
     /**
@@ -144,7 +144,7 @@
         };
         $.ajax({
             type: 'PUT',
-            url: _ctx + '/shopCart',
+            url: _ctx + 'shopCart',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (result) {
@@ -179,7 +179,7 @@
                 if (flag) {
                     $.ajax({
                         type: 'DELETE',
-                        url: _ctx + '/shopCart/' + id,
+                        url: _ctx + 'shopCart/' + id,
                         success: function (result) {
                             if (result.code == 200) {
                                 window.location.reload();

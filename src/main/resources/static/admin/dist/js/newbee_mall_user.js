@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/users/list',
+        url: _ctx + 'admin/users/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'userId', index: 'userId', width: 50, key: true, hidden: true},
@@ -96,7 +96,7 @@ function lockUser(lockStatus) {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/users/lock/" + lockStatus,
+                    url: _ctx + "admin/users/lock/" + lockStatus,
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {

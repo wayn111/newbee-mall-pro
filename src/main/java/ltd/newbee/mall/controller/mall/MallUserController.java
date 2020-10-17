@@ -72,7 +72,7 @@ public class MallUserController extends BaseController {
         BeanUtils.copyProperties(user, mallUserVO);
         session.setAttribute(Constants.MALL_USER_SESSION_KEY, mallUserVO);
         if (StringUtils.isNotEmpty(destPath)) {
-            success.add("destPath", destPath.split("=")[1]);
+            success.add("destPath", destPath.split("=")[1].substring(1));
         }
         return success;
     }

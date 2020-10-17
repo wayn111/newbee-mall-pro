@@ -94,7 +94,7 @@
         };
         $.ajax({
             type: 'POST',
-            url: _ctx + '/shopCart',
+            url: _ctx + 'shopCart',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (result) {
@@ -136,7 +136,7 @@
         };
         $.ajax({
             type: 'POST',
-            url: _ctx + '/shopCart',
+            url: _ctx + 'shopCart',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (result) {
@@ -151,7 +151,7 @@
                         dangerMode: false,
                     }).then((flag) => {
                             if (flag) {
-                                window.location.href = _ctx + '/shopCart';
+                                window.location.href = _ctx + 'shopCart';
                             }
                         }
                     );

@@ -238,7 +238,7 @@
             });
             return;
         }
-        window.location.href = _ctx + '/saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
+        window.location.href = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
     });
 
     function openUpdateModal() {
@@ -255,7 +255,7 @@
         };
         $.ajax({
             type: 'POST',//方法类型
-            url: _ctx + '/personal/updateInfo',
+            url: _ctx + 'personal/updateInfo',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function (result) {

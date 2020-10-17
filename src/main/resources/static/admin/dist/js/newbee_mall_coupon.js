@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/coupon/list',
+        url: _ctx + 'admin/coupon/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'couponId', index: 'couponId', key: true, hidden: true},
@@ -152,7 +152,7 @@ var vm = new Vue({
             if (id == null) {
                 return;
             }
-            var url = _ctx + '/admin/coupon/' + id;
+            var url = _ctx + 'admin/coupon/' + id;
             $.get(url, function (res) {
                 if (res.code != 200) {
                     swal("操作失败", {
@@ -225,10 +225,10 @@ var vm = new Vue({
                 $('#edit-error-msg').html("请输入" + this.goodsValueLabel + "！");
                 return;
             }
-            var url = _ctx + '/admin/coupon/save';
+            var url = _ctx + 'admin/coupon/save';
             var data = this.form;
             if (form.couponId != null) {
-                url = _ctx + '/admin/coupon/update';
+                url = _ctx + 'admin/coupon/update';
             }
             $.ajax({
                 type: 'POST',//方法类型
@@ -261,7 +261,7 @@ var vm = new Vue({
             if (id == null) {
                 return;
             }
-            var url = _ctx + '/admin/coupon/' + id;
+            var url = _ctx + 'admin/coupon/' + id;
             $.ajax({
                 url: url,
                 cache: false,

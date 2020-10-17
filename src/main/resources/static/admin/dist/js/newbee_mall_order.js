@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/orders/list',
+        url: _ctx + 'admin/orders/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'orderId', index: 'orderId', width: 50, key: true, hidden: true},
@@ -141,7 +141,7 @@ function openOrderItems(orderId) {
     $('#orderItemModalLabel').html('订单详情');
     $.ajax({
         type: 'GET',//方法类型
-        url: _ctx + '/admin/orders/order-items/' + orderId,
+        url: _ctx + 'admin/orders/order-items/' + orderId,
         contentType: 'application/json',
         success: function (result) {
             if (result.code == 200) {
@@ -204,7 +204,7 @@ $('#saveButton').click(function () {
     var totalPrice = $("#totalPrice").val();
     var userAddress = $("#userAddress").val();
     var id = getSelectedRowWithoutAlert();
-    var url = _ctx + '/admin/orders/update';
+    var url = _ctx + 'admin/orders/update';
     var data = {
         "orderId": id,
         "totalPrice": totalPrice,
@@ -274,7 +274,7 @@ function orderCheckDone() {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/orders/checkDone",
+                    url: _ctx + "admin/orders/checkDone",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
@@ -332,7 +332,7 @@ function orderCheckOut() {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/orders/checkOut",
+                    url: _ctx + "admin/orders/checkOut",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
@@ -368,7 +368,7 @@ function closeOrder() {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/orders/close",
+                    url: _ctx + "admin/orders/close",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {

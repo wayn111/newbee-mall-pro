@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/carousels/list',
+        url: _ctx + 'admin/carousels/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'carouselId', index: 'carouselId', width: 50, key: true, hidden: true},
@@ -45,7 +45,7 @@ $(function () {
     });
 
     new AjaxUpload('#uploadCarouselImage', {
-        action: _ctx + '/common/upload',
+        action: _ctx + 'common/upload',
         name: 'file',
         autoSubmit: true,
         responseType: "json",
@@ -93,10 +93,10 @@ $('#saveButton').click(function () {
         "carouselRank": carouselRank,
         "redirectUrl": redirectUrl
     };
-    var url = _ctx + '/admin/carousels/save';
+    var url = _ctx + 'admin/carousels/save';
     var id = getSelectedRowWithoutAlert();
     if (id != null) {
-        url = _ctx + '/admin/carousels/update';
+        url = _ctx + 'admin/carousels/update';
         data = {
             "carouselId": id,
             "carouselUrl": carouselUrl,
@@ -132,7 +132,7 @@ function carouselEdit() {
         return;
     }
     //请求数据
-    $.get(_ctx + "/admin/carousels/info/" + id, function (r) {
+    $.get(_ctx + "admin/carousels/info/" + id, function (r) {
         if (r.code == 200 && r.map.data != null) {
             //填充数据至modal
             $("#carouselImg").attr("src", r.map.data.carouselUrl);
@@ -161,7 +161,7 @@ function deleteCarousel() {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/carousels/delete",
+                    url: _ctx + "admin/carousels/delete",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
@@ -186,7 +186,7 @@ function deleteCarousel() {
 function reset() {
     $("#redirectUrl").val('##');
     $("#carouselRank").val(0);
-    $("#carouselImg").attr("src", _ctx + '/admin/dist/img/img-upload.png');
+    $("#carouselImg").attr("src", _ctx + 'admin/dist/img/img-upload.png');
     $("#carouselImg").attr("style", "height: 64px;width: 64px;display:block;");
     $('#edit-error-msg').css("display", "none");
 }

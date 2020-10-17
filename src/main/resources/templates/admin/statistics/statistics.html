@@ -123,7 +123,7 @@
         var beforeDayNum = $('#beforeDayNum').val() || [[${defaultDayNum}]];
         $.ajax({
             type: 'GET',//方法类型
-            url: _ctx + '/admin/statistics/transactionAmount/' + beforeDayNum,
+            url: _ctx + 'admin/statistics/transactionAmount/' + beforeDayNum,
             success: function (result) {
                 if (result.code == 200) {
                     init(result.map.xAxisData, result.map.seriesData);

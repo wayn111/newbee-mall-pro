@@ -51,7 +51,7 @@
     function saveCoupon(couponId) {
         $.ajax({
             type: 'POST',
-            url: _ctx + '/coupon/' + couponId,
+            url: _ctx + 'coupon/' + couponId,
             success: function (result) {
                 if (result.code == 200) {
                     swal("领取成功", {

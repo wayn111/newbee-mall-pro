@@ -233,7 +233,7 @@
                 if (flag) {
                     $.ajax({
                         type: 'PUT',
-                        url: _ctx + '/orders/' + orderNo + '/cancel',
+                        url: _ctx + 'orders/' + orderNo + '/cancel',
                         success: function (result) {
                             if (result.code == 200) {
                                 window.location.reload();
@@ -257,14 +257,14 @@
 
     function payOrder() {
         var orderNo = $("#orderNoValue").val();
-        window.location.href = _ctx + '/selectPayType?orderNo=' + orderNo;
+        window.location.href = _ctx + 'selectPayType?orderNo=' + orderNo;
     }
 
     function finishOrder() {
         var orderNo = $("#orderNoValue").val();
         $.ajax({
             type: 'PUT',
-            url: _ctx + '/orders/' + orderNo + '/finish',
+            url: _ctx + 'orders/' + orderNo + '/finish',
             success: function (result) {
                 if (result.code == 200) {
                     window.location.reload();

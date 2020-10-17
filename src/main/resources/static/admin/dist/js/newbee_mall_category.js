@@ -3,7 +3,7 @@ $(function () {
     var parentId = $("#parentId").val();
 
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/categories/list?categoryLevel=' + categoryLevel + '&parentId=' + parentId,
+        url: _ctx + 'admin/categories/list?categoryLevel=' + categoryLevel + '&parentId=' + parentId,
         datatype: "json",
         colModel: [
             {label: 'id', name: 'categoryId', index: 'categoryId', width: 50, key: true, hidden: true},
@@ -74,7 +74,7 @@ function categoryManage() {
     }
     if (categoryLevel == 1 || categoryLevel == 2) {
         categoryLevel = categoryLevel + 1;
-        window.location.href = _ctx + '/admin/categories?categoryLevel=' + categoryLevel + '&parentId=' + id + '&backParentId=' + parentId;
+        window.location.href = _ctx + 'admin/categories?categoryLevel=' + categoryLevel + '&parentId=' + id + '&backParentId=' + parentId;
     } else {
         swal("无下级分类", {
             icon: "warning",
@@ -90,7 +90,7 @@ function categoryBack() {
     var backParentId = $("#backParentId").val();
     if (categoryLevel == 2 || categoryLevel == 3) {
         categoryLevel = categoryLevel - 1;
-        window.location.href = _ctx + '/admin/categories?categoryLevel=' + categoryLevel + '&parentId=' + backParentId + '&backParentId=0';
+        window.location.href = _ctx + 'admin/categories?categoryLevel=' + categoryLevel + '&parentId=' + backParentId + '&backParentId=0';
     } else {
         swal("无上级分类", {
             icon: "warning",
@@ -114,10 +114,10 @@ $('#saveButton').click(function () {
             "parentId": parentId,
             "categoryRank": categoryRank
         };
-        var url = _ctx + '/admin/categories/save';
+        var url = _ctx + 'admin/categories/save';
         var id = getSelectedRowWithoutAlert();
         if (id != null) {
-            url = _ctx + '/admin/categories/update';
+            url = _ctx + 'admin/categories/update';
             data = {
                 "categoryId": id,
                 "categoryName": categoryName,
@@ -188,7 +188,7 @@ function deleteCagegory() {
             if (flag) {
                 $.ajax({
                     type: "POST",
-                    url: _ctx + "/admin/categories/delete",
+                    url: _ctx + "admin/categories/delete",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {

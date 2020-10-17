@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + '/admin/goods/list',
+        url: _ctx + 'admin/goods/list',
         datatype: "json",
         colModel: [
             {label: '商品编号', name: 'goodsId', index: 'goodsId', width: 60, key: true},
@@ -94,7 +94,7 @@ function reload() {
  * 添加商品
  */
 function addGoods() {
-    window.location.href = _ctx + "/admin/goods/add";
+    window.location.href = _ctx + "admin/goods/add";
 }
 
 /**
@@ -105,7 +105,7 @@ function editGoods() {
     if (id == null) {
         return;
     }
-    window.location.href = _ctx + "/admin/goods/edit/" + id;
+    window.location.href = _ctx + "admin/goods/edit/" + id;
 }
 
 /**
@@ -127,7 +127,7 @@ function putUpGoods() {
             if (flag) {
                 $.ajax({
                     type: "PUT",
-                    url: _ctx + "/admin/goods/status/0",
+                    url: _ctx + "admin/goods/status/0",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
@@ -166,7 +166,7 @@ function putDownGoods() {
             if (flag) {
                 $.ajax({
                     type: "PUT",
-                    url: _ctx + "/admin/goods/status/1",
+                    url: _ctx + "admin/goods/status/1",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {

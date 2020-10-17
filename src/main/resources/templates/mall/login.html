@@ -42,7 +42,7 @@
                         <input class="login-info-input verify-code" type="text" name="verifyCode"
                                placeholder="请输入验证码" id="verifyCode"/>
                         <img alt="单击图片刷新！" style="top: 14px;position: relative;" th:src="@{/common/captcha}"
-                             th:onclick="this.src=_ctx + '/common/captcha?d='+new Date()*1">
+                             th:onclick="this.src=_ctx + 'common/captcha?d='+new Date()*1">
                     </div>
                 </div>
                 <div class="login_submit">
@@ -80,7 +80,8 @@
             });
             return false;
         }
-        var url = _ctx + '/login?destPath=';
+        debugger
+        var url = _ctx + 'login?destPath=';
         // 添加目标地址
         var destPath = window.location.href.split('?')[1];
         if (destPath) {
