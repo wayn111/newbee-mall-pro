@@ -149,6 +149,10 @@ public class MallOrderManagerController extends BaseController {
         List<Order> orders = orderService.listByIds(ids);
         for (Order order : orders) {
             if (order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()
+                    || order.getOrderStatus() == OrderStatusEnum.ORDER_SUCCESS.getOrderStatus()) {
+                throw new BusinessException("编号：" + order.getOrderNo() + " 订单已关闭");
+            }
+            if (order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()
                     || order.getOrderStatus() != OrderStatusEnum.OREDER_EXPRESS.getOrderStatus()) {
                 throw new BusinessException("编号：" + order.getOrderNo() + " 订单未出库，不可关闭");
             }

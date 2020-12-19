@@ -135,7 +135,8 @@
                                 </div>
                                 <div class="form-group row">
                                     <label for="total" class="col-md-3 control-label">优惠卷数量:</label>
-                                    <input type="number" class="col-md-9 form-control" id="total" v-model="form.couponTotal"
+                                    <input type="number" class="col-md-9 form-control" id="total"
+                                           v-model="form.couponTotal"
                                            placeholder="请输入优惠卷数量，如果是0则是无限量" required="true">
                                 </div>
                                 <div class="form-group row">
@@ -197,13 +198,16 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 control-label">限制类型:</label>
                                     <div class="col-md-9 btn-group-sm btn-group-toggle">
-                                        <label :class="form.goodsType == 0?'btn btn-info active':'btn btn-info'" @click="changeGoodsType(0)">
+                                        <label :class="form.goodsType == 0?'btn btn-info active':'btn btn-info'"
+                                               @click="changeGoodsType(0)">
                                             <input type="radio" v-model="form.goodsType" :value="0">全商品
                                         </label>
-                                        <label :class="form.goodsType == 1?'btn btn-info active':'btn btn-info'" @click="changeGoodsType(1)">
+                                        <label :class="form.goodsType == 1?'btn btn-info active':'btn btn-info'"
+                                               @click="changeGoodsType(1)">
                                             <input type="radio" v-model="form.goodsType" :value="1">类目限制
                                         </label>
-                                        <label :class="form.goodsType == 2?'btn btn-info active':'btn btn-info'" @click="changeGoodsType(2)">
+                                        <label :class="form.goodsType == 2?'btn btn-info active':'btn btn-info'"
+                                               @click="changeGoodsType(2)">
                                             <input type="radio" v-model="form.goodsType" :value="2">商品限制
                                         </label>
                                     </div>
