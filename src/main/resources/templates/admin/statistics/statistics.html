@@ -84,20 +84,23 @@
 <script th:src="@{/admin/plugins/jQueryUI/jquery-ui.min.js}"></script>
 <!-- Bootstrap 3 -->
 <script th:src="@{/admin/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<!-- echarts -->
 <script th:src="@{/admin/dist/js/echarts.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script th:inline="javascript">
 
-    function init(xAxisData, seriesData) {
+    function init(countDayNum, xAxisData, seriesData) {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
 
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '商城15天交易额/单价：元'
+                text: '商城' + countDayNum + '天交易额/单价：元'
             },
             tooltip: {},
             xAxis: {
@@ -121,12 +124,18 @@
 
     function reload() {
         var beforeDayNum = $('#beforeDayNum').val() || [[${defaultDayNum}]];
+        if (parseFloat(beforeDayNum) < 1) {
+            swal("查询天数不能小于1", {
+                icon: "error",
+            });
+            return;
+        }
         $.ajax({
             type: 'GET',//方法类型
             url: _ctx + 'admin/statistics/transactionAmount/' + beforeDayNum,
             success: function (result) {
                 if (result.code == 200) {
-                    init(result.map.xAxisData, result.map.seriesData);
+                    init(beforeDayNum, result.map.xAxisData, result.map.seriesData);
                 } else {
                     swal(result.msg, {
                         icon: "error",
@@ -142,7 +151,7 @@
     }
 
     $(function () {
-        init([[${xAxisData}]], [[${seriesData}]]);
+        init([[${defaultDayNum}]], [[${xAxisData}]], [[${seriesData}]]);
     });
 </script>
 </body>
