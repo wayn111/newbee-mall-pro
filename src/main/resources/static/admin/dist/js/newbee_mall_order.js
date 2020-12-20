@@ -2,6 +2,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: _ctx + 'admin/orders/list',
         datatype: "json",
+        viewrecords: true,
         colModel: [
             {label: 'id', name: 'orderId', index: 'orderId', width: 50, key: true, hidden: true},
             {label: '订单号', name: 'orderNo', index: 'orderNo', width: 120},
@@ -29,7 +30,7 @@ $(function () {
             root: "records",
             page: "current",
             total: "pages",
-            records: "toal"
+            records: "total"
         },
         prmNames: {
             page: "pageNumber",

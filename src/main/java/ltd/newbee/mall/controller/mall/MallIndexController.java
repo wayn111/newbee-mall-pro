@@ -3,9 +3,9 @@ package ltd.newbee.mall.controller.mall;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.controller.vo.GoodsCategoryVO;
 import ltd.newbee.mall.entity.Carousels;
 import ltd.newbee.mall.entity.Goods;
+import ltd.newbee.mall.entity.vo.GoodsCategoryVO;
 import ltd.newbee.mall.enums.IndexConfigTypeEnum;
 import ltd.newbee.mall.service.CarouselsService;
 import ltd.newbee.mall.service.GoodsCategoryService;

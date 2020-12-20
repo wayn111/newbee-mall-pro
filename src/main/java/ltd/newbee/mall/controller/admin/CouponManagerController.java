@@ -3,8 +3,8 @@ package ltd.newbee.mall.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.controller.vo.CouponVO;
 import ltd.newbee.mall.entity.Coupon;
+import ltd.newbee.mall.entity.vo.CouponVO;
 import ltd.newbee.mall.service.CouponService;
 import ltd.newbee.mall.service.CouponUserService;
 import ltd.newbee.mall.util.R;
@@ -29,6 +29,7 @@ public class CouponManagerController extends BaseController {
     @GetMapping
     public String index(HttpServletRequest request) {
         request.setAttribute("configType", 3);
+        request.setAttribute("path", "coupon");
         return PREFIX + "/coupon";
     }
 

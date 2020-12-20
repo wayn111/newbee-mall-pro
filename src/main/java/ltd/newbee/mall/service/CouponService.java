@@ -3,10 +3,10 @@ package ltd.newbee.mall.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import ltd.newbee.mall.controller.vo.CouponVO;
-import ltd.newbee.mall.controller.vo.MyCouponVO;
-import ltd.newbee.mall.controller.vo.ShopCatVO;
 import ltd.newbee.mall.entity.Coupon;
+import ltd.newbee.mall.entity.vo.CouponVO;
+import ltd.newbee.mall.entity.vo.MyCouponVO;
+import ltd.newbee.mall.entity.vo.ShopCatVO;
 
 import java.util.List;
 

@@ -23,7 +23,7 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.controller.vo.SearchPageGoodsVO">
+    <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.entity.vo.SearchPageGoodsVO">
         <id column="goods_id" property="goodsId"/>
         <result column="goods_name" property="goodsName"/>
         <result column="goods_intro" property="goodsIntro"/>
@@ -60,7 +60,7 @@
         </where>
     </select>
 
-    <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.controller.vo.SearchObjVO"
+    <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.entity.vo.SearchObjVO"
             resultMap="SearchVOResultMap">
         <include refid="selectGoods"></include>
         <where>

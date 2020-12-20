@@ -120,6 +120,13 @@
                             <p>优惠卷管理</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a th:href="@{/admin/seckill}"
+                           th:class="${path}=='seckill'?'nav-link active':'nav-link'">
+                            <i class="fa fa-buysellads nav-icon"></i>
+                            <p>秒杀管理</p>
+                        </a>
+                    </li>
                     <li class="nav-header">系统管理</li>
                     <li class="nav-item">
                         <a th:href="@{/admin/profile}"

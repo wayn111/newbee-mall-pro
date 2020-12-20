@@ -2,8 +2,8 @@ package ltd.newbee.mall.intercepter;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.controller.vo.MallUserVO;
 import ltd.newbee.mall.entity.ShopCat;
+import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.service.ShopCatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;

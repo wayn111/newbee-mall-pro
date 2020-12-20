@@ -1,4 +1,4 @@
-package ltd.newbee.mall.controller.vo;
+package ltd.newbee.mall.entity.vo;
 
 import lombok.Data;
 
@@ -6,21 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class OrderDetailVO {
+public class OrderListVO {
+    private Long orderId;
 
     private String orderNo;
 
     private Integer totalPrice;
 
-    private Byte payStatus;
-
-    private String payStatusString;
-
     private Byte payType;
-
-    private String payTypeString;
-
-    private Date payTime;
 
     private Byte orderStatus;
 

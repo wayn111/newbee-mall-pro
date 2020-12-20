@@ -1,4 +1,4 @@
-package ltd.newbee.mall.controller.vo;
+package ltd.newbee.mall.entity.vo;
 
 import lombok.Data;
 

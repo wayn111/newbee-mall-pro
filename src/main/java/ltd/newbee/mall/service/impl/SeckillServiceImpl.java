@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ltd.newbee.mall.dao.SeckillDao;
 import ltd.newbee.mall.entity.Seckill;
+import ltd.newbee.mall.entity.vo.SeckillVO;
 import ltd.newbee.mall.service.SeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     private SeckillDao seckillDao;
 
     @Override
-    public IPage selectPage(Page<Seckill> page, Seckill seckill) {
-        return seckillDao.selectListPage(page, seckill);
+    public IPage selectPage(Page<Seckill> page, SeckillVO seckillVO) {
+        return seckillDao.selectListPage(page, seckillVO);
     }
 }

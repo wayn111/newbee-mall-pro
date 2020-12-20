@@ -2,6 +2,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: _ctx + 'admin/carousels/list',
         datatype: "json",
+        viewrecords: true,
         colModel: [
             {label: 'id', name: 'carouselId', index: 'carouselId', width: 50, key: true, hidden: true},
             {label: '轮播图', name: 'carouselUrl', index: 'carouselUrl', width: 180, formatter: coverImageFormatter},
@@ -23,7 +24,7 @@ $(function () {
             root: "records",
             page: "current",
             total: "pages",
-            records: "toal"
+            records: "total"
         },
         prmNames: {
             page: "pageNumber",

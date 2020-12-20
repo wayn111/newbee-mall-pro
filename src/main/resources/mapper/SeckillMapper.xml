@@ -36,7 +36,16 @@
     <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Seckill" resultMap="BaseResultMap">
         <include refid="selectSeckill"></include>
         <where>
-            t.is_deleted = 0
+            s.is_deleted = 0
+            <if test="seckill.goodsId != null">
+                and s.goods_id = #{seckill.goodsId}
+            </if>
+            <if test="seckill.startTime != null and seckill.startTime != ''">
+                and DATE_FORMAT(s.create_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{seckill.startTime},'%Y-%m-%d')
+            </if>
+            <if test="seckill.endTime != null and seckill.endTime != ''">
+                and DATE_FORMAT(s.create_time,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(#{seckill.endTime},'%Y-%m-%d')
+            </if>
         </where>
     </select>
 </mapper>

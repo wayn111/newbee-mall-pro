@@ -1,14 +1,9 @@
-package ltd.newbee.mall.controller.vo;
+package ltd.newbee.mall.entity.vo;
 
 import lombok.Data;
 
-/**
- * 购物车VO对象
- */
 @Data
-public class ShopCatVO {
-    private Long cartItemId;
-
+public class OrderItemVO {
     private Long goodsId;
 
     private Integer goodsCount;
@@ -18,4 +13,5 @@ public class ShopCatVO {
     private String goodsCoverImg;
 
     private Integer sellingPrice;
+
 }

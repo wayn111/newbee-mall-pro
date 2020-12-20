@@ -23,17 +23,17 @@ public class CaptchaConfig {
         // 验证码文本字符颜色 默认为Color.BLACK
         properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "blue");
         // 验证码图片宽度 默认为200
-        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "100");
+        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "130");
         // 验证码图片高度 默认为50
-        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "37");
+        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "40");
         // 验证码文本字符大小 默认为40
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_SIZE, "25");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_SIZE, "35");
         // 验证码文本字符长度 默认为4
         properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
         // 验证码文本字符间隔 默认为2
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_SPACE, "6");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_SPACE, "8");
         // 验证码文本字符来源
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_STRING, "abcdefghijklmnopqrstuvwxyz");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_STRING, "abc123457890qwezxc");
         // KAPTCHA_SESSION_KEY
         properties.setProperty(KAPTCHA_SESSION_CONFIG_KEY, "kaptcha.code");
         // 噪点设置

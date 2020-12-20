@@ -3,8 +3,8 @@ package ltd.newbee.mall.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import ltd.newbee.mall.controller.vo.*;
 import ltd.newbee.mall.entity.Order;
+import ltd.newbee.mall.entity.vo.*;
 
 import java.util.List;
 

@@ -2,10 +2,10 @@ package ltd.newbee.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import ltd.newbee.mall.controller.vo.ShopCatVO;
 import ltd.newbee.mall.dao.ShopCatDao;
 import ltd.newbee.mall.entity.Goods;
 import ltd.newbee.mall.entity.ShopCat;
+import ltd.newbee.mall.entity.vo.ShopCatVO;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.ShopCatService;

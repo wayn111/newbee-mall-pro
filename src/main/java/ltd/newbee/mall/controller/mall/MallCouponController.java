@@ -2,8 +2,8 @@ package ltd.newbee.mall.controller.mall;
 
 
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.controller.vo.CouponVO;
-import ltd.newbee.mall.controller.vo.MallUserVO;
+import ltd.newbee.mall.entity.vo.CouponVO;
+import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.service.CouponService;
 import ltd.newbee.mall.service.CouponUserService;
 import ltd.newbee.mall.util.R;

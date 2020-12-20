@@ -1,19 +1,17 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: _ctx + 'admin/coupon/list',
+        url: _ctx + 'admin/seckill/list',
         datatype: "json",
         viewrecords: true,
         colModel: [
-            {label: 'id', name: 'couponId', index: 'couponId', key: true, hidden: true},
-            {label: '优惠卷名称', name: 'name', index: 'name'},
-            {label: '优惠卷简介', name: 'couponDesc', index: 'couponDesc'},
-            {label: '数量', name: 'couponTotal', index: 'couponTotal', width: '100px', formatter: totalFormatter},
-            {label: '优惠金额', name: 'discount', index: 'discount', width: '100px'},
-            {label: '最低消费金额', name: 'min', index: 'min', width: '100px'},
-            {label: '限制数量', name: 'couponLimit', index: 'couponLimit', width: '100px', formatter: limitFormatter},
-            {label: '有效天数', name: 'days', index: 'days', width: '100px'},
-            {label: '赠送类型', name: 'couponType', index: 'couponType', formatter: typeFormatter},
-            {label: '状态', name: 'status', index: 'status', formatter: statusFormatter},
+            {label: 'id', name: 'seckillId', index: 'seckillId', key: true, hidden: true},
+            {label: '秒杀商品Id', name: 'goodsId', index: 'goodsId'},
+            {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
+            {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
+            {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px', formatter: limitFormatter},
+            {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin', width: '100px'},
+            {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd', width: '100px'},
+            {label: '商品排序', name: 'seckillRank', index: 'seckillRank', width: '100px'},
             {label: '创建时间', name: 'createTime', index: 'createTime'}
         ],
         height: 560,
@@ -99,9 +97,7 @@ $(function () {
  * jqGrid重新加载
  */
 function reload() {
-    var couponName = $('#couponName').val() || '';
-    var couponType = $('#couponType').val() || '';
-    var status = $('#status').val() || '';
+    var goodsId = $('#queryGoodsId').val() || '';
     var createTime = $('#createTime').val() || '';
     var timeArr = createTime && createTime.split('-') || ['', ''];
     var startTime = timeArr[0].trim();
@@ -111,9 +107,7 @@ function reload() {
     $("#jqGrid").jqGrid('setGridParam', {
         page: page,
         postData: {
-            name: couponName,
-            couponType: couponType,
-            status: status,
+            goodsId: goodsId,
             startTime: startTime,
             endTime: endTime
         }
@@ -126,34 +120,30 @@ var vm = new Vue({
         title: '',
         goodsValueLabel: '',
         form: {
-            name: '',
-            couponDesc: '',
-            couponTotal: undefined,
-            discount: undefined,
-            min: undefined,
-            days: undefined,
-            couponLimit: 0,
-            couponType: 0,
-            status: 0,
-            goodsType: 0,
-            goodsValue: ''
+            goodsId: '',
+            seckillPrice: '',
+            seckillNum: undefined,
+            limitNum: undefined,
+            seckillBegin: undefined,
+            seckillEnd: undefined,
+            seckillRank: undefined,
         }
     },
     methods: {
-        couponAdd() {
+        seckillAdd() {
             this.reset();
-            this.title = '首页配置项添加';
-            $('#couponModal').modal('show');
+            this.title = '秒杀商品添加';
+            $('#seckillModal').modal('show');
         },
-        couponEdit() {
+        seckillEdit() {
             this.reset();
-            this.title = '首页配置项编辑';
+            this.title = '秒杀商品编辑';
             var that = this;
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
-            var url = _ctx + 'admin/coupon/' + id;
+            var url = _ctx + 'admin/seckill/' + id;
             $.get(url, function (res) {
                 if (res.code != 200) {
                     swal("操作失败", {
@@ -168,7 +158,7 @@ var vm = new Vue({
                     that.goodsValueLabel = '商品id'
                 }
             }, 'json')
-            $('#couponModal').modal('show');
+            $('#seckillModal').modal('show');
         },
         changeGoodsType(goodsType) {
             this.form.goodsValue = '';
@@ -181,17 +171,13 @@ var vm = new Vue({
         reset() {
             $('#edit-error-msg').css("display", "none");
             vm.form = {
-                name: '',
-                couponDesc: '',
-                couponTotal: undefined,
-                discount: undefined,
-                min: undefined,
-                days: undefined,
-                couponLimit: 0,
-                couponType: 0,
-                status: 0,
-                goodsType: 0,
-                goodsValue: ''
+                goodsId: '',
+                seckillPrice: '',
+                seckillNum: undefined,
+                limitNum: undefined,
+                seckillBegin: undefined,
+                seckillEnd: undefined,
+                seckillRank: undefined,
             }
         },
         save() {
@@ -201,35 +187,10 @@ var vm = new Vue({
                 $('#edit-error-msg').html("请输入优惠卷名称！");
                 return;
             }
-            if (isNull(form.couponTotal) || form.couponTotal < 0) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入优惠卷数量且不能小于0！");
-                return;
-            }
-            if (isNull(form.discount) || form.discount < 0) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入优惠金额且不能小于0！");
-                return;
-            }
-            if (isNull(form.min) || form.min < 0) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入最少消费金额且不能小于0！");
-                return;
-            }
-            if (isNull(form.days) || form.days < 0) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入有效天数且不能小于0！");
-                return;
-            }
-            if (form.goodsType != 0 && isNull(form.goodsValue)) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入" + this.goodsValueLabel + "！");
-                return;
-            }
-            var url = _ctx + 'admin/coupon/save';
+            var url = _ctx + 'admin/seckill/save';
             var data = this.form;
-            if (form.couponId != null) {
-                url = _ctx + 'admin/coupon/update';
+            if (form.seckillId != null) {
+                url = _ctx + 'admin/seckill/update';
             }
             $.ajax({
                 type: 'POST',//方法类型
@@ -238,13 +199,13 @@ var vm = new Vue({
                 data: JSON.stringify(data),
                 success: function (result) {
                     if (result.code == 200) {
-                        $('#couponModal').modal('hide');
+                        $('#seckillModal').modal('hide');
                         swal("保存成功", {
                             icon: "success",
                         });
                         reload();
                     } else {
-                        $('#couponModal').modal('hide');
+                        $('#seckillModal').modal('hide');
                         swal(result.msg, {
                             icon: "error",
                         });
@@ -257,12 +218,12 @@ var vm = new Vue({
                 }
             });
         },
-        deleteCoupon() {
+        deleteSeckill() {
             var id = getSelectedRow();
             if (id == null) {
                 return;
             }
-            var url = _ctx + 'admin/coupon/' + id;
+            var url = _ctx + 'admin/seckill/' + id;
             $.ajax({
                 url: url,
                 cache: false,

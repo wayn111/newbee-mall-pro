@@ -5,6 +5,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: _ctx + 'admin/categories/list?categoryLevel=' + categoryLevel + '&parentId=' + parentId,
         datatype: "json",
+        viewrecords: true,
         colModel: [
             {label: 'id', name: 'categoryId', index: 'categoryId', width: 50, key: true, hidden: true},
             {label: '分类名称', name: 'categoryName', index: 'categoryName', width: 240},
@@ -25,7 +26,7 @@ $(function () {
             root: "records",
             page: "current",
             total: "pages",
-            records: "toal"
+            records: "total"
         },
         prmNames: {
             page: "pageNumber",

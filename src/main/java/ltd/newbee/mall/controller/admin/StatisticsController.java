@@ -1,7 +1,7 @@
 package ltd.newbee.mall.controller.admin;
 
 import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.controller.vo.DayTransactionAmountVO;
+import ltd.newbee.mall.entity.vo.DayTransactionAmountVO;
 import ltd.newbee.mall.service.OrderService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;

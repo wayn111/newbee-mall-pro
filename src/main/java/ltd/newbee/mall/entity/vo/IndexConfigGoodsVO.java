@@ -1,15 +1,9 @@
-package ltd.newbee.mall.controller.vo;
+package ltd.newbee.mall.entity.vo;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
-/**
- * 搜索列表页商品VO
- */
 @Data
-public class SearchPageGoodsVO implements Serializable {
-
+public class IndexConfigGoodsVO {
     private Long goodsId;
 
     private String goodsName;
@@ -20,4 +14,5 @@ public class SearchPageGoodsVO implements Serializable {
 
     private Integer sellingPrice;
 
+    private String tag;
 }

@@ -19,7 +19,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <resultMap id="VOResultMap" type="ltd.newbee.mall.controller.vo.OrderListVO">
+    <resultMap id="VOResultMap" type="ltd.newbee.mall.entity.vo.OrderListVO">
         <id column="order_id" property="orderId"/>
         <result column="order_no" property="orderNo"/>
         <result column="total_price" property="totalPrice"/>
@@ -29,7 +29,7 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.controller.vo.DayTransactionAmountVO">
+    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.entity.vo.DayTransactionAmountVO">
         <result column="days" property="days"/>
         <result column="total_price" property="totalPrice"/>
     </resultMap>
@@ -41,7 +41,7 @@
         from tb_newbee_mall_order t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.controller.vo.OrderVO" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.vo.OrderVO" resultMap="BaseResultMap">
         <include refid="selectOrder"></include>
         <where>
             t.is_deleted = 0

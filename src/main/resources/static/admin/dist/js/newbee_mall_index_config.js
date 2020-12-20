@@ -4,6 +4,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: _ctx + 'admin/indexConfigs/list?configType=' + configType,
         datatype: "json",
+        viewrecords: true,
         colModel: [
             {label: 'id', name: 'configId', index: 'configId', width: 50, key: true, hidden: true},
             {label: '配置项名称', name: 'configName', index: 'configName', width: 180},
@@ -26,7 +27,7 @@ $(function () {
             root: "records",
             page: "current",
             total: "pages",
-            records: "toal"
+            records: "total"
         },
         prmNames: {
             page: "pageNumber",
