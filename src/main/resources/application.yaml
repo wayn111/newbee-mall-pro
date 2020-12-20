@@ -1,7 +1,7 @@
 server:
   compression:
     enabled: true
-    min-response-size: 1024
+    min-response-size: 1KB
   port: 84
   servlet:
     context-path: /mall
