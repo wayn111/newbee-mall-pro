@@ -2,7 +2,6 @@ package ltd.newbee.mall.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -21,7 +20,6 @@ public class ShopCat {
 
     private Integer goodsCount;
 
-    @TableLogic
     private Byte isDeleted;
 
     private Date createTime;

@@ -1,6 +1,5 @@
 package ltd.newbee.mall.config;
 
-import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.intercepter.AdminLoginInterceptor;
 import ltd.newbee.mall.intercepter.MallLoginValidateIntercepter;
 import ltd.newbee.mall.intercepter.MallShopCartNumberInterceptor;

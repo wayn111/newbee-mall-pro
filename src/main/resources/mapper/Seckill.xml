@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.dao.SeckillDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Seckill">
+        <id column="seckill_id" property="seckillId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="seckill_price" property="seckillPrice"/>
+        <result column="seckill_num" property="seckillNum"/>
+        <result column="limit_num" property="limitNum"/>
+        <result column="seckill_rank" property="seckillRank"/>
+        <result column="seckill_begin" property="seckillBegin"/>
+        <result column="seckill_end" property="seckillEnd"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="selectSeckill">
+        select s.seckill_id,
+               s.goods_id,
+               s.seckill_price,
+               s.seckill_num,
+               s.limit_num,
+               s.seckill_rank,
+               s.limit_num,
+               s.seckill_begin,
+               s.seckill_end,
+               s.update_time,
+               s.create_time,
+               s.is_deleted
+        from tb_newbee_mall_seckill s
+    </sql>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Seckill" resultMap="BaseResultMap">
+        <include refid="selectSeckill"></include>
+        <where>
+            t.is_deleted = 0
+        </where>
+    </select>
+</mapper>
