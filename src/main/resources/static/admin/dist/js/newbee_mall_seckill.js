@@ -80,16 +80,19 @@ $(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
     });
 
-    $('#createTime').daterangepicker({
+    $('#createTime, #seckillBegin').daterangepicker({
+        singleDatePicker: true,
         autoUpdateInput: false,
         showDropdowns: true,
-        startDate: moment().startOf('hour'),
-        endDate: moment().startOf('hour').add(12, 'hour'),
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerSeconds: true,
+        startDate: moment().hours(0).minutes(0).seconds(0), //设置开始日期
         locale: datepickerLocale()
     });
 
-    $('#createTime').on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+    $('#createTime, #seckillBegin').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY/MM/DD HH:mm:ss'));
     });
 });
 
