@@ -113,36 +113,42 @@
                                 <div class="form-group row">
                                     <label for="goodsId" class="col-md-3 control-label">商品ID:</label>
                                     <input type="text" class="col-md-9 form-control" id="goodsId" v-model="form.goodsId"
-                                           placeholder="请输入商品ID" required="true">
+                                           placeholder="*请输入商品ID" required="true">
                                 </div>
                                 <div class="form-group row">
                                     <label for="seckillPrice" class="col-md-3 control-label">秒杀价格:</label>
                                     <input type="number" class="col-md-9 form-control" id="seckillPrice"
                                            v-model="form.seckillPrice"
-                                           placeholder="请输入秒杀价格" required="true">
+                                           placeholder="*请输入秒杀价格" required="true">
                                 </div>
                                 <div class="form-group row">
-                                    <label for="seckillNum" class="col-md-3 control-label">优惠数量:</label>
+                                    <label for="seckillNum" class="col-md-3 control-label">秒杀数量:</label>
                                     <input type="number" class="col-md-9 form-control" id="seckillNum"
                                            v-model="form.seckillNum"
-                                           placeholder="请输入优惠数量">
+                                           placeholder="*请输入秒杀数量">
                                 </div>
                                 <div class="form-group row">
                                     <label for="limitNum" class="col-md-3 control-label">限购数量:</label>
                                     <input type="number" class="col-md-9 col-md-9 form-control" id="limitNum"
                                            v-model="form.limitNum"
-                                           placeholder="请输入限购数量">
+                                           placeholder="*请输入限购数量">
                                 </div>
                                 <div class="form-group row">
                                     <label for="seckillBegin" class="col-md-3 control-label">秒杀开始时间:</label>
                                     <input type="text" class="col-md-9 col-md-9 form-control" id="seckillBegin"
                                            v-model="form.seckillBegin"
-                                           placeholder="请输入秒杀开始时间">
+                                           placeholder="*请输入秒杀开始时间">
                                 </div>
                                 <div class="form-group row">
-                                    <label for="seckillSort" class="col-md-3 control-label">商品排序:</label>
-                                    <input type="number" class="col-md-9 col-md-9 form-control" id="seckillSort"
-                                           v-model="form.seckillSort"
+                                    <label for="seckillEnd" class="col-md-3 control-label">秒杀结束时间:</label>
+                                    <input type="text" class="col-md-9 col-md-9 form-control" id="seckillEnd"
+                                           v-model="form.seckillEnd"
+                                           placeholder="*请输入秒杀结束时间">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="seckillRank" class="col-md-3 control-label">商品排序:</label>
+                                    <input type="number" class="col-md-9 col-md-9 form-control" id="seckillRank"
+                                           v-model="form.seckillRank"
                                            placeholder="请输入商品排序">
                                 </div>
                             </form>

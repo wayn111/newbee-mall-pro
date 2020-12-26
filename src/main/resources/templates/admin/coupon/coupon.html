@@ -131,30 +131,30 @@
                                 <div class="form-group row">
                                     <label for="name" class="col-md-3 control-label">优惠卷名称:</label>
                                     <input type="text" class="col-md-9 form-control" id="name" v-model="form.name"
-                                           placeholder="请输入优惠卷名称" required="true">
+                                           placeholder="*请输入优惠卷名称" required="true">
                                 </div>
                                 <div class="form-group row">
                                     <label for="total" class="col-md-3 control-label">优惠卷数量:</label>
                                     <input type="number" class="col-md-9 form-control" id="total"
                                            v-model="form.couponTotal"
-                                           placeholder="请输入优惠卷数量，如果是0则是无限量" required="true">
+                                           placeholder="*请输入优惠卷数量，如果是0则是无限量" required="true">
                                 </div>
                                 <div class="form-group row">
                                     <label for="discount" class="col-md-3 control-label">优惠金额:</label>
                                     <input type="number" class="col-md-9 form-control" id="discount"
                                            v-model="form.discount"
-                                           placeholder="请输入优惠金额">
+                                           placeholder="*请输入优惠金额">
                                 </div>
                                 <div class="form-group row">
                                     <label for="min" class="col-md-3 control-label">最少消费金额:</label>
                                     <input type="number" class="col-md-9 col-md-9 form-control" id="min"
                                            v-model="form.min"
-                                           placeholder="请输入最少消费金额">
+                                           placeholder="*请输入最少消费金额">
                                 </div>
                                 <div class="form-group row">
                                     <label for="days" class="col-md-3 control-label">有效天数:</label>
                                     <input type="number" class="col-md-9 form-control" id="days" v-model="form.days"
-                                           placeholder="请输入最少消费金额">
+                                           placeholder="*请输入最少消费金额">
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 control-label">领取限制数量:</label>
@@ -215,7 +215,7 @@
                                 <div class="form-group row" v-show="form.goodsType != 0">
                                     <label class="col-md-3 control-label">{{goodsValueLabel}}</label>
                                     <input type="text" class="col-md-9 form-control" v-model="form.goodsValue"
-                                           :placeholder="'请输入' + goodsValueLabel + ',多个用逗号分隔'">
+                                           :placeholder="'*请输入' + goodsValueLabel + ',多个用逗号分隔'">
                                 </div>
                                 <div class="form-group row">
                                     <label for="desc" class="col-md-3 control-label">优惠卷简介:</label>

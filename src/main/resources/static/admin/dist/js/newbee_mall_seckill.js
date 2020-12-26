@@ -4,14 +4,14 @@ $(function () {
         datatype: "json",
         viewrecords: true,
         colModel: [
-            {label: 'id', name: 'seckillId', index: 'seckillId', key: true, hidden: true},
+            {label: '序号', name: 'seckillId', index: 'seckillId', key: true, width: '50px'},
             {label: '秒杀商品Id', name: 'goodsId', index: 'goodsId'},
             {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
             {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
             {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px', formatter: limitFormatter},
-            {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin', width: '100px'},
-            {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd', width: '100px'},
-            {label: '商品排序', name: 'seckillRank', index: 'seckillRank', width: '100px'},
+            {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin'},
+            {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd'},
+            {label: '商品排序', name: 'seckillRank', index: 'seckillRank'},
             {label: '创建时间', name: 'createTime', index: 'createTime'}
         ],
         height: 560,
@@ -80,7 +80,19 @@ $(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
     });
 
-    $('#createTime, #seckillBegin').daterangepicker({
+    $('#createTime').daterangepicker({
+        autoUpdateInput: false,
+        showDropdowns: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(12, 'hour'),
+        locale: datepickerLocale()
+    });
+
+    $('#createTime').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY/MM/DD') + ' - ' + picker.endDate.format('YYYY/MM/DD'));
+    });
+
+    $('#seckillBegin, #seckillEnd').daterangepicker({
         singleDatePicker: true,
         autoUpdateInput: false,
         showDropdowns: true,
@@ -91,8 +103,9 @@ $(function () {
         locale: datepickerLocale()
     });
 
-    $('#createTime, #seckillBegin').on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY/MM/DD HH:mm:ss'));
+    $('#seckillBegin, #seckillEnd').on('apply.daterangepicker', function (ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+        vm.form[$(this).attr('id')] = picker.startDate.format('YYYY-MM-DD HH:mm:ss')
     });
 });
 
@@ -185,9 +198,34 @@ var vm = new Vue({
         },
         save() {
             var form = this.form
-            if (isNull(form.name)) {
+            if (isNull(form.goodsId)) {
                 $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入优惠卷名称！");
+                $('#edit-error-msg').html("请输入商品ID！");
+                return;
+            }
+            if (isNull(form.seckillPrice)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("请输入秒杀价格！");
+                return;
+            }
+            if (isNull(form.seckillNum)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("请输入秒杀数量！");
+                return;
+            }
+            if (isNull(form.limitNum)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("请输入限购数量！");
+                return;
+            }
+            if (isNull(form.seckillBegin)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("秒杀开始时间！");
+                return;
+            }
+            if (isNull(form.seckillEnd)) {
+                $('#edit-error-msg').css("display", "block");
+                $('#edit-error-msg').html("秒杀结束时间！");
                 return;
             }
             var url = _ctx + 'admin/seckill/save';
@@ -208,7 +246,7 @@ var vm = new Vue({
                         });
                         reload();
                     } else {
-                        $('#seckillModal').modal('hide');
+                        // $('#seckillModal').modal('hide');
                         swal(result.msg, {
                             icon: "error",
                         });

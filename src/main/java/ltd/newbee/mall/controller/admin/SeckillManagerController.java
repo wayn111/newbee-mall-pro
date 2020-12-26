@@ -3,16 +3,17 @@ package ltd.newbee.mall.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.entity.Coupon;
 import ltd.newbee.mall.entity.Seckill;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 import ltd.newbee.mall.service.SeckillService;
+import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @Controller
 @RequestMapping("admin/seckill")
@@ -37,5 +38,29 @@ public class SeckillManagerController extends BaseController {
     public IPage list(SeckillVO seckillVO, HttpServletRequest request) {
         Page<Seckill> page = getPage(request);
         return seckillService.selectPage(page, seckillVO);
+    }
+
+    @ResponseBody
+    @PostMapping("/save")
+    public R save(@RequestBody Seckill seckill) {
+        seckillService.save(seckill);
+        return R.success();
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public R update(@RequestBody Seckill seckill) {
+        seckill.setUpdateTime(new Date());
+        seckillService.updateById(seckill);
+        return R.success();
+    }
+
+    /**
+     * 详情
+     */
+    @GetMapping("/{id}")
+    @ResponseBody
+    public R Info(@PathVariable("id") Long id) {
+        return R.success().add("data", seckillService.getById(id));
     }
 }

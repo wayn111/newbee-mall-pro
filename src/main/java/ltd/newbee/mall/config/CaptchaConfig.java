@@ -33,7 +33,7 @@ public class CaptchaConfig {
         // 验证码文本字符间隔 默认为2
         properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_SPACE, "8");
         // 验证码文本字符来源
-        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_STRING, "abc123457890qwezxc");
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_STRING, "abc12345780qwezxc");
         // KAPTCHA_SESSION_KEY
         properties.setProperty(KAPTCHA_SESSION_CONFIG_KEY, "kaptcha.code");
         // 噪点设置

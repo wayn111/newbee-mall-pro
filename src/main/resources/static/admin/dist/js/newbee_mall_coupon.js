@@ -244,7 +244,7 @@ var vm = new Vue({
                         });
                         reload();
                     } else {
-                        $('#couponModal').modal('hide');
+                        // $('#couponModal').modal('hide');
                         swal(result.msg, {
                             icon: "error",
                         });
