@@ -9,6 +9,7 @@
         <result column="seckill_price" property="seckillPrice"/>
         <result column="seckill_num" property="seckillNum"/>
         <result column="limit_num" property="limitNum"/>
+        <result column="status" property="status"/>
         <result column="seckill_rank" property="seckillRank"/>
         <result column="seckill_begin" property="seckillBegin"/>
         <result column="seckill_end" property="seckillEnd"/>
@@ -25,6 +26,7 @@
                s.limit_num,
                s.seckill_rank,
                s.limit_num,
+               s.status,
                s.seckill_begin,
                s.seckill_end,
                s.update_time,
@@ -39,6 +41,9 @@
             s.is_deleted = 0
             <if test="seckill.goodsId != null">
                 and s.goods_id = #{seckill.goodsId}
+            </if>
+            <if test="seckill.status != null">
+                and s.status = #{seckill.status}
             </if>
             <if test="seckill.startTime != null and seckill.startTime != ''">
                 and DATE_FORMAT(s.create_time,'%Y-%m-%d') <![CDATA[ >= ]]> DATE_FORMAT(#{seckill.startTime},'%Y-%m-%d')

@@ -33,6 +33,11 @@ public class SeckillVO {
     private Short limitNum;
 
     /**
+     * 秒杀商品状态（0下架，1上架）
+     */
+    private Byte status;
+
+    /**
      * 秒杀开始时间
      */
     private Date seckillBegin;

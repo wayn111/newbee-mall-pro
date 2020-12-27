@@ -36,6 +36,11 @@ public class Seckill implements Serializable {
     private Integer seckillNum;
 
     /**
+     * 秒杀商品状态（0下架，1上架）
+     */
+    private Byte status;
+
+    /**
      * 秒杀限购
      */
     private Short limitNum;

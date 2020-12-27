@@ -120,6 +120,7 @@
     width: 100%;
 }
 
+/*轮播图*/
 #content #banner {
     width: 1226px;
     flex-shrink: 0;
@@ -285,6 +286,7 @@
     opacity: 1;
 }
 
+/*新品上线*/
 #content #flash {
     width: 1226px;
     flex-shrink: 0;
@@ -393,6 +395,7 @@
     color: #605751;
 }
 
+/*为你推荐*/
 #content #recommend {
     width: 1226px;
     position: relative;
@@ -520,3 +523,112 @@
     font-size: 12px;
     margin-top: 5px;
 }
+
+
+/*秒杀专区*/
+#content #seckill {
+    width: 1226px;
+    flex-shrink: 0;
+    padding: 20px 0 25px 0;
+}
+
+#content #seckill > h2 {
+    height: 58px;
+    line-height: 58px;
+}
+
+#content #seckill ul {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+#content #seckill ul li {
+    width: 234px;
+    height: 312px;
+    background-color: #fafafa;
+    border-top: 1px solid #ffa500;
+    margin: 15px 10px 0 0;
+}
+
+#content #seckill ul li:nth-child(2) {
+    border-color: #008000;
+}
+
+#content #seckill ul li:nth-child(3) {
+    border-color: #00f;
+}
+
+#content #seckill ul li:nth-child(4) {
+    border-color: #f00;
+}
+
+#content #seckill ul li:nth-child(5) {
+    border-color: #008080;
+}
+
+#content #seckill ul li a {
+    display: block;
+    font-size: 14px;
+    text-align: center;
+}
+
+#content #seckill ul li a img {
+    width: 160px;
+    height: 160px;
+    opacity: 0.8;
+    margin: 37px;
+}
+
+#content #seckill ul li a price {
+    display: flex;
+    margin: 5px 0 0 0;
+    display: flex;
+    height: 50px;
+}
+
+#content #seckill ul li a .priceMod {
+    display: flex;
+    margin: 5px 0 0 0;
+    height: 50px;
+}
+
+#content #seckill ul li a .priceMod .seckillPrice {
+    flex: auto;
+    color: red;
+    line-height: 50px;
+    font-size: 24px;
+}
+
+#content #seckill ul li a .priceMod .originPrice {
+    flex: auto;
+    text-align: left;
+    line-height: 58px;
+    font-size: 5px;
+}
+
+
+#content #seckill ul li a .priceMod .seckillButton {
+    flex: auto;
+}
+
+#content #seckill ul li a .priceMod .seckillButton button {
+    width: 100%;
+    height: 100%;
+    border-width: 0px; /* 边框宽度 */
+    border-radius: 3px; /* 边框半径 */
+    background: #1E90FF; /* 背景颜色 */
+    cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+    outline: none; /* 不显示轮廓线 */
+    font-family: Microsoft YaHei; /* 设置字体 */
+    color: white; /* 字体颜色 */
+    font-size: 17px; /* 字体大小 */
+}
+
+#content #seckill ul li a .priceMod .seckillButton button:hover {
+    background-color: lightskyblue;
+}
+
+
+
+
