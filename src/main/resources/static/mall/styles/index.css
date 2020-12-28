@@ -551,6 +551,10 @@
     margin: 15px 10px 0 0;
 }
 
+#content #seckill ul li:hover {
+    box-shadow: 0px 0px 30px #ccc;
+}
+
 #content #seckill ul li:nth-child(2) {
     border-color: #008000;
 }
@@ -629,6 +633,6 @@
     background-color: lightskyblue;
 }
 
-
-
-
+#content #seckill ul li a img:hover {
+    opacity: 1;
+}
