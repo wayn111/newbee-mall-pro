@@ -16,7 +16,7 @@
             <th:block th:unless="${#lists.isEmpty(seckillList)}">
                 <th:block th:each="seckill : ${seckillList}">
                     <li>
-                        <a th:href="@{'/goods/detail/'+${seckill.goodsId}}">
+                        <a th:href="@{'/seckill/detail/'+${seckill.seckillId}}">
                             <img th:src="@{${seckill.goodsCoverImg}}" th:alt="${seckill.goodsName}">
                             <p class="name" th:text="${seckill.goodsName}">NewBeeMall</p>
                             <div class="priceMod">
@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="originPrice">
                                     ￥
-                                    <del th:text="${seckill.originPrice}" style="text-decoration:line-through; ">
+                                    <del th:text="${seckill.originalPrice}" style="text-decoration:line-through; ">
                                         NewBeeMall
                                     </del>
                                 </div>
