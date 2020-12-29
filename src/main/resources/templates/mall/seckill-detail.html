@@ -4,6 +4,7 @@
 </head>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
+<link rel="stylesheet" th:href="@{/mall/css/bootstrap.min.css}">
 
 <div id="detail">
     <!-- nav -->
@@ -31,6 +32,12 @@
             </div>
         </div>
         <div class="right fr">
+            <h2 class="text-danger">
+                <!-- 显示time图标 -->
+                <span class="glyphicon glyphicon-time"></span>
+                <!-- 展示倒计时 -->
+                <span class="glyphicon" id="seckillBox"></span>
+            </h2>
             <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">NewBeeMall</div>
             <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">NewBeeMall</div>
             <div class="item_price mr40 ml20 mt10">
@@ -78,9 +85,23 @@
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/jquery.countdown.min.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
+<script th:src="@{/mall/js/seckill.js}" type="text/javascript"></script>
 <script type="text/javascript">
+    $(function () {
+        //使用EL表达式传入参数
+        // seckill.detail.init({
+        //     seckillId: 1,
+        //     startTime: 1609255838000,//毫秒
+        //     endTime: 1609256938000
+        // });
+        $('#seckillBox').countdown('2021/01/01', function (event) {
+            $(this).html(event.strftime('秒杀倒计时：%D天 %H时 %M分 %S秒'));
+        });
+    });
+
     /**
      * 添加到购物车
      */

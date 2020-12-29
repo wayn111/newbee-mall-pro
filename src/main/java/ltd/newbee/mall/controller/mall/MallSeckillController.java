@@ -73,6 +73,8 @@ public class MallSeckillController {
         Map<String, Object> map = new HashMap<>();
         map.put("goodsId", goodsId);
         map.put("seckillPrice", seckill.getSeckillPrice());
+        map.put("startDate", seckill.getSeckillBegin());
+        map.put("endDate", seckill.getSeckillEnd());
         Goods goods = goodsService.getById(seckill.getGoodsId());
         map.put("goodsName", goods.getGoodsName());
         map.put("goodsIntro", goods.getGoodsIntro());
@@ -80,7 +82,24 @@ public class MallSeckillController {
         map.put("goodsCoverImg", goods.getGoodsCoverImg());
         map.put("goodsIntro", goods.getGoodsIntro());
         map.put("goodsDetailContent", goods.getGoodsDetailContent());
+        long now = System.currentTimeMillis();
+        long startAt = seckill.getSeckillBegin().getTime();
+        long endAt = seckill.getSeckillEnd().getTime();
+        int miaoshaStatus;
+        int remainSeconds;
+        if (now < startAt) {// 秒杀还没开始，倒计时
+            miaoshaStatus = 0;
+            remainSeconds = (int) ((startAt - now) / 1000);
+        } else if (now > endAt) {// 秒杀已经结束
+            miaoshaStatus = 2;
+            remainSeconds = -1;
+        } else {// 秒杀进行中
+            miaoshaStatus = 1;
+            remainSeconds = 0;
+        }
         request.setAttribute("goodsDetail", map);
+        request.setAttribute("seckillStatus", miaoshaStatus);
+        request.setAttribute("remainSeconds", remainSeconds);
         return "mall/seckill-detail";
     }
 }
