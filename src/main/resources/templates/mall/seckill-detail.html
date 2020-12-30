@@ -91,15 +91,15 @@
 <script th:src="@{/mall/js/seckill.js}" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
-        //使用EL表达式传入参数
-        // seckill.detail.init({
-        //     seckillId: 1,
-        //     startTime: 1609255838000,//毫秒
-        //     endTime: 1609256938000
-        // });
-        $('#seckillBox').countdown('2021/01/01', function (event) {
-            $(this).html(event.strftime('秒杀倒计时：%D天 %H时 %M分 %S秒'));
+        // 使用EL表达式传入参数
+        seckill.detail.init({
+            seckillId: 1,
+            startTime: [[${goodsDetail.startDate}]],//毫秒
+            endTime: [[${goodsDetail.endDate}]]
         });
+        // $('#seckillBox').countdown('2021/01/01', function (event) {
+        //     $(this).html(event.strftime('秒杀倒计时：%D天 %H时 %M分 %S秒'));
+        // });
     });
 
     /**

@@ -10,6 +10,7 @@ import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.SeckillService;
 import ltd.newbee.mall.service.ShopCatService;
+import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,6 +34,11 @@ public class MallSeckillController {
 
     @Autowired
     private ShopCatService shopCatService;
+
+    @GetMapping("time/now")
+    public R getTimeNow() {
+        return R.success().add("now", new Date());
+    }
 
     @GetMapping("list")
     public String list(HttpServletRequest request, HttpSession session) {
@@ -73,8 +76,8 @@ public class MallSeckillController {
         Map<String, Object> map = new HashMap<>();
         map.put("goodsId", goodsId);
         map.put("seckillPrice", seckill.getSeckillPrice());
-        map.put("startDate", seckill.getSeckillBegin());
-        map.put("endDate", seckill.getSeckillEnd());
+        map.put("startDate", seckill.getSeckillBegin().getTime());
+        map.put("endDate", seckill.getSeckillEnd().getTime());
         Goods goods = goodsService.getById(seckill.getGoodsId());
         map.put("goodsName", goods.getGoodsName());
         map.put("goodsIntro", goods.getGoodsIntro());
