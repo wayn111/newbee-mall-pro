@@ -134,6 +134,17 @@
                                            placeholder="*请输入限购数量">
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-md-3 control-label">状态:</label>
+                                    <div class="col-md-9 btn-group-sm btn-group-toggle">
+                                        <label :class="form.status == 0?'btn btn-info active':'btn btn-info'">
+                                            <input type="radio" v-model="form.status" :value="0" checked>下架
+                                        </label>
+                                        <label :class="form.status == 1?'btn btn-info active':'btn btn-info'">
+                                            <input type="radio" v-model="form.status" :value="1">上架
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="seckillBegin" class="col-md-3 control-label">秒杀开始时间:</label>
                                     <input type="text" class="col-md-9 col-md-9 form-control" id="seckillBegin"
                                            v-model="form.seckillBegin"
