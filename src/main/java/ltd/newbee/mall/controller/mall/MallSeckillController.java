@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,9 +36,10 @@ public class MallSeckillController {
     @Autowired
     private ShopCatService shopCatService;
 
+    @ResponseBody
     @GetMapping("time/now")
     public R getTimeNow() {
-        return R.success().add("now", new Date());
+        return R.success().add("now", new Date().getTime());
     }
 
     @GetMapping("list")
@@ -64,14 +66,19 @@ public class MallSeckillController {
     public String detail(@PathVariable("seckillId") Long seckillId, HttpServletRequest request, HttpSession session) {
         Seckill seckill = seckillService.getById(seckillId);
         Long goodsId = seckill.getGoodsId();
-        // 查询购物车中是否有该商品
-        ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
-                .eq("user_id", ((MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY)).getUserId())
-                .eq("goods_id", goodsId));
+        request.setAttribute("cartItemId", 0);
         request.setAttribute("goodsCount", 0);
-        if (Objects.nonNull(shopCat)) {
-            request.setAttribute("cartItemId", shopCat.getCartItemId());
-            request.setAttribute("goodsCount", shopCat.getGoodsCount());
+        // 查询购物车中是否有该商品
+        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        if (userVO != null) {
+            ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
+                    .eq("user_id", userVO.getUserId())
+                    .eq("goods_id", goodsId));
+            request.setAttribute("goodsCount", 0);
+            if (Objects.nonNull(shopCat)) {
+                request.setAttribute("cartItemId", shopCat.getCartItemId());
+                request.setAttribute("goodsCount", shopCat.getGoodsCount());
+            }
         }
         Map<String, Object> map = new HashMap<>();
         map.put("goodsId", goodsId);

@@ -28,7 +28,7 @@
     <div class="intro mt20 w clearfix">
         <div class="left fl" style="position: relative;">
             <div class="swiper-container fl">
-                <img th:src="@{${goodsDetail.goodsCoverImg}}" style="border: none">
+                <img th:src="@{${goodsDetail.goodsCoverImg}}">
             </div>
         </div>
         <div class="right fr">
@@ -40,7 +40,7 @@
             </h2>
             <div class="h3 ml20 mt20" th:text="${goodsDetail.goodsName}">NewBeeMall</div>
             <div class="sub_title mr40 ml20 mt10" th:text="${goodsDetail.goodsIntro}">NewBeeMall</div>
-            <div class="item_price mr40 ml20 mt10" style="color: red;width: 250px;">
+            <div class="item_price mr40 ml20 mt10" style="color: red;width: 280px;">
                 秒杀价：<span th:text="${goodsDetail.seckillPrice}+'.00 元'" style="font-size: 28px">100 元</span>
                 <del>
                     <th:block th:text="${goodsDetail.originalPrice}+'.00 元'"></th:block>

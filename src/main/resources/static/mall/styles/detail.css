@@ -208,3 +208,6 @@
     width: 100%;
     margin-top: 2px;
 }
+dl {
+    margin-bottom: 0!important;
+}

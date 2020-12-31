@@ -67,14 +67,19 @@ public class MallGoodsController extends BaseController {
     @GetMapping("/goods/detail/{goodsId}")
     public String detail(@PathVariable("goodsId") Long goodsId, HttpServletRequest request) {
         Goods goods = goodsService.getById(goodsId);
-        // 查询购物车中是否有该商品
-        ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
-                .eq("user_id", ((MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY)).getUserId())
-                .eq("goods_id", goodsId));
+        request.setAttribute("cartItemId", 0);
         request.setAttribute("goodsCount", 0);
-        if (Objects.nonNull(shopCat)) {
-            request.setAttribute("cartItemId", shopCat.getCartItemId());
-            request.setAttribute("goodsCount", shopCat.getGoodsCount());
+        // 查询购物车中是否有该商品
+        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        if (userVO != null) {
+            ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
+                    .eq("user_id", userVO.getUserId())
+                    .eq("goods_id", goodsId));
+            request.setAttribute("goodsCount", 0);
+            if (Objects.nonNull(shopCat)) {
+                request.setAttribute("cartItemId", shopCat.getCartItemId());
+                request.setAttribute("goodsCount", shopCat.getGoodsCount());
+            }
         }
         request.setAttribute("goodsDetail", goods);
         return "mall/detail";

@@ -98,12 +98,12 @@ var seckill = {
             var endTime = params['endTime'];
             var seckillId = params['seckillId'];
             $.get(seckill.URL.now(), {}, function (result) {
-                if (result && result['success']) {
-                    var nowTime = result['data'];
+                if (result.code != 500) {
+                    var nowTime = result.map.now;
                     // 时间判断，计时交互
                     seckill.countdown(seckillId, nowTime, startTime, endTime);
                 } else {
-                    console.log(result['reult:'] + result);
+                    console.log(result.msg);
                 }
             });
         }
