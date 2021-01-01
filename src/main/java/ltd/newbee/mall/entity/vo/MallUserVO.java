@@ -9,6 +9,7 @@ import java.util.Date;
  */
 @Data
 public class MallUserVO {
+
     private Long userId;
 
     private String nickName;

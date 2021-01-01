@@ -38,12 +38,10 @@ var seckill = {
                         $(this).addClass('disabled');
                         // 2.发送秒杀请求
                         $.post(killUrl, {}, function (result) {
-                            if (result && result['success']) {
-                                var killResult = result['data'];
-                                var state = killResult['state'];
-                                var stateInfo = killResult['stateInfo'];
-                                // 3.显示秒杀结果
-                                node.html('<span class="label label-success">' + stateInfo + '</span>');
+                            if (result['code'] != 200) {
+                                swal(result['msg'], {
+                                    icon: "error",
+                                });
                             }
                         });
                     });

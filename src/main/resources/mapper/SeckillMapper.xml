@@ -25,7 +25,6 @@
                s.seckill_num,
                s.limit_num,
                s.seckill_rank,
-               s.limit_num,
                s.status,
                s.seckill_begin,
                s.seckill_end,
@@ -53,4 +52,13 @@
             </if>
         </where>
     </select>
+
+    <update id="reduceNumber">
+        update tb_newbee_mall_seckill
+        set seckill_num = seckill_num - 1
+        where seckill_id = #{seckillId}
+          and seckill_num > 0
+          and UNIX_TIMESTAMP(seckill_begin)  <![CDATA[ <= ]]>  #{now}
+          and UNIX_TIMESTAMP(seckill_end)  <![CDATA[ >= ]]>  #{now}
+    </update>
 </mapper>

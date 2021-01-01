@@ -10,4 +10,5 @@ public interface SeckillDao extends BaseMapper<Seckill> {
 
     IPage selectListPage(Page page, SeckillVO seckill);
 
+    boolean reduceNumber(Long seckillId, Long now);
 }
