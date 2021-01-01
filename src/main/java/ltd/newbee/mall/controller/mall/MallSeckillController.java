@@ -4,13 +4,15 @@ package ltd.newbee.mall.controller.mall;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.dao.SeckillDao;
-import ltd.newbee.mall.entity.*;
+import ltd.newbee.mall.entity.Goods;
+import ltd.newbee.mall.entity.Seckill;
+import ltd.newbee.mall.entity.ShopCat;
 import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.*;
-import ltd.newbee.mall.util.NumberUtil;
+import ltd.newbee.mall.service.GoodsService;
+import ltd.newbee.mall.service.SeckillService;
+import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +32,10 @@ public class MallSeckillController extends BaseController {
     private SeckillService seckillService;
 
     @Autowired
-    private SeckillSuccessService seckillSuccessService;
-
-    @Autowired
-    private SeckillDao seckillDao;
-
-    @Autowired
     private GoodsService goodsService;
 
     @Autowired
     private ShopCatService shopCatService;
-
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private OrderItemService orderItemService;
 
     @ResponseBody
     @GetMapping("time/now")
@@ -70,59 +60,16 @@ public class MallSeckillController extends BaseController {
         return R.success().add("exposer", exposerVO);
     }
 
+    @ResponseBody
     @PostMapping(value = "/{seckillId}/{md5}/execution")
-    public String execute(@PathVariable("seckillId") Long seckillId,
-                          @PathVariable("md5") String md5, HttpSession session) {
+    public R execute(@PathVariable("seckillId") Long seckillId,
+                     @PathVariable("md5") String md5, HttpSession session) {
         if (md5 == null || !md5.equals(Md5Utils.hash(seckillId))) {
             throw new BusinessException("秒杀商品不存在");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Seckill seckill = seckillService.getById(seckillId);
-        Goods goods = goodsService.getById(seckill.getGoodsId());
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
-                .eq("seckill_id", seckillId)
-                .eq("user_id", userVO.getUserId()));
-        if (count >= seckill.getLimitNum()) {
-            throw new BusinessException("用户购买数量有已经超出秒杀限购数量");
-        }
-        if (seckill.getSeckillNum() <= 0) {
-            throw new BusinessException("秒杀商品已售空");
-        }
-        // 执行秒杀逻辑：减库存 + 记录购买行为
-        Date now = new Date();
-        if (!seckillDao.reduceNumber(seckillId, now.getTime() / 1000)) {
-            throw new BusinessException("秒杀商品减库存失败");
-        }
-        SeckillSuccess seckillSuccess = new SeckillSuccess();
-        seckillSuccess.setSeckillId(seckillId);
-        seckillSuccess.setUserId(userVO.getUserId());
-        if (!seckillSuccessService.save(seckillSuccess)) {
-            throw new BusinessException("保存用户秒杀商品失败");
-        }
-        // 生成订单号
-        String orderNo = NumberUtil.genOrderNo();
-        // 保存订单
-        Order order = new Order();
-        order.setOrderNo(orderNo);
-        order.setTotalPrice(seckill.getSeckillPrice());
-        order.setUserId(userVO.getUserId());
-        order.setUserAddress(userVO.getAddress());
-        String extraInfo = "";
-        order.setExtraInfo(extraInfo);
-        if (!orderService.save(order)) {
-            throw new BusinessException("生成订单内部异常");
-        }
-        OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(order.getOrderId());
-        orderItem.setGoodsId(goods.getGoodsId());
-        orderItem.setGoodsCoverImg(goods.getGoodsCoverImg());
-        orderItem.setGoodsName(goods.getGoodsName());
-        orderItem.setGoodsCount(1);
-        orderItem.setSellingPrice(seckill.getSeckillPrice());
-        if (!orderItemService.save(orderItem)) {
-            throw new BusinessException("生成订单内部异常");
-        }
-        return redirectTo("/orders/" + orderNo);
+        String orderNo = seckillService.executeSeckill(seckillId, userVO);
+        return R.success().add("orderNo", orderNo);
     }
 
     @GetMapping("list")

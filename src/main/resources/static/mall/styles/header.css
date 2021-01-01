@@ -184,7 +184,7 @@
 }
 
 #nav .banner_x .list a {
-    color: #000000;
+    color: red;
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
@@ -194,7 +194,7 @@
     display: flex;
     align-items: center;
     margin: 0 10px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 #nav .banner_x .list > li:hover a {

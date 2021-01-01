@@ -38,7 +38,9 @@ var seckill = {
                         $(this).addClass('disabled');
                         // 2.发送秒杀请求
                         $.post(killUrl, {}, function (result) {
-                            if (result['code'] != 200) {
+                            if (result['code'] == 200) {
+                                location.href = _ctx + "orders/" + result['map']['orderNo'];
+                            } else {
                                 swal(result['msg'], {
                                     icon: "error",
                                 });
