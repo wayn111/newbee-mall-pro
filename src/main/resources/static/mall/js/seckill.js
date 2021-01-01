@@ -20,12 +20,13 @@ var seckill = {
     // 处理秒杀逻辑
     handleSeckill: function (seckillId, node) {
         // 获取秒杀地址，控制显示逻辑，执行秒杀
-        node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+        // node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+        node.html('秒杀开始');
         console.log('exposerUrl=' + seckill.URL.exposer(seckillId));//TODO
         $.post(seckill.URL.exposer(seckillId), {}, function (result) {
             // 在回调函数中，执行交互流程
-            if (result && result['success']) {
-                var exposer = result['data'];
+            if (result['code'] == 200) {
+                var exposer = result['map']['exposer'];
                 if (exposer['exposed']) {
                     // 开启秒杀
                     var md5 = exposer['md5'];
@@ -46,7 +47,8 @@ var seckill = {
                             }
                         });
                     });
-                    node.show();
+                    // node.show();
+                    $('#killBtn').attr('disabled', false);
                 } else {
                     // 未开启秒杀
                     var now = exposer['now'];
@@ -98,12 +100,12 @@ var seckill = {
             var endTime = params['endTime'];
             var seckillId = params['seckillId'];
             $.get(seckill.URL.now(), {}, function (result) {
-                if (result.code != 500) {
-                    var nowTime = result.map.now;
+                if (result['code'] == 200) {
+                    var nowTime = result['map']['now'];
                     // 时间判断，计时交互
                     seckill.countdown(seckillId, nowTime, startTime, endTime);
                 } else {
-                    console.log(result.msg);
+                    console.log(result['msg']);
                 }
             });
         }

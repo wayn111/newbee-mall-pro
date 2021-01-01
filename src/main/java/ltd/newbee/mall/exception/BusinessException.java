@@ -1,6 +1,6 @@
 package ltd.newbee.mall.exception;
 
-public class BusinessException  extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     public BusinessException() {
         super();

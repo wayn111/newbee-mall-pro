@@ -52,7 +52,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         return orderDao.selectListPage(page, orderVO);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String saveOrder(MallUserVO mallUserVO, Long couponUserId, List<ShopCatVO> shopcatVOList) {
         List<Long> goodsIdList = shopcatVOList.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
@@ -74,72 +74,76 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
                 throw new BusinessException("购物车中:" + goodsMap.get(shopCatVO.getGoodsId()).getGoodsName() + " 库存不足");
             }
         }
-        if (CollectionUtils.isNotEmpty(goodsIdList)
-                && CollectionUtils.isNotEmpty(cartItemIdList)
-                && CollectionUtils.isNotEmpty(goods)) {
-            // 删除购物项
-            if (shopCatService.removeByIds(cartItemIdList)) {
-                List<Goods> collect1 = shopcatVOList.stream().map(shopCatVO -> {
-                    Goods goods1 = new Goods();
-                    goods1.setGoodsId(shopCatVO.getGoodsId());
-                    Integer stockNum = goodsMap.get(shopCatVO.getGoodsId()).getStockNum();
-                    goods1.setStockNum(stockNum - shopCatVO.getGoodsCount());
-                    return goods1;
-                }).collect(Collectors.toList());
-                // 更新商品库存
-                if (goodsService.updateBatchById(collect1)) {
-                    // 生成订单号
-                    String orderNo = NumberUtil.genOrderNo();
-                    int priceTotal = 0;
-                    for (ShopCatVO shopCatVO : shopcatVOList) {
-                        priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
-                    }
-                    // 如果使用了优惠卷
-                    if (couponUserId != null) {
-                        CouponUser couponUser = couponUserService.getById(couponUserId);
-                        Coupon coupon = couponService.getById(couponUser.getCouponId());
-                        priceTotal -= coupon.getDiscount();
-                    }
-                    // 总价异常
-                    if (priceTotal <= 0) {
-                        throw new BusinessException("订单价格异常");
-                    }
-                    // 保存订单
-                    Order order = new Order();
-                    order.setOrderNo(orderNo);
-                    order.setTotalPrice(priceTotal);
-                    order.setUserId(mallUserVO.getUserId());
-                    order.setUserAddress(mallUserVO.getAddress());
-                    //todo 订单body字段，用来作为生成支付单描述信息，暂时未接入第三方支付接口，故该字段暂时设为空字符串
-                    String extraInfo = "";
-                    order.setExtraInfo(extraInfo);
-                    // 生成订单项并保存订单项纪录
-                    if (save(order)) {
-                        // 生成所有的订单项快照，并保存至数据库
-                        List<OrderItem> orderItems = shopcatVOList.stream().map(shopCatVO -> {
-                            OrderItem orderItem = new OrderItem();
-                            BeanUtils.copyProperties(shopCatVO, orderItem);
-                            orderItem.setOrderId(order.getOrderId());
-                            return orderItem;
-                        }).collect(Collectors.toList());
-                        // 如果使用了优惠卷，则更新优惠卷状态
-                        if (couponUserId != null) {
-                            CouponUser couponUser = new CouponUser();
-                            couponUser.setCouponUserId(couponUserId);
-                            couponUser.setStatus((byte) 1);
-                            couponUser.setUsedTime(new Date());
-                            couponUser.setOrderId(order.getOrderId());
-                            couponUserService.updateById(couponUser);
-                        }
-                        if (orderItemService.saveBatch(orderItems)) {
-                            // 所有操作成功后，将订单号返回，以供Controller方法跳转到订单详情
-                            return orderNo;
-                        }
-                    }
-                }
-            }
+        if (CollectionUtils.isEmpty(goodsIdList)
+                || CollectionUtils.isEmpty(cartItemIdList)
+                || CollectionUtils.isEmpty(goods)) {
+            throw new BusinessException("结算异常");
         }
-        throw new BusinessException("结算异常");
+        // 删除购物项
+        if (!shopCatService.removeByIds(cartItemIdList)) {
+            throw new BusinessException("删除购物车异常");
+        }
+        List<Goods> goodsList = shopcatVOList.stream().map(shopCatVO -> {
+            Goods goods1 = new Goods();
+            goods1.setGoodsId(shopCatVO.getGoodsId());
+            Integer stockNum = goodsMap.get(shopCatVO.getGoodsId()).getStockNum();
+            goods1.setStockNum(stockNum - shopCatVO.getGoodsCount());
+            return goods1;
+        }).collect(Collectors.toList());
+        // 更新商品库存
+        if (!goodsService.updateBatchById(goodsList)) {
+            throw new BusinessException("更新商品库存异常");
+        }
+        // 生成订单号
+        String orderNo = NumberUtil.genOrderNo();
+        int priceTotal = 0;
+        for (ShopCatVO shopCatVO : shopcatVOList) {
+            priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
+        }
+        // 如果使用了优惠卷
+        if (couponUserId != null) {
+            CouponUser couponUser = couponUserService.getById(couponUserId);
+            Coupon coupon = couponService.getById(couponUser.getCouponId());
+            priceTotal -= coupon.getDiscount();
+        }
+        // 总价异常
+        if (priceTotal <= 0) {
+            throw new BusinessException("订单价格异常");
+        }
+        // 保存订单
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setTotalPrice(priceTotal);
+        order.setUserId(mallUserVO.getUserId());
+        order.setUserAddress(mallUserVO.getAddress());
+        //todo 订单body字段，用来作为生成支付单描述信息，暂时未接入第三方支付接口，故该字段暂时设为空字符串
+        String extraInfo = "";
+        order.setExtraInfo(extraInfo);
+        // 生成订单项并保存订单项纪录
+        if (!save(order)) {
+            throw new BusinessException("保存订单异常");
+        }
+        // 生成所有的订单项快照，并保存至数据库
+        List<OrderItem> orderItems = shopcatVOList.stream().map(shopCatVO -> {
+            OrderItem orderItem = new OrderItem();
+            BeanUtils.copyProperties(shopCatVO, orderItem);
+            orderItem.setOrderId(order.getOrderId());
+            return orderItem;
+        }).collect(Collectors.toList());
+        // 如果使用了优惠卷，则更新优惠卷状态
+        if (couponUserId != null) {
+            CouponUser couponUser = new CouponUser();
+            couponUser.setCouponUserId(couponUserId);
+            couponUser.setStatus((byte) 1);
+            couponUser.setUsedTime(new Date());
+            couponUser.setOrderId(order.getOrderId());
+            couponUserService.updateById(couponUser);
+        }
+        if (!orderItemService.saveBatch(orderItems)) {
+            throw new BusinessException("保存订单内部异常");
+        }
+        // 所有操作成功后，将订单号返回
+        return orderNo;
     }
 
     @Override

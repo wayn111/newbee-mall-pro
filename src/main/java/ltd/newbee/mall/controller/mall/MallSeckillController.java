@@ -6,17 +6,16 @@ import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.entity.Goods;
 import ltd.newbee.mall.entity.Seckill;
 import ltd.newbee.mall.entity.ShopCat;
+import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.SeckillService;
 import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.R;
+import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -40,6 +39,31 @@ public class MallSeckillController {
     @GetMapping("time/now")
     public R getTimeNow() {
         return R.success().add("now", new Date().getTime());
+    }
+
+    @ResponseBody
+    @PostMapping("{seckillId}/exposer")
+    public R exposerUrl(@PathVariable Long seckillId) {
+        Seckill seckill = seckillService.getById(seckillId);
+        Date startTime = seckill.getSeckillBegin();
+        Date endTime = seckill.getSeckillEnd();
+        // 系统当前时间
+        Date nowTime = new Date();
+        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
+            ExposerVO exposerVO = new ExposerVO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
+            return R.success().add("exposer", exposerVO);
+        }
+        String md5 = Md5Utils.hash(seckillId);
+        ExposerVO exposerVO = new ExposerVO(true, md5, seckillId);
+        return R.success().add("exposer", exposerVO);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/{seckillId}/{md5}/execution")
+    public R execute(@PathVariable("seckillId") Long seckillId,
+                     @PathVariable("md5") String md5) {
+
+        return R.success();
     }
 
     @GetMapping("list")
@@ -108,6 +132,7 @@ public class MallSeckillController {
             remainSeconds = 0;
         }
         request.setAttribute("goodsDetail", map);
+        request.setAttribute("seckillId", seckill.getSeckillId());
         request.setAttribute("seckillStatus", miaoshaStatus);
         request.setAttribute("remainSeconds", remainSeconds);
         return "mall/seckill-detail";

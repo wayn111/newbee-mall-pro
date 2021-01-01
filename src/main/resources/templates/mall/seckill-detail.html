@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="right fr">
-            <h2 class="text-danger" style="text-align: center;">
+            <h2 class="text-danger" style="padding: 0 0 0 20px;">
                 <!-- 显示time图标 -->
                 <span class="glyphicon glyphicon-time"></span>
                 <!-- 展示倒计时 -->
@@ -50,10 +50,9 @@
             <div class="order">
                 <input type="hidden" id="cartItemId" th:value="${cartItemId}">
                 <input type="hidden" id="goodsCount" th:value="${goodsCount + 1}">
-                <input class="car" type="button" th:onclick="'saveAndGoCart('+${goodsDetail.goodsId}+')'" value="立即选购"/>
-                <input class="car" type="button" th:onclick="'saveToCart('+${goodsDetail.goodsId}+')'" value="加入购物车"/>
+                <button class="btn btn-success btn-lg" disabled id="killBtn">开始秒杀</button>
             </div>
-            <div class="tb-extra ml20" id="J_tbExtra">
+            <div class="tb-extra ml20" id="J_tbExtra" style="margin-top: 0">
                 <dl>
                     <dt>承诺</dt>
                     <dd><a class="J_Cont" title="满足7天无理由退换货申请的前提下，包邮商品需要买家承担退货邮费，非包邮商品需要买家承担发货和退货邮费。" href="#"
@@ -93,7 +92,7 @@
     $(function () {
         // 使用EL表达式传入参数
         seckill.detail.init({
-            seckillId: 1,
+            seckillId: [[${seckillId}]],
             startTime: [[${goodsDetail.startDate}]],//毫秒
             endTime: [[${goodsDetail.endDate}]]
         });
@@ -101,94 +100,6 @@
         //     $(this).html(event.strftime('秒杀倒计时：%D天 %H时 %M分 %S秒'));
         // });
     });
-
-    /**
-     * 添加到购物车
-     */
-    function saveToCart(id) {
-        var goodsCount = $('#goodsCount').val();
-        var cartItemId = $('#cartItemId').val();
-        var data = {
-            "goodsId": id,
-            "goodsCount": goodsCount,
-            "cartItemId": cartItemId
-        };
-        $.ajax({
-            type: 'POST',
-            url: _ctx + 'shopCart',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.code == 200) {
-                    swal({
-                        title: "添加成功",
-                        text: "确认框",
-                        icon: "success",
-                        buttons: true,
-                        dangerMode: true,
-                    }).then((flag) => {
-                            window.location.reload();
-                        }
-                    );
-                } else {
-                    swal(result.msg, {
-                        icon: "error",
-                    });
-                }
-            },
-            error: function () {
-                swal("操作失败", {
-                    icon: "error",
-                });
-            }
-        });
-    }
-
-    /**
-     * 添加到购物车并跳转至购物车页面
-     */
-    function saveAndGoCart(id) {
-        var goodsCount = $('#goodsCount').val();
-        var cartItemId = $('#cartItemId').val();
-        var data = {
-            "goodsId": id,
-            "goodsCount": goodsCount,
-            "cartItemId": cartItemId
-        };
-        $.ajax({
-            type: 'POST',
-            url: _ctx + 'shopCart',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.code == 200) {
-                    swal({
-                        title: "已将商品加入购物车",
-                        icon: "success",
-                        buttons: {
-                            cancel: "留在当前页",
-                            confirm: "去购物车结算"
-                        },
-                        dangerMode: false,
-                    }).then((flag) => {
-                            if (flag) {
-                                window.location.href = _ctx + 'shopCart';
-                            }
-                        }
-                    );
-                } else {
-                    swal(result.msg, {
-                        icon: "error",
-                    });
-                }
-            },
-            error: function () {
-                swal("操作失败", {
-                    icon: "error",
-                });
-            }
-        });
-    }
 </script>
 </body>
 </html>

@@ -72,7 +72,7 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
         List<Long> goodsIds = cats.stream().map(ShopCat::getGoodsId).collect(Collectors.toList());
         if (!goodsIds.isEmpty()) {
             List<Goods> goods = goodsService.listByIds(goodsIds);
-            Map<Long, Goods> goodsMap = goods.stream().collect(Collectors.toMap(Goods::getGoodsId, goods1 -> goods1));
+            Map<Long, Goods> goodsMap = goods.stream().collect(Collectors.toMap(Goods::getGoodsId, goodsItem -> goodsItem));
             collect.addAll(cats.stream().map(shopCat -> {
                 ShopCatVO shopCatVO = new ShopCatVO();
                 BeanUtils.copyProperties(shopCat, shopCatVO);

@@ -9,7 +9,6 @@ import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.entity.vo.MyCouponVO;
 import ltd.newbee.mall.entity.vo.ShopCatVO;
 import ltd.newbee.mall.service.CouponService;
-import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,6 @@ public class MallShopCatController extends BaseController {
     @Autowired
     private CouponService couponService;
 
-    @Autowired
-    private GoodsService goodsService;
-
     @ResponseBody
     @RequestMapping(value = "shopCart", method = {RequestMethod.POST, RequestMethod.PUT})
     public R save(@RequestBody ShopCat shopCat, HttpSession session) {
@@ -49,7 +45,7 @@ public class MallShopCatController extends BaseController {
 
 
     @GetMapping("shopCart")
-    public String save(HttpServletRequest request, HttpSession session) {
+    public String shopCart(HttpServletRequest request, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         int itemsTotal = 0;
         int priceTotal = 0;
