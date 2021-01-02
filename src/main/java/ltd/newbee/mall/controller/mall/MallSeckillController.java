@@ -46,17 +46,7 @@ public class MallSeckillController extends BaseController {
     @ResponseBody
     @PostMapping("{seckillId}/exposer")
     public R exposerUrl(@PathVariable Long seckillId) {
-        Seckill seckill = seckillService.getById(seckillId);
-        Date startTime = seckill.getSeckillBegin();
-        Date endTime = seckill.getSeckillEnd();
-        // 系统当前时间
-        Date nowTime = new Date();
-        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
-            ExposerVO exposerVO = new ExposerVO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
-            return R.success().add("exposer", exposerVO);
-        }
-        String md5 = Md5Utils.hash(seckillId);
-        ExposerVO exposerVO = new ExposerVO(true, md5, seckillId);
+        ExposerVO exposerVO = seckillService.exposerUrl(seckillId);
         return R.success().add("exposer", exposerVO);
     }
 
@@ -73,7 +63,7 @@ public class MallSeckillController extends BaseController {
     }
 
     @GetMapping("list")
-    public String list(HttpServletRequest request, HttpSession session) {
+    public String list(HttpServletRequest request) {
         List<Seckill> seckillList = seckillService.list(new QueryWrapper<Seckill>().eq("status", 1).orderByDesc("seckill_rank"));
         List<Map<String, Object>> list = seckillList.stream().map(seckill -> {
             Map<String, Object> map = new HashMap<>();
@@ -117,7 +107,6 @@ public class MallSeckillController extends BaseController {
         map.put("endDate", seckill.getSeckillEnd().getTime());
         Goods goods = goodsService.getById(seckill.getGoodsId());
         map.put("goodsName", goods.getGoodsName());
-        map.put("goodsIntro", goods.getGoodsIntro());
         map.put("originalPrice", goods.getOriginalPrice());
         map.put("goodsCoverImg", goods.getGoodsCoverImg());
         map.put("goodsIntro", goods.getGoodsIntro());

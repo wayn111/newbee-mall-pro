@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ltd.newbee.mall.dao.SeckillDao;
 import ltd.newbee.mall.entity.*;
+import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.service.*;
 import ltd.newbee.mall.util.NumberUtil;
+import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +30,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Autowired
     private GoodsService goodsService;
-
-    @Autowired
-    private ShopCatService shopCatService;
 
     @Autowired
     private OrderService orderService;
@@ -94,5 +93,19 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("生成订单内部异常");
         }
         return orderNo;
+    }
+
+    @Override
+    public ExposerVO exposerUrl(Long seckillId) {
+        Seckill seckill = getById(seckillId);
+        Date startTime = seckill.getSeckillBegin();
+        Date endTime = seckill.getSeckillEnd();
+        // 系统当前时间
+        Date nowTime = new Date();
+        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
+            return new ExposerVO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
+        }
+        String md5 = Md5Utils.hash(seckillId);
+        return new ExposerVO(true, md5, seckillId);
     }
 }

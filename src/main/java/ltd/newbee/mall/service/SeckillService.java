@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ltd.newbee.mall.entity.Seckill;
+import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 
@@ -25,4 +26,11 @@ public interface SeckillService extends IService<Seckill> {
      * @return 订单号
      */
     String executeSeckill(Long seckillId, MallUserVO userVO);
+
+    /**
+     * 秒杀地址暴露接口
+     * @param seckillId 秒杀商品ID
+     * @return 秒杀服务接口地址暴露类
+     */
+    ExposerVO exposerUrl(Long seckillId);
 }
