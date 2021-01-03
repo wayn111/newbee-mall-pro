@@ -10,6 +10,7 @@ import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.service.*;
 import ltd.newbee.mall.util.NumberUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
@@ -18,25 +19,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> implements SeckillService {
 
+    public static final String SECKILL_KEY = "seckillId:";
     @Autowired
     private SeckillDao seckillDao;
-
     @Autowired
     private SeckillSuccessService seckillSuccessService;
-
     @Autowired
     private GoodsService goodsService;
-
     @Autowired
     private OrderService orderService;
-
     @Autowired
     private OrderItemService orderItemService;
-
+    @Autowired
+    private RedisCache redisCache;
 
     @Override
     public IPage selectPage(Page<Seckill> page, SeckillVO seckillVO) {
@@ -52,7 +52,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
         if (count >= seckill.getLimitNum()) {
-            throw new BusinessException("用户购买数量有已经超出秒杀限购数量");
+            throw new BusinessException("用户购买数量已经超出秒杀限购数量");
         }
         if (seckill.getSeckillNum() <= 0) {
             throw new BusinessException("秒杀商品已售空");
@@ -97,7 +97,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public ExposerVO exposerUrl(Long seckillId) {
-        Seckill seckill = getById(seckillId);
+        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY);
+        if (seckill == null) {
+            seckill = getById(seckillId);
+            redisCache.setCacheObject(SECKILL_KEY, seckill, 24, TimeUnit.HOURS);
+        }
         Date startTime = seckill.getSeckillBegin();
         Date endTime = seckill.getSeckillEnd();
         // 系统当前时间

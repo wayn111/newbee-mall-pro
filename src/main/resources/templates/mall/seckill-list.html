@@ -44,31 +44,5 @@
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
-<script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
-<script type="text/javascript">
-    function saveCoupon(couponId) {
-        $.ajax({
-            type: 'POST',
-            url: _ctx + 'coupon/' + couponId,
-            success: function (result) {
-                if (result.code == 200) {
-                    swal("领取成功", {
-                        icon: "success"
-                    });
-                    // window.location = _ctx + "coupon";
-                } else {
-                    swal(result.msg, {
-                        icon: "error",
-                    });
-                }
-            },
-            error: function () {
-                swal("领取失败", {
-                    icon: "error",
-                });
-            }
-        });
-    }
-</script>
 </body>
 </html>

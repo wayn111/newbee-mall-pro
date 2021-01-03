@@ -28,6 +28,7 @@
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <alipay.version>3.1.0</alipay.version>
+        <jedis.version>3.3.0</jedis.version>
     </properties>
 
     <dependencies>
@@ -56,6 +57,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!-- thymeleaf -->
@@ -113,6 +120,19 @@
             <version>${alipay.version}</version>
         </dependency>
 
+        <!-- 阿里JSON解析器 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+        <!-- jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -9,6 +9,7 @@ $(function () {
             {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
             {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
             {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px', formatter: limitFormatter},
+            {label: '上架状态', name: 'status', index: 'status', formatter: statusFormatter},
             {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin'},
             {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd'},
             {label: '商品排序', name: 'seckillRank', index: 'seckillRank'},
@@ -68,11 +69,9 @@ $(function () {
 
     function statusFormatter(cellvalue) {
         if (cellvalue == 0) {
-            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>可用</button>";
-        } else if (cellvalue == 1) {
-            return "<button type='button' class='btn btn-block btn-warning btn-sm' style='width: 80%;'>已过期</button>";
+            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>下架</button>";
         } else {
-            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>已下架</button>";
+            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>上架</button>";
         }
     }
 
