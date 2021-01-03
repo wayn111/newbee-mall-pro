@@ -97,10 +97,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public ExposerVO exposerUrl(Long seckillId) {
-        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY);
+        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
         if (seckill == null) {
             seckill = getById(seckillId);
-            redisCache.setCacheObject(SECKILL_KEY, seckill, 24, TimeUnit.HOURS);
+            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         }
         Date startTime = seckill.getSeckillBegin();
         Date endTime = seckill.getSeckillEnd();
