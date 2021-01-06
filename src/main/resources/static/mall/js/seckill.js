@@ -4,8 +4,7 @@ var seckill = {
     // 封装秒杀相关ajax的url
     URL: {
         basePath: function () {
-            // return $('#basePath').val();
-            return 'http://localhost:84/mall/';
+            return _ctx;
         },
         now: function () {
             return seckill.URL.basePath() + 'seckill/time/now';
