@@ -546,7 +546,7 @@
 
 #content #seckill ul li {
     width: 234px;
-    height: 312px;
+    height: 352px;
     background-color: #fafafa;
     border-top: 1px solid #ffa500;
     margin: 15px 10px 0 0;
@@ -578,6 +578,10 @@
     text-align: center;
 }
 
+#content #seckill ul li a .name {
+    height: 40px;
+}
+
 #content #seckill ul li a img {
     width: 160px;
     height: 160px;
@@ -594,7 +598,7 @@
 
 #content #seckill ul li a .priceMod {
     display: flex;
-    margin: 5px 0 0 0;
+    margin: 25px 0 0 0;
     height: 50px;
 }
 
