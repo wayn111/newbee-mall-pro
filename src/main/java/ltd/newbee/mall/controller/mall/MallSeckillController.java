@@ -2,16 +2,20 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.entity.Goods;
 import ltd.newbee.mall.entity.Seckill;
+import ltd.newbee.mall.entity.SeckillSuccess;
 import ltd.newbee.mall.entity.ShopCat;
 import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
+import ltd.newbee.mall.entity.vo.ShopCatVO;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.SeckillService;
+import ltd.newbee.mall.service.SeckillSuccessService;
 import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.security.Md5Utils;
@@ -37,6 +41,9 @@ public class MallSeckillController extends BaseController {
     @Autowired
     private ShopCatService shopCatService;
 
+    @Autowired
+    private SeckillSuccessService seckillSuccessService;
+
     @ResponseBody
     @GetMapping("time/now")
     public R getTimeNow() {
@@ -52,14 +59,50 @@ public class MallSeckillController extends BaseController {
 
     @ResponseBody
     @PostMapping(value = "/{seckillId}/{md5}/execution")
-    public R execute(@PathVariable("seckillId") Long seckillId,
-                     @PathVariable("md5") String md5, HttpSession session) {
+    public R execute(@PathVariable Long seckillId,
+                     @PathVariable String md5, HttpSession session) {
         if (md5 == null || !md5.equals(Md5Utils.hash(seckillId))) {
             throw new BusinessException("秒杀商品不存在");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         String orderNo = seckillService.executeSeckill(seckillId, userVO);
         return R.success().add("orderNo", orderNo);
+    }
+
+    @GetMapping("/{seckillSuccessId}/{md5}/settle")
+    public String settle(@PathVariable Long seckillSuccessId,
+                         @PathVariable String md5,
+                         HttpServletRequest request,
+                         HttpSession session) {
+        if (md5 == null || !md5.equals(Md5Utils.hash(seckillSuccessId))) {
+            throw new BusinessException("用户抢购的秒杀商品不存在");
+        }
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        SeckillSuccess seckillSuccess = seckillSuccessService.getById(seckillSuccessId);
+        if (seckillSuccess.getUserId() != mallUserVO.getUserId()) {
+            throw new BusinessException("当前登陆用户与抢购秒杀商品的用户不匹配");
+        }
+        Long seckillId = seckillSuccess.getSeckillId();
+        Seckill seckill = seckillService.getById(seckillId);
+        ShopCatVO shopCatVO1 = new ShopCatVO();
+        Long goodsId = seckill.getGoodsId();
+        Goods goods = goodsService.getById(goodsId);
+        shopCatVO1.setGoodsId(goodsId);
+        shopCatVO1.setGoodsName(goods.getGoodsName());
+        shopCatVO1.setGoodsCoverImg(goods.getGoodsCoverImg());
+        shopCatVO1.setSellingPrice(seckill.getSeckillPrice());
+        shopCatVO1.setGoodsCount(1);
+        List<ShopCat> cats = shopCatService.list(new QueryWrapper<ShopCat>().eq("user_id", mallUserVO.getUserId()));
+        int priceTotal = 0;
+        List<ShopCatVO> collect = shopCatService.getShopCatVOList(mallUserVO.getUserId());
+        if (CollectionUtils.isNotEmpty(collect)) {
+            for (ShopCatVO shopCatVO : collect) {
+                priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
+            }
+        }
+        request.setAttribute("priceTotal", priceTotal);
+        request.setAttribute("myShoppingCartItems", collect);
+        return "mall/order-settle";
     }
 
     @GetMapping("list")

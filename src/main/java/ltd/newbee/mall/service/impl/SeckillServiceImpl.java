@@ -65,6 +65,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         SeckillSuccess seckillSuccess = new SeckillSuccess();
         seckillSuccess.setSeckillId(seckillId);
         seckillSuccess.setUserId(userVO.getUserId());
+        seckillSuccess.setStatus((byte) 1);
         if (!seckillSuccessService.save(seckillSuccess)) {
             throw new BusinessException("保存用户秒杀商品失败");
         }
