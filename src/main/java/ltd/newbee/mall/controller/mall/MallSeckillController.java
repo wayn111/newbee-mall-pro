@@ -84,24 +84,17 @@ public class MallSeckillController extends BaseController {
         }
         Long seckillId = seckillSuccess.getSeckillId();
         Seckill seckill = seckillService.getById(seckillId);
-        ShopCatVO shopCatVO1 = new ShopCatVO();
+        ShopCatVO shopCatVO = new ShopCatVO();
         Long goodsId = seckill.getGoodsId();
         Goods goods = goodsService.getById(goodsId);
-        shopCatVO1.setGoodsId(goodsId);
-        shopCatVO1.setGoodsName(goods.getGoodsName());
-        shopCatVO1.setGoodsCoverImg(goods.getGoodsCoverImg());
-        shopCatVO1.setSellingPrice(seckill.getSeckillPrice());
-        shopCatVO1.setGoodsCount(1);
-        List<ShopCat> cats = shopCatService.list(new QueryWrapper<ShopCat>().eq("user_id", mallUserVO.getUserId()));
-        int priceTotal = 0;
-        List<ShopCatVO> collect = shopCatService.getShopCatVOList(mallUserVO.getUserId());
-        if (CollectionUtils.isNotEmpty(collect)) {
-            for (ShopCatVO shopCatVO : collect) {
-                priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
-            }
-        }
+        shopCatVO.setGoodsId(goodsId);
+        shopCatVO.setGoodsName(goods.getGoodsName());
+        shopCatVO.setGoodsCoverImg(goods.getGoodsCoverImg());
+        shopCatVO.setSellingPrice(seckill.getSeckillPrice());
+        shopCatVO.setGoodsCount(1);
+        int priceTotal = seckill.getSeckillPrice();
         request.setAttribute("priceTotal", priceTotal);
-        request.setAttribute("myShoppingCartItems", collect);
+        request.setAttribute("myShoppingCartItems", Arrays.asList(shopCatVO));
         return "mall/order-settle";
     }
 
