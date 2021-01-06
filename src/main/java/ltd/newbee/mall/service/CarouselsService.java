@@ -13,5 +13,5 @@ public interface CarouselsService extends IService<Carousels> {
      * @param carousels 轮播图对象
      * @return 分页数据
      */
-    IPage selectPage(Page<Carousels> page, Carousels carousels);
+    IPage<Carousels> selectPage(Page<Carousels> page, Carousels carousels);
 }

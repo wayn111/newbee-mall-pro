@@ -57,9 +57,9 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
     @Override
     public Coupon getCoupon(Long orderId) {
         CouponUser couponUser = getOne(new QueryWrapper<CouponUser>().eq("order_id", orderId));
-        if (couponUser != null) {
-            return couponService.getById(couponUser.getCouponId());
+        if (couponUser == null) {
+            return null;
         }
-        return null;
+        return couponService.getById(couponUser.getCouponId());
     }
 }

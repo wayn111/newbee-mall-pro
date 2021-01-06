@@ -3,7 +3,6 @@ package ltd.newbee.mall.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.entity.Coupon;
 import ltd.newbee.mall.entity.Seckill;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 import ltd.newbee.mall.service.SeckillService;

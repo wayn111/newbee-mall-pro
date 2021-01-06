@@ -204,6 +204,9 @@
                         </form>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" id="isSeckillSettle" th:value="${isSeckillSettle}">
+                        <input type="hidden" id="seckillSuccessId" th:value="${seckillSuccessId}">
+                        <input type="hidden" id="seckillSecretKey" th:value="${seckillSecretKey}">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <button type="button" class="btn btn-primary" id="saveButton">确认</button>
                     </div>
@@ -232,13 +235,17 @@
             });
             return;
         }
-        if (userAddress.trim().length < 10) {
+        if (userAddress.trim().length < 6) {
             swal("请输入正确的收货信息", {
                 icon: "error",
             });
             return;
         }
-        window.location.href = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
+        if ($('#isSeckillSettle').val()) {
+            window.location.href = _ctx + 'saveOrder/' + $('#seckillSuccessId').val() + '/' + $('#seckillSecretKey').val();
+        } else {
+            window.location.href = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
+        }
     });
 
     function openUpdateModal() {

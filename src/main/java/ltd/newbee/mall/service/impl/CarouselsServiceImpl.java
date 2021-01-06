@@ -16,7 +16,7 @@ public class CarouselsServiceImpl extends ServiceImpl<CarouselsDao, Carousels> i
     private CarouselsDao carouselsDao;
 
     @Override
-    public IPage selectPage(Page<Carousels> page, Carousels carousels) {
+    public IPage<Carousels> selectPage(Page<Carousels> page, Carousels carousels) {
         return carouselsDao.selectListPage(page, carousels);
     }
 }

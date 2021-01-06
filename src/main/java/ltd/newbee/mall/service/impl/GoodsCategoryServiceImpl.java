@@ -22,7 +22,7 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryDao, Good
     private GoodsCategoryDao goodsCategoryDao;
 
     @Override
-    public IPage selectPage(Page<GoodsCategory> page, GoodsCategory goodsCategory) {
+    public IPage<GoodsCategory> selectPage(Page<GoodsCategory> page, GoodsCategory goodsCategory) {
         return goodsCategoryDao.selectListPage(page, goodsCategory);
     }
 

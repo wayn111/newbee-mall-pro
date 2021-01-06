@@ -16,7 +16,7 @@ public class MallUserServiceImpl extends ServiceImpl<MallUserDao, MallUser> impl
     private MallUserDao mallUserDao;
 
     @Override
-    public IPage selectPage(Page<MallUser> page, MallUser mallUser) {
+    public IPage<MallUser> selectPage(Page<MallUser> page, MallUser mallUser) {
         return mallUserDao.selectListPage(page, mallUser);
     }
 }

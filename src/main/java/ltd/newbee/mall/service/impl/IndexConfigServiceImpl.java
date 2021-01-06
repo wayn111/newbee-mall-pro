@@ -26,7 +26,7 @@ public class IndexConfigServiceImpl extends ServiceImpl<IndexConfigDao, IndexCon
     private GoodsService goodsService;
 
     @Override
-    public IPage selectPage(Page<IndexConfig> page, IndexConfig indexConfig) {
+    public IPage<IndexConfig> selectPage(Page<IndexConfig> page, IndexConfig indexConfig) {
         return indexConfigDao.selectListPage(page, indexConfig);
     }
 

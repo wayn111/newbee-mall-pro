@@ -38,7 +38,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
     private GoodsService goodsService;
 
     @Override
-    public IPage selectPage(Page<Coupon> page, CouponVO coupon) {
+    public IPage<Coupon> selectPage(Page<Coupon> page, CouponVO coupon) {
         return couponDao.selectListPage(page, coupon);
     }
 

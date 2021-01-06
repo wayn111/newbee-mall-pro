@@ -14,6 +14,9 @@ var seckill = {
         },
         execution: function (seckillId, md5) {
             return seckill.URL.basePath() + 'seckill/' + seckillId + '/' + md5 + '/execution';
+        },
+        settle: function (seckillSuccessId, md5) {
+            return seckill.URL.basePath() + 'seckill/' + seckillSuccessId + '/' + md5 + '/settle';
         }
     },
     // 处理秒杀逻辑
@@ -30,7 +33,7 @@ var seckill = {
                     // 开启秒杀
                     var md5 = exposer['md5'];
                     var killUrl = seckill.URL.execution(seckillId, md5);
-                    console.log('killUrl=' + killUrl);//TODO
+                    console.log('killUrl=' + killUrl);
                     $('#killBtn').one('click', function () {
                         // 执行秒杀请求
                         // 1.先禁用按钮
@@ -38,7 +41,11 @@ var seckill = {
                         // 2.发送秒杀请求
                         $.post(killUrl, {}, function (result) {
                             if (result['code'] == 200) {
-                                location.href = _ctx + "orders/" + result['map']['orderNo'];
+                                var seckillSuccess = result['map']['seckillSuccess'];
+                                var seckillSuccessId = seckillSuccess['seckillSuccessId'];
+                                var md5 = seckillSuccess['md5'];
+                                var settleUrl = seckill.URL.settle(seckillSuccessId, md5);
+                                location.href = settleUrl;
                             } else {
                                 swal(result['msg'], {
                                     icon: "error",
@@ -89,7 +96,6 @@ var seckill = {
     detail: {
         // 详情页初始化
         init: function (params) {
-            // 用户手机验证和登录，计时交互
             // 规划我们的交互流程
             var startTime = params['startTime'];
             var endTime = params['endTime'];

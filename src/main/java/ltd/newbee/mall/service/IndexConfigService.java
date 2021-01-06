@@ -17,7 +17,7 @@ public interface IndexConfigService extends IService<IndexConfig> {
      * @param indexConfig 首页配置对象
      * @return 分页数据
      */
-    IPage selectPage(Page<IndexConfig> page, IndexConfig indexConfig);
+    IPage<IndexConfig> selectPage(Page<IndexConfig> page, IndexConfig indexConfig);
 
     /**
      * 查询首页热销商品，新品上线，推荐商品

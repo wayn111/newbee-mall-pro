@@ -2,7 +2,6 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.entity.Goods;
@@ -11,6 +10,7 @@ import ltd.newbee.mall.entity.SeckillSuccess;
 import ltd.newbee.mall.entity.ShopCat;
 import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
+import ltd.newbee.mall.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.entity.vo.ShopCatVO;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.service.GoodsService;
@@ -65,8 +65,8 @@ public class MallSeckillController extends BaseController {
             throw new BusinessException("秒杀商品不存在");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        String orderNo = seckillService.executeSeckill(seckillId, userVO);
-        return R.success().add("orderNo", orderNo);
+        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckill(seckillId, userVO);
+        return R.success().add("seckillSuccess", seckillSuccessVO);
     }
 
     @GetMapping("/{seckillSuccessId}/{md5}/settle")
@@ -74,12 +74,12 @@ public class MallSeckillController extends BaseController {
                          @PathVariable String md5,
                          HttpServletRequest request,
                          HttpSession session) {
-        if (md5 == null || !md5.equals(Md5Utils.hash(seckillSuccessId))) {
-            throw new BusinessException("用户抢购的秒杀商品不存在");
+        if (md5 == null || !md5.equals(Md5Utils.hash(seckillSuccessId + Constants.SECKILL_EXECUTE_SALT))) {
+            throw new BusinessException("秒杀商品结算不合法");
         }
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         SeckillSuccess seckillSuccess = seckillSuccessService.getById(seckillSuccessId);
-        if (seckillSuccess.getUserId() != mallUserVO.getUserId()) {
+        if (!seckillSuccess.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("当前登陆用户与抢购秒杀商品的用户不匹配");
         }
         Long seckillId = seckillSuccess.getSeckillId();
@@ -90,11 +90,13 @@ public class MallSeckillController extends BaseController {
         shopCatVO.setGoodsId(goodsId);
         shopCatVO.setGoodsName(goods.getGoodsName());
         shopCatVO.setGoodsCoverImg(goods.getGoodsCoverImg());
-        shopCatVO.setSellingPrice(seckill.getSeckillPrice());
         shopCatVO.setGoodsCount(1);
-        int priceTotal = seckill.getSeckillPrice();
-        request.setAttribute("priceTotal", priceTotal);
-        request.setAttribute("myShoppingCartItems", Arrays.asList(shopCatVO));
+        shopCatVO.setSellingPrice(seckill.getSeckillPrice());
+        request.setAttribute("isSeckillSettle", true);
+        request.setAttribute("seckillSuccessId", seckillSuccessId);
+        request.setAttribute("seckillSecretKey", Md5Utils.hash(seckillSuccessId + Constants.SECKILL_ORDER_SALT));
+        request.setAttribute("priceTotal", seckill.getSeckillPrice());
+        request.setAttribute("myShoppingCartItems", Collections.singletonList(shopCatVO));
         return "mall/order-settle";
     }
 

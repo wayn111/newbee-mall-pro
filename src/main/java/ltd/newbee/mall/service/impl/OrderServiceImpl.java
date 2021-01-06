@@ -42,13 +42,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     @Autowired
     private CouponUserService couponUserService;
 
+    @Autowired
+    private SeckillSuccessService seckillSuccessService;
+
+    @Autowired
+    private SeckillService seckillService;
+
     @Override
-    public IPage selectMyOrderPage(Page<OrderListVO> page, Order order) {
+    public IPage<OrderListVO> selectMyOrderPage(Page<OrderListVO> page, Order order) {
         return orderDao.selectListVOPage(page, order);
     }
 
     @Override
-    public IPage selectPage(Page<Order> page, OrderVO orderVO) {
+    public IPage<Order> selectPage(Page<Order> page, OrderVO orderVO) {
         return orderDao.selectListPage(page, orderVO);
     }
 
@@ -143,6 +149,44 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             throw new BusinessException("保存订单内部异常");
         }
         // 所有操作成功后，将订单号返回
+        return orderNo;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String seckillSaveOrder(Long seckillSuccessId, MallUserVO userVO) {
+        SeckillSuccess seckillSuccess = seckillSuccessService.getById(seckillSuccessId);
+        if (!seckillSuccess.getUserId().equals(userVO.getUserId())) {
+            throw new BusinessException("当前登陆用户与抢购秒杀商品的用户不匹配");
+        }
+        Long seckillId = seckillSuccess.getSeckillId();
+        Seckill seckill = seckillService.getById(seckillId);
+        Long goodsId = seckill.getGoodsId();
+        Goods goods = goodsService.getById(goodsId);
+        // 生成订单号
+        String orderNo = NumberUtil.genOrderNo();
+        // 保存订单
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setTotalPrice(seckill.getSeckillPrice());
+        order.setUserId(userVO.getUserId());
+        order.setUserAddress(userVO.getAddress());
+        String extraInfo = "";
+        order.setExtraInfo(extraInfo);
+        if (!save(order)) {
+            throw new BusinessException("生成订单内部异常");
+        }
+        // 保存订单商品项
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrderId(order.getOrderId());
+        orderItem.setGoodsId(goods.getGoodsId());
+        orderItem.setGoodsCoverImg(goods.getGoodsCoverImg());
+        orderItem.setGoodsName(goods.getGoodsName());
+        orderItem.setGoodsCount(1);
+        orderItem.setSellingPrice(seckill.getSeckillPrice());
+        if (!orderItemService.save(orderItem)) {
+            throw new BusinessException("生成订单内部异常");
+        }
         return orderNo;
     }
 

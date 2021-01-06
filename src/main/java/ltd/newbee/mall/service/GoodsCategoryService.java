@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface GoodsCategoryService extends IService<GoodsCategory> {
 
-    IPage selectPage(Page<GoodsCategory> page, GoodsCategory goodsCategory);
+    IPage<GoodsCategory> selectPage(Page<GoodsCategory> page, GoodsCategory goodsCategory);
 
     /**
      * 查询商品三级分类树集合

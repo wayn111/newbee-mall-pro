@@ -19,10 +19,14 @@ import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.enums.PayStatusEnum;
 import ltd.newbee.mall.enums.PayTypeEnum;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.*;
+import ltd.newbee.mall.service.CouponUserService;
+import ltd.newbee.mall.service.OrderItemService;
+import ltd.newbee.mall.service.OrderService;
+import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
+import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,10 +57,8 @@ public class MallOrderController extends BaseController {
     private CouponUserService couponUserService;
 
     @Autowired
-    private CouponService couponService;
-
-    @Autowired
     private AlipayConfig alipayConfig;
+
 
     @GetMapping("saveOrder")
     public String saveOrder(Long couponUserId, HttpSession session) {
@@ -68,6 +70,19 @@ public class MallOrderController extends BaseController {
         }
         String orderNo = orderService.saveOrder(mallUserVO, couponUserId, shopcatVOList);
         return redirectTo("orders/" + orderNo);
+    }
+
+
+    @GetMapping("saveOrder/{seckillSuccessId}/{seckillSecretKey}")
+    public String seckillSaveOrder(@PathVariable Long seckillSuccessId,
+                                   @PathVariable String seckillSecretKey,
+                                   HttpSession session) {
+        if (seckillSecretKey == null || !seckillSecretKey.equals(Md5Utils.hash(seckillSuccessId + Constants.SECKILL_ORDER_SALT))) {
+            throw new BusinessException("秒杀商品下单不合法");
+        }
+        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        String orderNo = orderService.seckillSaveOrder(seckillSuccessId, userVO);
+        return redirectTo("/orders/" + orderNo);
     }
 
     @GetMapping("/orders/{orderNo}")
@@ -126,7 +141,7 @@ public class MallOrderController extends BaseController {
     @ResponseBody
     public R cancelOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
-        //todo 判断订单状态
+        // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_PAID.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
             throw new BusinessException("订单无法关闭");
@@ -140,7 +155,7 @@ public class MallOrderController extends BaseController {
     @ResponseBody
     public R finishOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
-        //todo 判断订单状态
+        // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_EXPRESS.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
             throw new BusinessException("订单结算异常");
@@ -153,25 +168,24 @@ public class MallOrderController extends BaseController {
     /**
      * 判断订单关联用户id和当前登陆用户是否一致
      *
-     * @param orderNo
+     * @param orderNo 订单编号
      * @param session
-     * @return
+     * @return 返回订单对象
      */
     private Order judgeOrderUserId(String orderNo, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        //todo 判断订单userId
+        // 判断订单userId
         if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("当前订单用户异常");
         }
         return order;
     }
 
-
     @GetMapping("/selectPayType")
     public String selectPayType(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
-        //todo 判断订单状态
+        // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
             throw new BusinessException("订单结算异常");
@@ -184,7 +198,7 @@ public class MallOrderController extends BaseController {
     @GetMapping("/payPage")
     public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session, @RequestParam("payType") int payType) throws UnsupportedEncodingException {
         Order order = judgeOrderUserId(orderNo, session);
-        //todo 判断订单状态
+        // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
             throw new BusinessException("订单结算异常");
@@ -278,7 +292,7 @@ public class MallOrderController extends BaseController {
         // 沙箱环境此处无法调用？，将此处代码放到returnUrl跳转中
         /*Order order = judgeOrderUserId(orderNo, session);
         if (order != null) {
-            //todo 判断订单状态
+            // 判断订单状态
             if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                     || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
                 throw new BusinessException("订单关闭异常");
@@ -296,7 +310,7 @@ public class MallOrderController extends BaseController {
     @ResponseBody
     public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
-        //todo 判断订单状态
+        // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
             throw new BusinessException("订单关闭异常");

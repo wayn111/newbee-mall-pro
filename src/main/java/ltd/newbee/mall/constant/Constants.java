@@ -59,4 +59,13 @@ public class Constants {
     public static String SORT_ORDER = "sortOrder";
     public static String ORDER_DESC = "desc";
     public static String SORT_ASC = "asc";
+
+    /**
+     * 秒杀执行盐值
+     */
+    public static final String SECKILL_EXECUTE_SALT = "qwe";
+    /**
+     * 秒杀下单盐值
+     */
+    public static final String SECKILL_ORDER_SALT = "asd";
 }

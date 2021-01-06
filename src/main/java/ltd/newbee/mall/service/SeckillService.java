@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import ltd.newbee.mall.entity.Seckill;
 import ltd.newbee.mall.entity.vo.ExposerVO;
 import ltd.newbee.mall.entity.vo.MallUserVO;
+import ltd.newbee.mall.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.entity.vo.SeckillVO;
 
 public interface SeckillService extends IService<Seckill> {
@@ -17,7 +18,7 @@ public interface SeckillService extends IService<Seckill> {
      * @param seckillVO 秒杀对象
      * @return 分页数据
      */
-    IPage selectPage(Page<Seckill> page, SeckillVO seckillVO);
+    IPage<Seckill> selectPage(Page<Seckill> page, SeckillVO seckillVO);
 
     /**
      * 执行秒杀操作
@@ -25,7 +26,7 @@ public interface SeckillService extends IService<Seckill> {
      * @param userVO 用户VO
      * @return 订单号
      */
-    String executeSeckill(Long seckillId, MallUserVO userVO);
+    SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO);
 
     /**
      * 秒杀地址暴露接口

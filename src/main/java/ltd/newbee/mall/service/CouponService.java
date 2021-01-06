@@ -18,7 +18,7 @@ public interface CouponService extends IService<Coupon> {
      * @param coupon 优惠劵对象
      * @return 分页数据
      */
-    IPage selectPage(Page<Coupon> page, CouponVO coupon);
+    IPage<Coupon> selectPage(Page<Coupon> page, CouponVO coupon);
 
     /**
      * 查询可用的优惠卷

@@ -13,5 +13,5 @@ public interface MallUserService extends IService<MallUser> {
      * @param mallUser 商品用户对象
      * @return 分页数据
      */
-    IPage selectPage(Page<MallUser> page, MallUser mallUser);
+    IPage<MallUser> selectPage(Page<MallUser> page, MallUser mallUser);
 }
