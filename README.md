@@ -10,6 +10,7 @@
 | ![秒杀管理](./images/秒杀管理.png) | ![订单管理](./images/订单管理.png) |
 
 ![秒杀专区](./images/秒杀专区.png)
+![秒杀开始](./images/秒杀开始.png)
 ![优惠卷领取](./images/优惠卷领取.png)
 ![订单结算](./images/订单结算.png)
 ![沙箱支付](./images/支付宝支付.png)
