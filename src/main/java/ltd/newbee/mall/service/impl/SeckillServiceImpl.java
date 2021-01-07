@@ -43,10 +43,33 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillDao.selectListPage(page, seckillVO);
     }
 
+    @Override
+    public ExposerVO exposerUrl(Long seckillId) {
+        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        if (seckill == null) {
+            seckill = getById(seckillId);
+            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+        }
+        Date startTime = seckill.getSeckillBegin();
+        Date endTime = seckill.getSeckillEnd();
+        // 系统当前时间
+        Date nowTime = new Date();
+        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
+            return new ExposerVO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
+        }
+        // 加密
+        String md5 = Md5Utils.hash(seckillId);
+        return new ExposerVO(true, md5, seckillId);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO) {
-        Seckill seckill = getById(seckillId);
+        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        if (seckill == null) {
+            seckill = getById(seckillId);
+            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+        }
         int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
@@ -77,6 +100,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (!seckillSuccessService.save(seckillSuccess)) {
             throw new BusinessException("保存用户秒杀商品失败");
         }
+        // 更新秒杀商品缓存
+        seckill.setSeckillNum(seckill.getSeckillNum() - 1);
+        redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         SeckillSuccessVO seckillSuccessVO = new SeckillSuccessVO();
         Long seckillSuccessId = seckillSuccess.getSecId();
         seckillSuccessVO.setSeckillSuccessId(seckillSuccessId);
@@ -86,7 +112,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
-        Seckill seckill = getById(seckillId);
+        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        if (seckill == null) {
+            seckill = getById(seckillId);
+            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+        }
         int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
@@ -110,6 +140,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (result != 1) {
             throw new BusinessException("很遗憾！未抢购到秒杀商品");
         }
+        // 更新秒杀商品缓存
+        seckill.setSeckillNum(seckill.getSeckillNum() - 1);
+        redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         SeckillSuccess seckillSuccess = seckillSuccessService.getOne(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userId)
@@ -121,22 +154,4 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillSuccessVO;
     }
 
-    @Override
-    public ExposerVO exposerUrl(Long seckillId) {
-        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
-        if (seckill == null) {
-            seckill = getById(seckillId);
-            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
-        }
-        Date startTime = seckill.getSeckillBegin();
-        Date endTime = seckill.getSeckillEnd();
-        // 系统当前时间
-        Date nowTime = new Date();
-        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
-            return new ExposerVO(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
-        }
-        // 加密
-        String md5 = Md5Utils.hash(seckillId);
-        return new ExposerVO(true, md5, seckillId);
-    }
 }
