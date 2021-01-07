@@ -22,7 +22,7 @@ public class SeckillSuccess implements Serializable {
     private Long userId;
 
     /**
-     * 状态信息：-1无效，0成功，1已付款，2已发货
+     * 状态信息：-1无效，0成功
      */
     private Byte status;
 

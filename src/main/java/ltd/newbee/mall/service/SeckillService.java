@@ -29,6 +29,14 @@ public interface SeckillService extends IService<Seckill> {
     SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO);
 
     /**
+     * 使用存储过程执行秒杀操作
+     * @param seckillId 秒杀商品ID
+     * @param userVO 用户VO
+     * @return 订单号
+     */
+    SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO);
+
+    /**
      * 秒杀地址暴露接口
      * @param seckillId 秒杀商品ID
      * @return 秒杀服务接口地址暴露类
