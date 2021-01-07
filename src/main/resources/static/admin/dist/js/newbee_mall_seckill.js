@@ -8,7 +8,7 @@ $(function () {
             {label: '秒杀商品Id', name: 'goodsId', index: 'goodsId'},
             {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
             {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
-            {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px', formatter: limitFormatter},
+            {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px'},
             {label: '上架状态', name: 'status', index: 'status', formatter: statusFormatter},
             {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin'},
             {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd'},
@@ -47,24 +47,6 @@ $(function () {
             return "无限制";
         }
         return cellvalue;
-    }
-
-    function typeFormatter(cellvalue) {
-        if (cellvalue == 0) {
-            return "通用卷";
-        } else if (cellvalue == 1) {
-            return "注册用卷";
-        } else {
-            return "优惠码兑换卷";
-        }
-    }
-
-    function limitFormatter(cellvalue) {
-        if (cellvalue == 0) {
-            return "不限制";
-        } else if (cellvalue == 1) {
-            return "限领一张";
-        }
     }
 
     function statusFormatter(cellvalue) {
