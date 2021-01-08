@@ -19,21 +19,29 @@ public class SeckillExecteTest {
     @Autowired
     private SeckillService seckillService;
 
-    private CountDownLatch begin = new CountDownLatch(3000);
+    private CountDownLatch countDown = new CountDownLatch(1);
 
     @Test
-    public void test1() throws InterruptedException, IOException {
+    public void test1() throws IOException {
         System.out.println("begin");
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 1000; i++) {
             MallUserVO userVO = new MallUserVO();
             userVO.setUserId((long) i);
             userVO.setAddress("address-test");
             new Thread(() -> {
-                begin.countDown();
-                System.out.println(seckillService.executeSeckill(1L, userVO));
+                long begin = System.currentTimeMillis();
+                try {
+                    countDown.await();
+                    System.out.println(seckillService.executeSeckillProcedure(16L, userVO));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                } finally {
+                    long end = System.currentTimeMillis();
+                    System.out.println("executeTime: " + (end - begin));
+                }
             }).start();
         }
-        begin.await();
+        countDown.countDown();
         System.out.println("end");
         System.in.read();
     }
