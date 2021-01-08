@@ -8,7 +8,6 @@
         <result column="goods_id" property="goodsId"/>
         <result column="seckill_price" property="seckillPrice"/>
         <result column="seckill_num" property="seckillNum"/>
-        <result column="limit_num" property="limitNum"/>
         <result column="status" property="status"/>
         <result column="seckill_rank" property="seckillRank"/>
         <result column="seckill_begin" property="seckillBegin"/>
@@ -23,7 +22,6 @@
                s.goods_id,
                s.seckill_price,
                s.seckill_num,
-               s.limit_num,
                s.seckill_rank,
                s.status,
                s.seckill_begin,

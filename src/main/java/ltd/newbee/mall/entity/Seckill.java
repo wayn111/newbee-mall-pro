@@ -41,11 +41,6 @@ public class Seckill implements Serializable {
     private Byte status;
 
     /**
-     * 秒杀限购
-     */
-    private Short limitNum;
-
-    /**
      * 秒杀开始时间
      */
     private Date seckillBegin;

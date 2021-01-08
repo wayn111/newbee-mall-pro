@@ -3,8 +3,10 @@ package ltd.newbee.mall.controller.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.entity.Seckill;
 import ltd.newbee.mall.entity.vo.SeckillVO;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.service.SeckillService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class SeckillManagerController extends BaseController {
 
     @Autowired
     private SeckillService seckillService;
+    @Autowired
+    private RedisCache redisCache;
 
     @GetMapping
     public String index(HttpServletRequest request) {
@@ -43,6 +47,7 @@ public class SeckillManagerController extends BaseController {
     @PostMapping("/save")
     public R save(@RequestBody Seckill seckill) {
         seckillService.save(seckill);
+        redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
         return R.success();
     }
 
@@ -51,6 +56,7 @@ public class SeckillManagerController extends BaseController {
     public R update(@RequestBody Seckill seckill) {
         seckill.setUpdateTime(new Date());
         seckillService.updateById(seckill);
+        redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
         return R.success();
     }
 

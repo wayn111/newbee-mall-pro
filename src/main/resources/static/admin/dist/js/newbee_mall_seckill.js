@@ -8,7 +8,6 @@ $(function () {
             {label: '秒杀商品Id', name: 'goodsId', index: 'goodsId'},
             {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
             {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
-            {label: '限购数量', name: 'limitNum', index: 'limitNum', width: '100px'},
             {label: '上架状态', name: 'status', index: 'status', formatter: statusFormatter},
             {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin'},
             {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd'},
@@ -120,7 +119,6 @@ var vm = new Vue({
             goodsId: '',
             seckillPrice: '',
             seckillNum: undefined,
-            limitNum: undefined,
             status: 0,
             seckillBegin: undefined,
             seckillEnd: undefined,
@@ -172,7 +170,6 @@ var vm = new Vue({
                 goodsId: '',
                 seckillPrice: '',
                 seckillNum: undefined,
-                limitNum: undefined,
                 status: 0,
                 seckillBegin: undefined,
                 seckillEnd: undefined,
@@ -194,11 +191,6 @@ var vm = new Vue({
             if (isNull(form.seckillNum)) {
                 $('#edit-error-msg').css("display", "block");
                 $('#edit-error-msg').html("请输入秒杀数量！");
-                return;
-            }
-            if (isNull(form.limitNum)) {
-                $('#edit-error-msg').css("display", "block");
-                $('#edit-error-msg').html("请输入限购数量！");
                 return;
             }
             if (isNull(form.seckillBegin)) {

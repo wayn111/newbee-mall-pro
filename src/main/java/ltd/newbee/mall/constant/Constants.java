@@ -68,4 +68,14 @@ public class Constants {
      * 秒杀下单盐值
      */
     public static final String SECKILL_ORDER_SALT = "asd";
+
+    /**
+     * 秒杀商品库存缓存
+     */
+    public static final String SECKILL_GOODS_STOCK_KEY = "seckill_goods_stock:";
+
+    /**
+     * 秒杀商品缓存
+     */
+    public static final String SECKILL_KEY = "seckill:";
 }

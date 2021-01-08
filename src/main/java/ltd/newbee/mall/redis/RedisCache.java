@@ -24,6 +24,27 @@ public class RedisCache {
     @Autowired
     public RedisTemplate redisTemplate;
 
+
+    /**
+     * string类型递增
+     *
+     * @param key 缓存的键值
+     * @return 递增后返回值
+     */
+    public Long increment(final String key) {
+        return redisTemplate.opsForValue().increment(key);
+    }
+
+    /**
+     * string类型递减
+     *
+     * @param key 缓存的键值
+     * @return 递减后返回值
+     */
+    public Long decrement(final String key) {
+        return redisTemplate.opsForValue().decrement(key);
+    }
+
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *

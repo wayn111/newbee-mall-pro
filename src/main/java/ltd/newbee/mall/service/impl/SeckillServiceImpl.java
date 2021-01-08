@@ -30,7 +30,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> implements SeckillService {
 
-    public static final String SECKILL_KEY = "seckillId:";
     @Autowired
     private SeckillDao seckillDao;
     @Autowired
@@ -45,10 +44,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public ExposerVO exposerUrl(Long seckillId) {
-        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
             seckill = getById(seckillId);
-            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+            redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         }
         Date startTime = seckill.getSeckillBegin();
         Date endTime = seckill.getSeckillEnd();
@@ -65,19 +64,15 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO) {
-        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        // 更新秒杀商品库存
+        Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        if (stock < 0) {
+            throw new BusinessException("秒杀商品已售空");
+        }
+        Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
             seckill = getById(seckillId);
-            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
-        }
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
-                .eq("seckill_id", seckillId)
-                .eq("user_id", userVO.getUserId()));
-        if (count >= seckill.getLimitNum()) {
-            throw new BusinessException("您的购买数量已经超出秒杀限购数量");
-        }
-        if (seckill.getSeckillNum() <= 0) {
-            throw new BusinessException("秒杀商品已售空");
+            redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         }
         // 判断秒杀商品是否再有效期内
         long beginTime = seckill.getSeckillBegin().getTime();
@@ -100,9 +95,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (!seckillSuccessService.save(seckillSuccess)) {
             throw new BusinessException("保存用户秒杀商品失败");
         }
-        // 更新秒杀商品缓存
-        seckill.setSeckillNum(seckill.getSeckillNum() - 1);
-        redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         SeckillSuccessVO seckillSuccessVO = new SeckillSuccessVO();
         Long seckillSuccessId = seckillSuccess.getSecId();
         seckillSuccessVO.setSeckillSuccessId(seckillSuccessId);
@@ -112,19 +104,25 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
-        Seckill seckill = redisCache.getCacheObject(SECKILL_KEY + seckillId);
+        // 更新秒杀商品库存
+        Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        if (stock < 0) {
+            throw new BusinessException("秒杀商品已售空");
+        }
+        Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
             seckill = getById(seckillId);
-            redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+            redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         }
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
-                .eq("seckill_id", seckillId)
-                .eq("user_id", userVO.getUserId()));
-        if (count >= seckill.getLimitNum()) {
-            throw new BusinessException("您的购买数量已经超出秒杀限购数量");
-        }
-        if (seckill.getSeckillNum() <= 0) {
-            throw new BusinessException("秒杀商品已售空");
+        // 判断秒杀商品是否再有效期内
+        long beginTime = seckill.getSeckillBegin().getTime();
+        long endTime = seckill.getSeckillEnd().getTime();
+        Date now = new Date();
+        long nowTime = now.getTime();
+        if (nowTime < beginTime) {
+            throw new BusinessException("秒杀未开启");
+        } else if (nowTime > endTime) {
+            throw new BusinessException("秒杀已结束");
         }
         Date killTime = new Date();
         Long userId = userVO.getUserId();
@@ -140,13 +138,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (result != 1) {
             throw new BusinessException("很遗憾！未抢购到秒杀商品");
         }
-        // 更新秒杀商品缓存
-        seckill.setSeckillNum(seckill.getSeckillNum() - 1);
-        redisCache.setCacheObject(SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         SeckillSuccess seckillSuccess = seckillSuccessService.getOne(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
-                .eq("user_id", userId)
-                .eq("create_time", killTime));
+                .eq("user_id", userId));
         SeckillSuccessVO seckillSuccessVO = new SeckillSuccessVO();
         Long seckillSuccessId = seckillSuccess.getSecId();
         seckillSuccessVO.setSeckillSuccessId(seckillSuccessId);
