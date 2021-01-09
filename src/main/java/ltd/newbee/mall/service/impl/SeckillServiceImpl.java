@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.util.concurrent.RateLimiter;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.dao.SeckillDao;
 import ltd.newbee.mall.entity.Seckill;
@@ -104,6 +105,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
+        // 使用令牌桶RateLimiter 限流
+		RateLimiter rateLimiter = RateLimiter.create(10);
+		// 判断能否在1秒内得到令牌，如果不能则立即返回false，不会阻塞程序
+		if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+			// System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
+            throw new BusinessException("秒杀失败");
+        }
         // 更新秒杀商品库存
         Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
@@ -124,6 +132,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         } else if (nowTime > endTime) {
             throw new BusinessException("秒杀已结束");
         }
+
         Date killTime = new Date();
         Long userId = userVO.getUserId();
         Map<String, Object> map = new HashMap<>();
