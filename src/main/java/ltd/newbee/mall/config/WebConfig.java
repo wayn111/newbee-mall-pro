@@ -3,6 +3,8 @@ package ltd.newbee.mall.config;
 import ltd.newbee.mall.intercepter.AdminLoginInterceptor;
 import ltd.newbee.mall.intercepter.MallLoginValidateIntercepter;
 import ltd.newbee.mall.intercepter.MallShopCartNumberInterceptor;
+import ltd.newbee.mall.intercepter.RepeatSubmitInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${wayn.uploadDir}")
     private String uploadDir;
+
+    @Autowired
+    private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -70,6 +75,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/login")
                 .excludePathPatterns("/admin/dist/**")
                 .excludePathPatterns("/admin/plugins/**");
+        
+        registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
     }
 
     @Bean

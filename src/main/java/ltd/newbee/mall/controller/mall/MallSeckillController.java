@@ -2,6 +2,8 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import ltd.newbee.mall.annotation.Limit;
+import ltd.newbee.mall.annotation.RepeatSubmit;
 import ltd.newbee.mall.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.entity.Goods;
@@ -71,6 +73,8 @@ public class MallSeckillController extends BaseController {
     }
 
     @ResponseBody
+    @RepeatSubmit
+    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
     @PostMapping(value = "/{seckillId}/{md5}/execution")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {

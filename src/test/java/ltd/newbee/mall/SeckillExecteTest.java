@@ -24,7 +24,7 @@ public class SeckillExecteTest {
     @Test
     public void test1() throws IOException {
         System.out.println("begin");
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             MallUserVO userVO = new MallUserVO();
             userVO.setUserId((long) i);
             userVO.setAddress("address-test");
