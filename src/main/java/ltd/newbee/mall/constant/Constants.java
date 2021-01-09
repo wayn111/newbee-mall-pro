@@ -78,4 +78,13 @@ public class Constants {
      * 秒杀商品缓存
      */
     public static final String SECKILL_KEY = "seckill:";
+    /**
+     * 秒杀商品详情页面缓存
+     */
+    public static final String SECKILL_GOODS_DETAIL_HTML = "seckill_goods_detail_html:";
+    /**
+     * 秒杀商品列表页面缓存
+     */
+    public static final String SECKILL_GOODS_LIST_HTML = "seckill_goods_list_html";
+
 }

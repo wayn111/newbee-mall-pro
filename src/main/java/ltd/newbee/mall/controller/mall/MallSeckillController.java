@@ -13,19 +13,26 @@ import ltd.newbee.mall.entity.vo.MallUserVO;
 import ltd.newbee.mall.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.entity.vo.ShopCatVO;
 import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.service.GoodsService;
 import ltd.newbee.mall.service.SeckillService;
 import ltd.newbee.mall.service.SeckillSuccessService;
 import ltd.newbee.mall.service.ShopCatService;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.security.Md5Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,6 +50,12 @@ public class MallSeckillController extends BaseController {
 
     @Autowired
     private SeckillSuccessService seckillSuccessService;
+
+    @Autowired
+    private ThymeleafViewResolver thymeleafViewResolver;
+
+    @Autowired
+    private RedisCache redisCache;
 
     @ResponseBody
     @GetMapping("time/now")
@@ -101,7 +114,15 @@ public class MallSeckillController extends BaseController {
     }
 
     @GetMapping("list")
-    public String list(HttpServletRequest request) {
+    @ResponseBody
+    public String list(HttpServletRequest request,
+                       HttpServletResponse response,
+                       Model model) {
+        // 判断缓存中是否有当前秒杀商品列表页面
+        String html = redisCache.getCacheObject(Constants.SECKILL_GOODS_LIST_HTML);
+        if (StringUtils.isNotBlank(html)) {
+            return html;
+        }
         List<Seckill> seckillList = seckillService.list(new QueryWrapper<Seckill>().eq("status", 1).orderByDesc("seckill_rank"));
         List<Map<String, Object>> list = seckillList.stream().map(seckill -> {
             Map<String, Object> map = new HashMap<>();
@@ -116,17 +137,34 @@ public class MallSeckillController extends BaseController {
             return map;
         }).collect(Collectors.toList());
         request.setAttribute("seckillList", list);
-        return "mall/seckill-list";
+        // 缓存秒杀商品列表页
+        WebContext ctx = new WebContext(request, response,
+                request.getServletContext(), request.getLocale(), model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("mall/seckill-list", ctx);
+        if (!StringUtils.isEmpty(html)) {
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_LIST_HTML, html, 1, TimeUnit.HOURS);
+        }
+        return html;
     }
 
 
     @GetMapping("detail/{seckillId}")
-    public String detail(@PathVariable("seckillId") Long seckillId, HttpServletRequest request, HttpSession session) {
+    @ResponseBody()
+    public String detail(@PathVariable("seckillId") Long seckillId,
+                         HttpServletRequest request,
+                         HttpServletResponse response,
+                         Model model,
+                         HttpSession session) {
+        // 判断缓存中是否有当前秒杀商品详情页面
+        String html = redisCache.getCacheObject(Constants.SECKILL_GOODS_DETAIL_HTML + seckillId);
+        if (StringUtils.isNotBlank(html)) {
+            return html;
+        }
         Seckill seckill = seckillService.getById(seckillId);
         Long goodsId = seckill.getGoodsId();
+        // 购物车商品数量展示，默认为0
         request.setAttribute("cartItemId", 0);
         request.setAttribute("goodsCount", 0);
-        // 查询购物车中是否有该商品
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         if (userVO != null) {
             ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
@@ -168,6 +206,13 @@ public class MallSeckillController extends BaseController {
         request.setAttribute("seckillId", seckill.getSeckillId());
         request.setAttribute("seckillStatus", miaoshaStatus);
         request.setAttribute("remainSeconds", remainSeconds);
-        return "mall/seckill-detail";
+        // 缓存秒杀商品详情页
+        WebContext ctx = new WebContext(request, response,
+                request.getServletContext(), request.getLocale(), model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("mall/seckill-detail", ctx);
+        if (!StringUtils.isEmpty(html)) {
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_DETAIL_HTML + seckillId, html, 30, TimeUnit.MINUTES);
+        }
+        return html;
     }
 }
