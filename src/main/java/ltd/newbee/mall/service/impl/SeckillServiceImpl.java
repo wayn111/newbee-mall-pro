@@ -102,7 +102,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
-        // 查询秒杀商品库存
+        // 更新秒杀商品库存
         Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
             throw new BusinessException("秒杀商品已售空");
@@ -154,7 +154,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
             throw new BusinessException("秒杀失败");
         }
-        // 查询秒杀商品库存
+        // 更新秒杀商品库存
         Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
             throw new BusinessException("秒杀商品已售空");

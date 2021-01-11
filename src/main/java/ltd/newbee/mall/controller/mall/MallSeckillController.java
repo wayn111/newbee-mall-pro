@@ -74,7 +74,6 @@ public class MallSeckillController extends BaseController {
 
     @ResponseBody
     @RepeatSubmit
-    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
     @PostMapping(value = "/{seckillId}/{md5}/execution")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {
@@ -83,6 +82,20 @@ public class MallSeckillController extends BaseController {
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillProcedure(seckillId, userVO);
+        return R.success().add("seckillSuccess", seckillSuccessVO);
+    }
+
+    @ResponseBody
+    @RepeatSubmit
+    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
+    @PostMapping(value = "/{seckillId}/{md5}/executionLimiting")
+    public R executionLimiting(@PathVariable Long seckillId,
+                               @PathVariable String md5, HttpSession session) {
+        if (md5 == null || !md5.equals(Md5Utils.hash(seckillId))) {
+            throw new BusinessException("秒杀商品不存在");
+        }
+        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillLimiting(seckillId, userVO);
         return R.success().add("seckillSuccess", seckillSuccessVO);
     }
 
