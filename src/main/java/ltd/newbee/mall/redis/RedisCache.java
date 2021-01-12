@@ -5,12 +5,11 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component
 public class RedisCache {
+
     @Autowired
     public RedisTemplate redisTemplate;
 
@@ -42,7 +42,22 @@ public class RedisCache {
      * @return 递减后返回值
      */
     public Long decrement(final String key) {
-        return redisTemplate.opsForValue().decrement(key);
+        RedisScript<Number> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Number.class);
+        Number execute = (Number) redisTemplate.execute(redisScript, Collections.singletonList(key));
+        return execute.longValue();
+    }
+
+    /**
+     * lua原子自减脚本
+     */
+    private String buildLuaDecScript() {
+        return "local c" +
+                "\nc = redis.call('get',KEYS[1])" +
+                "\nif c and tonumber(c) <= 0 then" +
+                "\nreturn c;" +
+                "\nend" +
+                "\nc = redis.call('decr',KEYS[1])" +
+                "\nreturn c;";
     }
 
     /**
@@ -155,23 +170,34 @@ public class RedisCache {
     /**
      * 缓存Set
      *
-     * @param key     缓存键值
-     * @param dataSet 缓存的数据
+     * @param key   缓存键值
+     * @param value 缓存的数据
      * @return 缓存数据的对象
      */
-    public <T> long setCacheSet(final String key, final Set<T> dataSet) {
-        Long count = redisTemplate.opsForSet().add(key, dataSet);
+    public <T> long setCacheSet(final String key, final Object value) {
+        Long count = redisTemplate.opsForSet().add(key, value);
         return count == null ? 0 : count;
     }
 
     /**
      * 获得缓存的set
      *
-     * @param key
-     * @return
+     * @param key 缓存键值
+     * @return 缓存set数据
      */
     public <T> Set<T> getCacheSet(final String key) {
         return redisTemplate.opsForSet().members(key);
+    }
+
+    /**
+     * 判断key-set中是否存在value
+     *
+     * @param key   缓存键值
+     * @param value 缓存的数据
+     * @return boolean
+     */
+    public Boolean containsCacheSet(final String key, final Object value) {
+        return redisTemplate.opsForSet().isMember(key, value);
     }
 
     /**

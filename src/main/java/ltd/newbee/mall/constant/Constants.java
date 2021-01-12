@@ -87,4 +87,9 @@ public class Constants {
      */
     public static final String SECKILL_GOODS_LIST_HTML = "seckill_goods_list_html";
 
+    /**
+     * 秒杀成功的用户set缓存
+     */
+    public static final String SECKILL_SUCCESS_USER_ID = "seckill_success_user_id:";
+
 }

@@ -13,10 +13,10 @@ import ltd.newbee.mall.core.entity.vo.ExposerVO;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.core.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
-import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.core.service.SeckillService;
 import ltd.newbee.mall.core.service.SeckillSuccessService;
+import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +77,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (seckill.getSeckillNum() <= 0) {
             throw new BusinessException("秒杀商品已售空");
         }
+        // 判断用户是否买过
+        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
+                .eq("seckill_id", seckillId)
+                .eq("user_id", userVO.getUserId()));
+        if (count > 0) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
+        }
         // 判断秒杀商品是否再有效期内
         long beginTime = seckill.getSeckillBegin().getTime();
         long endTime = seckill.getSeckillEnd().getTime();
@@ -107,6 +114,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
+        // 判断用户是否购买过秒杀商品
+        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
+                .eq("seckill_id", seckillId)
+                .eq("user_id", userVO.getUserId()));
+        if (count > 0) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
+        }
         // 更新秒杀商品库存
         Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
@@ -154,6 +168,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO) {
+        // 判断用户是否购买过秒杀商品
+        if (redisCache.containsCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId())) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
+        }
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
         if (!rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS)) {
             // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
@@ -163,6 +181,13 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
             throw new BusinessException("秒杀商品已售空");
+        }
+        // 判断用户是否买过
+        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
+                .eq("seckill_id", seckillId)
+                .eq("user_id", userVO.getUserId()));
+        if (count > 0) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
         }
         Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
@@ -194,6 +219,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (result != 1) {
             throw new BusinessException("很遗憾！未抢购到秒杀商品");
         }
+        redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId());
         SeckillSuccess seckillSuccess = seckillSuccessService.getOne(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userId));

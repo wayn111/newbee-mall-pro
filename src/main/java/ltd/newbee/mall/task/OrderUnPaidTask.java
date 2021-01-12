@@ -2,10 +2,12 @@ package ltd.newbee.mall.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
 import ltd.newbee.mall.core.service.*;
 import ltd.newbee.mall.enums.OrderStatusEnum;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
 
 import java.util.Date;
@@ -67,9 +69,11 @@ public class OrderUnPaidTask extends Task {
             if (orderItem.getSeckillId() != null) {
                 Long seckillId = orderItem.getSeckillId();
                 SeckillService seckillService = SpringContextUtil.getBean(SeckillService.class);
+                RedisCache redisCache = SpringContextUtil.getBean(RedisCache.class);
                 if (!seckillService.addStock(seckillId)) {
                     throw new RuntimeException("秒杀商品货品库存增加失败");
                 }
+                redisCache.increment(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
             } else {
                 Long goodsId = orderItem.getGoodsId();
                 Integer goodsCount = orderItem.getGoodsCount();
