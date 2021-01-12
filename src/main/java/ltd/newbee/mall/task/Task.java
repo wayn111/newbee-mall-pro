@@ -8,6 +8,11 @@ public abstract class Task implements Delayed, Runnable {
     private final String id;
     private final long start;
 
+    /**
+     *
+     * @param id 定时任务ID
+     * @param delayInMilliseconds 延迟执行时间，单位/毫秒
+     */
     public Task(String id, long delayInMilliseconds) {
         this.id = id;
         this.start = System.currentTimeMillis() + delayInMilliseconds;

@@ -4,10 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
-import ltd.newbee.mall.core.service.CouponService;
-import ltd.newbee.mall.core.service.GoodsService;
-import ltd.newbee.mall.core.service.OrderItemService;
-import ltd.newbee.mall.core.service.OrderService;
+import ltd.newbee.mall.core.service.*;
 import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
 
@@ -42,7 +39,7 @@ public class OrderUnPaidTask extends Task {
 
     @Override
     public void run() {
-        log.info("系统开始处理延时任务---订单超时未付款---" + this.orderId);
+        log.info("系统开始处理延时任务---订单超时未付款--- {}", this.orderId);
 
         OrderService orderService = SpringContextUtil.getBean(OrderService.class);
         OrderItemService orderItemService = SpringContextUtil.getBean(OrderItemService.class);
@@ -67,15 +64,23 @@ public class OrderUnPaidTask extends Task {
         // 商品货品数量增加
         List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", orderId));
         for (OrderItem orderItem : orderItems) {
-            Long goodsId = orderItem.getGoodsId();
-            Integer goodsCount = orderItem.getGoodsCount();
-            if (!goodsService.addStock(goodsId, goodsCount)) {
-                throw new RuntimeException("商品货品库存增加失败");
+            if (orderItem.getSeckillId() != null) {
+                Long seckillId = orderItem.getSeckillId();
+                SeckillService seckillService = SpringContextUtil.getBean(SeckillService.class);
+                if (!seckillService.addStock(seckillId)) {
+                    throw new RuntimeException("秒杀商品货品库存增加失败");
+                }
+            } else {
+                Long goodsId = orderItem.getGoodsId();
+                Integer goodsCount = orderItem.getGoodsCount();
+                if (!goodsService.addStock(goodsId, goodsCount)) {
+                    throw new RuntimeException("商品货品库存增加失败");
+                }
             }
         }
 
         // 返还优惠券
         couponService.releaseCoupon(orderId);
-        log.info("系统结束处理延时任务---订单超时未付款---" + this.orderId);
+        log.info("系统结束处理延时任务---订单超时未付款--- {}", this.orderId);
     }
 }

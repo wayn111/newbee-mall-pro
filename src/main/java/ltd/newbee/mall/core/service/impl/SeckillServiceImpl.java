@@ -64,6 +64,11 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return new ExposerVO(true, md5, seckillId);
     }
 
+    @Override
+    public boolean addStock(Long seckillId) {
+        return seckillDao.addStock(seckillId);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO) {
@@ -83,7 +88,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("秒杀已结束");
         }
         // 执行秒杀逻辑：减库存 + 记录购买行为
-        if (!seckillDao.reduceNumber(seckillId, now.getTime() / 1000)) {
+        if (!seckillDao.reduceSotck(seckillId, now.getTime() / 1000)) {
             throw new BusinessException("秒杀商品减库存失败");
         }
         SeckillSuccess seckillSuccess = new SeckillSuccess();

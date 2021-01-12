@@ -55,4 +55,12 @@ public interface SeckillService extends IService<Seckill> {
      * @return 秒杀服务接口地址暴露类
      */
     ExposerVO exposerUrl(Long seckillId);
+
+    /**
+     * 添加秒杀商品库存
+     *
+     * @param seckillId 秒杀商品ID
+     * @return boolean
+     */
+    boolean addStock(Long seckillId);
 }

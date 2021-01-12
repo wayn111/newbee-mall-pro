@@ -15,6 +15,8 @@ public class OrderItem {
 
     private Long orderId;
 
+    private Long seckillId;
+
     private Long goodsId;
 
     private String goodsName;

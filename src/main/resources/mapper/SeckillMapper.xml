@@ -32,6 +32,7 @@
         from tb_newbee_mall_seckill s
     </sql>
 
+
     <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Seckill" resultMap="BaseResultMap">
         <include refid="selectSeckill"></include>
         <where>
@@ -51,13 +52,19 @@
         </where>
     </select>
 
-    <update id="reduceNumber">
+    <update id="reduceSotck">
         update tb_newbee_mall_seckill
         set seckill_num = seckill_num - 1
         where seckill_id = #{seckillId}
           and seckill_num > 0
           and UNIX_TIMESTAMP(seckill_begin)  <![CDATA[ <= ]]>  #{now}
           and UNIX_TIMESTAMP(seckill_end)  <![CDATA[ >= ]]>  #{now}
+    </update>
+
+    <update id="addStock">
+        update tb_newbee_mall_seckill
+        set seckill_num = seckill_num + 1
+        where seckill_id = #{seckillId}
     </update>
 
     <select id="killByProcedure" statementType="CALLABLE">

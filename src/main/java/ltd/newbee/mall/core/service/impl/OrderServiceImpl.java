@@ -186,7 +186,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         }
         // 保存订单商品项
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrderId(order.getOrderId());
+        Long orderId = order.getOrderId();
+        orderItem.setOrderId(orderId);
+        orderItem.setSeckillId(seckillId);
         orderItem.setGoodsId(goods.getGoodsId());
         orderItem.setGoodsCoverImg(goods.getGoodsCoverImg());
         orderItem.setGoodsName(goods.getGoodsName());
@@ -195,6 +197,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         if (!orderItemService.save(orderItem)) {
             throw new BusinessException("生成订单内部异常");
         }
+        // 秒杀订单5分钟未支付超期任务
+        taskService.addTask(new OrderUnPaidTask(orderId, 1 * 60 * 1000));
         return orderNo;
     }
 
