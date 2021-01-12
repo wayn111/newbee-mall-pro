@@ -23,6 +23,8 @@ import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.OrderItemService;
 import ltd.newbee.mall.core.service.OrderService;
 import ltd.newbee.mall.core.service.ShopCatService;
+import ltd.newbee.mall.task.OrderUnPaidTask;
+import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
@@ -58,6 +60,9 @@ public class MallOrderController extends BaseController {
 
     @Autowired
     private AlipayConfig alipayConfig;
+
+    @Autowired
+    private TaskService taskService;
 
 
     @GetMapping("saveOrder")
@@ -108,6 +113,46 @@ public class MallOrderController extends BaseController {
             request.setAttribute("discount", coupon.getDiscount());
         }
         return "mall/order-detail";
+    }
+
+
+    @RequestMapping("/alipaySuccess/{orderNo}/{payType}")
+    public void alipaySuccess(@PathVariable("orderNo") String orderNo, @PathVariable("payType") int payType, HttpSession session) {
+        // 沙箱环境此处无法调用？，将此处代码放到returnUrl跳转中
+        /*Order order = judgeOrderUserId(orderNo, session);
+        if (order != null) {
+            // 判断订单状态
+            if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                    || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+                throw new BusinessException("订单关闭异常");
+            }
+            order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+            order.setPayType((byte) payType);
+            order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+            order.setPayTime(new Date());
+            order.setUpdateTime(new Date());
+            orderService.updateById(order);
+        }*/
+    }
+
+    @GetMapping("/paySuccess")
+    @ResponseBody
+    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
+        Order order = judgeOrderUserId(orderNo, session);
+        // 判断订单状态
+        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+            throw new BusinessException("订单关闭异常");
+        }
+        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+        order.setPayType((byte) payType);
+        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+        order.setPayTime(new Date());
+        order.setUpdateTime(new Date());
+        orderService.updateById(order);
+        // 支付成功清空订单支付超期任务
+        taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
+        return R.success();
     }
 
     @GetMapping("/orders")
@@ -286,43 +331,5 @@ public class MallOrderController extends BaseController {
         orderService.updateById(order);
         return "mall/order-detail";
     }
-
-    @RequestMapping("/alipaySuccess/{orderNo}/{payType}")
-    public void alipaySuccess(@PathVariable("orderNo") String orderNo, @PathVariable("payType") int payType, HttpSession session) {
-        // 沙箱环境此处无法调用？，将此处代码放到returnUrl跳转中
-        /*Order order = judgeOrderUserId(orderNo, session);
-        if (order != null) {
-            // 判断订单状态
-            if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                    || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-                throw new BusinessException("订单关闭异常");
-            }
-            order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-            order.setPayType((byte) payType);
-            order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-            order.setPayTime(new Date());
-            order.setUpdateTime(new Date());
-            orderService.updateById(order);
-        }*/
-    }
-
-    @GetMapping("/paySuccess")
-    @ResponseBody
-    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
-        // 判断订单状态
-        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-            throw new BusinessException("订单关闭异常");
-        }
-        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-        order.setPayType((byte) payType);
-        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-        order.setPayTime(new Date());
-        order.setUpdateTime(new Date());
-        orderService.updateById(order);
-        return R.success();
-    }
-
 
 }

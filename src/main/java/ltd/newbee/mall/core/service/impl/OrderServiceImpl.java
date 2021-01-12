@@ -9,6 +9,8 @@ import ltd.newbee.mall.core.entity.*;
 import ltd.newbee.mall.core.entity.vo.*;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.*;
+import ltd.newbee.mall.task.OrderUnPaidTask;
+import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.NumberUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
 
     @Autowired
     private SeckillService seckillService;
+
+    @Autowired
+    private TaskService taskService;
 
     @Override
     public IPage<OrderListVO> selectMyOrderPage(Page<OrderListVO> page, Order order) {
@@ -129,11 +134,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         if (!save(order)) {
             throw new BusinessException("保存订单异常");
         }
+        Long orderId = order.getOrderId();
         // 生成所有的订单项快照，并保存至数据库
         List<OrderItem> orderItems = shopcatVOList.stream().map(shopCatVO -> {
             OrderItem orderItem = new OrderItem();
             BeanUtils.copyProperties(shopCatVO, orderItem);
-            orderItem.setOrderId(order.getOrderId());
+            orderItem.setOrderId(orderId);
             return orderItem;
         }).collect(Collectors.toList());
         // 如果使用了优惠卷，则更新优惠卷状态
@@ -148,6 +154,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         if (!orderItemService.saveBatch(orderItems)) {
             throw new BusinessException("保存订单内部异常");
         }
+        // 订单支付超期任务
+        taskService.addTask(new OrderUnPaidTask(orderId));
         // 所有操作成功后，将订单号返回
         return orderNo;
     }

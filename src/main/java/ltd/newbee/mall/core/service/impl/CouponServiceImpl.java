@@ -16,13 +16,11 @@ import ltd.newbee.mall.core.service.CouponService;
 import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.util.MyBeanUtil;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -120,5 +118,18 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             }
             return b;
         }).sorted(Comparator.comparingInt(MyCouponVO::getDiscount)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void releaseCoupon(Long orderId) {
+        List<CouponUser> couponUserList = couponUserService.list(new QueryWrapper<CouponUser>().eq("order_id", orderId));
+        if (CollectionUtils.isEmpty(couponUserList)) {
+            return;
+        }
+        for (CouponUser couponUser : couponUserList) {
+            couponUser.setStatus((byte) 0);
+            couponUser.setUpdateTime(new Date());
+            couponUserService.updateById(couponUser);
+        }
     }
 }

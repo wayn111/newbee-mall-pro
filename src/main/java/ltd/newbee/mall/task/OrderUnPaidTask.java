@@ -4,24 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
+import ltd.newbee.mall.core.service.CouponService;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.OrderItemService;
 import ltd.newbee.mall.core.service.OrderService;
 import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
-import org.apache.commons.collections4.CollectionUtils;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * 未支付订单超时自动取消任务
  */
 @Slf4j
-public class OrderUnPayTask extends Task {
+public class OrderUnPaidTask extends Task {
 
     /**
      * 默认延迟时间30分钟，单位毫秒
@@ -33,13 +30,13 @@ public class OrderUnPayTask extends Task {
      */
     private final Long orderId;
 
-    public OrderUnPayTask(Long orderId, long delayInMilliseconds) {
-        super("OrderUnPayTask-" + orderId, delayInMilliseconds);
+    public OrderUnPaidTask(Long orderId, long delayInMilliseconds) {
+        super("OrderUnPaidTask-" + orderId, delayInMilliseconds);
         this.orderId = orderId;
     }
 
-    public OrderUnPayTask(Long orderId) {
-        super("OrderUnPayTask-" + orderId, DELAY_TIME);
+    public OrderUnPaidTask(Long orderId) {
+        super("OrderUnPaidTask-" + orderId, DELAY_TIME);
         this.orderId = orderId;
     }
 
@@ -50,6 +47,7 @@ public class OrderUnPayTask extends Task {
         OrderService orderService = SpringContextUtil.getBean(OrderService.class);
         OrderItemService orderItemService = SpringContextUtil.getBean(OrderItemService.class);
         GoodsService goodsService = SpringContextUtil.getBean(GoodsService.class);
+        CouponService couponService = SpringContextUtil.getBean(CouponService.class);
 
         Order order = orderService.getById(orderId);
         if (order == null) {
@@ -76,6 +74,8 @@ public class OrderUnPayTask extends Task {
             }
         }
 
+        // 返还优惠券
+        couponService.releaseCoupon(orderId);
         log.info("系统结束处理延时任务---订单超时未付款---" + this.orderId);
     }
 }

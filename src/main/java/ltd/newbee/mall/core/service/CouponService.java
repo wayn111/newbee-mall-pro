@@ -14,7 +14,8 @@ public interface CouponService extends IService<Coupon> {
 
     /**
      * 分页查询
-     * @param page 分页对象
+     *
+     * @param page   分页对象
      * @param coupon 优惠劵对象
      * @return 分页数据
      */
@@ -23,8 +24,8 @@ public interface CouponService extends IService<Coupon> {
     /**
      * 查询可用的优惠卷
      *
-     * @return 可用优惠劵集合
      * @param userId 用户ID
+     * @return 可用优惠劵集合
      */
     List<CouponVO> selectAvailableCoupon(Long userId);
 
@@ -37,4 +38,11 @@ public interface CouponService extends IService<Coupon> {
      * @return 该订单可用优惠劵集合
      */
     List<MyCouponVO> selectMyCoupons(List<ShopCatVO> shopCatVOS, int priceTotal, Long userId);
+
+    /**
+     * 取消订单返还优惠券
+     *
+     * @param orderId 订单ID
+     */
+    void releaseCoupon(Long orderId);
 }
