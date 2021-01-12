@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.SeckillDao">
+<mapper namespace="ltd.newbee.mall.core.dao.SeckillDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Seckill">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.Seckill">
         <id column="seckill_id" property="seckillId"/>
         <result column="goods_id" property="goodsId"/>
         <result column="seckill_price" property="seckillPrice"/>
@@ -32,7 +32,7 @@
         from tb_newbee_mall_seckill s
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Seckill" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Seckill" resultMap="BaseResultMap">
         <include refid="selectSeckill"></include>
         <where>
             s.is_deleted = 0

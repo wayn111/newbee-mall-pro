@@ -3,12 +3,12 @@ package ltd.newbee.mall.controller.mall;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.entity.MallUser;
-import ltd.newbee.mall.entity.vo.MallUserVO;
+import ltd.newbee.mall.core.entity.MallUser;
+import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.MallUserService;
+import ltd.newbee.mall.core.service.MallUserService;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;

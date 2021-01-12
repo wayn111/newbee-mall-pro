@@ -1,8 +1,8 @@
 package ltd.newbee.mall;
 
 
-import ltd.newbee.mall.entity.vo.MallUserVO;
-import ltd.newbee.mall.service.SeckillService;
+import ltd.newbee.mall.core.entity.vo.MallUserVO;
+import ltd.newbee.mall.core.service.SeckillService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

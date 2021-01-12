@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @Configuration
-@MapperScan("ltd.newbee.mall.dao")
+@MapperScan("ltd.newbee.mall.core.dao")
 public class MybatisPlusConfig {
 
 

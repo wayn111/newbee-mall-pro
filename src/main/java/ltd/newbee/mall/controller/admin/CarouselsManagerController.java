@@ -2,9 +2,9 @@ package ltd.newbee.mall.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.entity.Carousels;
-import ltd.newbee.mall.service.CarouselsService;
+import ltd.newbee.mall.controller.base.BaseController;
+import ltd.newbee.mall.core.entity.Carousels;
+import ltd.newbee.mall.core.service.CarouselsService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

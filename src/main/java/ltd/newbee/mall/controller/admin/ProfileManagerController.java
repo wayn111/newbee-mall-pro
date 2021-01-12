@@ -1,9 +1,9 @@
 package ltd.newbee.mall.controller.admin;
 
-import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.entity.AdminUser;
+import ltd.newbee.mall.controller.base.BaseController;
+import ltd.newbee.mall.core.entity.AdminUser;
 import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.service.AdminUserService;
+import ltd.newbee.mall.core.service.AdminUserService;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

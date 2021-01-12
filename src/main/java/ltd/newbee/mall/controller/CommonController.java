@@ -2,7 +2,7 @@ package ltd.newbee.mall.controller;
 
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
-import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.R;

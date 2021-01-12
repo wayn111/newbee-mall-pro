@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.GoodsCategoryDao">
+<mapper namespace="ltd.newbee.mall.core.dao.GoodsCategoryDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.GoodsCategory">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.GoodsCategory">
         <id column="category_id" property="categoryId"/>
         <result column="category_level" property="categoryLevel"/>
         <result column="parent_id" property="parentId"/>
@@ -22,7 +22,7 @@
         from tb_newbee_mall_goods_category t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.GoodsCategory" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.GoodsCategory" resultMap="BaseResultMap">
         <include refid="selectCategory"></include>
         <where>
             t.is_deleted = 0

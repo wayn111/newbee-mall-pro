@@ -52,6 +52,7 @@ mybatis-plus:
 
 # wayn配置
 wayn:
+#  uploadDir: /opt/newbeemall/upload
   uploadDir: D:\\upload
 
 # alipay
@@ -62,5 +63,6 @@ alipay:
   gateway: https://openapi.alipaydev.com/gateway.do
   charset: UTF-8
   format: json
+#  log_path: /opt/newbeemall/log
   log_path: E://log
   signtype: RSA2

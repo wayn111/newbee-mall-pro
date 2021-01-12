@@ -2,11 +2,11 @@ package ltd.newbee.mall.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.base.BaseController;
-import ltd.newbee.mall.entity.Coupon;
-import ltd.newbee.mall.entity.vo.CouponVO;
-import ltd.newbee.mall.service.CouponService;
-import ltd.newbee.mall.service.CouponUserService;
+import ltd.newbee.mall.controller.base.BaseController;
+import ltd.newbee.mall.core.entity.Coupon;
+import ltd.newbee.mall.core.entity.vo.CouponVO;
+import ltd.newbee.mall.core.service.CouponService;
+import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

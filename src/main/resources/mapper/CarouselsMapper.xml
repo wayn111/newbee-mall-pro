@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.CarouselsDao">
+<mapper namespace="ltd.newbee.mall.core.dao.CarouselsDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Carousels">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.Carousels">
         <id column="carousel_id" property="carouselId"/>
         <result column="carousel_url" property="carouselUrl"/>
         <result column="redirect_url" property="redirectUrl"/>
@@ -20,7 +20,7 @@
         from tb_newbee_mall_carousel t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Carousels" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Carousels" resultMap="BaseResultMap">
         <include refid="selectCarousels"></include>
         <where>
             t.is_deleted = 0

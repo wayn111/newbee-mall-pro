@@ -2,8 +2,8 @@ package ltd.newbee.mall.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import ltd.newbee.mall.entity.CouponUser;
-import ltd.newbee.mall.service.CouponUserService;
+import ltd.newbee.mall.core.entity.CouponUser;
+import ltd.newbee.mall.core.service.CouponUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;

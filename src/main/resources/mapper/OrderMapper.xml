@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.OrderDao">
+<mapper namespace="ltd.newbee.mall.core.dao.OrderDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Order">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.Order">
         <id column="order_id" property="orderId"/>
         <result column="order_no" property="orderNo"/>
         <result column="user_id" property="userId"/>
@@ -19,7 +19,7 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <resultMap id="VOResultMap" type="ltd.newbee.mall.entity.vo.OrderListVO">
+    <resultMap id="VOResultMap" type="ltd.newbee.mall.core.entity.vo.OrderListVO">
         <id column="order_id" property="orderId"/>
         <result column="order_no" property="orderNo"/>
         <result column="total_price" property="totalPrice"/>
@@ -29,7 +29,7 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.entity.vo.DayTransactionAmountVO">
+    <resultMap id="CountMallVOMap" type="ltd.newbee.mall.core.entity.vo.DayTransactionAmountVO">
         <result column="days" property="days"/>
         <result column="total_price" property="totalPrice"/>
     </resultMap>
@@ -41,7 +41,7 @@
         from tb_newbee_mall_order t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.vo.OrderVO" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.vo.OrderVO" resultMap="BaseResultMap">
         <include refid="selectOrder"></include>
         <where>
             t.is_deleted = 0
@@ -60,7 +60,7 @@
         </where>
     </select>
 
-    <select id="selectListVOPage" parameterType="ltd.newbee.mall.entity.Order" resultMap="VOResultMap">
+    <select id="selectListVOPage" parameterType="ltd.newbee.mall.core.entity.Order" resultMap="VOResultMap">
         <include refid="selectOrder"></include>
         <where>
             t.is_deleted = 0

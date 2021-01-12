@@ -1,10 +1,10 @@
 package ltd.newbee.mall.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import ltd.newbee.mall.base.BaseController;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.entity.AdminUser;
-import ltd.newbee.mall.service.AdminUserService;
+import ltd.newbee.mall.core.entity.AdminUser;
+import ltd.newbee.mall.core.service.AdminUserService;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

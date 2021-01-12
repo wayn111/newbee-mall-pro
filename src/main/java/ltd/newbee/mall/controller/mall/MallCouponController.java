@@ -2,10 +2,10 @@ package ltd.newbee.mall.controller.mall;
 
 
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.entity.vo.CouponVO;
-import ltd.newbee.mall.entity.vo.MallUserVO;
-import ltd.newbee.mall.service.CouponService;
-import ltd.newbee.mall.service.CouponUserService;
+import ltd.newbee.mall.core.entity.vo.CouponVO;
+import ltd.newbee.mall.core.entity.vo.MallUserVO;
+import ltd.newbee.mall.core.service.CouponService;
+import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

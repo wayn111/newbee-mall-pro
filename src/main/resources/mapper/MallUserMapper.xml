@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.MallUserDao">
+<mapper namespace="ltd.newbee.mall.core.dao.MallUserDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.MallUser">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.MallUser">
         <id column="user_id" property="userId"/>
         <result column="nick_name" property="nickName"/>
         <result column="login_name" property="loginName"/>
@@ -21,7 +21,7 @@
         from tb_newbee_mall_user t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.MallUser" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.MallUser" resultMap="BaseResultMap">
         <include refid="selectMallUser"></include>
         <where>
             <if test="mallUser.nickName != null and mallUser.nickName != ''">

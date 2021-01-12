@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.CouponDao">
+<mapper namespace="ltd.newbee.mall.core.dao.CouponDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Coupon">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.Coupon">
         <result column="coupon_id" property="couponId"/>
         <result column="name" property="name"/>
         <result column="coupon_desc" property="couponDesc"/>
@@ -28,7 +28,7 @@
         from tb_newbee_mall_coupon t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Coupon" resultMap="BaseResultMap">
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Coupon" resultMap="BaseResultMap">
         <include refid="selectCoupon"></include>
         <where>
             and t.is_deleted = 0

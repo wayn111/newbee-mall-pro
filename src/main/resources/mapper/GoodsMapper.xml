@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ltd.newbee.mall.dao.GoodsDao">
+<mapper namespace="ltd.newbee.mall.core.dao.GoodsDao">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="ltd.newbee.mall.entity.Goods">
+    <resultMap id="BaseResultMap" type="ltd.newbee.mall.core.entity.Goods">
         <id column="goods_id" property="goodsId"/>
         <result column="goods_name" property="goodsName"/>
         <result column="goods_intro" property="goodsIntro"/>
@@ -23,7 +23,7 @@
     </resultMap>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.entity.vo.SearchPageGoodsVO">
+    <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO">
         <id column="goods_id" property="goodsId"/>
         <result column="goods_name" property="goodsName"/>
         <result column="goods_intro" property="goodsIntro"/>
@@ -39,7 +39,13 @@
         from tb_newbee_mall_goods_info t
     </sql>
 
-    <select id="selectListPage" parameterType="ltd.newbee.mall.entity.Goods" resultMap="BaseResultMap">
+    <update id="addStock">
+        update tb_newbee_mall_goods_info
+        set stock_num = stock_num + #{number}, update_time = now()
+        where id = #{goodsId}
+    </update>
+
+    <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Goods" resultMap="BaseResultMap">
         <include refid="selectGoods"></include>
         <where>
             <if test="goods.goodsId!=null">
@@ -60,7 +66,7 @@
         </where>
     </select>
 
-    <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.entity.vo.SearchObjVO"
+    <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.core.entity.vo.SearchObjVO"
             resultMap="SearchVOResultMap">
         <include refid="selectGoods"></include>
         <where>
