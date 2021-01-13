@@ -6,29 +6,29 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.config.AlipayConfig;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
 import ltd.newbee.mall.core.entity.vo.*;
-import ltd.newbee.mall.enums.OrderStatusEnum;
-import ltd.newbee.mall.enums.PayStatusEnum;
-import ltd.newbee.mall.enums.PayTypeEnum;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.OrderItemService;
 import ltd.newbee.mall.core.service.OrderService;
 import ltd.newbee.mall.core.service.ShopCatService;
+import ltd.newbee.mall.enums.OrderStatusEnum;
+import ltd.newbee.mall.enums.PayStatusEnum;
+import ltd.newbee.mall.enums.PayTypeEnum;
+import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -167,7 +167,7 @@ public class MallOrderController extends BaseController {
             orderListVO.setOrderStatusString(OrderStatusEnum.getOrderStatusEnumByStatus(orderListVO.getOrderStatus()).getName());
         }
         List<Long> longs = orderListVOS.stream().map(OrderListVO::getOrderId).collect(Collectors.toList());
-        List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().in("order_id", longs));
+        List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().in(CollectionUtils.isNotEmpty(longs), "order_id", longs));
         Map<Long, List<OrderItem>> longListMap = orderItems.stream().collect(Collectors.groupingBy(OrderItem::getOrderId));
         for (OrderListVO orderListVO : orderListVOS) {
             if (longListMap.containsKey(orderListVO.getOrderId())) {
