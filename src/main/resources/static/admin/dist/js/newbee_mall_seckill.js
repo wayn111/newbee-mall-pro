@@ -7,7 +7,7 @@ $(function () {
             {label: '序号', name: 'seckillId', index: 'seckillId', key: true, width: '50px'},
             {label: '秒杀商品Id', name: 'goodsId', index: 'goodsId'},
             {label: '秒杀价格', name: 'seckillPrice', index: 'seckillPrice'},
-            {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px', formatter: totalFormatter},
+            {label: '秒杀数量', name: 'seckillNum', index: 'seckillNum', width: '100px'},
             {label: '上架状态', name: 'status', index: 'status', formatter: statusFormatter},
             {label: '秒杀开始', name: 'seckillBegin', index: 'seckillBegin'},
             {label: '秒杀结束', name: 'seckillEnd', index: 'seckillEnd'},
@@ -41,18 +41,11 @@ $(function () {
         }
     });
 
-    function totalFormatter(cellvalue) {
-        if (cellvalue == 0) {
-            return "无限制";
-        }
-        return cellvalue;
-    }
-
     function statusFormatter(cellvalue) {
         if (cellvalue == 0) {
-            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>下架</button>";
+            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>已下架</button>";
         } else {
-            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>上架</button>";
+            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>上架中</button>";
         }
     }
 

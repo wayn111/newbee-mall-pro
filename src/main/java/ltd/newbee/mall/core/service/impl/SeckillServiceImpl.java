@@ -101,7 +101,6 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         SeckillSuccess seckillSuccess = new SeckillSuccess();
         seckillSuccess.setSeckillId(seckillId);
         seckillSuccess.setUserId(userVO.getUserId());
-        seckillSuccess.setStatus((byte) 1);
         if (!seckillSuccessService.save(seckillSuccess)) {
             throw new BusinessException("保存用户秒杀商品失败");
         }
@@ -168,14 +167,14 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     @Override
     public SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO) {
-        // 判断用户是否购买过秒杀商品
-        if (redisCache.containsCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId())) {
-            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
-        }
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
         if (!rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS)) {
             // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
             throw new BusinessException("秒杀失败");
+        }
+        // 判断用户是否购买过秒杀商品
+        if (redisCache.containsCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId())) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
         }
         // 更新秒杀商品库存
         Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
