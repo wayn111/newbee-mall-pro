@@ -122,7 +122,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
         }
         // 更新秒杀商品库存
-        Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
             throw new BusinessException("秒杀商品已售空");
         }
@@ -178,16 +178,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("秒杀失败");
         }
         // 更新秒杀商品库存
-        Long stock = redisCache.decrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
         if (stock < 0) {
             throw new BusinessException("秒杀商品已售空");
-        }
-        // 判断用户是否买过
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
-                .eq("seckill_id", seckillId)
-                .eq("user_id", userVO.getUserId()));
-        if (count > 0) {
-            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
         }
         Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
@@ -220,6 +213,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("很遗憾！未抢购到秒杀商品");
         }
         redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId());
+        long endExpireTime = endTime / 1000;
+        long nowExpireTime = nowTime / 1000;
+        redisCache.expire(Constants.SECKILL_SUCCESS_USER_ID + seckillId, endExpireTime - nowExpireTime, TimeUnit.SECONDS);
         SeckillSuccess seckillSuccess = seckillSuccessService.getOne(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userId));
