@@ -69,20 +69,31 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillDao.addStock(seckillId);
     }
 
+    /**
+     * 1、判断用户是否买过<br>
+     * 2、判断商品库存是否大于0<br>
+     * 3、判断秒杀商品是否再有效期内<br>
+     * 4、执行秒杀逻辑：减库存 + 记录购买行为<br>
+     * 5、返回用户秒杀成功VO
+     *
+     * @param seckillId 秒杀商品ID
+     * @param userVO    用户VO
+     * @return 用户秒杀成功VO
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO) {
-        Seckill seckill = getById(seckillId);
-        // 查询秒杀商品库存
-        if (seckill.getSeckillNum() <= 0) {
-            throw new BusinessException("秒杀商品已售空");
-        }
         // 判断用户是否买过
         int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
         if (count > 0) {
             throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
+        }
+        Seckill seckill = getById(seckillId);
+        // 查询秒杀商品库存
+        if (seckill.getSeckillNum() <= 0) {
+            throw new BusinessException("秒杀商品已售空");
         }
         // 判断秒杀商品是否再有效期内
         long beginTime = seckill.getSeckillBegin().getTime();
@@ -111,6 +122,17 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillSuccessVO;
     }
 
+    /**
+     * 1、判断用户是否买过<br>
+     * 2、使用redis原子自减，判断商品缓存库存是否大于0<br>
+     * 3、获取商品缓存，判断秒杀商品是否再有效期内<br>
+     * 4、执行执行存储过程（减库存 + 记录购买行为）<br>
+     * 5、返回用户秒杀成功VO
+     *
+     * @param seckillId 秒杀商品ID
+     * @param userVO    用户VO
+     * @return 用户秒杀成功VO
+     */
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
         // 判断用户是否购买过秒杀商品
@@ -165,6 +187,19 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillSuccessVO;
     }
 
+    /**
+     * 1、使用令牌桶算法过滤用户请求<br>
+     * 2、使用redis-set数据结构判断用户是否买过秒杀商品<br>
+     * 3、使用redis原子自减，判断商品缓存库存是否大于0<br>
+     * 4、获取商品缓存，判断秒杀商品是否再有效期内<br>
+     * 5、执行执行存储过程（减库存 + 记录购买行为）<br>
+     * 6、使用redis-set数据结构记录购买过的用户<br>
+     * 7、返回用户秒杀成功VO
+     *
+     * @param seckillId 秒杀商品ID
+     * @param userVO    用户VO
+     * @return 用户秒杀成功VO
+     */
     @Override
     public SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO) {
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
@@ -211,6 +246,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         if (result != 1) {
             throw new BusinessException("很遗憾！未抢购到秒杀商品");
         }
+        // 记录购买过的用户
         redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId());
         long endExpireTime = endTime / 1000;
         long nowExpireTime = nowTime / 1000;
