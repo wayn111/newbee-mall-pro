@@ -42,6 +42,17 @@ public class RedisCache {
      * @return 递减后返回值
      */
     public Long decrement(final String key) {
+        return redisTemplate.opsForValue().decrement(key);
+
+    }
+
+    /**
+     * string类型原子递减，不小于-1
+     *
+     * @param key 缓存的键值
+     * @return 递减后返回值
+     */
+    public Long luaDecrement(final String key) {
         RedisScript<Number> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Number.class);
         Number execute = (Number) redisTemplate.execute(redisScript, Collections.singletonList(key));
         return execute.longValue();
@@ -53,7 +64,7 @@ public class RedisCache {
     private String buildLuaDecScript() {
         return "local c" +
                 "\nc = redis.call('get',KEYS[1])" +
-                "\nif c and tonumber(c) <= 0 then" +
+                "\nif c and tonumber(c) < 0 then" +
                 "\nreturn c;" +
                 "\nend" +
                 "\nc = redis.call('decr',KEYS[1])" +

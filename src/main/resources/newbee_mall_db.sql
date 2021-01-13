@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 02/01/2021 00:15:14
+ Date: 13/01/2021 13:45:19
 */
 
 SET NAMES utf8mb4;
@@ -47,9 +47,9 @@ CREATE TABLE `tb_newbee_mall_carousel`  (
   `redirect_url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '\'##\'' COMMENT '点击后的跳转地址(默认不跳转)',
   `carousel_rank` int(11) NOT NULL DEFAULT 0 COMMENT '排序值(字段越大越靠前)',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标识字段(0-未删除 1-已删除)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user` int(11) NOT NULL DEFAULT 0 COMMENT '创建者id',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `update_user` int(11) NOT NULL DEFAULT 0 COMMENT '修改者id',
   PRIMARY KEY (`carousel_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -71,9 +71,9 @@ CREATE TABLE `tb_newbee_mall_goods_category`  (
   `category_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   `category_rank` int(11) NOT NULL DEFAULT 0 COMMENT '排序值(字段越大越靠前)',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标识字段(0-未删除 1-已删除)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user` int(11) NOT NULL DEFAULT 0 COMMENT '创建者id',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '修改者id',
   PRIMARY KEY (`category_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -192,9 +192,9 @@ CREATE TABLE `tb_newbee_mall_goods_info`  (
   `tag` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '商品标签',
   `goods_sell_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '商品上架状态 0-下架 1-上架',
   `create_user` int(11) NOT NULL DEFAULT 0 COMMENT '添加者主键id',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '商品添加时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品添加时间',
   `update_user` int(11) NOT NULL DEFAULT 0 COMMENT '修改者主键id',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '商品修改时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品修改时间',
   PRIMARY KEY (`goods_id`) USING BTREE,
   INDEX `cate_index`(`goods_category_id`) USING BTREE,
   INDEX `sell_status_index`(`goods_sell_status`) USING BTREE,
@@ -204,7 +204,7 @@ CREATE TABLE `tb_newbee_mall_goods_info`  (
 -- ----------------------------
 -- Records of tb_newbee_mall_goods_info
 -- ----------------------------
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10003, '无印良品 MUJI 基础润肤化妆水', '滋润型 400ml', 0, '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', '商品介绍加载中...', 100, 100, 998, '', 0, 0, '2019-09-18 13:18:47', 0, '2019-09-18 13:18:47');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10003, '无印良品 MUJI 基础润肤化妆水', '滋润型 400ml', 0, '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', '商品介绍加载中...', 100, 100, 1067, '', 0, 0, '2019-09-18 13:18:47', 0, '2021-01-12 19:13:36');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10004, '无印良品 MUJI 柔和洁面泡沫', '120g', 0, '/goods-img/45854bdd-2ca5-423c-a609-3d336d9322b4.jpg', '/goods-img/45854bdd-2ca5-423c-a609-3d336d9322b4.jpg', '商品介绍加载中...', 45, 45, 1000, '', 0, 0, '2019-09-18 13:18:47', 0, '2019-09-18 13:18:47');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10005, '无印良品 MUJI 基础润肤乳液', '高保湿型 200ml', 0, '/goods-img/7614ce78-0ebc-4275-a7cc-d16ad5f5f6ed.jpg', '/goods-img/7614ce78-0ebc-4275-a7cc-d16ad5f5f6ed.jpg', '商品介绍加载中...', 83, 83, 1000, '', 0, 0, '2019-09-18 13:18:47', 0, '2019-09-18 13:18:47');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10006, '无印良品 MUJI 基础润肤乳液', '滋润型 400ml', 0, '/goods-img/ef75879d-3d3e-4bab-888d-1e4036491e11.jpg', '/goods-img/ef75879d-3d3e-4bab-888d-1e4036491e11.jpg', '商品介绍加载中...', 100, 100, 1000, '', 0, 0, '2019-09-18 13:18:47', 0, '2019-09-18 13:18:47');
@@ -359,9 +359,9 @@ INSERT INTO `tb_newbee_mall_goods_info` VALUES (10154, '无印良品 MUJI 塑料
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10155, '无印良品（MUJI） 树脂携带型订书机 白色', '新蜂精选', 0, '/goods-img/3b40971a-3f32-45cf-a99a-aada90ee8e33.jpg', '/goods-img/3b40971a-3f32-45cf-a99a-aada90ee8e33.jpg', '商品介绍加载中...', 42, 42, 1000, '', 0, 0, '2019-09-18 13:19:35', 0, '2019-09-18 13:19:35');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10156, '无印良品 MUJI 基础润肤乳液', '滋润型', 0, '/goods-img/f65ef709-8fa8-4a3f-8abd-75a9b0492b14.jpg', '/goods-img/f65ef709-8fa8-4a3f-8abd-75a9b0492b14.jpg', '商品介绍加载中...', 28, 22, 1000, '', 0, 0, '2019-09-18 13:19:35', 0, '2019-09-18 13:19:35');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10157, '无印良品（MUJI） 控色隔离霜30g 浅蓝色', '新蜂精选', 0, '/goods-img/66311489-b28b-41c3-ac34-540293df6e42.jpg', '/goods-img/66311489-b28b-41c3-ac34-540293df6e42.jpg', '商品介绍加载中...', 65, 65, 1000, '', 0, 0, '2019-09-18 13:19:35', 0, '2019-09-18 13:19:35');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10158, '无印良品 女式粗棉线条纹长袖T恤', '黑*横条 L', 20, '/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', 'http://localhost:28089/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', '商品介绍加载中...', 198, 70, 998, '无印良品', 0, 0, '2019-09-18 13:19:35', 0, '2019-09-18 17:50:19');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10159, 'Apple AirPods 配充电盒', '苹果蓝牙耳机', 0, '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', '详情加载中...', 1246, 1246, 997, '', 0, 0, '2019-09-18 13:21:28', 0, '2019-09-18 13:21:28');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10160, '小米 Redmi AirDots', '真无线蓝牙耳机|分体式耳机 |收纳充电盒 |蓝牙5.0 |按键防触控操作', 51, '/goods-img/c47403f1-b706-453b-88d8-2bfdee0316be.jpg', '/goods-img/c47403f1-b706-453b-88d8-2bfdee0316be.jpg', '详情加载中...', 129, 129, 1000, '为自由发声', 0, 0, '2019-09-18 13:21:28', 0, '2019-09-18 13:21:28');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10158, '无印良品 女式粗棉线条纹长袖T恤', '黑*横条 L', 20, '/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', 'http://localhost:28089/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', '商品介绍加载中...', 198, 70, 997, '无印良品', 0, 0, '2019-09-18 13:19:35', 0, '2019-09-18 17:50:19');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10159, 'Apple AirPods 配充电盒', '苹果蓝牙耳机', 0, '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', '详情加载中...', 1246, 1246, 995, '', 0, 0, '2019-09-18 13:21:28', 0, '2021-01-12 19:13:35');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10160, '小米 Redmi AirDots', '真无线蓝牙耳机|分体式耳机 |收纳充电盒 |蓝牙5.0 |按键防触控操作', 51, '/goods-img/c47403f1-b706-453b-88d8-2bfdee0316be.jpg', '/goods-img/c47403f1-b706-453b-88d8-2bfdee0316be.jpg', '详情加载中...', 129, 129, 1000, '为自由发声', 0, 0, '2019-09-18 13:21:28', 0, '2021-01-12 19:13:35');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10161, '荣耀原装三键线控带麦半入耳式耳机AM116(尊爵版)适用于华为荣耀手机', '新蜂精选', 0, '/goods-img/183481c3-47ff-4b2e-926f-b02b926ac02c.jpg', '/goods-img/183481c3-47ff-4b2e-926f-b02b926ac02c.jpg', '商品介绍加载中...', 69, 49, 1000, '', 0, 0, '2019-09-18 13:21:28', 0, '2019-09-18 13:21:28');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10162, '诺基亚（NOKIA）BH-705 银白色 5.0真无线蓝牙耳机迷你运动跑步音乐商务入耳式安卓苹果手机蓝牙耳机', '新蜂精选', 0, '/goods-img/5e0d089b-fa91-410d-8ff2-9534eb6f627f.jpg', '/goods-img/5e0d089b-fa91-410d-8ff2-9534eb6f627f.jpg', '详情加载中...', 499, 499, 1000, '', 0, 0, '2019-09-18 13:21:28', 0, '2019-09-18 13:21:28');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10163, '华为耳机原装半入耳式有线mate9p10plus8x荣耀v20v10nova2s9iv9p9play 【标准版】华为AM115 白色-热卖款', '新蜂精选', 0, '/goods-img/79e2b467-a075-46ef-ab43-aa0535f8e4c9.jpg', '/goods-img/79e2b467-a075-46ef-ab43-aa0535f8e4c9.jpg', '商品介绍加载中...', 69, 39, 1000, '', 0, 0, '2019-09-18 13:21:28', 0, '2019-09-18 13:21:28');
@@ -484,7 +484,7 @@ INSERT INTO `tb_newbee_mall_goods_info` VALUES (10279, 'Apple iPhone 11 (A2223)'
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10280, 'Apple iPhone 11 (A2223)', '128GB 紫色 移动联通电信4G手机 双卡双待', 47, '/goods-img/8dfe8ea9-2279-4132-a72b-4f8a52d002a4.jpg', '/goods-img/8dfe8ea9-2279-4132-a72b-4f8a52d002a4.jpg', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n<div style=\"margin:0px;padding:0px;text-align:center;\">\n	<br />\n</div>\n	</div>\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n	<div style=\"margin:0px auto;padding:0px;\">\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-0.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-1.png\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-2.png\" /> \n	</div>\n</div>', 5999, 5999, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10281, 'Apple iPhone 11 (A2223)', '64GB 红色 移动联通电信4G手机 双卡双待', 47, '/goods-img/7368f461-fd0a-4f37-bc8b-31d8ad3d6e95.jpg', '/goods-img/7368f461-fd0a-4f37-bc8b-31d8ad3d6e95.jpg', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n<div style=\"margin:0px;padding:0px;text-align:center;\">\n	<br />\n</div>\n	</div>\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n	<div style=\"margin:0px auto;padding:0px;\">\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-0.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-1.png\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-2.png\" /> \n	</div>\n</div>', 5499, 5499, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10282, 'Apple iPhone 11 (A2223)', '64GB 黄色 移动联通电信4G手机 双卡双待', 47, '/goods-img/cea55d85-b11e-4639-88ab-9403b05ce1e8.jpg', '/goods-img/cea55d85-b11e-4639-88ab-9403b05ce1e8.jpg', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n<div style=\"margin:0px;padding:0px;text-align:center;\">\n	<br />\n</div>\n	</div>\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n	<div style=\"margin:0px auto;padding:0px;\">\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-0.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-1.png\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-2.png\" /> \n	</div>\n</div>', 5499, 5499, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10283, 'Apple iPhone 11 (A2223)', '256GB 绿色 移动联通电信4G手机 双卡双待', 47, '/goods-img/075a188a-9045-45f0-9c67-1e42e0552aa2.jpg', '/goods-img/075a188a-9045-45f0-9c67-1e42e0552aa2.jpg', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n<div style=\"margin:0px;padding:0px;text-align:center;\">\n	<br />\n</div>\n	</div>\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n	<div style=\"margin:0px auto;padding:0px;\">\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-0.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-1.png\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-2.png\" /> \n	</div>\n</div>', 6799, 6799, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10283, 'Apple iPhone 11 (A2223)', '256GB 绿色 移动联通电信4G手机 双卡双待', 47, '/goods-img/075a188a-9045-45f0-9c67-1e42e0552aa2.jpg', '/goods-img/075a188a-9045-45f0-9c67-1e42e0552aa2.jpg', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n<div style=\"margin:0px;padding:0px;text-align:center;\">\n	<br />\n</div>\n	</div>\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\n	<div style=\"margin:0px auto;padding:0px;\">\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-0.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-1.png\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/iphone-11-2.png\" /> \n	</div>\n</div>', 6799, 6799, 998, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10284, 'Apple iPhone XR (A2108)', '128GB 黑色 移动联通电信4G手机 双卡双待', 47, '/goods-img/23ac3107-6309-40c8-bd28-164eb1186b62.jpg', '/goods-img/23ac3107-6309-40c8-bd28-164eb1186b62.jpg', '商品介绍加载中...', 5599, 5099, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10285, 'Apple iPhone XR (A2108)', '128GB 白色 移动联通电信4G手机 双卡双待', 47, '/goods-img/3f47c376-c603-43fc-bfe5-2daa985ff423.jpg', '/goods-img/3f47c376-c603-43fc-bfe5-2daa985ff423.jpg', '商品介绍加载中...', 5599, 5099, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10286, 'Apple iPhone XR (A2108)', '128GB 红色 移动联通电信4G手机 双卡双待', 47, '/goods-img/56cef3d7-41e6-4aad-825d-a3d423e74dfd.jpg', '/goods-img/56cef3d7-41e6-4aad-825d-a3d423e74dfd.jpg', '商品介绍加载中...', 5599, 5099, 1000, '', 0, 0, '2019-09-18 13:27:13', 0, '2019-09-18 13:27:13');
@@ -580,7 +580,7 @@ INSERT INTO `tb_newbee_mall_goods_info` VALUES (10696, '荣耀10青春版 幻彩
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10697, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 幻夜黑 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/d7f74e8f-5c52-422b-ac99-a8d691830494.jpg', '/goods-img/d7f74e8f-5c52-422b-ac99-a8d691830494.jpg', '详情加载中...', 1399, 999, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10698, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 幻影蓝 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/7031c07e-a70f-4f6d-9e2d-d0af31e3393a.jpg', '/goods-img/7031c07e-a70f-4f6d-9e2d-d0af31e3393a.jpg', '详情加载中...', 1399, 999, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10699, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 魅海蓝 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/b7bfcc28-98c2-4cb4-8ce3-afe4c482b674.jpg', '/goods-img/b7bfcc28-98c2-4cb4-8ce3-afe4c482b674.jpg', '详情加载中...', 1399, 999, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10700, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 魅焰红 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/6a160b96-9b4a-4844-b335-feb31b1f5d8c.jpg', '/goods-img/6a160b96-9b4a-4844-b335-feb31b1f5d8c.jpg', '详情加载中...', 1399, 999, 999, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10700, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 魅焰红 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/6a160b96-9b4a-4844-b335-feb31b1f5d8c.jpg', '/goods-img/6a160b96-9b4a-4844-b335-feb31b1f5d8c.jpg', '详情加载中...', 1399, 999, 999, '', 0, 0, '2019-09-18 13:37:44', 0, '2021-01-12 19:13:36');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10701, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '4GB+64GB 梦幻紫 移动联通电信4G全面屏手机 双卡双待', 45, '/goods-img/8ccc13ec-96fe-4488-a604-526601548c9e.jpg', '/goods-img/8ccc13ec-96fe-4488-a604-526601548c9e.jpg', '详情加载中...', 1399, 999, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10702, '华为 HUAWEI P30 超感光徕卡三摄麒麟980AI智能芯片全面屏屏内指纹版手机8GB+128GB天空之境全网通双4G手机', '新蜂精选', 46, '/goods-img/edb7e8ef-7785-418b-a75e-dfed2aa74e39.jpg', '/goods-img/edb7e8ef-7785-418b-a75e-dfed2aa74e39.jpg', '详情加载中...', 4288, 3988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10703, '华为 HUAWEI P30 超感光徕卡三摄麒麟980AI智能芯片全面屏屏内指纹版手机8GB+128GB亮黑色全网通双4G手机', '新蜂精选', 46, '/goods-img/e13294f7-9ab0-42dc-afb1-9f41c59436cf.jpg', '/goods-img/e13294f7-9ab0-42dc-afb1-9f41c59436cf.jpg', '商品介绍加载中...', 4288, 3988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
@@ -622,7 +622,7 @@ INSERT INTO `tb_newbee_mall_goods_info` VALUES (10738, '华为 HUAWEI 畅享MAX 
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10739, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+128GB极光色全网通版双4G手机', 46, '/goods-img/65c8e729-aeca-4780-977b-4d0d39d4aa2e.jpg', '/goods-img/65c8e729-aeca-4780-977b-4d0d39d4aa2e.jpg', '商品介绍加载中...', 5488, 4988, 999, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10740, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+128GB亮黑色全网通版双4G手机', 46, '/goods-img/bc90bb1e-494a-44d4-b180-42a994ec80fc.jpg', '/goods-img/bc90bb1e-494a-44d4-b180-42a994ec80fc.jpg', '商品介绍加载中...', 5488, 4988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10741, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+128GB珠光贝母全网通版双4G手机', 46, '/goods-img/a6f309b7-765a-4407-be71-bbd5b764d448.jpg', '/goods-img/a6f309b7-765a-4407-be71-bbd5b764d448.jpg', '商品介绍加载中...', 5488, 4988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10742, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+256GB天空之境全网通版双4G手机', 46, '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', '商品介绍加载中...', 5988, 5488, 995, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10742, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+256GB天空之境全网通版双4G手机', 46, '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', '商品介绍加载中...', 5988, 5488, 993, '', 0, 0, '2019-09-18 13:37:44', 0, '2021-01-12 19:13:35');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10743, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+256GB墨玉蓝全网通版双4G手机', 46, '/goods-img/8755a735-baa1-4f17-a9bd-30c4f4f1451b.jpg', '/goods-img/8755a735-baa1-4f17-a9bd-30c4f4f1451b.jpg', '详情加载中...', 5988, 5488, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10744, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+128GB赤茶橘全网通版双4G手机', 46, '/goods-img/44e78820-86f3-429d-94af-64f6af308846.jpg', '/goods-img/44e78820-86f3-429d-94af-64f6af308846.jpg', '商品介绍加载中...', 5488, 4988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10745, '华为 HUAWEI P30 Pro', '超感光徕卡四摄10倍混合变焦麒麟980芯片屏内指纹 8GB+128GB嫣紫色全网通版双4G手机', 46, '/admin/dist/img/no-img.png', '/admin/dist/img/no-img.png', '详情加载中...', 5488, 4988, 1000, '', 0, 0, '2019-09-18 13:37:44', 0, '2019-09-18 13:37:44');
@@ -770,12 +770,12 @@ INSERT INTO `tb_newbee_mall_goods_info` VALUES (10886, '小米8 游戏手机 全
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10887, '小米8 游戏手机 全面屏 透明探索版', '全网通(8G+128G)', 51, '/admin/dist/img/no-img.png', '/admin/dist/img/no-img.png', '商品介绍加载中...', 4299, 4299, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-19 08:47:09');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10888, '小米8 游戏手机 全面屏 屏幕指纹版', '暮光金 全网通(6G+128G)', 51, '/admin/dist/img/no-img.png', '/admin/dist/img/no-img.png', '商品介绍加载中...', 3399, 3399, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-19 08:47:09');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10889, '小米8 游戏手机 全面屏 蓝色', '全网通(6G+128G)', 51, '/admin/dist/img/no-img.png', '/admin/dist/img/no-img.png', '商品介绍加载中...', 1849, 1849, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-19 08:47:09');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10890, '小米 红米7 手机 Redmi7', 'AI双摄 拍照游戏手机 全网通双卡双待 亮黑色 4G+64G 全网通', 51, '/goods-img/b6084354-1841-4241-ba7b-7e97186a9076.jpg', '/goods-img/b6084354-1841-4241-ba7b-7e97186a9076.jpg', '详情加载中...', 1299, 808, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-18 13:38:32');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10890, '小米 红米7 手机 Redmi7', 'AI双摄 拍照游戏手机 全网通双卡双待 亮黑色 4G+64G 全网通', 51, '/goods-img/b6084354-1841-4241-ba7b-7e97186a9076.jpg', '/goods-img/b6084354-1841-4241-ba7b-7e97186a9076.jpg', '详情加载中...', 1299, 808, 1003, '', 0, 0, '2019-09-18 13:38:32', 0, '2021-01-12 19:13:36');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10891, '小米 红米7 手机 Redmi7', 'AI双摄 拍照游戏手机 全网通双卡双待 魅夜红 4G+64G 全网通', 51, '/goods-img/7b4e03b1-eca7-42f5-8dda-14d02d3ab318.jpg', '/goods-img/7b4e03b1-eca7-42f5-8dda-14d02d3ab318.jpg', '详情加载中...', 1009, 818, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-22 23:33:12');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10892, '小米 红米7 手机 Redmi7', 'AI双摄 拍照游戏手机 全网通双卡双待 梦幻蓝 3G+32G 全网通', 51, '/goods-img/7bca8b59-35f3-480a-a95d-99efcbb8cfda.jpg', '/goods-img/7bca8b59-35f3-480a-a95d-99efcbb8cfda.jpg', '详情加载中...', 787, 715, 1000, '', 0, 0, '2019-09-18 13:38:32', 0, '2019-09-22 23:33:12');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10893, 'HUAWEI Mate 30 Pro 双4000万徕卡电影四摄', '超曲面OLED环幕屏 8GB+256GB 全网通4G版（星河银）', 0, '/goods-img/mate30p2.png', '/goods-img/mate30p2.png', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n<div style=\"margin:0px;padding:0px;text-align:center;\">\r\n	<br />\r\n</div>\r\n	</div>\r\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n	<div style=\"margin:0px auto;padding:0px;\">\r\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-1.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-3.jpg\" /> \r\n	</div>\r\n</div>', 5399, 5399, 1000, '重构想象', 0, 0, '2019-09-19 23:17:39', 0, '2019-09-19 23:17:39');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10893, 'HUAWEI Mate 30 Pro 双4000万徕卡电影四摄', '超曲面OLED环幕屏 8GB+256GB 全网通4G版（星河银）', 0, '/goods-img/mate30p2.png', '/goods-img/mate30p2.png', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n<div style=\"margin:0px;padding:0px;text-align:center;\">\r\n	<br />\r\n</div>\r\n	</div>\r\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n	<div style=\"margin:0px auto;padding:0px;\">\r\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-1.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-3.jpg\" /> \r\n	</div>\r\n</div>', 5399, 5399, 1000, '重构想象', 0, 0, '2019-09-19 23:17:39', 0, '2021-01-12 19:13:35');
 INSERT INTO `tb_newbee_mall_goods_info` VALUES (10894, 'HUAWEI Mate 30 Pro', '超曲面OLED环幕屏 8GB+128GB 全网通4G版（翡冷翠）', 0, '/goods-img/mate30p3.png', '/goods-img/mate30p3.png', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n<div style=\"margin:0px;padding:0px;text-align:center;\">\r\n	<br />\r\n</div>\r\n	</div>\r\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n	<div style=\"margin:0px auto;padding:0px;\">\r\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-1.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-3.jpg\" /> \r\n	</div>\r\n</div>', 5399, 5399, 996, '重构想象', 0, 0, '2019-09-19 23:20:24', 0, '2019-09-19 23:20:24');
-INSERT INTO `tb_newbee_mall_goods_info` VALUES (10895, 'HUAWEI Mate 30 4000万超感光徕卡影像', 'OLED全面屏 8GB+128GB 全网通4G版 （罗兰紫）', 0, '/goods-img/mate30-3.png', '/goods-img/mate30-3.png', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n<div style=\"margin:0px;padding:0px;text-align:center;\">\r\n	<br />\r\n</div>\r\n	</div>\r\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n	<div style=\"margin:0px auto;padding:0px;\">\r\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-1.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-3.jpg\" /> \r\n	</div>\r\n</div>', 3999, 3999, 996, '重构想象', 0, 0, '2019-09-19 23:22:22', 0, '2019-09-19 23:22:22');
+INSERT INTO `tb_newbee_mall_goods_info` VALUES (10895, 'HUAWEI Mate 30 4000万超感光徕卡影像', 'OLED全面屏 8GB+128GB 全网通4G版 （罗兰紫）', 0, '/goods-img/mate30-3.png', '/goods-img/mate30-3.png', '<div id=\"activity_header\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n<div style=\"margin:0px;padding:0px;text-align:center;\">\r\n	<br />\r\n</div>\r\n	</div>\r\n<div id=\"J-detail-content\" style=\"margin:0px;padding:0px;color:#666666;font-family:tahoma, arial, \" background-color:#ffffff;\"=\"\">\r\n	<div style=\"margin:0px auto;padding:0px;\">\r\n		<img class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-1.jpg\" /><img border=\"0\" class=\"\" src=\"https://newbee-mall.oss-cn-beijing.aliyuncs.com/images/huawei-3.jpg\" /> \r\n	</div>\r\n</div>', 3999, 3999, 996, '重构想象', 0, 0, '2019-09-19 23:22:22', 0, '2021-01-12 19:13:35');
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_index_config
@@ -789,9 +789,9 @@ CREATE TABLE `tb_newbee_mall_index_config`  (
   `redirect_url` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '##' COMMENT '点击后的跳转地址(默认不跳转)',
   `config_rank` int(11) NOT NULL DEFAULT 0 COMMENT '排序值(字段越大越靠前)',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标识字段(0-未删除 1-已删除)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_user` int(11) NOT NULL DEFAULT 0 COMMENT '创建者id',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '最新修改时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
   `update_user` int(11) NULL DEFAULT 0 COMMENT '修改者id',
   PRIMARY KEY (`config_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -842,49 +842,13 @@ CREATE TABLE `tb_newbee_mall_order`  (
   `user_phone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '收货人手机号',
   `user_address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '收货人收货地址',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标识字段(0-未删除 1-已删除)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '最新修改时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
   PRIMARY KEY (`order_id`) USING BTREE,
   UNIQUE INDEX `order_no_uqi`(`order_no`) USING BTREE,
   INDEX `user_id_index`(`user_id`) USING BTREE,
   INDEX `create_time`(`create_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tb_newbee_mall_order
--- ----------------------------
-INSERT INTO `tb_newbee_mall_order` VALUES (1, '15688187285093508', 1, 2492, 1, 2, '2019-09-18 23:00:18', -1, '', '', '', 'xafsdufhpwe', 0, '2019-09-18 22:53:07', '2019-09-18 22:55:32');
-INSERT INTO `tb_newbee_mall_order` VALUES (2, '15688188616936181', 1, 135, 1, 1, '2019-09-18 23:01:06', 1, '', '', '', 'xafsdufhpwe', 0, '2019-09-18 22:55:20', '2019-09-18 23:01:06');
-INSERT INTO `tb_newbee_mall_order` VALUES (3, '15689089426956979', 1, 15487, 1, 1, '2019-09-20 00:16:03', 3, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-19 23:56:40', '2019-09-20 00:10:39');
-INSERT INTO `tb_newbee_mall_order` VALUES (4, '15689090398492576', 1, 8499, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-19 23:58:18', '2019-09-19 23:58:18');
-INSERT INTO `tb_newbee_mall_order` VALUES (5, '15689096266448452', 1, 115, 1, 2, '2019-09-20 00:13:52', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-20 00:08:04', '2019-09-20 00:13:52');
-INSERT INTO `tb_newbee_mall_order` VALUES (6, '15691645776131562', 7, 7998, 1, 1, '2019-09-22 23:05:53', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-22 22:57:15', '2019-09-22 23:05:53');
-INSERT INTO `tb_newbee_mall_order` VALUES (7, '15691648465397435', 7, 13998, 1, 2, '2019-09-22 23:07:38', -1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-22 23:01:44', '2019-09-22 23:02:10');
-INSERT INTO `tb_newbee_mall_order` VALUES (8, '15691649071896878', 7, 1246, 1, 1, '2019-09-22 23:08:31', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-22 23:02:45', '2019-09-22 23:08:31');
-INSERT INTO `tb_newbee_mall_order` VALUES (9, '15691649748362177', 7, 25656, 1, 1, '2019-09-22 23:09:39', 4, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-22 23:03:52', '2019-09-22 23:50:45');
-INSERT INTO `tb_newbee_mall_order` VALUES (10, '15691652286194502', 7, 16197, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-22 23:08:06', '2019-09-22 23:08:06');
-INSERT INTO `tb_newbee_mall_order` VALUES (11, '15692210075967186', 6, 5999, 1, 2, '2019-09-23 17:03:05', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-23 14:43:27', '2019-09-23 17:03:05');
-INSERT INTO `tb_newbee_mall_order` VALUES (12, '15692218454123239', 6, 7245, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-23 14:57:25', '2019-09-23 14:57:25');
-INSERT INTO `tb_newbee_mall_order` VALUES (13, '15692225252983527', 6, 5488, 1, 2, '2019-09-23 15:38:54', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-23 15:08:45', '2019-09-23 15:38:54');
-INSERT INTO `tb_newbee_mall_order` VALUES (14, '15692291639125640', 6, 9046, 1, 2, '2019-09-23 16:59:32', -1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2709', 0, '2019-09-23 16:59:23', '2019-09-23 16:59:40');
-INSERT INTO `tb_newbee_mall_order` VALUES (15, '15692295348262843', 6, 65, 1, 2, '2019-09-23 17:06:17', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2709', 0, '2019-09-23 17:05:34', '2019-09-23 17:06:17');
-INSERT INTO `tb_newbee_mall_order` VALUES (16, '15692298037679052', 6, 15233, 1, 2, '2019-09-23 17:10:08', 1, '', '', '', '上海浦东新区XX路XX号 999 137xxxx7797', 0, '2019-09-23 17:10:03', '2019-09-23 17:10:08');
-INSERT INTO `tb_newbee_mall_order` VALUES (17, '15694781962831307', 7, 1246, 1, 2, '2019-09-26 14:10:12', -1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-26 14:09:56', '2019-09-26 14:10:22');
-INSERT INTO `tb_newbee_mall_order` VALUES (18, '15698039249771093', 7, 3199, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-09-30 08:38:26', '2019-09-30 08:38:26');
-INSERT INTO `tb_newbee_mall_order` VALUES (19, '15702783557537865', 7, 6819, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2019-10-05 20:20:10', '2019-10-05 20:20:10');
-INSERT INTO `tb_newbee_mall_order` VALUES (20, '15702847670935185', 6, 3999, 1, 2, '2019-10-05 22:13:03', 1, '', '', '', '上海浦东新区XX路XX号 999 137xxxx7797', 0, '2020-12-26 22:12:47', '2019-10-05 22:13:03');
-INSERT INTO `tb_newbee_mall_order` VALUES (21, '16090399213546963', 1, 999, 1, 2, '2020-12-27 11:32:07', 4, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2020-12-27 11:32:02', '2020-12-27 11:32:07');
-INSERT INTO `tb_newbee_mall_order` VALUES (22, '16094723103282800', 1, 5688, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 11:38:30', '2021-01-01 11:38:30');
-INSERT INTO `tb_newbee_mall_order` VALUES (23, '16094828422485799', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 14:34:04', '2021-01-01 14:34:04');
-INSERT INTO `tb_newbee_mall_order` VALUES (24, '16094828771511393', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 14:34:37', '2021-01-01 14:34:37');
-INSERT INTO `tb_newbee_mall_order` VALUES (25, '16094829041851247', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 14:35:04', '2021-01-01 14:35:04');
-INSERT INTO `tb_newbee_mall_order` VALUES (26, '16094831862042836', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 14:39:46', '2021-01-01 14:39:46');
-INSERT INTO `tb_newbee_mall_order` VALUES (27, '16095162426096946', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 23:50:42', '2021-01-01 23:50:42');
-INSERT INTO `tb_newbee_mall_order` VALUES (28, '16095162794756540', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 23:51:19', '2021-01-01 23:51:19');
-INSERT INTO `tb_newbee_mall_order` VALUES (29, '16095163128757514', 1, 1, 0, 0, NULL, 0, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 23:51:53', '2021-01-01 23:51:53');
-INSERT INTO `tb_newbee_mall_order` VALUES (30, '16095163386222864', 1, 1, 1, 2, '2021-01-01 23:52:27', 4, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-01 23:52:18', '2021-01-01 23:52:27');
-INSERT INTO `tb_newbee_mall_order` VALUES (31, '16095164814071328', 9, 1, 1, 2, '2021-01-01 23:55:17', 1, '', '', '', '', 0, '2021-01-01 23:54:41', '2021-01-01 23:55:17');
-INSERT INTO `tb_newbee_mall_order` VALUES (32, '16095171309401456', 1, 10, 1, 2, '2021-01-02 00:05:59', 1, '', '', '', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, '2021-01-02 00:05:31', '2021-01-02 00:05:59');
+) ENGINE = InnoDB AUTO_INCREMENT = 187 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_order_item
@@ -893,66 +857,16 @@ DROP TABLE IF EXISTS `tb_newbee_mall_order_item`;
 CREATE TABLE `tb_newbee_mall_order_item`  (
   `order_item_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '订单关联购物项主键id',
   `order_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '订单主键id',
+  `seckill_id` bigint(20) NULL DEFAULT NULL COMMENT '秒杀商品ID',
   `goods_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '关联商品id',
   `goods_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '下单时商品的名称(订单快照)',
   `goods_cover_img` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '下单时商品的主图(订单快照)',
   `selling_price` int(11) NOT NULL DEFAULT 1 COMMENT '下单时商品的价格(订单快照)',
   `goods_count` int(11) NOT NULL DEFAULT 1 COMMENT '数量(订单快照)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`order_item_id`) USING BTREE,
   INDEX `order_id_index`(`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tb_newbee_mall_order_item
--- ----------------------------
-INSERT INTO `tb_newbee_mall_order_item` VALUES (1, 1, 10180, 'Apple AirPods 配充电盒', '/goods-img/64768a8d-0664-4b29-88c9-2626578ffbd1.jpg', 1246, 2, '2019-09-18 22:53:07');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (2, 2, 10147, 'MUJI 羽毛 靠垫', '/goods-img/0f701215-b782-40c7-8bbd-97b51be56461.jpg', 65, 1, '2019-09-18 22:55:20');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (3, 2, 10158, '无印良品 女式粗棉线条纹长袖T恤', 'http://localhost:28089/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', 70, 1, '2019-09-18 22:55:20');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (4, 3, 10742, '华为 HUAWEI P30 Pro', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', 5488, 1, '2019-09-19 23:56:40');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (5, 3, 10320, 'Apple iPhone 11 Pro', '/goods-img/0025ad55-e260-4a00-be79-fa5b8c5ac0de.jpg', 9999, 1, '2019-09-19 23:56:40');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (6, 4, 10254, 'Apple 2019款 MacBook Air 13.3', '/goods-img/7810bc9d-236f-4386-a0ef-45a831b49bf2.jpg', 8499, 1, '2019-09-19 23:58:18');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (7, 5, 10104, '无印良品 MUJI 修正带', '/goods-img/98ce17e1-890e-4eaf-856a-7fce8ffebc4c.jpg', 15, 1, '2019-09-20 00:08:04');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (8, 5, 10110, '无印良品 MUJI 基础润肤乳霜', '/goods-img/30036561-a150-4ea7-9106-29bbea278909.jpg', 100, 1, '2019-09-20 00:08:04');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (9, 6, 10895, 'HUAWEI Mate 30 4000万超感光徕卡影像', '/goods-img/mate30-3.png', 3999, 2, '2019-09-22 22:57:15');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (10, 7, 10895, 'HUAWEI Mate 30 4000万超感光徕卡影像', '/goods-img/mate30-3.png', 3999, 1, '2019-09-22 23:01:44');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (11, 7, 10320, 'Apple iPhone 11 Pro', '/goods-img/0025ad55-e260-4a00-be79-fa5b8c5ac0de.jpg', 9999, 1, '2019-09-22 23:01:44');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (12, 8, 10180, 'Apple AirPods 配充电盒', '/goods-img/64768a8d-0664-4b29-88c9-2626578ffbd1.jpg', 1246, 1, '2019-09-22 23:02:45');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (13, 9, 10237, 'MAC 雾面丝绒哑光子弹头口红', 'http://localhost:28089/goods-img/1930d79b-88bd-4c5c-8510-0697c9ad2578.jpg', 165, 4, '2019-09-22 23:03:52');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (14, 9, 10254, 'Apple 2019款 MacBook Air 13.3', '/goods-img/7810bc9d-236f-4386-a0ef-45a831b49bf2.jpg', 8499, 2, '2019-09-22 23:03:52');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (15, 9, 10195, '索尼 WH-1000XM3 头戴式耳机', 'http://localhost:28089/goods-img/0dc503b2-90a2-4971-9723-c085a1844b76.jpg', 2599, 1, '2019-09-22 23:03:52');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (16, 9, 10894, 'HUAWEI Mate 30 Pro', '/goods-img/mate30p3.png', 5399, 1, '2019-09-22 23:03:52');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (17, 10, 10894, 'HUAWEI Mate 30 Pro', '/goods-img/mate30p3.png', 5399, 3, '2019-09-22 23:08:06');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (18, 11, 10279, 'Apple iPhone 11 (A2223)', '/goods-img/a0d09f94-9c46-4ee1-aaef-dfd132e7543e.jpg', 5999, 1, '2019-09-23 14:43:27');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (19, 12, 10279, 'Apple iPhone 11 (A2223)', '/goods-img/a0d09f94-9c46-4ee1-aaef-dfd132e7543e.jpg', 5999, 1, '2019-09-23 14:57:26');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (20, 12, 10159, 'Apple AirPods 配充电盒', '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', 1246, 1, '2019-09-23 14:57:26');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (21, 13, 10742, '华为 HUAWEI P30 Pro', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', 5488, 1, '2019-09-23 15:08:46');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (22, 14, 10158, '无印良品 女式粗棉线条纹长袖T恤', '/goods-img/5488564b-8335-4b0c-a5a4-52f3f03ee728.jpg', 70, 1, '2019-09-23 16:59:24');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (23, 14, 10704, '华为 HUAWEI P30 超感光徕卡三摄麒麟980AI...', '/goods-img/b9e6d770-06dd-40f4-9ae5-31103cec6e5f.jpg', 3988, 1, '2019-09-23 16:59:24');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (24, 14, 10739, '华为 HUAWEI P30 Pro', '/goods-img/65c8e729-aeca-4780-977b-4d0d39d4aa2e.jpg', 4988, 1, '2019-09-23 16:59:24');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (25, 15, 10147, 'MUJI 羽毛 靠垫', '/goods-img/0f701215-b782-40c7-8bbd-97b51be56461.jpg', 65, 1, '2019-09-23 17:05:34');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (26, 16, 10742, '华为 HUAWEI P30 Pro', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', 5488, 1, '2019-09-23 17:10:03');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (27, 16, 10159, 'Apple AirPods 配充电盒', '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', 1246, 1, '2019-09-23 17:10:03');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (28, 16, 10254, 'Apple 2019款 MacBook Air 13.3', '/goods-img/7810bc9d-236f-4386-a0ef-45a831b49bf2.jpg', 8499, 1, '2019-09-23 17:10:03');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (29, 17, 10180, 'Apple AirPods 配充电盒', '/goods-img/64768a8d-0664-4b29-88c9-2626578ffbd1.jpg', 1246, 1, '2019-09-26 14:09:56');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (30, 18, 10779, '华为 HUAWEI Mate 20', '/goods-img/08f9a912-f049-4cf8-a839-115fc6582398.jpg', 3199, 1, '2019-09-30 08:38:26');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (31, 19, 10742, '华为 HUAWEI P30 Pro', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', 5488, 1, '2019-10-05 20:20:10');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (32, 19, 10154, '无印良品 MUJI 塑料浴室座椅', '/goods-img/15395057-94e9-4545-a8ee-8aee025f40c5.jpg', 85, 1, '2019-10-05 20:20:10');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (33, 19, 10159, 'Apple AirPods 配充电盒', '/goods-img/53c9f268-7cd4-4fac-909c-2dc066625655.jpg', 1246, 1, '2019-10-05 20:20:10');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (34, 20, 10895, 'HUAWEI Mate 30 4000万超感光徕卡影像', '/goods-img/mate30-3.png', 3999, 1, '2019-10-05 22:12:47');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (35, 21, 10700, '荣耀8X 千元屏霸 91%屏占比 2000万AI双摄', '/goods-img/6a160b96-9b4a-4844-b335-feb31b1f5d8c.jpg', 999, 1, '2020-12-27 11:32:02');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (36, 22, 10003, '无印良品 MUJI 基础润肤化妆水', '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', 100, 2, '2021-01-01 11:38:30');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (37, 22, 10742, '华为 HUAWEI P30 Pro', '/goods-img/dda1d575-cdac-4eb4-a118-3834490166f7.jpg', 5488, 1, '2021-01-01 11:38:30');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (38, 23, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 14:34:07');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (39, 24, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 14:34:37');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (40, 25, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 14:35:04');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (41, 26, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 14:39:46');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (42, 27, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 23:50:42');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (43, 28, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 23:51:20');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (44, 29, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 23:51:53');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (45, 30, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 23:52:18');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (46, 31, 10020, '无印良品 MUJI 聚丙烯', '/goods-img/6c7f7a0d-4d73-406e-adcc-6f666ce4e2c9.jpg', 1, 1, '2021-01-01 23:54:41');
-INSERT INTO `tb_newbee_mall_order_item` VALUES (47, 32, 10003, '无印良品 MUJI 基础润肤化妆水', '/goods-img/87446ec4-e534-4b49-9f7d-9bea34665284.jpg', 10, 1, '2021-01-02 00:05:31');
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_shopping_cart_item
@@ -964,12 +878,12 @@ CREATE TABLE `tb_newbee_mall_shopping_cart_item`  (
   `goods_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '关联商品id',
   `goods_count` int(11) NOT NULL DEFAULT 1 COMMENT '数量(最大为5)',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '删除标识字段(0-未删除 1-已删除)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '最新修改时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最新修改时间',
   PRIMARY KEY (`cart_item_id`) USING BTREE,
   INDEX `is_delete_index`(`is_deleted`) USING BTREE,
   INDEX `user_id_index`(`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_newbee_mall_shopping_cart_item
@@ -978,7 +892,19 @@ INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (69, 1, 10700, 1, 1, '202
 INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (70, 1, 10003, 2, 1, '2020-12-28 21:49:21', '2020-12-28 21:49:21');
 INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (71, 1, 10700, 2, 1, '2021-01-01 11:07:54', '2021-01-01 11:07:54');
 INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (72, 1, 10742, 1, 1, '2021-01-01 11:08:27', '2021-01-01 11:08:27');
-INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (73, 1, 10742, 1, 0, '2021-01-02 00:05:21', '2021-01-02 00:05:21');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (73, 1, 10742, 1, 1, '2021-01-02 00:05:21', '2021-01-02 00:05:21');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (74, 1, 10283, 1, 1, '2021-01-03 13:01:56', '2021-01-03 13:01:56');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (75, 1, 10895, 1, 1, '2021-01-06 19:14:53', '2021-01-06 19:14:53');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (76, 1, 10893, 1, 1, '2021-01-06 19:16:31', '2021-01-06 19:16:31');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (77, 1, 10158, 1, 1, '2021-01-06 22:56:37', '2021-01-06 22:56:37');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (78, 1, 10160, 1, 1, '2021-01-06 23:02:03', '2021-01-06 23:02:03');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (79, 1, 10283, 1, 1, '2021-01-07 11:36:24', '2021-01-07 11:36:24');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (80, 1, 10159, 2, 1, '2021-01-07 17:51:02', '2021-01-07 17:51:02');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (81, 1, 10154, 1, 1, '2021-01-07 17:53:29', '2021-01-07 17:53:29');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (82, 1, 10159, 2, 1, '2021-01-08 10:00:06', '2021-01-08 10:00:06');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (83, 1, 10742, 1, 1, '2021-01-08 15:50:32', '2021-01-08 15:50:32');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (84, 1, 10700, 1, 1, '2021-01-08 15:55:56', '2021-01-08 15:55:56');
+INSERT INTO `tb_newbee_mall_shopping_cart_item` VALUES (85, 1, 10742, 1, 1, '2021-01-10 00:48:51', '2021-01-10 00:48:51');
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_user
@@ -993,9 +919,9 @@ CREATE TABLE `tb_newbee_mall_user`  (
   `address` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '收货地址',
   `is_deleted` tinyint(4) NOT NULL DEFAULT 0 COMMENT '注销标识字段(0-正常 1-已注销)',
   `locked_flag` tinyint(4) NOT NULL DEFAULT 0 COMMENT '锁定标识字段(0-未锁定 1-已锁定)',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '注册时间',
+  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tb_newbee_mall_user
@@ -1004,6 +930,9 @@ INSERT INTO `tb_newbee_mall_user` VALUES (1, '十三', '13700002703', 'e10adc394
 INSERT INTO `tb_newbee_mall_user` VALUES (6, '测试用户1', '13711113333', 'dda01dc6d334badcd031102be6bee182', '测试用户1', '上海浦东新区XX路XX号 999 137xxxx7797', 0, 0, '2019-08-29 10:51:39');
 INSERT INTO `tb_newbee_mall_user` VALUES (7, '测试用户2测试用户2测试用户2测试用户2', '13811113333', 'dda01dc6d334badcd031102be6bee182', '测试用户2', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, 0, '2019-08-29 10:55:08');
 INSERT INTO `tb_newbee_mall_user` VALUES (8, '测试用户3', '13911113333', 'dda01dc6d334badcd031102be6bee182', '测试用户3', '杭州市西湖区xx小区x幢419 十三 137xxxx2703', 0, 0, '2019-08-29 10:55:16');
-INSERT INTO `tb_newbee_mall_user` VALUES (9, '050f2', '13617159841', 'dedec7fd74079a690e58e6cd257372f6', '', '', 0, 0, '2021-01-01 23:54:11');
+INSERT INTO `tb_newbee_mall_user` VALUES (9, '050f2', '13617159841', 'dedec7fd74079a690e58e6cd257372f6', '', '桂花街道12号', 0, 0, '2021-01-01 23:54:11');
+INSERT INTO `tb_newbee_mall_user` VALUES (10, '6d372', '13941715478', '503caa9fbb49894634e4f72bedf724e3', '', '', 0, 0, '2021-01-07 19:03:49');
+INSERT INTO `tb_newbee_mall_user` VALUES (11, '95511', '13430209786', '6590f73ecdf351c38de00befd2ecf17b', '', '', 0, 0, '2021-01-08 12:41:32');
+INSERT INTO `tb_newbee_mall_user` VALUES (12, '5aca9', '18815612723', 'e10adc3949ba59abbe56e057f20f883e', '', '', 0, 0, '2021-01-08 13:45:08');
 
 SET FOREIGN_KEY_CHECKS = 1;

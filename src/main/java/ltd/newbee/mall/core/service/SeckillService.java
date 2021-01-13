@@ -21,11 +21,11 @@ public interface SeckillService extends IService<Seckill> {
     IPage<Seckill> selectPage(Page<Seckill> page, SeckillVO seckillVO);
 
     /**
-     * 执行秒杀操作
+     * 使用数据库层面执行秒杀操作
      *
      * @param seckillId 秒杀商品ID
      * @param userVO    用户VO
-     * @return 订单号
+     * @return 用户秒杀成功VO
      */
     SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO);
 
@@ -34,7 +34,7 @@ public interface SeckillService extends IService<Seckill> {
      *
      * @param seckillId 秒杀商品ID
      * @param userVO    用户VO
-     * @return 订单号
+     * @return 用户秒杀成功VO
      */
     SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO);
 
@@ -44,7 +44,7 @@ public interface SeckillService extends IService<Seckill> {
      *
      * @param seckillId 秒杀商品ID
      * @param userVO    用户VO
-     * @return 订单号
+     * @return 用户秒杀成功VO
      */
     SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO);
 
