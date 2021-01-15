@@ -51,6 +51,11 @@
                             </li>
                         </ul>
                     </div>
+                    <h4>支付宝沙箱测试账号：<br>
+                        <h5>买家账号：eiqirp8601@sandbox.com</h5>
+                        <h5>登录密码：111111</h5>
+                        <h5>支付密码：111111</h5>
+                    </h4>
                 </div>
 
                 <div class="payment-box">
@@ -163,7 +168,11 @@
 
     function payOrder(payType) {
         var orderNo = $("#orderNoValue").val();
-        window.location.href = _ctx + 'payPage?orderNo=' + orderNo + "&payType=" + payType;
+        if (payType == 1) {
+            window.open(_ctx + 'payPage?orderNo=' + orderNo + "&payType=" + payType);
+        } else {
+            window.location.href = _ctx + 'payPage?orderNo=' + orderNo + "&payType=" + payType;
+        }
     }
 </script>
 </body>

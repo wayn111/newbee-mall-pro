@@ -97,22 +97,7 @@ public class MallOrderController extends BaseController {
         if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("订单项异常");
         }
-        List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", order.getOrderId()));
-        if (CollectionUtils.isEmpty(orderItems)) {
-            throw new BusinessException("订单项异常");
-        }
-        List<OrderItemVO> itemVOList = MyBeanUtil.copyList(orderItems, OrderItemVO.class);
-        OrderDetailVO orderDetailVO = new OrderDetailVO();
-        BeanUtils.copyProperties(order, orderDetailVO);
-        orderDetailVO.setOrderStatusString(OrderStatusEnum.getOrderStatusEnumByStatus(orderDetailVO.getOrderStatus()).getName());
-        orderDetailVO.setPayTypeString(PayTypeEnum.getPayTypeEnumByType(orderDetailVO.getPayType()).getName());
-        orderDetailVO.setNewBeeMallOrderItemVOS(itemVOList);
-        request.setAttribute("orderDetailVO", orderDetailVO);
-        Coupon coupon = couponUserService.getCoupon(order.getOrderId());
-        if (coupon != null) {
-            request.setAttribute("discount", coupon.getDiscount());
-        }
-        return "mall/order-detail";
+        return renderOrderDetail(request, order);
     }
 
 
@@ -210,23 +195,6 @@ public class MallOrderController extends BaseController {
         return R.success();
     }
 
-    /**
-     * 判断订单关联用户id和当前登陆用户是否一致
-     *
-     * @param orderNo 订单编号
-     * @param session
-     * @return 返回订单对象
-     */
-    private Order judgeOrderUserId(String orderNo, HttpSession session) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
-        // 判断订单userId
-        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
-            throw new BusinessException("当前订单用户异常");
-        }
-        return order;
-    }
-
     @GetMapping("/selectPayType")
     public String selectPayType(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session) {
         Order order = judgeOrderUserId(orderNo, session);
@@ -298,11 +266,52 @@ public class MallOrderController extends BaseController {
 
     @GetMapping("/returnOrders/{orderNo}")
     public String returnOrderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
+        Order order = judgeOrderUserId(orderNo, session);
+        // 刷新页面，判断订单状态是否为已支付
+        if (order.getOrderStatus() == OrderStatusEnum.OREDER_PAID.getOrderStatus()
+                && order.getPayStatus() == PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
+            return renderOrderDetail(request, order);
+        }
+        // 将notifyUrl中逻辑放到此处：未支付订单更新订单状态
+        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+            throw new BusinessException("订单关闭异常");
+        }
+        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+        order.setPayType((byte) 1);
+        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+        order.setPayTime(new Date());
+        order.setUpdateTime(new Date());
+        orderService.updateById(order);
+        return renderOrderDetail(request, order);
+    }
+
+
+    /**
+     * 判断订单关联用户id和当前登陆用户是否一致
+     *
+     * @param orderNo 订单编号
+     * @param session session对象
+     * @return 返回订单对象
+     */
+    private Order judgeOrderUserId(String orderNo, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        // 判断订单userId
         if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
-            throw new BusinessException("订单项异常");
+            throw new BusinessException("当前订单用户异常");
         }
+        return order;
+    }
+
+    /**
+     * 渲染订单详情
+     *
+     * @param request 请求对象
+     * @param order   订单详情
+     * @return 模板路径
+     */
+    private String renderOrderDetail(HttpServletRequest request, Order order) {
         List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", order.getOrderId()));
         if (CollectionUtils.isEmpty(orderItems)) {
             throw new BusinessException("订单项异常");
@@ -318,17 +327,6 @@ public class MallOrderController extends BaseController {
         if (coupon != null) {
             request.setAttribute("discount", coupon.getDiscount());
         }
-        // 将notifyUrl中逻辑放到此处
-        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-            throw new BusinessException("订单关闭异常");
-        }
-        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-        order.setPayType((byte) 1);
-        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-        order.setPayTime(new Date());
-        order.setUpdateTime(new Date());
-        orderService.updateById(order);
         return "mall/order-detail";
     }
 

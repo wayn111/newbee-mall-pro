@@ -19,7 +19,7 @@ public interface SeckillDao extends BaseMapper<Seckill> {
      * @param now       当前时间戳
      * @return boolean
      */
-    boolean reduceSotck(Long seckillId, Long now);
+    boolean reduceStock(Long seckillId, Long now);
 
     /**
      * 添加秒杀商品库存

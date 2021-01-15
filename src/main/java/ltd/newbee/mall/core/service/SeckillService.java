@@ -9,6 +9,8 @@ import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.core.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
 
+import java.util.Map;
+
 public interface SeckillService extends IService<Seckill> {
 
     /**
@@ -48,6 +50,8 @@ public interface SeckillService extends IService<Seckill> {
      */
     SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO);
 
+    public SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO);
+
     /**
      * 秒杀地址暴露接口
      *
@@ -63,4 +67,21 @@ public interface SeckillService extends IService<Seckill> {
      * @return boolean
      */
     boolean addStock(Long seckillId);
+
+    /**
+     * 储存过程执行秒杀
+     *
+     * @param paramMap 参数设置
+     */
+    void killByProcedure(Map<String, Object> paramMap);
+
+    /**
+     * 扣减库存
+     *
+     * @param seckillId 秒杀商品ID
+     * @param now       当前时间
+     * @return boolean
+     */
+    boolean reduceStock(Long seckillId, Long now);
+
 }

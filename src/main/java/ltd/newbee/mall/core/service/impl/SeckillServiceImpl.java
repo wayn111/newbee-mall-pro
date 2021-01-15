@@ -106,7 +106,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("秒杀已结束");
         }
         // 执行秒杀逻辑：减库存 + 记录购买行为
-        if (!seckillDao.reduceSotck(seckillId, now.getTime() / 1000)) {
+        if (!reduceStock(seckillId, now.getTime() / 1000)) {
             throw new BusinessException("秒杀商品减库存失败");
         }
         SeckillSuccess seckillSuccess = new SeckillSuccess();
@@ -171,7 +171,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         map.put("killTime", killTime);
         map.put("result", null);
         // 执行存储过程，result被赋值
-        seckillDao.killByProcedure(map);
+        killByProcedure(map);
         // 获取result -2sql执行失败 -1未插入数据 0未更新数据 1sql执行成功
         int result = MapUtils.getInteger(map, "result", -2);
         if (result != 1) {
@@ -240,7 +240,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         map.put("killTime", killTime);
         map.put("result", null);
         // 执行存储过程，result被赋值
-        seckillDao.killByProcedure(map);
+        killByProcedure(map);
         // 获取result -2sql执行失败 -1未插入数据 0未更新数据 1sql执行成功
         int result = MapUtils.getInteger(map, "result", -2);
         if (result != 1) {
@@ -261,4 +261,59 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
         return seckillSuccessVO;
     }
 
+
+    /**
+     * 秒杀最终方案
+     * @param seckillId
+     * @param userVO
+     * @return
+     */
+    public SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO) {
+        // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
+        if (!rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS)) {
+            // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
+            throw new BusinessException("秒杀失败");
+        }
+        // 判断用户是否购买过秒杀商品
+        if (redisCache.containsCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId())) {
+            throw new BusinessException("您已经购买过秒杀商品，请勿重复购买");
+        }
+        Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
+        if (seckill == null) {
+            seckill = getById(seckillId);
+            redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+        }
+        // 判断秒杀商品是否再有效期内
+        long beginTime = seckill.getSeckillBegin().getTime();
+        long endTime = seckill.getSeckillEnd().getTime();
+        Date now = new Date();
+        long nowTime = now.getTime();
+        if (nowTime < beginTime) {
+            throw new BusinessException("秒杀未开启");
+        } else if (nowTime > endTime) {
+            throw new BusinessException("秒杀已结束");
+        }
+
+        SeckillSuccess seckillSuccess = new SeckillSuccess();
+        seckillSuccess.setSeckillId(seckillId);
+        seckillSuccess.setUserId(userVO.getUserId());
+        if (!seckillSuccessService.save(seckillSuccess)) {
+            throw new BusinessException("保存用户秒杀商品失败");
+        }
+        SeckillSuccessVO seckillSuccessVO = new SeckillSuccessVO();
+        Long seckillSuccessId = seckillSuccess.getSecId();
+        seckillSuccessVO.setSeckillSuccessId(seckillSuccessId);
+        seckillSuccessVO.setMd5(Md5Utils.hash(seckillSuccessId + Constants.SECKILL_EXECUTE_SALT));
+        return seckillSuccessVO;
+    }
+
+    @Override
+    public void killByProcedure(Map<String, Object> paramMap) {
+        seckillDao.killByProcedure(paramMap);
+    }
+
+    @Override
+    public boolean reduceStock(Long seckillId, Long now) {
+        return seckillDao.reduceStock(seckillId, now);
+    }
 }
