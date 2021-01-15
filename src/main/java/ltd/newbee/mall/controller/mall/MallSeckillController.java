@@ -74,6 +74,7 @@ public class MallSeckillController extends BaseController {
 
     @ResponseBody
     @RepeatSubmit
+    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
     @PostMapping(value = "/{seckillId}/{md5}/execution")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {
@@ -81,21 +82,7 @@ public class MallSeckillController extends BaseController {
             throw new BusinessException("秒杀商品不存在");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillLimiting(seckillId, userVO);
-        return R.success().add("seckillSuccess", seckillSuccessVO);
-    }
-
-    @ResponseBody
-    @RepeatSubmit
-    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
-    @PostMapping(value = "/{seckillId}/{md5}/executionLimiting")
-    public R executionLimiting(@PathVariable Long seckillId,
-                               @PathVariable String md5, HttpSession session) {
-        if (md5 == null || !md5.equals(Md5Utils.hash(seckillId))) {
-            throw new BusinessException("秒杀商品不存在");
-        }
-        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillLimiting(seckillId, userVO);
+        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillFinal(seckillId, userVO);
         return R.success().add("seckillSuccess", seckillSuccessVO);
     }
 
@@ -166,12 +153,11 @@ public class MallSeckillController extends BaseController {
 
 
     @GetMapping("detail/{seckillId}")
-    @ResponseBody()
+    @ResponseBody
     public String detail(@PathVariable("seckillId") Long seckillId,
                          HttpServletRequest request,
                          HttpServletResponse response,
-                         Model model,
-                         HttpSession session) {
+                         Model model) {
         // 判断缓存中是否有当前秒杀商品详情页面
         String html = redisCache.getCacheObject(Constants.SECKILL_GOODS_DETAIL_HTML + seckillId);
         if (StringUtils.isNotBlank(html)) {
@@ -179,20 +165,6 @@ public class MallSeckillController extends BaseController {
         }
         Seckill seckill = seckillService.getById(seckillId);
         Long goodsId = seckill.getGoodsId();
-        // 购物车商品数量展示，默认为0
-        request.setAttribute("cartItemId", 0);
-        request.setAttribute("goodsCount", 0);
-        MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        if (userVO != null) {
-            ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
-                    .eq("user_id", userVO.getUserId())
-                    .eq("goods_id", goodsId));
-            request.setAttribute("goodsCount", 0);
-            if (Objects.nonNull(shopCat)) {
-                request.setAttribute("cartItemId", shopCat.getCartItemId());
-                request.setAttribute("goodsCount", shopCat.getGoodsCount());
-            }
-        }
         Map<String, Object> map = new HashMap<>();
         map.put("goodsId", goodsId);
         map.put("seckillPrice", seckill.getSeckillPrice());

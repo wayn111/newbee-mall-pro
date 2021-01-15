@@ -156,6 +156,17 @@ public class RedisCache {
         return redisTemplate.delete(collection);
     }
 
+    public long deleteLikesKeyObject(String prefix) {
+        return redisTemplate.delete(getLikesKeyList(prefix));
+    }
+
+    public <T> List<T> getLikesKeyList(String prefix) {
+        // 获取所有的key
+        Set<String> keys = redisTemplate.keys(prefix);
+        // 批量获取数据
+        return redisTemplate.opsForValue().multiGet(keys);
+    }
+
     /**
      * 缓存List数据
      *

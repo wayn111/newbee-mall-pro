@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.OrderDao;
 import ltd.newbee.mall.core.entity.*;
 import ltd.newbee.mall.core.entity.vo.*;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.*;
+import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.NumberUtil;
@@ -21,6 +23,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,6 +55,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private RedisCache redisCache;
 
     @Override
     public IPage<OrderListVO> selectMyOrderPage(Page<OrderListVO> page, Order order) {
@@ -168,7 +174,30 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             throw new BusinessException("当前登陆用户与抢购秒杀商品的用户不匹配");
         }
         Long seckillId = seckillSuccess.getSeckillId();
-        Seckill seckill = seckillService.getById(seckillId);
+        // 更新秒杀商品库存
+        Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        if (stock < 0) {
+            throw new BusinessException("秒杀商品已售空");
+        }
+        Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
+        if (seckill == null) {
+            seckill = seckillService.getById(seckillId);
+            redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
+        }
+        // 判断秒杀商品是否再有效期内
+        long beginTime = seckill.getSeckillBegin().getTime();
+        long endTime = seckill.getSeckillEnd().getTime();
+        Date now = new Date();
+        long nowTime = now.getTime();
+        if (nowTime < beginTime) {
+            throw new BusinessException("秒杀未开启");
+        } else if (nowTime > endTime) {
+            throw new BusinessException("秒杀已结束");
+        }
+        // 减库存
+        if (!seckillService.reduceStock(seckillId, now.getTime() / 1000)) {
+            throw new BusinessException("秒杀商品减库存失败");
+        }
         Long goodsId = seckill.getGoodsId();
         Goods goods = goodsService.getById(goodsId);
         // 生成订单号
@@ -184,6 +213,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         if (!save(order)) {
             throw new BusinessException("生成订单内部异常");
         }
+        // 记录购买过的用户
+        redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId());
+        long endExpireTime = endTime / 1000;
+        long nowExpireTime = nowTime / 1000;
+        redisCache.expire(Constants.SECKILL_SUCCESS_USER_ID + seckillId, endExpireTime - nowExpireTime, TimeUnit.SECONDS);
+
         // 保存订单商品项
         OrderItem orderItem = new OrderItem();
         Long orderId = order.getOrderId();
@@ -197,7 +232,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         if (!orderItemService.save(orderItem)) {
             throw new BusinessException("生成订单内部异常");
         }
-        // 秒杀订单5分钟未支付超期任务
+        // 秒杀订单1分钟未支付超期任务
         taskService.addTask(new OrderUnPaidTask(orderId, 1 * 60 * 1000));
         return orderNo;
     }

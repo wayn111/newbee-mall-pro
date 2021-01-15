@@ -52,7 +52,7 @@
         </where>
     </select>
 
-    <update id="reduceSotck">
+    <update id="reduceStock">
         update tb_newbee_mall_seckill
         set seckill_num = seckill_num - 1
         where seckill_id = #{seckillId}
