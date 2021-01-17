@@ -3,12 +3,12 @@ package ltd.newbee.mall.controller.mall;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.MallUser;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.MallUserService;
+import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class MallUserController extends BaseController {
@@ -97,12 +96,7 @@ public class MallUserController extends BaseController {
         if (CollectionUtils.isNotEmpty(list) && list.size() != 1) {
             return R.error("该账户名已存在");
         }
-        MallUser mallUser = new MallUser();
-        mallUser.setLoginName(loginName);
-        mallUser.setNickName(UUID.randomUUID().toString().substring(0, 5));
-        mallUser.setPasswordMd5(Md5Utils.hash(password));
-        mallUserService.save(mallUser);
-        return R.success();
+        return R.result(mallUserService.register(loginName, password));
     }
 
 

@@ -18,6 +18,10 @@ public class R {
         return r;
     }
 
+    public static R result(boolean result) {
+        return result ? success() : error();
+    }
+
     public static R success(String msg) {
         R r = new R();
         r.code = 200;

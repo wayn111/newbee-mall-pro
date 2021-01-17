@@ -9,9 +9,19 @@ public interface MallUserService extends IService<MallUser> {
 
     /**
      * 分页查询
-     * @param page 分页对象
+     *
+     * @param page     分页对象
      * @param mallUser 商品用户对象
      * @return 分页数据
      */
     IPage<MallUser> selectPage(Page<MallUser> page, MallUser mallUser);
+
+    /**
+     * 用户注册
+     *
+     * @param loginName 用户名
+     * @param password  密码
+     * @return boolean
+     */
+    boolean register(String loginName, String password);
 }
