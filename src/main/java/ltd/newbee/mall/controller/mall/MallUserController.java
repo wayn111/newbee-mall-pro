@@ -99,11 +99,12 @@ public class MallUserController extends BaseController {
         return R.result(mallUserService.register(loginName, password));
     }
 
-
     @PostMapping("/personal/updateInfo")
     @ResponseBody
     public R updateInfo(@RequestBody MallUser mallUser) {
-        mallUserService.updateById(mallUser);
+        if (!mallUserService.updateById(mallUser)) {
+            throw new BusinessException("修改用户信息异常");
+        }
         MallUser user = mallUserService.getById(mallUser.getUserId());
         MallUserVO mallUserVO = new MallUserVO();
         BeanUtils.copyProperties(user, mallUserVO);
