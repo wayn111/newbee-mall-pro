@@ -45,4 +45,5 @@ public interface CouponService extends IService<Coupon> {
      * @param orderId 订单ID
      */
     void releaseCoupon(Long orderId);
+
 }

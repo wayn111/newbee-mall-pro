@@ -67,4 +67,10 @@
             AND t.STATUS = 0
         </where>
     </select>
+
+    <update id="reduceCouponTotal">
+        update tb_newbee_mall_coupon
+        set coupon_total = coupon_total - 1
+        where coupon_id = #{couponId} and coupon_total > 0
+    </update>
 </mapper>

@@ -13,4 +13,7 @@ public interface CouponDao extends BaseMapper<Coupon> {
     IPage selectListPage(Page<Coupon> page, CouponVO coupon);
 
     List<Coupon> selectAvailableCoupon();
+
+    int reduceCouponTotal(Long couponId);
+
 }

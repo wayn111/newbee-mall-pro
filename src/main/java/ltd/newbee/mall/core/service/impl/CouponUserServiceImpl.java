@@ -3,14 +3,16 @@ package ltd.newbee.mall.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ltd.newbee.mall.core.dao.CouponDao;
 import ltd.newbee.mall.core.dao.CouponUserDao;
 import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.CouponUser;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.CouponService;
 import ltd.newbee.mall.core.service.CouponUserService;
+import ltd.newbee.mall.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -22,6 +24,10 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
     @Autowired
     private CouponService couponService;
 
+    @Autowired
+    private CouponDao couponDao;
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean saveCouponUser(Long couponId, Long userId) {
         Coupon coupon = couponService.getById(couponId);
@@ -39,10 +45,13 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
             if (count >= coupon.getCouponTotal()) {
                 throw new BusinessException("优惠卷已经领完了！");
             }
+            if (couponDao.reduceCouponTotal(couponId) <= 0) {
+                throw new BusinessException("优惠卷领取失败！");
+            }
         }
         CouponUser couponUser = new CouponUser();
         couponUser.setUserId(userId);
-        couponUser.setCouponId(coupon.getCouponId());
+        couponUser.setCouponId(couponId);
         LocalDate startLocalDate = LocalDate.now();
         LocalDate endLocalDate = startLocalDate.plusDays(coupon.getDays());
         ZoneId zone = ZoneId.systemDefault();

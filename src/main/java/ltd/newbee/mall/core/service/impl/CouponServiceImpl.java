@@ -90,7 +90,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
         return myCouponVOS.stream().filter(item -> {
             boolean b = false;
             if (item.getMin() <= priceTotal) {
-                if (item.getGoodsType() == 1) {
+                if (item.getGoodsType() == 1) { // 指定分类可用
                     String[] split = item.getGoodsValue().split(",");
                     List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(Collectors.toList());
                     List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
@@ -102,7 +102,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                             break;
                         }
                     }
-                } else if (item.getGoodsType() == 2) {
+                } else if (item.getGoodsType() == 2) { // 指定商品可用
                     String[] split = item.getGoodsValue().split(",");
                     List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(Collectors.toList());
                     List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
@@ -112,7 +112,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                             break;
                         }
                     }
-                } else {
+                } else { // 全场通用
                     b = true;
                 }
             }
