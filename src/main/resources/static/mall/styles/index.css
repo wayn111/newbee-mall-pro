@@ -527,9 +527,10 @@
 
 /*秒杀专区*/
 #content #seckill {
+    margin-top: 20px;
     width: 1226px;
     flex-shrink: 0;
-    padding: 20px 10px 200px 10px;
+    padding: 0 10px 20px 10px;
     background-color: #f5f5f5;
 }
 
