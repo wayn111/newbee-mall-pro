@@ -81,8 +81,7 @@ public class MallOrderManagerController extends BaseController {
             throw new BusinessException("当前订单无法更改");
 
         }
-        orderService.updateById(order);
-        return R.success();
+        return R.result(orderService.updateById(order));
     }
 
 
@@ -104,11 +103,11 @@ public class MallOrderManagerController extends BaseController {
             }
             updateOrderIds.add(order.getOrderId());
         }
-        orderService.update()
+        boolean update = orderService.update()
                 .set("order_status", OrderStatusEnum.OREDER_PACKAGED.getOrderStatus())
                 .in("order_id", updateOrderIds)
                 .update();
-        return R.success();
+        return R.result(update);
     }
 
     /**
@@ -129,11 +128,11 @@ public class MallOrderManagerController extends BaseController {
             }
             updateOrderIds.add(order.getOrderId());
         }
-        orderService.update()
+        boolean update = orderService.update()
                 .set("order_status", OrderStatusEnum.OREDER_EXPRESS.getOrderStatus())
                 .in("order_id", updateOrderIds)
                 .update();
-        return R.success();
+        return R.result(update);
     }
 
     /**
@@ -158,11 +157,11 @@ public class MallOrderManagerController extends BaseController {
             }
             updateOrderIds.add(order.getOrderId());
         }
-        orderService.update()
+        boolean update = orderService.update()
                 .set("order_status", OrderStatusEnum.ORDER_SUCCESS.getOrderStatus())
                 .in("order_id", updateOrderIds)
                 .update();
-        return R.success();
+        return R.result(update);
     }
 
 }

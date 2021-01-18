@@ -128,8 +128,7 @@ public class GoodsManagerController extends BaseController {
     @PutMapping(value = "/status/{sellStatus}")
     @ResponseBody
     public R delete(@RequestBody List<Long> ids, @PathVariable("sellStatus") int sellStatus) {
-        goodsService.update().set("goods_sell_status", sellStatus).in("goods_id", ids).update();
-        return R.success();
+        return R.result(goodsService.update().set("goods_sell_status", sellStatus).in("goods_id", ids).update());
     }
 
     /**
@@ -138,8 +137,7 @@ public class GoodsManagerController extends BaseController {
     @PostMapping("/save")
     @ResponseBody
     public R save(@RequestBody Goods goods) {
-        goodsService.save(goods);
-        return R.success();
+        return R.result(goodsService.save(goods));
     }
 
     /**
@@ -148,8 +146,7 @@ public class GoodsManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody Goods goods) {
-        goodsService.updateById(goods);
-        return R.success();
+        return R.result(goodsService.updateById(goods));
     }
 
 }

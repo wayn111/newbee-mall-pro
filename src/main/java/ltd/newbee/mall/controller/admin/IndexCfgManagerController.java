@@ -47,8 +47,7 @@ public class IndexCfgManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(@RequestBody IndexConfig indexConfig) {
-        indexConfigService.save(indexConfig);
-        return R.success();
+        return R.result(indexConfigService.save(indexConfig));
     }
 
 
@@ -61,8 +60,7 @@ public class IndexCfgManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/update")
     public R update(@RequestBody IndexConfig indexConfig) {
-        indexConfigService.updateById(indexConfig);
-        return R.success();
+        return R.result(indexConfigService.updateById(indexConfig));
     }
 
     /**
@@ -71,7 +69,6 @@ public class IndexCfgManagerController extends BaseController {
     @PostMapping("/delete")
     @ResponseBody
     public R delete(@RequestBody List<Integer> ids) {
-        indexConfigService.removeByIds(ids);
-        return R.success();
+        return R.result(indexConfigService.removeByIds(ids));
     }
 }

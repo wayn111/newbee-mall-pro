@@ -8,6 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 自定义接口限流
+ *
  * @author jacky
  */
 @Target(ElementType.METHOD)

@@ -29,7 +29,7 @@ public class TaskConfig {
      * cron = "0 0 2 * * ?"
      */
     @Async
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     public void checkCouponStatus() {
         log.info("检查用户领取的优惠卷是否过期任务:开始");
         List<CouponUser> list = couponUserService.list(new QueryWrapper<CouponUser>().eq("status", 0));

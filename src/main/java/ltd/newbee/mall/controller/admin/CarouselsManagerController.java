@@ -44,8 +44,7 @@ public class CarouselsManagerController extends BaseController {
     @PostMapping("/save")
     @ResponseBody
     public R save(@RequestBody Carousels carousels) {
-        carouselsService.save(carousels);
-        return R.success();
+        return R.result(carouselsService.save(carousels));
     }
 
     /**
@@ -54,8 +53,7 @@ public class CarouselsManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody Carousels carousels) {
-        carouselsService.updateById(carousels);
-        return R.success();
+        return R.result(carouselsService.updateById(carousels));
     }
 
     /**
@@ -73,7 +71,6 @@ public class CarouselsManagerController extends BaseController {
     @PostMapping("/delete")
     @ResponseBody
     public R delete(@RequestBody List<Integer> ids) {
-        carouselsService.removeByIds(ids);
-        return R.success();
+        return R.result(carouselsService.removeByIds(ids));
     }
 }

@@ -50,8 +50,7 @@ public class CouponManagerController extends BaseController {
     @PostMapping("/save")
     public R save(@RequestBody Coupon coupon) {
         coupon.setCreateTime(new Date());
-        couponService.save(coupon);
-        return R.success();
+        return R.result(couponService.save(coupon));
     }
 
     /**
@@ -60,24 +59,7 @@ public class CouponManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody Coupon coupon) {
-        coupon.setUpdateTime(new Date());
-        couponService.updateById(coupon);
-        couponUserService.update();
-        //  当修改状态为可用时，又要修改对应
-        if (coupon.getStatus() == 2) {
-            couponUserService.update()
-                    .eq("coupon_id", coupon.getCouponId())
-                    .eq("status", 0)
-                    .set("status", 3)
-                    .update();
-        } else if (coupon.getStatus() == 0) {
-            couponUserService.update()
-                    .eq("coupon_id", coupon.getCouponId())
-                    .eq("status", 3)
-                    .set("status", 0)
-                    .update();
-        }
-        return R.success();
+        return R.result(couponService.updateCoupon(coupon));
     }
 
     /**
@@ -95,7 +77,6 @@ public class CouponManagerController extends BaseController {
     @DeleteMapping("/{id}")
     @ResponseBody
     public R delete(@PathVariable("id") Long id) {
-        couponService.removeById(id);
-        return R.success();
+        return R.result(couponService.removeById(id));
     }
 }

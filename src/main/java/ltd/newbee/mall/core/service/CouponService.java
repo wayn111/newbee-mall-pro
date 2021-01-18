@@ -46,4 +46,10 @@ public interface CouponService extends IService<Coupon> {
      */
     void releaseCoupon(Long orderId);
 
+    /**
+     * 修改优惠劵信息
+     *
+     * @return
+     */
+    boolean updateCoupon(Coupon coupon);
 }

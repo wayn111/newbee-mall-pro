@@ -89,8 +89,7 @@ public class GoodsCateManagerController extends BaseController {
     @PostMapping("/save")
     @ResponseBody
     public R save(@RequestBody GoodsCategory goodsCategory) {
-        goodsCategoryService.save(goodsCategory);
-        return R.success();
+        return R.result(goodsCategoryService.save(goodsCategory));
     }
 
     /**
@@ -99,8 +98,7 @@ public class GoodsCateManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody GoodsCategory goodsCategory) {
-        goodsCategoryService.updateById(goodsCategory);
-        return R.success();
+        return R.result(goodsCategoryService.updateById(goodsCategory));
     }
 
     /**
@@ -113,16 +111,16 @@ public class GoodsCateManagerController extends BaseController {
     }
 
     /**
-     * 删除
+     * 删除当前分类以及所有子分类
      */
     @PostMapping("/delete")
     @ResponseBody
     public R delete(@RequestBody List<Long> ids) {
         List<Long> list = new ArrayList<>(ids);
         for (Long id : ids) {
-            List<GoodsCategory> list1 = goodsCategoryService.list(new QueryWrapper<GoodsCategory>().select("category_id").eq("parent_id", id));
-            if (CollectionUtils.isNotEmpty(list1)) {
-                List<Long> collect = list1.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
+            List<GoodsCategory> goodsCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>().select("category_id").eq("parent_id", id));
+            if (CollectionUtils.isNotEmpty(goodsCategories)) {
+                List<Long> collect = goodsCategories.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
                 list.addAll(collect);
                 for (Long aLong : collect) {
                     List<GoodsCategory> list2 = goodsCategoryService.list(new QueryWrapper<GoodsCategory>().select("category_id").eq("parent_id", aLong));
@@ -131,7 +129,6 @@ public class GoodsCateManagerController extends BaseController {
                 }
             }
         }
-        goodsCategoryService.removeByIds(list);
-        return R.success();
+        return R.result(goodsCategoryService.removeByIds(list));
     }
 }

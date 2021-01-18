@@ -19,6 +19,7 @@ import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -131,5 +132,26 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             couponUser.setUpdateTime(new Date());
             couponUserService.updateById(couponUser);
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean updateCoupon(Coupon coupon) {
+        //  修改优惠劵状态时，还要修改用户已经领过优惠劵的状态
+        if (coupon.getStatus() == 2) {
+            couponUserService.update()
+                    .eq("coupon_id", coupon.getCouponId())
+                    .eq("status", 0)
+                    .set("status", 3)
+                    .update();
+        } else if (coupon.getStatus() == 0) {
+            couponUserService.update()
+                    .eq("coupon_id", coupon.getCouponId())
+                    .eq("status", 3)
+                    .set("status", 0)
+                    .update();
+        }
+        coupon.setUpdateTime(new Date());
+        return updateById(coupon);
     }
 }

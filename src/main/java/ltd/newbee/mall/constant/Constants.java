@@ -29,14 +29,6 @@ public class Constants {
      * 字符串表示true
      */
     public static final String TRUE = "true";
-    /**
-     * 操作状态，成功
-     */
-    public static final Integer OPERATE_SUCCESS = 0;
-    /**
-     * 操作状态，失败
-     */
-    public static final Integer OPERATE_FAIL = 1;
 
     /**
      * 当前页

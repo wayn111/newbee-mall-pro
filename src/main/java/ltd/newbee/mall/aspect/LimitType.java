@@ -17,6 +17,7 @@ package ltd.newbee.mall.aspect;
 
 /**
  * 限流枚举
+ *
  * @author /
  */
 public enum LimitType {

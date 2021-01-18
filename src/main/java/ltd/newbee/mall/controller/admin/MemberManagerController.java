@@ -47,7 +47,7 @@ public class MemberManagerController extends BaseController {
         if (lockStatus != 0 && lockStatus != 1) {
             return R.error("操作非法！");
         }
-        mallUserService.update().set("locked_flag ", lockStatus).in("user_id", ids).update();
-        return R.success();
+        boolean update = mallUserService.update().set("locked_flag ", lockStatus).in("user_id", ids).update();
+        return R.result(update);
     }
 }

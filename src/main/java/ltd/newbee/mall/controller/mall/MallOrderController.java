@@ -134,10 +134,10 @@ public class MallOrderController extends BaseController {
         order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
         order.setPayTime(new Date());
         order.setUpdateTime(new Date());
-        orderService.updateById(order);
+        boolean update = orderService.updateById(order);
         // 支付成功清空订单支付超期任务
         taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
-        return R.success();
+        return R.result(update, "订单状态更新异常");
     }
 
     @GetMapping("/orders")
@@ -177,8 +177,7 @@ public class MallOrderController extends BaseController {
             throw new BusinessException("订单无法关闭");
         }
         order.setOrderStatus((byte) OrderStatusEnum.ORDER_CLOSED_BY_MALLUSER.getOrderStatus());
-        orderService.updateById(order);
-        return R.success();
+        return R.result(orderService.updateById(order), "订单状态修改异常");
     }
 
     @PutMapping("/orders/{orderNo}/finish")
@@ -191,8 +190,7 @@ public class MallOrderController extends BaseController {
             throw new BusinessException("订单结算异常");
         }
         order.setOrderStatus((byte) OrderStatusEnum.ORDER_SUCCESS.getOrderStatus());
-        orderService.updateById(order);
-        return R.success();
+        return R.result(orderService.updateById(order), "订单状态更新异常");
     }
 
     @GetMapping("/selectPayType")
@@ -282,7 +280,9 @@ public class MallOrderController extends BaseController {
         order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
         order.setPayTime(new Date());
         order.setUpdateTime(new Date());
-        orderService.updateById(order);
+        if (!orderService.updateById(order)) {
+            throw new BusinessException("订单状态更新异常");
+        }
         return renderOrderDetail(request, order);
     }
 

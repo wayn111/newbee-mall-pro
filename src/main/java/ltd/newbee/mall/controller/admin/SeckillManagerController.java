@@ -46,20 +46,24 @@ public class SeckillManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(@RequestBody Seckill seckill) {
-        seckillService.save(seckill);
-        // 库存预热
-        redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
-        return R.success();
+        boolean save = seckillService.save(seckill);
+        if (save) {
+            // 库存预热
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
+        }
+        return R.result(save);
     }
 
     @ResponseBody
     @PostMapping("/update")
     public R update(@RequestBody Seckill seckill) {
         seckill.setUpdateTime(new Date());
-        seckillService.updateById(seckill);
-        // 库存预热
-        redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
-        return R.success();
+        boolean update = seckillService.updateById(seckill);
+        if (update) {
+            // 库存预热
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
+        }
+        return R.result(update);
     }
 
     /**
