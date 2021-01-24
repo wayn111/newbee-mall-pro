@@ -8,9 +8,9 @@ import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 
 public interface GoodsDao extends BaseMapper<Goods> {
-    IPage selectListPage(Page<Goods> page, Goods goods);
+    IPage<Goods> selectListPage(Page<Goods> page, Goods goods);
 
-    IPage findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
+    IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
     boolean addStock(Long goodsId, Integer number);
 }

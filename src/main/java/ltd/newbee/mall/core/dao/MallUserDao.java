@@ -7,5 +7,5 @@ import ltd.newbee.mall.core.entity.MallUser;
 
 public interface MallUserDao extends BaseMapper<MallUser> {
 
-    IPage selectListPage(Page<MallUser> page, MallUser mallUser);
+    IPage<MallUser> selectListPage(Page<MallUser> page, MallUser mallUser);
 }

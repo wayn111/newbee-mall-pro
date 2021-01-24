@@ -4,22 +4,20 @@ package ltd.newbee.mall.controller.mall;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import ltd.newbee.mall.annotation.Limit;
 import ltd.newbee.mall.annotation.RepeatSubmit;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.SeckillSuccess;
-import ltd.newbee.mall.core.entity.ShopCat;
 import ltd.newbee.mall.core.entity.vo.ExposerVO;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.core.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.core.entity.vo.ShopCatVO;
-import ltd.newbee.mall.exception.BusinessException;
-import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.SeckillService;
 import ltd.newbee.mall.core.service.SeckillSuccessService;
-import ltd.newbee.mall.core.service.ShopCatService;
+import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,9 +44,6 @@ public class MallSeckillController extends BaseController {
 
     @Autowired
     private GoodsService goodsService;
-
-    @Autowired
-    private ShopCatService shopCatService;
 
     @Autowired
     private SeckillSuccessService seckillSuccessService;

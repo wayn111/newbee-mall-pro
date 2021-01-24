@@ -7,5 +7,5 @@ import ltd.newbee.mall.core.entity.ShopCat;
 
 public interface ShopCatDao extends BaseMapper<ShopCat> {
 
-    IPage selectListPage(Page<ShopCat> page, ShopCat shopCat);
+    IPage<ShopCat> selectListPage(Page<ShopCat> page, ShopCat shopCat);
 }

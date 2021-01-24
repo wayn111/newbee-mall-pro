@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CouponDao extends BaseMapper<Coupon> {
 
-    IPage selectListPage(Page<Coupon> page, CouponVO coupon);
+    IPage<Coupon> selectListPage(Page<Coupon> page, CouponVO coupon);
 
     List<Coupon> selectAvailableCoupon();
 

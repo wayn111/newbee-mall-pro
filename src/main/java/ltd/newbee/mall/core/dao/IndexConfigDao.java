@@ -7,5 +7,5 @@ import ltd.newbee.mall.core.entity.IndexConfig;
 
 public interface IndexConfigDao extends BaseMapper<IndexConfig> {
 
-    IPage selectListPage(Page page, IndexConfig indexConfig);
+    IPage<IndexConfig> selectListPage(Page page, IndexConfig indexConfig);
 }

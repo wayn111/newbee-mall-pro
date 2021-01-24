@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface OrderDao extends BaseMapper<Order> {
 
-    IPage selectListVOPage(Page<OrderListVO> page, Order order);
+    IPage<OrderListVO> selectListVOPage(Page<OrderListVO> page, Order order);
 
-    IPage selectListPage(Page<Order> page, OrderVO order);
+    IPage<Order> selectListPage(Page<Order> page, OrderVO order);
 
     List<DayTransactionAmountVO> countMallTransactionAmount(Integer dayNum);
 }

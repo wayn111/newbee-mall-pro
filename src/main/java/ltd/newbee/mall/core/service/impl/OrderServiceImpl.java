@@ -233,7 +233,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             throw new BusinessException("生成订单内部异常");
         }
         // 秒杀订单1分钟未支付超期任务
-        taskService.addTask(new OrderUnPaidTask(orderId, 1 * 60 * 1000));
+        taskService.addTask(new OrderUnPaidTask(orderId, 60 * 1000));
         return orderNo;
     }
 
