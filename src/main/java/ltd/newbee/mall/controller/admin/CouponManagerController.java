@@ -6,7 +6,6 @@ import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.vo.CouponVO;
 import ltd.newbee.mall.core.service.CouponService;
-import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +21,6 @@ public class CouponManagerController extends BaseController {
 
     @Autowired
     private CouponService couponService;
-
-    @Autowired
-    private CouponUserService couponUserService;
 
     @GetMapping
     public String index(HttpServletRequest request) {

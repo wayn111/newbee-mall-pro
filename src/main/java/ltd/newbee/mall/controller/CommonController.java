@@ -2,8 +2,8 @@ package ltd.newbee.mall.controller;
 
 import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.file.FileUploadUtil;
@@ -34,6 +34,7 @@ public class CommonController extends BaseController {
 
     @Value("${wayn.uploadDir}")
     private String filePath;
+
     @Autowired
     private Producer producer;
 
@@ -72,7 +73,7 @@ public class CommonController extends BaseController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public R uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
+    public R uploadFile(MultipartFile file, HttpServletRequest request) {
         try {
             // 上传文件路径
             String fileName = FileUploadUtil.uploadFile(file, filePath);

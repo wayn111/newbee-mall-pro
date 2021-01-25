@@ -6,11 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @TableName("tb_newbee_mall_goods_info")
-public class Goods {
+public class Goods implements Serializable {
+
+    private static final long serialVersionUID = 2420217592493206057L;
 
     @TableId(type = IdType.AUTO)
     private Long goodsId;

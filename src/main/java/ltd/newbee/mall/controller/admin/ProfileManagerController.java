@@ -2,8 +2,8 @@ package ltd.newbee.mall.controller.admin;
 
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.AdminUser;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.AdminUserService;
+import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,7 +73,7 @@ public class ProfileManagerController extends BaseController {
                 .set("nick_name", nickName)
                 .eq("admin_user_id", loginUserId)
                 .update()) {
-            //修改成功后清空session中的数据，前端控制跳转至登录页
+            // 修改成功后清空session中的数据，前端控制跳转至登录页
             request.getSession().setAttribute("loginUser", nickName);
             return "success";
         } else {

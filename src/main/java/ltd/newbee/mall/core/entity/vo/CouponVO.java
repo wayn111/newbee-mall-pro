@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 优惠卷对象VO
+ */
 @Data
 public class CouponVO implements Serializable {
 

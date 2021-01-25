@@ -1,11 +1,7 @@
 package ltd.newbee.mall.enums;
 
 /**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link https://github.com/newbee-ltd
- * @apiNote 订单状态:0.无 1.支付宝 2.微信支付
+ * 订单状态:0.无 1.支付宝 2.微信支付
  */
 public enum PayTypeEnum {
 

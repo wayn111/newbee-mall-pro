@@ -15,7 +15,7 @@ public class TextCreator extends Configurable implements TextProducer {
         int length = getConfig().getTextProducerCharLength();
         char[] chars = getConfig().getTextProducerCharString();
         SecureRandom rand = SecureRandom.getInstance("SHA1PRNG", "SUN");
-//        Random rand = new Random();
+        // Random rand = new Random();
         StringBuffer text = new StringBuffer();
         for (int i = 0; i < length; i++) {
             text.append(chars[rand.nextInt(chars.length)]);

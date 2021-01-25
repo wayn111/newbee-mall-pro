@@ -6,11 +6,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @TableName("tb_newbee_mall_user")
 @Data
-public class MallUser {
+public class MallUser implements Serializable {
+
+    private static final long serialVersionUID = -4514041413899643970L;
+
     @TableId(type = IdType.AUTO)
     private Long userId;
 

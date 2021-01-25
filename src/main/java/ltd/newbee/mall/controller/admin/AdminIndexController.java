@@ -1,8 +1,8 @@
 package ltd.newbee.mall.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.AdminUser;
 import ltd.newbee.mall.core.service.AdminUserService;
 import ltd.newbee.mall.util.security.Md5Utils;
@@ -60,7 +60,7 @@ public class AdminIndexController extends BaseController {
             session.setAttribute("loginUserId", adminUser.getAdminUserId());
             //session过期时间设置为7200秒 即两小时
             //session.setMaxInactiveInterval(60 * 60 * 2);
-            return "redirect:/admin";
+            return redirectTo("/admnin");
         } else {
             session.setAttribute("errorMsg", "登陆失败，请联系作者获得测试账号");
             return "admin/login";

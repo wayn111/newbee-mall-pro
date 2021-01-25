@@ -33,10 +33,9 @@ public class BaseController {
      * 获取分页对象
      * </p>
      *
-     * @param pageNumber
-     * @param pageSize
-     * @param <T>
-     * @return
+     * @param pageNumber 当前页
+     * @param pageSize   分页数量
+     * @return 分页对象
      */
     protected <T> Page<T> getPage(int pageNumber, int pageSize) {
         return new Page<>(pageNumber, pageSize);
@@ -47,10 +46,10 @@ public class BaseController {
         long pageNumber = Long.parseLong(StringUtils.isNotEmpty(pageNumber1) ? pageNumber1 : "1");
         String pageSize1 = request.getParameter(Constants.PAGE_SIZE);
         long pageSize = Long.parseLong(StringUtils.isNotEmpty(pageSize1) ? pageSize1 : "10");
-        return gettPage(request, pageNumber, pageSize);
+        return getPage(request, pageNumber, pageSize);
     }
 
-    private <T> Page<T> gettPage(HttpServletRequest request, long pageNumber, long pageSize) {
+    private <T> Page<T> getPage(HttpServletRequest request, long pageNumber, long pageSize) {
         String sortName = request.getParameter("sidx");
         String sortOrder = request.getParameter("order");
         Page<T> tPage = new Page<>(pageNumber, pageSize);
@@ -68,7 +67,7 @@ public class BaseController {
     protected <T> Page<T> getPage(HttpServletRequest request, long pageSize) {
         String pageNumber1 = request.getParameter(Constants.PAGE_NUMBER);
         long pageNumber = Long.parseLong(StringUtils.isNotEmpty(pageNumber1) ? pageNumber1 : "1");
-        return gettPage(request, pageNumber, pageSize);
+        return getPage(request, pageNumber, pageSize);
     }
 
 
@@ -76,11 +75,9 @@ public class BaseController {
      * 重定向至地址 url
      *
      * @param url 请求地址
-     * @return
+     * @return 重定向url
      */
     protected String redirectTo(String url) {
-        StringBuffer rto = new StringBuffer("redirect:");
-        rto.append(url);
-        return rto.toString();
+        return "redirect:" + url;
     }
 }

@@ -2,6 +2,9 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+/**
+ * 商城首页展示VO对象
+ */
 @Data
 public class IndexConfigGoodsVO {
     private Long goodsId;

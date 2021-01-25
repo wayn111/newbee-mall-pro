@@ -48,7 +48,6 @@ public class Constants {
     /**
      * 排序方式 asc或者desc
      */
-    public static String SORT_ORDER = "sortOrder";
     public static String ORDER_DESC = "desc";
     public static String SORT_ASC = "asc";
 
