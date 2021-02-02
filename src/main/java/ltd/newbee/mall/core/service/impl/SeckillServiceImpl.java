@@ -264,6 +264,9 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
     /**
      * 秒杀最终方案
+     * 1、使用令牌桶算法过滤用户请求<br>
+     * 2、使用redis-set数据结构判断用户是否买过秒杀商品<br>
+     * 3、返回用户秒杀成功VO
      * @param seckillId
      * @param userVO
      * @return
