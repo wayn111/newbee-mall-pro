@@ -36,7 +36,7 @@ $(function () {
             order: "order",
         },
         gridComplete: function () {
-            //隐藏grid底部滚动条
+            // 隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
@@ -77,7 +77,6 @@ $(function () {
     });
 
     $('#seckillBegin, #seckillEnd').on('apply.daterangepicker', function (ev, picker) {
-        $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
         vm.form[$(this).attr('id')] = picker.startDate.format('YYYY-MM-DD HH:mm:ss')
     });
 });
@@ -107,7 +106,6 @@ var vm = new Vue({
     el: '#app',
     data: {
         title: '',
-        goodsValueLabel: '',
         form: {
             goodsId: '',
             seckillPrice: '',
@@ -141,21 +139,8 @@ var vm = new Vue({
                     return
                 }
                 that.form = res.map.data
-                if (that.form.goodsType == 1) {
-                    that.goodsValueLabel = '类目id';
-                } else if (that.form.goodsType == 2) {
-                    that.goodsValueLabel = '商品id'
-                }
             }, 'json')
             $('#seckillModal').modal('show');
-        },
-        changeGoodsType(goodsType) {
-            this.form.goodsValue = '';
-            if (goodsType == 1) {
-                this.goodsValueLabel = '类目id'
-            } else if (goodsType == 2) {
-                this.goodsValueLabel = '商品id'
-            }
         },
         reset() {
             $('#edit-error-msg').css("display", "none");
