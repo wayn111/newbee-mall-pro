@@ -68,8 +68,8 @@ public class MallSeckillController extends BaseController {
     }
 
     @ResponseBody
-    @RepeatSubmit
-    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit")
+    @RepeatSubmit // 接口防重复提交注解
+    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit") // 接口限流注解
     @PostMapping(value = "/{seckillId}/{md5}/execution")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {
