@@ -1,7 +1,7 @@
 package ltd.newbee.mall.config;
 
 import ltd.newbee.mall.intercepter.AdminLoginInterceptor;
-import ltd.newbee.mall.intercepter.MallLoginValidateIntercepter;
+import ltd.newbee.mall.intercepter.MallLoginValidateInterceptor;
 import ltd.newbee.mall.intercepter.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MallLoginValidateIntercepter())
+        registry.addInterceptor(new MallLoginValidateInterceptor())
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/logout")
                 .excludePathPatterns("/")

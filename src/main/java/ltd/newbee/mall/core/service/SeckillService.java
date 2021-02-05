@@ -50,7 +50,14 @@ public interface SeckillService extends IService<Seckill> {
      */
     SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO);
 
-    public SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO);
+    /**
+     * 执行秒杀
+     *
+     * @param seckillId 秒杀商品ID
+     * @param userVO    用户VO
+     * @return 用户秒杀成功VO
+     */
+    SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO);
 
     /**
      * 秒杀地址暴露接口

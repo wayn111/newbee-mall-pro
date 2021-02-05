@@ -16,6 +16,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 系统启动时添加未支付超时订单任务
+ */
 @Component
 public class TaskStartupRunner implements ApplicationRunner {
 

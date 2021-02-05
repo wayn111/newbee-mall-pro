@@ -24,7 +24,6 @@ public class RedisCache {
     @Autowired
     public RedisTemplate redisTemplate;
 
-
     /**
      * string类型递增
      *

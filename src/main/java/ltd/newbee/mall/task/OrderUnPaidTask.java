@@ -3,6 +3,7 @@ package ltd.newbee.mall.task;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.core.dao.GoodsDao;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
 import ltd.newbee.mall.core.service.*;
@@ -45,7 +46,7 @@ public class OrderUnPaidTask extends Task {
 
         OrderService orderService = SpringContextUtil.getBean(OrderService.class);
         OrderItemService orderItemService = SpringContextUtil.getBean(OrderItemService.class);
-        GoodsService goodsService = SpringContextUtil.getBean(GoodsService.class);
+        GoodsDao goodsDao = SpringContextUtil.getBean(GoodsDao.class);
         CouponService couponService = SpringContextUtil.getBean(CouponService.class);
 
         Order order = orderService.getById(orderId);
@@ -77,7 +78,7 @@ public class OrderUnPaidTask extends Task {
             } else {
                 Long goodsId = orderItem.getGoodsId();
                 Integer goodsCount = orderItem.getGoodsCount();
-                if (!goodsService.addStock(goodsId, goodsCount)) {
+                if (!goodsDao.addStock(goodsId, goodsCount)) {
                     throw new RuntimeException("商品货品库存增加失败");
                 }
             }

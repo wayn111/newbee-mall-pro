@@ -52,12 +52,8 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
         CouponUser couponUser = new CouponUser();
         couponUser.setUserId(userId);
         couponUser.setCouponId(couponId);
-        LocalDate startLocalDate = LocalDate.now();
-        LocalDate endLocalDate = startLocalDate.plusDays(coupon.getDays());
-        ZoneId zone = ZoneId.systemDefault();
-        Date startDate = Date.from(startLocalDate.atStartOfDay().atZone(zone).toInstant());
-        Date endDate = Date.from(endLocalDate.atStartOfDay().atZone(zone).toInstant());
-        couponUser.setStartTime(startDate);
+        Date endDate = calculateEndDate(coupon.getDays());
+        couponUser.setStartTime(new Date());
         couponUser.setEndTime(endDate);
         couponUser.setCreateTime(new Date());
         return save(couponUser);
@@ -70,5 +66,14 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
             return null;
         }
         return couponService.getById(couponUser.getCouponId());
+    }
+
+    @Override
+    public Date calculateEndDate(Short days) {
+        LocalDate startLocalDate = LocalDate.now();
+        LocalDate endLocalDate = startLocalDate.plusDays(days);
+        ZoneId zone = ZoneId.systemDefault();
+        Date endDate = Date.from(endLocalDate.atStartOfDay().atZone(zone).toInstant());
+        return endDate;
     }
 }

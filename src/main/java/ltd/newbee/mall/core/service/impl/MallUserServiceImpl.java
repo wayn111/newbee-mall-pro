@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,6 +45,9 @@ public class MallUserServiceImpl extends ServiceImpl<MallUserDao, MallUser> impl
         mallUser.setLoginName(loginName);
         mallUser.setNickName(UUID.randomUUID().toString().substring(0, 5));
         mallUser.setPasswordMd5(Md5Utils.hash(password));
+        if (!save(mallUser)) {
+            return false;
+        }
         // 添加注册赠卷
         List<Coupon> coupons = couponService.list(new QueryWrapper<Coupon>()
                 .eq("coupon_type", 1));
@@ -51,9 +55,11 @@ public class MallUserServiceImpl extends ServiceImpl<MallUserDao, MallUser> impl
             CouponUser couponUser = new CouponUser();
             couponUser.setUserId(mallUser.getUserId());
             couponUser.setCouponId(coupon.getCouponId());
+            Date endDate = couponUserService.calculateEndDate(coupon.getDays());
+            couponUser.setStartTime(new Date());
+            couponUser.setEndTime(endDate);
             return couponUser;
         }).collect(Collectors.toList());
-        couponUserService.saveBatch(couponUserList);
-        return save(mallUser);
+        return couponUserService.saveBatch(couponUserList);
     }
 }

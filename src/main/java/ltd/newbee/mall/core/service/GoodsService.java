@@ -27,5 +27,4 @@ public interface GoodsService extends IService<Goods> {
      */
     IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
-    boolean addStock(Long goodsId, Integer goodsCount);
 }

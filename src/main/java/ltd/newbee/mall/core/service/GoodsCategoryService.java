@@ -10,6 +10,12 @@ import java.util.List;
 
 public interface GoodsCategoryService extends IService<GoodsCategory> {
 
+    /**
+     * 分页查询
+     * @param page 分页对象
+     * @param goodsCategory 商品分类对象
+     * @return 分页数据
+     */
     IPage<GoodsCategory> selectPage(Page<GoodsCategory> page, GoodsCategory goodsCategory);
 
     /**

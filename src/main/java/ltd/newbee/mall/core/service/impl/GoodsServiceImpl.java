@@ -27,10 +27,4 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
         return goodsDao.findMallGoodsListBySearch(page, searchObjVO);
     }
 
-    @Override
-    public boolean addStock(Long goodsId, Integer goodsCount) {
-        return goodsDao.addStock(goodsId, goodsCount);
-    }
-
-
 }
