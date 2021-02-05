@@ -1,4 +1,4 @@
-package ltd.newbee.mall.intercepter;
+package ltd.newbee.mall.interceptor;
 
 import ltd.newbee.mall.constant.Constants;
 import org.springframework.web.servlet.HandlerInterceptor;

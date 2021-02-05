@@ -1,8 +1,8 @@
 package ltd.newbee.mall.config;
 
-import ltd.newbee.mall.intercepter.AdminLoginInterceptor;
-import ltd.newbee.mall.intercepter.MallLoginValidateInterceptor;
-import ltd.newbee.mall.intercepter.RepeatSubmitInterceptor;
+import ltd.newbee.mall.interceptor.AdminLoginInterceptor;
+import ltd.newbee.mall.interceptor.MallLoginValidateInterceptor;
+import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package ltd.newbee.mall.intercepter;
+package ltd.newbee.mall.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import ltd.newbee.mall.annotation.RepeatSubmit;

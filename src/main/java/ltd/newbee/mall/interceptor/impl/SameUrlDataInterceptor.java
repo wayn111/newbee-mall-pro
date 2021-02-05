@@ -1,7 +1,7 @@
-package ltd.newbee.mall.intercepter.impl;
+package ltd.newbee.mall.interceptor.impl;
 
 import com.alibaba.fastjson.JSON;
-import ltd.newbee.mall.intercepter.RepeatSubmitInterceptor;
+import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;

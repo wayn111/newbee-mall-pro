@@ -1,4 +1,4 @@
-package ltd.newbee.mall.intercepter;
+package ltd.newbee.mall.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
