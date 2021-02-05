@@ -37,6 +37,20 @@ public class MallShopCatController extends BaseController {
     }
 
     @ResponseBody
+    @GetMapping("shopCart/getUserShopCartCount")
+    public R getUserShopCartCount(HttpSession session) {
+        Object attribute = session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        int count = 0;
+        if (attribute == null) {
+            return R.success().add("count", count);
+        }
+        MallUserVO mallUserVO = (MallUserVO) attribute;
+        count = (shopCatService.count(new QueryWrapper<ShopCat>()
+                .eq("user_id", mallUserVO.getUserId())));
+        return R.success().add("count", count);
+    }
+
+    @ResponseBody
     @DeleteMapping("shopCart/{id}")
     public R delete(@PathVariable("id") Long shopCatId) {
         shopCatService.removeById(shopCatId);

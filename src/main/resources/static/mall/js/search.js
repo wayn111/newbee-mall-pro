@@ -9,6 +9,15 @@ $(function () {
             }
         }
     });
+
+    /**
+     * 查询购物车数量
+     */
+    $.get(_ctx + 'shopCart/getUserShopCartCount', function (res) {
+        if (res.code == 200) {
+            $('#shopCatCount').text(res.map.count);
+        }
+    });
 });
 
 function search() {

@@ -2,11 +2,9 @@ package ltd.newbee.mall.config;
 
 import ltd.newbee.mall.intercepter.AdminLoginInterceptor;
 import ltd.newbee.mall.intercepter.MallLoginValidateIntercepter;
-import ltd.newbee.mall.intercepter.MallShopCartNumberInterceptor;
 import ltd.newbee.mall.intercepter.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -44,6 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/search")
                 .excludePathPatterns("/coupon")
                 .excludePathPatterns("/goods/**")
+                .excludePathPatterns("/shopCart/getUserShopCartCount")
                 .excludePathPatterns("/seckill/list")
                 .excludePathPatterns("/seckill/detail/*")
                 .excludePathPatterns("/seckill/time/now")
@@ -55,32 +54,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/mall/**")
                 .excludePathPatterns("/admin/**");
 
-        // 购物车中的数量统一处理
-        registry.addInterceptor(mallShopCartNumberInterceptor())
-                .excludePathPatterns("/admin/**")
-                .excludePathPatterns("/register")
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/logout")
-                .excludePathPatterns("/common/**")
-                .excludePathPatterns("/**/*.jpg")
-                .excludePathPatterns("/**/*.png")
-                .excludePathPatterns("/**/*.gif")
-                .excludePathPatterns("/**/*.map")
-                .excludePathPatterns("/**/*.css")
-                .excludePathPatterns("/**/*.js");
-
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
         registry.addInterceptor(new AdminLoginInterceptor())
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login")
                 .excludePathPatterns("/admin/dist/**")
                 .excludePathPatterns("/admin/plugins/**");
-        
+
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
     }
 
-    @Bean
-    public MallShopCartNumberInterceptor mallShopCartNumberInterceptor() {
-        return new MallShopCartNumberInterceptor();
-    }
 }
