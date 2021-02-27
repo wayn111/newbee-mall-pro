@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.GoodsCategory;
 import ltd.newbee.mall.core.service.GoodsCategoryService;
@@ -41,7 +41,7 @@ public class GoodsManagerController extends BaseController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public IPage list(Goods goods, HttpServletRequest request) {
+    public IPage<Goods> list(Goods goods, HttpServletRequest request) {
         Page<Goods> page = getPage(request);
         return goodsService.selectPage(page, goods);
     }

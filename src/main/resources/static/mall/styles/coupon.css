@@ -121,7 +121,7 @@
     color: white;
     font-size: 18px;
     letter-spacing: 6px;
-    background-color: red;
+    background-color: lightseagreen;
     text-align: center;
     line-height: 56px;
     writing-mode: tb-rl;
@@ -146,7 +146,6 @@
 #my-coupon ul li {
     width: 280px;
     height: 120px;
-    background-color: lightgrey;
     margin: 5px;
 }
 
@@ -168,6 +167,7 @@
 #my-coupon ul a .left-desc {
     width: 292px;
     height: 120px;
+    border: 2px solid #1baeae;
 }
 
 #my-coupon ul a .left-desc .q-price {
@@ -216,18 +216,18 @@
     font-size: 8px;
     color: lightslategray;
     line-height: 12px;
+    display: flex;
 }
 
 #my-coupon ul a .left-desc .q-desc div:first-child {
-    max-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex: 1;
 }
 
 
 #my-coupon ul a .left-desc .q-desc div:last-child {
-    position: relative;
-    right: -150px;
-    top: -12px;
+    flex: 1;
+    text-align: right;
 }
