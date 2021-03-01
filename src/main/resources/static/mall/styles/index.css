@@ -627,7 +627,7 @@
     height: 100%;
     border-width: 0px; /* 边框宽度 */
     border-radius: 3px; /* 边框半径 */
-    background: #1E90FF; /* 背景颜色 */
+    background: #1baeae; /* 背景颜色 */
     cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
     outline: none; /* 不显示轮廓线 */
     font-family: Microsoft YaHei; /* 设置字体 */
