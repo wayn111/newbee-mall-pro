@@ -4,7 +4,7 @@ server:
     min-response-size: 1KB
   port: 84
   servlet:
-    context-path: /mall
+    context-path: /newbeemall
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8

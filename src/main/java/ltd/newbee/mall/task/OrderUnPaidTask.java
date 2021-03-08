@@ -6,7 +6,10 @@ import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.GoodsDao;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
-import ltd.newbee.mall.core.service.*;
+import ltd.newbee.mall.core.service.CouponService;
+import ltd.newbee.mall.core.service.OrderItemService;
+import ltd.newbee.mall.core.service.OrderService;
+import ltd.newbee.mall.core.service.SeckillService;
 import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
@@ -67,7 +70,7 @@ public class OrderUnPaidTask extends Task {
         // 商品货品数量增加
         List<OrderItem> orderItems = orderItemService.list(new QueryWrapper<OrderItem>().eq("order_id", orderId));
         for (OrderItem orderItem : orderItems) {
-            if (orderItem.getSeckillId() != null) {
+            if (orderItem.getSeckillId() != null) { // 秒杀单商品项处理
                 Long seckillId = orderItem.getSeckillId();
                 SeckillService seckillService = SpringContextUtil.getBean(SeckillService.class);
                 RedisCache redisCache = SpringContextUtil.getBean(RedisCache.class);
@@ -75,7 +78,8 @@ public class OrderUnPaidTask extends Task {
                     throw new RuntimeException("秒杀商品货品库存增加失败");
                 }
                 redisCache.increment(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
-            } else {
+                redisCache.deleteCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, order.getUserId());
+            } else { // 普通单商品项处理
                 Long goodsId = orderItem.getGoodsId();
                 Integer goodsCount = orderItem.getGoodsCount();
                 if (!goodsDao.addStock(goodsId, goodsCount)) {

@@ -9,12 +9,12 @@ import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
 import ltd.newbee.mall.core.entity.vo.OrderItemVO;
 import ltd.newbee.mall.core.entity.vo.OrderVO;
-import ltd.newbee.mall.enums.OrderStatusEnum;
-import ltd.newbee.mall.enums.PayStatusEnum;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.OrderItemService;
 import ltd.newbee.mall.core.service.OrderService;
+import ltd.newbee.mall.enums.OrderStatusEnum;
+import ltd.newbee.mall.enums.PayStatusEnum;
+import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class MallOrderManagerController extends BaseController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public IPage list(OrderVO orderVO, HttpServletRequest request) {
+    public IPage<Order> list(OrderVO orderVO, HttpServletRequest request) {
         Page<Order> page = getPage(request);
         return orderService.selectPage(page, orderVO);
     }

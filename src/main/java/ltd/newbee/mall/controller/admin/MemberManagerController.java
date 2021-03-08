@@ -30,7 +30,7 @@ public class MemberManagerController extends BaseController {
 
     @ResponseBody
     @GetMapping("/list")
-    public IPage list(MallUser mallUser, HttpServletRequest request) {
+    public IPage<MallUser> list(MallUser mallUser, HttpServletRequest request) {
         Page<MallUser> page = getPage(request);
         return mallUserService.selectPage(page, mallUser);
     }

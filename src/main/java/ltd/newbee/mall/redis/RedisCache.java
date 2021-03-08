@@ -189,14 +189,26 @@ public class RedisCache {
     }
 
     /**
-     * 缓存Set
+     * 往Set中添加指定value
      *
      * @param key   缓存键值
      * @param value 缓存的数据
-     * @return 缓存数据的对象
+     * @return 添加元素数量
      */
-    public <T> long setCacheSet(final String key, final Object value) {
+    public long setCacheSet(final String key, Object... value) {
         Long count = redisTemplate.opsForSet().add(key, value);
+        return count == null ? 0 : count;
+    }
+
+    /**
+     * 删除Set中指定value
+     *
+     * @param key   缓存键值
+     * @param value 缓存的数据
+     * @return 删除元素数量
+     */
+    public long deleteCacheSet(final String key, Object... value) {
+        Long count = redisTemplate.opsForSet().remove(key, value);
         return count == null ? 0 : count;
     }
 

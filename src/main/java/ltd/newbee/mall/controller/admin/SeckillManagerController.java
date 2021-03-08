@@ -2,12 +2,12 @@ package ltd.newbee.mall.controller.admin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
-import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.core.service.SeckillService;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +38,7 @@ public class SeckillManagerController extends BaseController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public IPage list(SeckillVO seckillVO, HttpServletRequest request) {
+    public IPage<Seckill> list(SeckillVO seckillVO, HttpServletRequest request) {
         Page<Seckill> page = getPage(request);
         return seckillService.selectPage(page, seckillVO);
     }
@@ -50,6 +50,7 @@ public class SeckillManagerController extends BaseController {
         if (save) {
             // 库存预热
             redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
+            redisCache.deleteObject(Constants.SECKILL_GOODS_LIST_HTML);
         }
         return R.result(save);
     }
@@ -62,16 +63,20 @@ public class SeckillManagerController extends BaseController {
         if (update) {
             // 库存预热
             redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
+            redisCache.deleteObject(Constants.SECKILL_GOODS_LIST_HTML);
         }
         return R.result(update);
     }
 
-    /**
-     * 详情
-     */
     @GetMapping("/{id}")
     @ResponseBody
     public R Info(@PathVariable("id") Long id) {
         return R.success().add("data", seckillService.getById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public R delete(@PathVariable("id") Long id) {
+        return R.result(seckillService.removeById(id));
     }
 }

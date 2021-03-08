@@ -31,7 +31,7 @@ public class CouponManagerController extends BaseController {
 
     @ResponseBody
     @GetMapping("/list")
-    public IPage list(CouponVO couponVO, HttpServletRequest request) {
+    public IPage<Coupon> list(CouponVO couponVO, HttpServletRequest request) {
         Page<Coupon> page = getPage(request);
         return couponService.selectPage(page, couponVO);
     }

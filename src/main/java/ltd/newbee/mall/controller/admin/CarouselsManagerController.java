@@ -33,7 +33,7 @@ public class CarouselsManagerController extends BaseController {
      */
     @GetMapping("/list")
     @ResponseBody
-    public IPage list(Carousels carousels, HttpServletRequest request) {
+    public IPage<Carousels> list(Carousels carousels, HttpServletRequest request) {
         Page<Carousels> page = getPage(request);
         return carouselsService.selectPage(page, carousels);
     }
