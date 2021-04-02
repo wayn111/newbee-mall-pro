@@ -17,7 +17,7 @@
 4. 支付时添加了支付宝沙箱支付
 5. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
 5. [本项目源码](https://github.com/wayn111/newbee-mall)
-6. [在线地址](http://wayn.xin:84/newbeemall)
+6. [在线地址](https://www.wayn.xin/newbeemall)
 
 #### 2021年1月14日 秒杀接口升级
 
