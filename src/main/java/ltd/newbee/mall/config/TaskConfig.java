@@ -33,6 +33,9 @@ public class TaskConfig {
     public void checkCouponStatus() {
         log.info("检查用户领取的优惠卷是否过期任务:开始");
         List<CouponUser> list = couponUserService.list(new QueryWrapper<CouponUser>().eq("status", 0));
+        if (list == null || list.isEmpty()) {
+            return;
+        }
         for (CouponUser couponUser : list) {
             if (LocalDate.now().isAfter(couponUser.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
                 couponUserService.update().set("status", 2).eq("coupon_user_id", couponUser.getCouponUserId()).update();
