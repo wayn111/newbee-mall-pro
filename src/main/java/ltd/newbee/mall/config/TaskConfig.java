@@ -13,12 +13,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
-@EnableScheduling
-@Configuration
-@EnableAsync
 @Slf4j
+@EnableAsync
+@Configuration
+@EnableScheduling
 public class TaskConfig {
 
     @Autowired
@@ -37,11 +38,13 @@ public class TaskConfig {
             log.info("检查用户领取的优惠卷是否过期任务:无过期优惠劵结束");
             return;
         }
+        List<Long> couponUserIdList = new ArrayList<>();
         for (CouponUser couponUser : list) {
             if (LocalDate.now().isAfter(couponUser.getEndTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())) {
-                couponUserService.update().set("status", 2).eq("coupon_user_id", couponUser.getCouponUserId()).update();
+                couponUserIdList.add(couponUser.getCouponUserId());
             }
         }
+        couponUserService.update().set("status", 2).in(!couponUserIdList.isEmpty(), "coupon_user_id", couponUserIdList).update();
         log.info("检查用户领取的优惠卷是否过期任务:结束");
     }
 }
