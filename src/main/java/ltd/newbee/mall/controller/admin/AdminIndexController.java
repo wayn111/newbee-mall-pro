@@ -47,6 +47,7 @@ public class AdminIndexController extends BaseController {
             session.setAttribute("errorMsg", "用户名或密码不能为空");
             return "admin/login";
         }
+        // 获取session中的验证码
         String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
         if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
             session.setAttribute("errorMsg", "验证码错误");

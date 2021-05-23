@@ -2,6 +2,12 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="admin/header :: header-fragment"/>
+    <link rel="stylesheet" th:href="@{/admin/plugins/quill-v1.3.6/quill.snow.css}">
+    <style>
+        #editor-container {
+            height: 350px;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -126,8 +132,53 @@
                                        th:checked="${null !=goods and null !=goods.goodsSellStatus and goods.goodsSellStatus==1} ?true:false"/>&nbsp;下架&nbsp;
                             </div>
                             <div class="form-group">
-                                <textarea id="editor" style="width: 100%; height: 750px;"
-                                          th:utext="${goods!=null and goods.goodsDetailContent !=null}?${goods.goodsDetailContent}: ''"></textarea>
+                                <div id="toolbar-container">
+                                    <span class="ql-formats">
+                                      <select class="ql-font"></select>
+                                      <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-bold"></button>
+                                      <button class="ql-italic"></button>
+                                      <button class="ql-underline"></button>
+                                      <button class="ql-strike"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <select class="ql-color"></select>
+                                      <select class="ql-background"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-script" value="sub"></button>
+                                      <button class="ql-script" value="super"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-header" value="1"></button>
+                                      <button class="ql-header" value="2"></button>
+                                      <button class="ql-blockquote"></button>
+                                      <button class="ql-code-block"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-list" value="ordered"></button>
+                                      <button class="ql-list" value="bullet"></button>
+                                      <button class="ql-indent" value="-1"></button>
+                                      <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-direction" value="rtl"></button>
+                                      <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-link"></button>
+                                      <button class="ql-image"></button>
+                                      <button class="ql-video"></button>
+                                      <button class="ql-formula"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                      <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="editor-container" th:utext="${goods!=null and goods.goodsDetailContent !=null}?${goods.goodsDetailContent}: ''">
+                                </div>
                             </div>
                             <div class="form-group">
                                 <!-- 按钮 -->
@@ -205,9 +256,8 @@
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
 <!-- ajaxupload -->
 <script th:src="@{/admin/plugins/ajaxupload/ajaxupload.js}"></script>
-<!-- kindeditor -->
-<script th:src="@{/admin/plugins/kindeditor-4.1.10/kindeditor-all.js}"></script>
-<script th:src="@{/admin/plugins/kindeditor-4.1.10/lang/zh_CN.js}"></script>
+<!-- quill -->
+<script th:src="@{/admin/plugins/quill-v1.3.6/quill.min.js}"></script>
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script th:src="@{/admin/dist/js/newbee_mall_goods_edit.js}"></script>

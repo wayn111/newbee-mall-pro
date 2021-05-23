@@ -1,6 +1,6 @@
 package ltd.newbee.mall.controller;
 
-import com.google.code.kaptcha.Producer;
+import com.wf.captcha.ArithmeticCaptcha;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
@@ -9,7 +9,6 @@ import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.file.FileUploadUtil;
 import ltd.newbee.mall.util.file.FileUtils;
 import ltd.newbee.mall.util.http.HttpUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,9 +29,6 @@ public class CommonController extends BaseController {
 
     @Value("${wayn.uploadDir}")
     private String filePath;
-
-    @Autowired
-    private Producer producer;
 
     /**
      * 通用下载请求
@@ -87,24 +79,24 @@ public class CommonController extends BaseController {
     }
 
     @GetMapping("/captcha")
-    public void captcha(HttpServletRequest request, HttpServletResponse response) {
-        try (ServletOutputStream out = response.getOutputStream()) {
-            response.setDateHeader("Expires", 0);
-            response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-            response.addHeader("Cache-Control", "post-check=0, pre-check=0");
-            response.setHeader("Pragma", "no-cache");
-            response.setContentType("image/jpeg");
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 设置请求头为输出图片类型
+        response.setContentType("image/gif");
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
 
-            String capText = producer.createText();
-            HttpSession session = request.getSession();
-            //将验证码存入shiro 登录用户的session
-            session.setAttribute(Constants.MALL_VERIFY_CODE_KEY, capText);
-            BufferedImage image = producer.createImage(capText);
-            ImageIO.write(image, "jpg", out);
-            out.flush();
-        } catch (IOException e) {
-            log.error("验证码生成失败", e);
-        }
+        // 算术类型
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
+        captcha.setLen(2);  // 几位数运算，默认是两位
+        captcha.getArithmeticString();  // 获取运算的公式：3+2=?
+        captcha.text();  // 获取运算的结果：5
+
+        // 验证码存入session
+        request.getSession().setAttribute(Constants.MALL_VERIFY_CODE_KEY, captcha.text().toLowerCase());
+
+        // 输出图片流
+        captcha.out(response.getOutputStream());
 
     }
 
