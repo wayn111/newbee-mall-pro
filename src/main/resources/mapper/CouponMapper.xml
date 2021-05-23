@@ -66,7 +66,7 @@
             AND t.coupon_type = 0
             AND t.STATUS = 0
         </where>
-        limit 25 order by create_time desc
+        order by create_time desc limit 25
     </select>
 
     <update id="reduceCouponTotal">
