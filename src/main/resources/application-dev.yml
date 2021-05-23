@@ -6,9 +6,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost:3306/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: admin123
+        url: jdbc:mysql://waynmysql.mysql.rds.aliyuncs.com:3306/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: wayn
+        password: heGE@@201011
       # 初始连接数
       initialSize: 10
       # 最小连接池数量
@@ -49,10 +49,10 @@ spring:
           config:
             multi-statement-allow: true
   redis:
-    host: 182.254.214.165
-    port: 6379
+    host: wayn.ltd
+    port: 1688
     timeout: 5000
-    password:
+    password: admin@@123456
     databaseIndex: 1
     expire: 400
     maxTotal: 50000

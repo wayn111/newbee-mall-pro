@@ -23,7 +23,7 @@ public class GlobalExceptionAdvice extends BaseController {
 
 
     /**
-     * 处理404异常
+     * 处理404异常， eg：springboot中404异常会自动找到templates/error目录下的404页面文件
      *
      * @param e
      * @param request

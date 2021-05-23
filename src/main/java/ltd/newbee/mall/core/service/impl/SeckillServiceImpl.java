@@ -267,9 +267,10 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
      * 1、使用令牌桶算法过滤用户请求<br>
      * 2、使用redis-set数据结构判断用户是否买过秒杀商品<br>
      * 3、返回用户秒杀成功VO
-     * @param seckillId
-     * @param userVO
-     * @return
+     *
+     * @param seckillId 秒杀商品ID
+     * @param userVO    秒杀用户VO
+     * @return SeckillSuccessVO
      */
     public SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO) {
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序

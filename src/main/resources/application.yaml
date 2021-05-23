@@ -9,9 +9,10 @@ server:
     # tomcat的URI编码
     uri-encoding: UTF-8
     # tomcat最大线程数，默认为200
-    max-threads: 300
     # Tomcat启动初始化的线程数，默认值25
-    min-spare-threads: 30
+    threads:
+      max: 300
+      min-spare: 30
 
 # spring
 spring:
@@ -27,7 +28,7 @@ spring:
       enabled: false
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
+    time-zone: GMT+8 # 中国时区
   profiles:
     active: dev
   task:
@@ -36,7 +37,7 @@ spring:
         core-size: 10
         max-size: 20
         queue-capacity: 5
-      thread-name-prefix: wayntask
+      thread-name-prefix: newbee-task
 
 # mybatis plus
 mybatis-plus:

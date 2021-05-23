@@ -47,14 +47,17 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
         List<CouponVO> couponVOS = MyBeanUtil.copyList(coupons, CouponVO.class);
         for (CouponVO couponVO : couponVOS) {
             couponVO.setHasReceived(false);
-            if (userId != null) {
+            // 处理领取数量有限制的优惠卷
+            if (userId != null && couponVO.getCouponLimit() == 1) {
                 CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>()
                         .eq("user_id", userId)
+                        .eq("coupon_id", couponVO.getCouponId())
                         .eq("coupon_id", couponVO.getCouponId()));
                 if (Objects.nonNull(couponUser)) {
                     couponVO.setHasReceived(true);
                 }
             }
+            // 处理总数有限制的优惠卷
             if (couponVO.getCouponTotal() != 0) {
                 int count = couponUserService.count(new QueryWrapper<CouponUser>()
                         .eq("coupon_id", couponVO.getCouponId()));

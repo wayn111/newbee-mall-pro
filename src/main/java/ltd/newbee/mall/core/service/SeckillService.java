@@ -51,7 +51,7 @@ public interface SeckillService extends IService<Seckill> {
     SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO);
 
     /**
-     * 执行秒杀
+     * 执行秒杀最终逻辑
      *
      * @param seckillId 秒杀商品ID
      * @param userVO    用户VO
