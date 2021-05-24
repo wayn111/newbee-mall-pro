@@ -3,14 +3,11 @@ var editor;
 
 $(function () {
 
-    var quill = new Quill('#editor-container', {
-        modules: {
-            toolbar: '#toolbar-container'
-        },
-        placeholder: '请输入内容...',
-        theme: 'snow'
+    var editor = new FroalaEditor('#editor', {
+        language: 'zh_cn'
+    }, function () {
+        console.log(editor.html.get())
     });
-
     new AjaxUpload('#uploadGoodsCoverImg', {
         action: _ctx + 'common/upload',
         name: 'file',
