@@ -86,7 +86,7 @@ public class ServletUtil {
      *
      * @param response 渲染对象
      * @param string   待渲染的字符串
-     * @return null
+     * @return string
      */
     public static String renderString(HttpServletResponse response, String string) {
         try {

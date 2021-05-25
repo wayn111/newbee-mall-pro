@@ -4,9 +4,14 @@ var editor;
 $(function () {
 
     var editor = new FroalaEditor('#editor', {
-        language: 'zh_cn'
+        language: 'zh_cn',
+        fullPage: true,
+        imageUploadURL: _ctx + 'common/froalaUpload',
+        imageManagerToggleTags: false,
+        imageDefaultWidth: 0,
+        imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL']
     }, function () {
-        console.log(editor.html.get())
+        // console.log(editor.html.get())
     });
     new AjaxUpload('#uploadGoodsCoverImg', {
         action: _ctx + 'common/upload',
@@ -40,7 +45,7 @@ $(function () {
         var goodsIntro = $('#goodsIntro').val();
         var goodsCategoryId = $('#levelThree option:selected').val();
         var goodsSellStatus = $("input[name='goodsSellStatus']:checked").val();
-        var goodsDetailContent = quill.container.firstChild.innerHTML;
+        var goodsDetailContent = editor.html.get();
         if (isNull(goodsCategoryId)) {
             swal("请选择分类", {
                 icon: "error",
@@ -126,7 +131,7 @@ $(function () {
         var goodsIntro = $('#goodsIntro').val();
         var stockNum = $('#stockNum').val();
         var goodsSellStatus = $("input[name='goodsSellStatus']:checked").val();
-        var goodsDetailContent = quill.container.firstChild.innerHTML;
+        var goodsDetailContent = editor.html.get();
         var goodsCoverImg = $('#goodsCoverImg')[0].src;
         if (isNull(goodsCoverImg) || goodsCoverImg.indexOf('img-upload') != -1) {
             swal("封面图片不能为空", {

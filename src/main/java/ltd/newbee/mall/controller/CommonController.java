@@ -1,11 +1,13 @@
 package ltd.newbee.mall.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wf.captcha.ArithmeticCaptcha;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.R;
+import ltd.newbee.mall.util.ServletUtil;
 import ltd.newbee.mall.util.file.FileUploadUtil;
 import ltd.newbee.mall.util.file.FileUtils;
 import ltd.newbee.mall.util.http.HttpUtil;
@@ -21,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -75,6 +79,22 @@ public class CommonController extends BaseController {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return R.error(e.getMessage());
+        }
+    }
+
+    @PostMapping("/froalaUpload")
+    @ResponseBody
+    public void froalaUploadFile(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            // 上传文件路径
+            String fileName = FileUploadUtil.uploadFile(file, filePath);
+            String requestUrl = HttpUtil.getRequestContext(request);
+            String url = requestUrl + "/upload/" + fileName;
+            Map<String, Object> data = new HashMap<>();
+            data.put("link", url);
+            ServletUtil.renderString(response, JSONObject.toJSONString(data));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
     }
 
