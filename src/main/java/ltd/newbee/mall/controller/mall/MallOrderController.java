@@ -231,7 +231,7 @@ public class MallOrderController extends BaseController {
         }
     }
 
-    @RequestMapping("/paySuccess")
+    @PostMapping("/paySuccess")
     @ResponseBody
     public R paySuccess(Byte payType, String orderNo) {
         log.info("支付宝paySuccess通知数据记录：orderNo: {}, payType：{}", orderNo, payType);
