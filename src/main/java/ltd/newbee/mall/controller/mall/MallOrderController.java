@@ -27,11 +27,11 @@ import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import ltd.newbee.mall.util.R;
-import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +66,8 @@ public class MallOrderController extends BaseController {
     @Autowired
     private TaskService taskService;
 
+    @Value("${wayn.serverUrl}")
+    private String serverUrl;
 
     @GetMapping("saveOrder")
     public String saveOrder(Long couponUserId, HttpSession session) {
@@ -192,7 +194,7 @@ public class MallOrderController extends BaseController {
             // 创建API对应的request
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             // 在公共参数中设置回跳和通知地址
-            String url = HttpUtil.getRequestContext(request);
+            String url = serverUrl + request.getContextPath();
             alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo() + "/" + mallUserVO.getUserId());
             alipayRequest.setNotifyUrl(url + "/paySuccess?payType=1&orderNo=" + order.getOrderNo());
 
@@ -229,7 +231,7 @@ public class MallOrderController extends BaseController {
         }
     }
 
-    @GetMapping("/paySuccess")
+    @RequestMapping("/paySuccess")
     @ResponseBody
     public R paySuccess(Byte payType, String orderNo) {
         log.info("支付宝paySuccess通知数据记录：orderNo: {}, payType：{}", orderNo, payType);
