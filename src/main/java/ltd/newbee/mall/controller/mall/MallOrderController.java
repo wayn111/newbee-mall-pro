@@ -101,45 +101,6 @@ public class MallOrderController extends BaseController {
     }
 
 
-    @RequestMapping("/alipaySuccess/{orderNo}/{payType}")
-    public void alipaySuccess(@PathVariable("orderNo") String orderNo, @PathVariable("payType") int payType, HttpSession session) {
-        // 沙箱环境此处无法调用？，将此处代码放到returnUrl跳转中
-        /*Order order = judgeOrderUserId(orderNo, session);
-        if (order != null) {
-            // 判断订单状态
-            if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                    || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-                throw new BusinessException("订单关闭异常");
-            }
-            order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-            order.setPayType((byte) payType);
-            order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-            order.setPayTime(new Date());
-            order.setUpdateTime(new Date());
-            orderService.updateById(order);
-        }*/
-    }
-
-    @GetMapping("/paySuccess")
-    @ResponseBody
-    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
-        // 判断订单状态
-        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-            throw new BusinessException("订单关闭异常");
-        }
-        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-        order.setPayType((byte) payType);
-        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-        order.setPayTime(new Date());
-        order.setUpdateTime(new Date());
-        boolean update = orderService.updateById(order);
-        // 支付成功清空订单支付超期任务
-        taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
-        return R.result(update, "订单状态更新异常");
-    }
-
     @GetMapping("/orders")
     public String orderListPage(HttpServletRequest request, HttpSession session) {
         Page<OrderListVO> page = getPage(request, Constants.ORDER_SEARCH_PAGE_LIMIT);
@@ -170,7 +131,8 @@ public class MallOrderController extends BaseController {
     @PutMapping("/orders/{orderNo}/cancel")
     @ResponseBody
     public R cancelOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_PAID.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
@@ -183,7 +145,8 @@ public class MallOrderController extends BaseController {
     @PutMapping("/orders/{orderNo}/finish")
     @ResponseBody
     public R finishOrder(@PathVariable("orderNo") String orderNo, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.OREDER_EXPRESS.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
@@ -195,7 +158,8 @@ public class MallOrderController extends BaseController {
 
     @GetMapping("/selectPayType")
     public String selectPayType(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
@@ -208,7 +172,8 @@ public class MallOrderController extends BaseController {
 
     @GetMapping("/payPage")
     public String payOrder(HttpServletRequest request, @RequestParam("orderNo") String orderNo, HttpSession session, @RequestParam("payType") int payType) throws UnsupportedEncodingException {
-        Order order = judgeOrderUserId(orderNo, session);
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 判断订单状态
         if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
                 || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
@@ -226,8 +191,8 @@ public class MallOrderController extends BaseController {
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             // 在公共参数中设置回跳和通知地址
             String url = HttpUtil.getRequestContext(request);
-            alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo());
-            alipayRequest.setNotifyUrl(url + "/alipaySuccess/" + order.getOrderNo() + "/");
+            alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo() + "/" + mallUserVO.getUserId());
+            alipayRequest.setNotifyUrl(url + "/paySuccess?payType=1&orderNo=" + order.getOrderNo());
 
             // 填充业务参数
 
@@ -262,9 +227,31 @@ public class MallOrderController extends BaseController {
         }
     }
 
+    @GetMapping("/paySuccess")
+    @ResponseBody
+    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
+        // 判断订单状态
+        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
+                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
+            throw new BusinessException("订单关闭异常");
+        }
+        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
+        order.setPayType((byte) payType);
+        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
+        order.setPayTime(new Date());
+        order.setUpdateTime(new Date());
+        boolean update = orderService.updateById(order);
+        // 支付成功清空订单支付超期任务
+        taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
+        return R.result(update, "订单状态更新异常");
+    }
+
     @GetMapping("/returnOrders/{orderNo}")
     public String returnOrderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
-        Order order = judgeOrderUserId(orderNo, session);
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 刷新页面，判断订单状态是否为已支付
         if (order.getOrderStatus() == OrderStatusEnum.OREDER_PAID.getOrderStatus()
                 && order.getPayStatus() == PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
@@ -291,14 +278,13 @@ public class MallOrderController extends BaseController {
      * 判断订单关联用户id和当前登陆用户是否一致
      *
      * @param orderNo 订单编号
-     * @param session session对象
+     * @param userId  用户ID
      * @return 返回订单对象
      */
-    private Order judgeOrderUserId(String orderNo, HttpSession session) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+    private Order judgeOrderUserId(String orderNo, Long userId) {
         Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
         // 判断订单userId
-        if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
+        if (order == null || !order.getUserId().equals(userId)) {
             throw new BusinessException("当前订单用户异常");
         }
         return order;
