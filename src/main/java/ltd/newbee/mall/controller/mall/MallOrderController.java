@@ -7,6 +7,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.config.AlipayConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
@@ -43,6 +44,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 public class MallOrderController extends BaseController {
 
@@ -229,7 +231,8 @@ public class MallOrderController extends BaseController {
 
     @GetMapping("/paySuccess")
     @ResponseBody
-    public R paySuccess(@RequestParam("orderNo") String orderNo, @RequestParam("payType") int payType, HttpSession session) {
+    public R paySuccess(Byte payType, String orderNo) {
+        log.info("支付宝paySuccess通知数据记录：orderNo: {}, payType：{}", orderNo, payType);
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
         // 判断订单状态
@@ -238,37 +241,26 @@ public class MallOrderController extends BaseController {
             throw new BusinessException("订单关闭异常");
         }
         order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-        order.setPayType((byte) payType);
-        order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
-        order.setPayTime(new Date());
-        order.setUpdateTime(new Date());
-        boolean update = orderService.updateById(order);
-        // 支付成功清空订单支付超期任务
-        taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
-        return R.result(update, "订单状态更新异常");
-    }
-
-    @GetMapping("/returnOrders/{orderNo}")
-    public String returnOrderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
-        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = judgeOrderUserId(orderNo, mallUserVO.getUserId());
-        // 刷新页面，判断订单状态是否为已支付
-        if (order.getOrderStatus() == OrderStatusEnum.OREDER_PAID.getOrderStatus()
-                && order.getPayStatus() == PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
-            return renderOrderDetail(request, order);
-        }
-        // 将notifyUrl中逻辑放到此处：未支付订单更新订单状态
-        if (order.getOrderStatus() != OrderStatusEnum.ORDER_PRE_PAY.getOrderStatus()
-                || order.getPayStatus() != PayStatusEnum.PAY_ING.getPayStatus()) {
-            throw new BusinessException("订单关闭异常");
-        }
-        order.setOrderStatus((byte) OrderStatusEnum.OREDER_PAID.getOrderStatus());
-        order.setPayType((byte) 1);
+        order.setPayType(payType);
         order.setPayStatus((byte) PayStatusEnum.PAY_SUCCESS.getPayStatus());
         order.setPayTime(new Date());
         order.setUpdateTime(new Date());
         if (!orderService.updateById(order)) {
-            throw new BusinessException("订单状态更新异常");
+            new BusinessException("订单状态更新异常！");
+        }
+        // 支付成功清空订单支付超期任务
+        taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));
+        return R.success();
+    }
+
+    @GetMapping("/returnOrders/{orderNo}/{userId}")
+    public String returnOrderDetailPage(HttpServletRequest request, @PathVariable String orderNo, @PathVariable Long userId) {
+        log.info("支付宝return通知数据记录：orderNo: {}, 当前登陆用户：{}", orderNo, userId);
+        Order order = judgeOrderUserId(orderNo, userId);
+        // 刷新页面，判断订单状态是否为已支付
+        if (order.getOrderStatus() == OrderStatusEnum.OREDER_PAID.getOrderStatus()
+                && order.getPayStatus() == PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
+            return renderOrderDetail(request, order);
         }
         return renderOrderDetail(request, order);
     }
