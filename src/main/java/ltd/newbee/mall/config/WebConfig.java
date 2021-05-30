@@ -1,6 +1,7 @@
 package ltd.newbee.mall.config;
 
 import ltd.newbee.mall.interceptor.AdminLoginInterceptor;
+import ltd.newbee.mall.interceptor.AdminViewModelIntercepter;
 import ltd.newbee.mall.interceptor.MallLoginValidateInterceptor;
 import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${wayn.uploadDir}")
     private String uploadDir;
 
+    @Value("${wayn.viewModel}")
+    private boolean viewModel;
+
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
@@ -24,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/", "/index");
     }
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -61,7 +66,36 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/dist/**")
                 .excludePathPatterns("/admin/plugins/**");
 
-        registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
+        registry.addInterceptor(repeatSubmitInterceptor)
+                .addPathPatterns("/**");
+
+        registry.addInterceptor(new AdminViewModelIntercepter(viewModel))
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/login")
+                .excludePathPatterns("/admin")
+                .excludePathPatterns("/admin/statistics")
+                .excludePathPatterns("/admin/goods")
+                .excludePathPatterns("/admin/goods/add")
+                .excludePathPatterns("/admin/goods/edit/*")
+                .excludePathPatterns("/admin/goods/list")
+                .excludePathPatterns("/admin/users")
+                .excludePathPatterns("/admin/users/list")
+                .excludePathPatterns("/admin/carousels")
+                .excludePathPatterns("/admin/carousels/list")
+                .excludePathPatterns("/admin/indexConfigs")
+                .excludePathPatterns("/admin/indexConfigs/list")
+                .excludePathPatterns("/admin/categories")
+                .excludePathPatterns("/admin/categories/list")
+                .excludePathPatterns("/admin/orders")
+                .excludePathPatterns("/admin/orders/list")
+                .excludePathPatterns("/admin/coupon")
+                .excludePathPatterns("/admin/coupon/list")
+                .excludePathPatterns("/admin/seckill")
+                .excludePathPatterns("/admin/seckill/list")
+                .excludePathPatterns("/admin/profile")
+                .excludePathPatterns("/admin/logout")
+                .excludePathPatterns("/admin/dist/**")
+                .excludePathPatterns("/admin/plugins/**");
     }
 
 }
