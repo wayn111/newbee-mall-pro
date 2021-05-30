@@ -2,7 +2,25 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="admin/header :: header-fragment"/>
-    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/froala_editor.pkgd.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/froala_editor.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/froala_style.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/code_view.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/draggable.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/colors.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/emoticons.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/image_manager.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/image.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/line_breaker.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/table.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/char_counter.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/video.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/fullscreen.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/file.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/quick_insert.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/help.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/third_party/spell_checker.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/special_characters.min.css}" rel="stylesheet"/>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -207,8 +225,39 @@
 <!-- ajaxupload -->
 <script th:src="@{/admin/plugins/ajaxupload/ajaxupload.js}"></script>
 <!-- froala-editor -->
-<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/froala_editor.pkgd.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/froala_editor.min.js}"></script>
 <script th:src="@{/admin/plugins/froala_editor_3.2.7/js/languages/zh_cn.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/align.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/char_counter.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/code_beautifier.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/code_view.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/draggable.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/colors.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/emoticons.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/entities.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/font_size.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/font_family.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/fullscreen.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/image.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/image_manager.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/line_breaker.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/inline_style.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/link.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/lists.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/paragraph_format.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/paragraph_style.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/quick_insert.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/quote.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/table.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/save.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/url.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/video.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/help.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/print.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/third_party/spell_checker.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/special_characters.min.js}"></script>
+<script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/word_paste.min.js}"></script>
+
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script th:src="@{/admin/dist/js/newbee_mall_goods_edit.js}"></script>
