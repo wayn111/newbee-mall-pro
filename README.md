@@ -28,11 +28,13 @@
 升级版本号至2.1.2，是一个代码优化版本
 
 1. 秒杀专区购物车数量显示错误bug修复
-2. 支付宝沙箱支付bug修复
+2. 支付宝沙箱支付bug修复，显示沙箱账号
+   ![$K%_1@7UM)9$)Q{CWC{Z3DO.png](https://upload-images.jianshu.io/upload_images/10522714-864bb229d2460a4e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 3. 将默认编辑器替换为[froala editor](https://froala.com/wysiwyg-editor/)
    ，[与tinyMCE比较](https://froala.com//blog/editor/froala-vs-tinymce/)
    ![froala编辑器.png](https://upload-images.jianshu.io/upload_images/10522714-9ca28b3808115969.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 4. 添加站点演示模式，通过拦截器对不允许操作的后台路径进行错误提示处理
+   ![QQ截图20210530155159.png](https://upload-images.jianshu.io/upload_images/10522714-1631176d29e984a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 5. 升级pom文件部分依赖
 
 #### 2021年1月14日 秒杀接口升级
