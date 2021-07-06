@@ -67,7 +67,7 @@ git clone git@github.com:wayn111/newbee-mall.git
 # 2. 导入项目依赖
 将newbee-mall目录用idea打开，导入maven依赖
 
-# 3. 安装Mysql8.0+、Redis3.0+
+# 3. 安装Mysql8.0+、Redis3.0+、Jdk8+、Maven3.5+
 
 # 4. 导入sql文件
 在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
