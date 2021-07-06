@@ -7,14 +7,16 @@
 
 > 本项目是在newbee-mall项目的基础上改造而来,将orm层由mybatis替换为mybatis-plus，添加了秒杀功能、优惠劵功能以及后台搜索功能，喜欢的话麻烦给我个star
 
-> **这里推荐题主开发的另一套H5商城项目， [waynboot-mall](https://github.com/wayn111/waynboot-mall) 是一套全部开源的微商城项目，包含一个运营后台、h5商城和后台接口。 实现了一个商城所需的首页展示、商品分类、商品详情、sku详情、商品搜索、加入购物车、结算下单、订单状态流转、商品评论等一系列功能。 技术上基于Springboot2.0，整合了Redis、RabbitMQ、ElasticSearch等常用中间件， 贴近生产环境实际经验开发而来不断完善、优化、改进中。**                                                        
-> 在线地址：http://www.wayn.ltd
+**这里推荐另一套H5商城项目， [waynboot-mall](https://github.com/wayn111/waynboot-mall) 是一套全部开源的微商城项目，包含一个运营后台、h5商城和api接口。
+实现了一个商城所需的首页展示、商品分类、商品详情、sku详情、商品搜索、加入购物车、结算下单、订单状态流转、商品评论等一系列功能。
+技术上基于Springboot2.0，整合了Redis、RabbitMQ、ElasticSearch等常用中间件，
+贴近生产环境实际经验开发而来不断完善、优化、改进中。                                        
+在线地址：http://www.wayn.ltd**
 
-#### 简介
+### 简介
 
 本人之前一直是在传统公司上班，接触的都是政企项目，公司各系统业务繁多数据库表设计复杂，多是业务逻辑庞大使用技术也都不算新，算是j2ee时代的遗留产物，鉴于现在springboot、微服务、中间件等等风生水起，又因本人对商城系统情有独钟，因此打算先用springboot搭建一个商城系统，刚好发现了newbee-mall项目，就在此项目的基础上添加了一些自己没有接触过的新功能，一起进步。
 
-- 后台管理模块添加了优惠卷管理、秒杀管理，统计分析
 - 后台管理模块添加了优惠卷管理、秒杀管理，统计分析
 - 前台添加了秒杀专区，可以购买秒杀商品
 - 前台添加了优惠卷领取页面，再订单结算页面可以选择优惠卷使用
@@ -23,7 +25,7 @@
 - [本项目源码](https://github.com/wayn111/newbee-mall)
 - [在线地址](https://www.wayn.xin/newbeemall)
 
-#### 2021年5月30日更新日志
+### 2021年5月30日更新日志
 
 升级版本号至2.1.2，是一个代码优化版本
 
@@ -37,7 +39,7 @@
    ![QQ截图20210530155159.png](https://upload-images.jianshu.io/upload_images/10522714-1631176d29e984a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 5. 升级pom文件部分依赖
 
-#### 2021年1月14日 秒杀接口升级
+### 2021年1月14日 秒杀接口升级
 
 本次升级主要在原有秒杀功能的基础上进行了完善，秒杀优化如下：
 
@@ -56,7 +58,7 @@
 
 ------
 
-#### 在线截图
+### 在线截图
 
 | 商城首页 ![index](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/index-01.gif) | 商品搜索 ![search](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/search.png)|
 | ---------------------------------- | ---------------------------------- |
@@ -94,7 +96,7 @@
 
 ------
 
-#### 感谢
+### 感谢
 
 * [newbee-mall](https://github.com/newbee-ltd/newbee-mall) 项目原作者十三提供的基础项目支持
 
