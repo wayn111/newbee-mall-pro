@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ltd.newbee.mall</groupId>
-    <artifactId>newbe-mall</artifactId>
+    <artifactId>newbee-mall</artifactId>
     <version>2.1.2</version>
 
     <properties>
