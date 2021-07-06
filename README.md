@@ -58,6 +58,32 @@
 
 ------
 
+### 开发部署
+
+```
+# 1. 克隆项目
+git clone git@github.com:wayn111/newbee-mall.git
+
+# 2. 导入项目依赖
+将newbee-mall目录用idea打开，导入maven依赖
+
+# 3. 安装Mysql8.0+、Redis3.0+
+
+# 4. 导入sql文件
+在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
+
+# 5. 修改Mysql、Redis连接配置
+修改`application-dev.yml`文件中数据连接配置相关信息
+
+# 6. 启动项目
+找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
+
+# 7. 访问
+打开浏览器输入：http://localhost:84/newbeemall
+```
+
+------
+
 ### 在线截图
 
 | 商城首页 ![index](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/index-01.gif) | 商品搜索 ![search](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/search.png)|
