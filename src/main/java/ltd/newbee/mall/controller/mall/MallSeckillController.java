@@ -141,7 +141,7 @@ public class MallSeckillController extends BaseController {
                 request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process("mall/seckill-list", ctx);
         if (!StringUtils.isEmpty(html)) {
-            redisCache.setCacheObject(Constants.SECKILL_GOODS_LIST_HTML, html, 1, TimeUnit.HOURS);
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_LIST_HTML, html, 100, TimeUnit.HOURS);
         }
         return html;
     }
