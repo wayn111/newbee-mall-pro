@@ -72,13 +72,16 @@ git clone git@github.com:wayn111/newbee-mall.git
 # 4. 导入sql文件
 在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
 
-# 5. 修改Mysql、Redis连接配置
+# 5. 解压项目图片
+将项目根目录下upload.zip文件加压缩到D盘upload文件夹中，eg:D:\\upload
+
+# 6. 修改Mysql、Redis连接配置
 修改`application-dev.yml`文件中数据连接配置相关信息
 
-# 6. 启动项目
+# 7. 启动项目
 找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
 
-# 7. 访问
+# 8. 访问
 打开浏览器输入：http://localhost:84/newbeemall
 ```
 
