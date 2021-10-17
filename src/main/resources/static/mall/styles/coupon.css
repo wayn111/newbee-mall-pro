@@ -95,39 +95,53 @@
 #coupon ul a .left-desc .q-desc {
     height: 20%;
     padding: 0 10px;
-    font-size: 8px;
+    font-size: 14px;
     color: lightslategray;
-    line-height: 12px;
+    line-height: 18px;
 }
 
 #coupon ul a .left-desc .q-desc div:first-child {
-    max-width: 100px;
+    max-width: 60%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    float: left;
 }
 
 
 #coupon ul a .left-desc .q-desc div:last-child {
-    position: relative;
-    right: -150px;
-    top: -12px;
+    float: right;
 }
 
 
 #coupon ul a .right-desc {
     width: 70px;
     max-width: 190px;
-    color: white;
+    color: #e7e7e7;
     font-size: 18px;
     letter-spacing: 6px;
-    background-color: lightseagreen;
     text-align: center;
     line-height: 56px;
     writing-mode: tb-rl;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    background-color: lightseagreen;
+    position: relative;
+}
+#coupon ul a .right-desc b {
+    width: 3px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -1px;
+    background: url(../image/small-circle.png) repeat-y;
+    display: block;
+}
+
+#coupon ul a .right-desc:hover {
+    color: #ffffff;
+    font-size: 20px;
 }
 
 /*订单结算*/

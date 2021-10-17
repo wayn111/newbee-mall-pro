@@ -33,7 +33,7 @@
                         </div>
                         <div class="right-desc"
                              th:style="${coupon.saleOut?'background-color:gray;':coupon.hasReceived?'background-color:lightgray;':''}"
-                             th:text="${coupon.saleOut?'领完了':coupon.hasReceived?'已领取':'立即领取'}">
+                             th:utext="${coupon.saleOut?'<b></b>领完了':coupon.hasReceived?'<b></b>已领取':'<b></b>立即领取'}">
                             立即领取
                         </div>
                     </a>
