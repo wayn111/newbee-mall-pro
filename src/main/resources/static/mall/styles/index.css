@@ -588,6 +588,7 @@
     height: 160px;
     opacity: 0.8;
     margin: 37px;
+    display: block;
 }
 
 #content #seckill ul li a price {
