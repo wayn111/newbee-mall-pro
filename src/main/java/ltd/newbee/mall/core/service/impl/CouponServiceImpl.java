@@ -18,6 +18,7 @@ import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,14 +28,39 @@ import java.util.stream.Collectors;
 @Service
 public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements CouponService {
 
-    @Autowired
     private CouponDao couponDao;
 
-    @Autowired
     private CouponUserService couponUserService;
 
-    @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    public void setCouponDao(CouponDao couponDao) {
+        this.couponDao = couponDao;
+    }
+
+    @Lazy
+    @Autowired
+    public void setCouponUserService(CouponUserService couponUserService) {
+        this.couponUserService = couponUserService;
+    }
+
+    @Autowired
+    public void setGoodsService(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
+
+    public CouponDao getCouponDao() {
+        return couponDao;
+    }
+
+    public CouponUserService getCouponUserService() {
+        return couponUserService;
+    }
+
+    public GoodsService getGoodsService() {
+        return goodsService;
+    }
 
     @Override
     public IPage<Coupon> selectPage(Page<Coupon> page, CouponVO coupon) {
@@ -59,7 +85,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             }
             // 处理总数有限制的优惠卷
             if (couponVO.getCouponTotal() != 0) {
-                int count = couponUserService.count(new QueryWrapper<CouponUser>()
+                long count = couponUserService.count(new QueryWrapper<CouponUser>()
                         .eq("coupon_id", couponVO.getCouponId()));
                 if (count >= couponVO.getCouponTotal()) {
                     couponVO.setSaleOut(true);

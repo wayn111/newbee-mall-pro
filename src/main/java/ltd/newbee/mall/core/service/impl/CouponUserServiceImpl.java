@@ -21,18 +21,33 @@ import java.util.Date;
 @Service
 public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser> implements CouponUserService {
 
-    @Autowired
     private CouponService couponService;
 
-    @Autowired
     private CouponDao couponDao;
+
+    @Autowired
+    public void setCouponService(CouponService couponService) {
+        this.couponService = couponService;
+    }
+    @Autowired
+    public void setCouponDao(CouponDao couponDao) {
+        this.couponDao = couponDao;
+    }
+
+    public CouponService getCouponService() {
+        return couponService;
+    }
+
+    public CouponDao getCouponDao() {
+        return couponDao;
+    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean saveCouponUser(Long couponId, Long userId) {
         Coupon coupon = couponService.getById(couponId);
         if (coupon.getCouponLimit() != 0) {
-            int count = count(new QueryWrapper<CouponUser>()
+            long count = count(new QueryWrapper<CouponUser>()
                     .eq("user_id", userId)
                     .eq("coupon_id", coupon.getCouponId()));
             if (count != 0) {
@@ -40,7 +55,7 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
             }
         }
         if (coupon.getCouponTotal() != 0) {
-            int count = count(new QueryWrapper<CouponUser>()
+            long count = count(new QueryWrapper<CouponUser>()
                     .eq("coupon_id", coupon.getCouponId()));
             if (count >= coupon.getCouponTotal()) {
                 throw new BusinessException("优惠卷已经领完了！");
@@ -73,7 +88,6 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
         LocalDate startLocalDate = LocalDate.now();
         LocalDate endLocalDate = startLocalDate.plusDays(days);
         ZoneId zone = ZoneId.systemDefault();
-        Date endDate = Date.from(endLocalDate.atStartOfDay().atZone(zone).toInstant());
-        return endDate;
+        return Date.from(endLocalDate.atStartOfDay().atZone(zone).toInstant());
     }
 }

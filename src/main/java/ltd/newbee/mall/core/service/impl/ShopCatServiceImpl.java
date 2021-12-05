@@ -6,9 +6,9 @@ import ltd.newbee.mall.core.dao.ShopCatDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.ShopCat;
 import ltd.newbee.mall.core.entity.vo.ShopCatVO;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.ShopCatService;
+import ltd.newbee.mall.exception.BusinessException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
         if (shopCat.getGoodsCount() > 10) {
             throw new BusinessException("该商品最多购买10个");
         }
-        int count = count(new QueryWrapper<ShopCat>().eq("user_id", shopCat.getUserId()));
+        long count = count(new QueryWrapper<ShopCat>().eq("user_id", shopCat.getUserId()));
         // 购物车选购商品数量超出最大数量
         if (count > 15) {
             throw new BusinessException("购物车商品超出最大数量");

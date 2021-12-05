@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 演示模式拦截器
  */
-public class AdminViewModelIntercepter implements HandlerInterceptor {
+public class AdminViewModelInterceptor implements HandlerInterceptor {
 
     private boolean viewModel;
 
-    public AdminViewModelIntercepter(boolean viewModel) {
+    public AdminViewModelInterceptor(boolean viewModel) {
         this.viewModel = viewModel;
     }
 

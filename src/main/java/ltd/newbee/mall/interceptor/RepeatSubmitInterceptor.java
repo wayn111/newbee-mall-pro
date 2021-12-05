@@ -6,7 +6,7 @@ import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.ServletUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  * 防重复提交拦截器
  */
 @Component
-public abstract class RepeatSubmitInterceptor extends HandlerInterceptorAdapter {
+public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -31,10 +31,8 @@ public abstract class RepeatSubmitInterceptor extends HandlerInterceptorAdapter 
                     return false;
                 }
             }
-            return true;
-        } else {
-            return super.preHandle(request, response, handler);
         }
+        return true;
     }
 
     /**
