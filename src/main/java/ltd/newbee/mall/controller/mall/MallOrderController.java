@@ -193,7 +193,7 @@ public class MallOrderController extends BaseController {
                     alipayConfig.getSigntype());
             // 创建API对应的request
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-            // 在公共参数中设置回跳和通知地址
+            // 在公共参数中设置回调和通知地址
             String url = serverUrl + request.getContextPath();
             alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo() + "/" + mallUserVO.getUserId());
             alipayRequest.setNotifyUrl(url + "/paySuccess?payType=1&orderNo=" + order.getOrderNo());
