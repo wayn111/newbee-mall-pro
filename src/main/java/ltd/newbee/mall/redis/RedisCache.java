@@ -54,6 +54,9 @@ public class RedisCache {
     public Long luaDecrement(final String key) {
         RedisScript<Number> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Number.class);
         Number execute = (Number) redisTemplate.execute(redisScript, Collections.singletonList(key));
+        if (execute == null) {
+            return -1L;
+        }
         return execute.longValue();
     }
 
