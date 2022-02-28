@@ -84,7 +84,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     @Override
     public SeckillSuccessVO executeSeckill(Long seckillId, MallUserVO userVO) {
         // 判断用户是否买过
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
+        long count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
         if (count > 0) {
@@ -136,7 +136,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     @Override
     public SeckillSuccessVO executeSeckillProcedure(Long seckillId, MallUserVO userVO) {
         // 判断用户是否购买过秒杀商品
-        int count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
+        long count = seckillSuccessService.count(new QueryWrapper<SeckillSuccess>()
                 .eq("seckill_id", seckillId)
                 .eq("user_id", userVO.getUserId()));
         if (count > 0) {

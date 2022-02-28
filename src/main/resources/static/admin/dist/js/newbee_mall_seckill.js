@@ -133,7 +133,7 @@ var vm = new Vue({
             var url = _ctx + 'admin/seckill/' + id;
             $.get(url, function (res) {
                 if (res.code != 200) {
-                    swal("操作失败", {
+                    swal(res.msg, {
                         icon: "error",
                     });
                     return

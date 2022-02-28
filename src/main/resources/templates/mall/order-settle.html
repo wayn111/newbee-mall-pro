@@ -297,6 +297,15 @@
         $(e.target).closest('li').siblings().removeClass('active');
         $(e.target).closest('li').addClass('active')
         var discount = $('#my-coupon ul li.active div.left-desc .q-price strong').text();
+        // 检查订单价格
+        var finalTotal = parseInt(priceTotal) - parseInt(discount);
+        if (finalTotal <= 0) {
+            $(e.target).closest('li').removeClass('active');
+            swal('订单价格不能小于等于0元！', {
+                icon: "error",
+            });
+            return;
+        }
         $('#discount').text(discount);
         $('.order-detail-total table tr:first').show();
         $('#priceTotal').text(parseInt(priceTotal) - parseInt(discount))
