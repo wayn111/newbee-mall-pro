@@ -96,8 +96,6 @@ INSERT INTO `tb_newbee_mall_coupon` VALUES (8, '可兑换优惠券', '全场通�
 INSERT INTO `tb_newbee_mall_coupon` VALUES (11, '限时满减券', '全场通用,数量有限,先到先得', 97, 100, 1000, 1, 0, 0, 0, '', NULL, 3, '2020-05-09 00:54:08', NULL, 0);
 INSERT INTO `tb_newbee_mall_coupon` VALUES (12, '荣耀商品满减', '荣耀10x', 0, 8, 80, 1, 0, 0, 2, '10700', NULL, 7, '2020-05-11 22:45:15', NULL, 0);
 INSERT INTO `tb_newbee_mall_coupon` VALUES (13, '华为分类满减', '华为手机通用', 0, 15, 1500, 1, 0, 0, 1, '45,46', NULL, 7, '2020-05-11 23:15:09', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon` VALUES (14, 'test', 'test', 0, 1, 1, 0, 0, 0, 0, '', NULL, 1, '2021-02-27 18:01:48', '2021-02-27 18:08:15', 0);
-INSERT INTO `tb_newbee_mall_coupon` VALUES (15, '2', 'test', 1, 2, 2, 0, 0, 0, 0, '', NULL, 2, '2021-02-27 18:01:54', '2021-02-27 18:08:19', 0);
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_coupon_user
@@ -118,47 +116,6 @@ CREATE TABLE `tb_newbee_mall_coupon_user`  (
   PRIMARY KEY (`coupon_user_id`) USING BTREE,
   INDEX `user_coupin_index`(`user_id`, `coupon_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '优惠券用户使用表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tb_newbee_mall_coupon_user
--- ----------------------------
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (55, 1, 1, 1, '2020-09-26 19:17:43', '2020-09-20 00:00:00', '2020-09-30 00:00:00', 23, '2020-09-20 10:02:45', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (56, 1, 2, 1, '2020-09-26 01:02:10', '2020-09-20 00:00:00', '2020-09-30 00:00:00', 22, '2020-09-20 10:02:55', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (57, 1, 11, 1, '2020-09-20 10:04:37', '2020-09-20 00:00:00', '2020-09-23 00:00:00', 21, '2020-09-20 10:02:57', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (58, 1, 12, 1, '2020-09-27 16:36:05', '2020-09-20 00:00:00', '2020-09-27 00:00:00', 24, '2020-09-20 10:02:59', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (59, 1, 13, 2, NULL, '2020-09-20 00:00:00', '2020-09-27 00:00:00', NULL, '2020-09-20 10:03:00', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (60, 9, 11, 2, NULL, '2021-01-01 00:00:00', '2021-01-04 00:00:00', NULL, '2021-01-01 23:54:33', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (61, 9, 12, 2, NULL, '2021-01-01 00:00:00', '2021-01-08 00:00:00', NULL, '2021-01-01 23:54:34', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (62, 9, 13, 2, NULL, '2021-01-01 00:00:00', '2021-01-08 00:00:00', NULL, '2021-01-01 23:54:35', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (63, 13, 11, 2, NULL, '2021-01-15 00:00:00', '2021-01-18 00:00:00', NULL, '2021-01-15 02:50:17', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (64, 13, 13, 2, NULL, '2021-01-15 00:00:00', '2021-01-22 00:00:00', NULL, '2021-01-15 02:50:25', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (65, 16, 13, 2, NULL, '2021-01-15 00:00:00', '2021-01-22 00:00:00', NULL, '2021-01-15 15:06:55', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (66, 16, 11, 2, NULL, '2021-01-15 00:00:00', '2021-01-18 00:00:00', NULL, '2021-01-15 15:07:55', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (67, 18, 13, 2, NULL, '2021-01-15 00:00:00', '2021-01-22 00:00:00', NULL, '2021-01-15 15:31:05', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (68, 18, 12, 2, NULL, '2021-01-15 00:00:00', '2021-01-22 00:00:00', NULL, '2021-01-15 15:31:08', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (69, 19, 11, 2, NULL, '2021-01-20 00:00:00', '2021-01-23 00:00:00', NULL, '2021-01-20 14:43:57', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (70, 20, 11, 2, NULL, '2021-01-27 00:00:00', '2021-01-30 00:00:00', NULL, '2021-01-27 13:34:46', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (71, 20, 12, 2, NULL, '2021-01-27 00:00:00', '2021-02-03 00:00:00', NULL, '2021-01-27 13:35:04', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (72, 20, 13, 2, NULL, '2021-01-27 00:00:00', '2021-02-03 00:00:00', NULL, '2021-01-27 13:35:06', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (73, 21, 3, 2, NULL, '2021-02-05 00:00:00', '2021-02-12 00:00:00', NULL, NULL, NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (74, 22, 3, 2, NULL, '2021-02-05 00:00:00', '2021-02-12 00:00:00', NULL, NULL, NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (75, 22, 13, 2, NULL, '2021-02-05 00:00:00', '2021-02-12 00:00:00', NULL, '2021-02-05 17:24:32', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (76, 22, 12, 2, NULL, '2021-02-05 00:00:00', '2021-02-12 00:00:00', NULL, '2021-02-05 17:24:33', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (77, 22, 11, 2, NULL, '2021-02-05 00:00:00', '2021-02-08 00:00:00', NULL, '2021-02-05 17:24:34', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (78, 23, 3, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (79, 24, 3, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (80, 24, 11, 0, NULL, '2021-02-26 00:00:00', '2021-03-01 00:00:00', NULL, '2021-02-26 13:55:34', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (81, 24, 12, 0, NULL, '2021-02-26 00:00:00', '2021-03-05 00:00:00', NULL, '2021-02-26 13:55:37', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (82, 24, 13, 0, NULL, '2021-02-26 00:00:00', '2021-03-05 00:00:00', NULL, '2021-02-26 13:55:39', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (83, 1, 14, 0, NULL, '2021-02-27 18:04:11', '2021-02-28 00:00:00', NULL, '2021-02-27 18:04:11', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (84, 1, 15, 0, NULL, '2021-02-27 18:04:14', '2021-03-01 00:00:00', NULL, '2021-02-27 18:04:14', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (85, 25, 3, 0, NULL, '2021-03-04 19:53:04', '2021-03-14 00:00:00', NULL, NULL, NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (86, 25, 12, 0, NULL, '2021-03-04 19:53:17', '2021-03-11 00:00:00', NULL, '2021-03-04 19:53:17', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (87, 25, 13, 0, NULL, '2021-03-04 19:53:18', '2021-03-11 00:00:00', NULL, '2021-03-04 19:53:18', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (88, 25, 14, 0, NULL, '2021-03-04 19:53:23', '2021-03-05 00:00:00', NULL, '2021-03-04 19:53:23', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (89, 25, 14, 0, NULL, '2021-03-04 19:53:24', '2021-03-05 00:00:00', NULL, '2021-03-04 19:53:24', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (90, 25, 14, 0, NULL, '2021-03-04 19:53:26', '2021-03-05 00:00:00', NULL, '2021-03-04 19:53:26', NULL, 0);
-INSERT INTO `tb_newbee_mall_coupon_user` VALUES (91, 25, 11, 0, NULL, '2021-03-04 19:53:28', '2021-03-07 00:00:00', NULL, '2021-03-04 19:53:28', NULL, 0);
 
 -- ----------------------------
 -- Table structure for tb_newbee_mall_goods_category
@@ -1417,7 +1374,7 @@ BEGIN
 				SET r_result = 0;
 			ELSEIF (insert_count < 0) THEN
 				ROLLBACK;
-				SET r_result = -2; 
+				SET r_result = -2;
 			ELSE
 				COMMIT;
 			SET r_result = 1;
