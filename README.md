@@ -23,7 +23,7 @@
 - 支付时添加了支付宝沙箱支付
 - 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
 - [本项目源码](https://github.com/wayn111/newbee-mall)
-- [在线地址](https://www.wayn.xin/newbeemall)
+- [在线地址](http://121.89.238.61/newbeemall)
 
 ### 2021年5月30日更新日志
 
