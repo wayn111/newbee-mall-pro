@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Data
 public class SearchPageGoodsVO implements Serializable {
 
+    private static final long serialVersionUID = 4186374032252933793L;
     private Long goodsId;
 
     private String goodsName;

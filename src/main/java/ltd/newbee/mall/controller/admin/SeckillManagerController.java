@@ -62,8 +62,10 @@ public class SeckillManagerController extends BaseController {
         boolean update = seckillService.updateById(seckill);
         if (update) {
             // 库存预热
-            redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckill.getSeckillId(), seckill.getSeckillNum());
+            Long seckillId = seckill.getSeckillId();
+            redisCache.setCacheObject(Constants.SECKILL_GOODS_STOCK_KEY + seckillId, seckill.getSeckillNum());
             redisCache.deleteObject(Constants.SECKILL_GOODS_LIST_HTML);
+            redisCache.deleteObject(Constants.SECKILL_GOODS_DETAIL_HTML + seckillId);
         }
         return R.result(update);
     }

@@ -2,11 +2,13 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class OrderListVO {
+public class OrderListVO implements Serializable {
+    private static final long serialVersionUID = -3641311912121053450L;
     private Long orderId;
 
     private String orderNo;

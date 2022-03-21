@@ -2,14 +2,16 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 秒杀商品VO
  */
 @Data
-public class SeckillVO {
+public class SeckillVO implements Serializable {
 
+    private static final long serialVersionUID = -255290568158613317L;
     private Long seckillId;
 
     /**

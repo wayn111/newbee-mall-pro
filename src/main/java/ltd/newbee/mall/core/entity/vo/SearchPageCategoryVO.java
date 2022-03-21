@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 public class SearchPageCategoryVO implements Serializable {
 
+    private static final long serialVersionUID = 5851848214339537806L;
     private String firstLevelCategoryName;
 
     private List<GoodsCategory> secondLevelCategoryList;

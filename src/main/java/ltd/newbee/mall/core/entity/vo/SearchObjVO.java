@@ -2,12 +2,15 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 查询参数封装对象
  */
 @Data
-public class SearchObjVO {
+public class SearchObjVO implements Serializable {
 
+    private static final long serialVersionUID = 8060875279157963202L;
     /**
      * 查询条件
      */

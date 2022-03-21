@@ -2,14 +2,16 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商城用户VO对象
  */
 @Data
-public class MallUserVO {
+public class MallUserVO implements Serializable {
 
+    private static final long serialVersionUID = 3698456957193931954L;
     private Long userId;
 
     private String nickName;

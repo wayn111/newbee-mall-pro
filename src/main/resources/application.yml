@@ -16,6 +16,11 @@ server:
 
 # spring
 spring:
+  session:
+    store-type: redis
+    timeout: 3000
+    redis:
+      namespace: newbeemall_session
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -53,7 +58,7 @@ mybatis-plus:
 
 # wayn配置
 wayn:
-  serverUrl: http://www.wayn.xin/newbeemall # 这里配置项目访问路径
+  serverUrl: http://www.wayn.xin/newbeemall # 支付回调地址，项目部署到公网环境时，必须是外网地址
   uploadDir: D:\\upload # 这里配置前台图片路径
   viewModel: false # 演示模式true只能查看，不能修改
 
