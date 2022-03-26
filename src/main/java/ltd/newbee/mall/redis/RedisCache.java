@@ -52,12 +52,12 @@ public class RedisCache {
      * @return 递减后返回值
      */
     public Long luaDecrement(final String key) {
-        RedisScript<Number> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Number.class);
-        Number execute = (Number) redisTemplate.execute(redisScript, Collections.singletonList(key));
+        RedisScript<Long> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Long.class);
+        Long execute = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key));
         if (execute == null) {
             return -1L;
         }
-        return execute.longValue();
+        return execute;
     }
 
     /**

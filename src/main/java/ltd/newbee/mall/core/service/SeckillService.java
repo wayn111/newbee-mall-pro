@@ -9,6 +9,7 @@ import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.core.entity.vo.SeckillSuccessVO;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
 
+import java.util.Date;
 import java.util.Map;
 
 public interface SeckillService extends IService<Seckill> {
@@ -89,6 +90,6 @@ public interface SeckillService extends IService<Seckill> {
      * @param now       当前时间
      * @return boolean
      */
-    boolean reduceStock(Long seckillId, Long now);
+    boolean reduceStock(Long seckillId, Date now);
 
 }

@@ -1,11 +1,11 @@
 package ltd.newbee.mall.redis;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
 
 import java.time.Duration;
 
@@ -28,6 +28,9 @@ public class RedisConfig {
     @Value("${spring.redis.password}")
     private String password = "";
 
+    @Value("${spring.redis.database}")
+    private Integer database = 0;
+
     @Value("${spring.redis.jedis.pool.max-idle}")
     private int maxIdle;
 
@@ -37,13 +40,13 @@ public class RedisConfig {
     @Value("${spring.redis.jedis.pool.max-wait}")
     private int maxWaitMillis;
 
-
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
         jedisPoolConfig.setMaxTotal(maxTotal);
         jedisPoolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
+        jedisPoolConfig.setJmxEnabled(false);
         return jedisPoolConfig;
     }
 
@@ -51,10 +54,21 @@ public class RedisConfig {
     public JedisPool jedisPool(JedisPoolConfig jedisPoolConfig) {
         JedisPool jedisPool;
         if (StringUtils.isNotEmpty(password)) {
-            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password);
+            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, password, database);
         } else {
-            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
+            jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
         }
         return jedisPool;
+    }
+
+    @Bean
+    public UnifiedJedis unifiedJedis(GenericObjectPoolConfig jedisPoolConfig) {
+        UnifiedJedis client;
+        if (StringUtils.isNotEmpty(password)) {
+            client = new JedisPooled(jedisPoolConfig, host, port, timeout, password, database);
+        } else {
+            client = new JedisPooled(jedisPoolConfig, host, port, timeout, null, database);
+        }
+        return client;
     }
 }

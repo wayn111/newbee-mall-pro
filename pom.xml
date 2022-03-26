@@ -25,9 +25,9 @@
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
-        <alipay.version>4.22.32.ALL</alipay.version>
-        <jedis.version>3.6.3</jedis.version>
-        <guava.version>31.0.1-jre</guava.version>
+        <alipay.version>4.22.56.ALL</alipay.version>
+        <jedis.version>4.2.0</jedis.version>
+        <guava.version>31.1-jre</guava.version>
     </properties>
 
     <dependencies>

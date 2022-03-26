@@ -195,7 +195,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             throw new BusinessException("秒杀已结束");
         }
         // 减库存
-        if (!seckillService.reduceStock(seckillId, now.getTime() / 1000)) {
+        if (!seckillService.reduceStock(seckillId, now)) {
             throw new BusinessException("秒杀商品减库存失败");
         }
         Long goodsId = seckill.getGoodsId();

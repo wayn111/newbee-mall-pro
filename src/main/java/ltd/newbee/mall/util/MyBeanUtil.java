@@ -44,19 +44,20 @@ public abstract class MyBeanUtil {
         return targetList;
     }
 
-    public static Map<String, Object> toMap(Object bean, String... ignoreProperties) {
-        Map<String, Object> map = new LinkedHashMap<>();
+    public static Map<String, String> toMap(Object bean, String... ignoreProperties) {
+        Map<String, String> map = new LinkedHashMap<>();
         List<String> ignoreList = new ArrayList<>(Arrays.asList(ignoreProperties));
         ignoreList.add("class");
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
         for (PropertyDescriptor pd : beanWrapper.getPropertyDescriptors()) {
             if (!ignoreList.contains(pd.getName()) && beanWrapper.isReadableProperty(pd.getName())) {
                 Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-                map.put(pd.getName(), propertyValue);
+                map.put(pd.getName(), propertyValue.toString());
             }
         }
         return map;
     }
+
 
     public static <T> T toBean(Map<String, Object> map, Class<T> beanType) {
         BeanWrapper beanWrapper = new BeanWrapperImpl(beanType);

@@ -106,7 +106,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
             throw new BusinessException("秒杀已结束");
         }
         // 执行秒杀逻辑：减库存 + 记录购买行为
-        if (!reduceStock(seckillId, now.getTime() / 1000)) {
+        if (!reduceStock(seckillId, now)) {
             throw new BusinessException("秒杀商品减库存失败");
         }
         SeckillSuccess seckillSuccess = new SeckillSuccess();
@@ -317,7 +317,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     }
 
     @Override
-    public boolean reduceStock(Long seckillId, Long now) {
+    public boolean reduceStock(Long seckillId, Date now) {
         return seckillDao.reduceStock(seckillId, now);
     }
 }

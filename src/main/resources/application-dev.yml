@@ -51,15 +51,16 @@ spring:
   redis:
     host: localhost
     port: 6379
-    timeout: 5000
+    database: 0
+    timeout: 10000
     password:
-    databaseIndex: 1
-    expire: 400
     maxTotal: 50000
-    client-type: jedis
-    jedis:
+    client-type: lettuce
+    lettuce:
       pool:
         enabled: true
+    jedis:
+      pool:
         max-active: 5
         max-idle: 10
         min-idle: 10

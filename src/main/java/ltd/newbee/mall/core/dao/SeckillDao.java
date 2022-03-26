@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
 
+import java.util.Date;
 import java.util.Map;
 
 public interface SeckillDao extends BaseMapper<Seckill> {
@@ -19,7 +20,7 @@ public interface SeckillDao extends BaseMapper<Seckill> {
      * @param now       当前时间戳
      * @return boolean
      */
-    boolean reduceStock(Long seckillId, Long now);
+    boolean reduceStock(Long seckillId, Date now);
 
     /**
      * 添加秒杀商品库存
@@ -35,5 +36,4 @@ public interface SeckillDao extends BaseMapper<Seckill> {
      * @param paramMap 存储过程传参
      */
     void killByProcedure(Map<String, Object> paramMap);
-
 }
