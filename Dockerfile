@@ -10,4 +10,4 @@ RUN bash -c 'touch /opt/newbeemall/newbee-mall-2.1.3.jar'
 # 声明服务运行在8000端口
 EXPOSE 84
 # 指定docker容器启动时运行jar包
-ENTRYPOINT ["sh", "-c", "exec java -jar -Xms1024m -Xmx1025m /opt/newbeemall/newbee-mall-2.1.3.jar"]
+ENTRYPOINT ["sh", "-c", "exec java -jar -Xms1024m -Xmx1024m /opt/newbeemall/newbee-mall-2.1.3.jar"]

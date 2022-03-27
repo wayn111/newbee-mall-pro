@@ -186,3 +186,49 @@ function putDownGoods() {
         }
     )
 }
+
+/**
+ * 同步redisSearch
+ */
+function syncRedisSearch() {
+    swal({
+        title: "确认弹框",
+        text: "确认要同步RedisSearch吗?",
+        icon: "warning",
+        button: {
+            text: "同步",
+            closeModal: false,
+        },
+        dangerMode: true,
+    }).then((flag) => {
+            if (flag) {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        type: "POST",
+                        url: _ctx + "admin/goods/syncRs",
+                        success: function (r) {
+                            if (r.code == 200) {
+                                resolve("同步成功");
+                            } else {
+                                reject(r.msg);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    ).then(value => {
+        swal(value, {
+            icon: "success",
+        });
+    }).catch(err => {
+        if (err) {
+            swal(r.msg, {
+                icon: "error",
+            });
+        } else {
+            swal.stopLoading();
+            swal.close();
+        }
+    });
+}

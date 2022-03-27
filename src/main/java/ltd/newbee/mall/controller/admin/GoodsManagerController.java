@@ -149,4 +149,14 @@ public class GoodsManagerController extends BaseController {
         return R.result(goodsService.updateById(goods));
     }
 
+
+    /**
+     * 同步redisSearch
+     */
+    @PostMapping("/syncRs")
+    @ResponseBody
+    public R syncRs() {
+        return R.result(goodsService.syncRs());
+    }
+
 }

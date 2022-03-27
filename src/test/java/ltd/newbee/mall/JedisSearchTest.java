@@ -1,22 +1,19 @@
 package ltd.newbee.mall;
 
 
-import ltd.newbee.mall.core.entity.vo.MallUserVO;
-import ltd.newbee.mall.core.service.SeckillService;
+import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.redis.JedisSearch;
-import org.apache.ibatis.jdbc.Null;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.clients.jedis.search.Document;
 import redis.clients.jedis.search.Schema;
 import redis.clients.jedis.search.SearchResult;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -24,6 +21,9 @@ public class JedisSearchTest {
 
     @Autowired
     private JedisSearch jedisSearch;
+
+    @Autowired
+    private GoodsService goodsService;
 
     private static final String idxName = "idx:goods";
 
@@ -42,7 +42,7 @@ public class JedisSearchTest {
     @Test
     public void query() {
         System.out.println("begin");
-        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为}");
+        SearchResult query = jedisSearch.query(idxName, "@goodsName:(手机) @goodsIntro:(手机)");
         System.out.println("end");
         assert query != null;
     }
@@ -50,22 +50,25 @@ public class JedisSearchTest {
     @Test
     public void addAll() throws IOException {
         System.out.println("begin");
-        jedisSearch.addAll("goods:");
+        List<Goods> list = goodsService.list();
+        jedisSearch.addGoodsListIndex("goods:", list);
         System.out.println("end");
     }
 
     @Test
-    public void goodsSync() throws IOException {
+    public void goodsSync() {
         System.out.println("begin");
         jedisSearch.dropIndex(idxName);
         Schema schema = new Schema()
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
                 .addSortableNumericField("sellingPrice")
+                .addSortableNumericField("goodsId")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
         jedisSearch.createIndex(idxName, "goods:", schema);
-        jedisSearch.addAll("goods:");
+        List<Goods> list = goodsService.list();
+        jedisSearch.addGoodsListIndex("goods:", list);
         SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为}");
         System.out.println("end");
     }

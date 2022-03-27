@@ -7,6 +7,7 @@ import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -33,8 +34,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /** 本地文件上传路径 */
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:" + uploadDir + "/");
-        registry.addResourceHandler("/goods-img/**").addResourceLocations("file:" + uploadDir + "/");
+        registry.addResourceHandler("/upload/**", "/goods-img/**")
+                .addResourceLocations("file:" + uploadDir + "/");
     }
 
     @Override
@@ -96,6 +97,13 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/logout")
                 .excludePathPatterns("/admin/dist/**")
                 .excludePathPatterns("/admin/plugins/**");
+    }
+
+    public static void main(String[] args) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        System.out.println(antPathMatcher.match("/goods-img/**",
+                "/goods-img/040a3aa6-1699-4eca-ac67-5021cc419979.jpg"));
+
     }
 
 }

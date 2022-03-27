@@ -17,7 +17,7 @@ public class Constants {
     public final static String MALL_VERIFY_CODE_KEY = "mallVerifyCode";//验证码key
 
 
-    public final static int GOODS_SEARCH_PAGE_LIMIT = 10;//搜索分页的默认条数(每页10条)
+    public final static int GOODS_SEARCH_PAGE_LIMIT = 20;//搜索分页的默认条数(每页10条)
 
     public final static int ORDER_SEARCH_PAGE_LIMIT = 3;//我的订单列表分页的默认条数(每页3条)
 
@@ -83,4 +83,18 @@ public class Constants {
      */
     public static final String SECKILL_SUCCESS_USER_ID = "seckill_success_user_id:";
 
+    /**
+     * redisSearch索引名称
+     */
+    public static final String GOODS_IDX_NAME = "idx:goods";
+
+    /**
+     * redisSearch商品hash前缀
+     */
+    public static final String GOODS_IDX_PREFIX = "goods:";
+
+    /**
+     * redisSearch商品索引语言
+     */
+    public static final String GOODS_IDX_LANGUAGE = "chinese";
 }
