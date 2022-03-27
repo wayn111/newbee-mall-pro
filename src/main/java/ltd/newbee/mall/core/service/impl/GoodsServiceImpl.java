@@ -44,6 +44,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
         Schema schema = new Schema()
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
+                .addSortableNumericField("goodsId")
                 .addSortableNumericField("sellingPrice")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
