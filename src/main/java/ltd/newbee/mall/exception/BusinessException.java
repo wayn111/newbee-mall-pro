@@ -5,6 +5,8 @@ package ltd.newbee.mall.exception;
  */
 public class BusinessException extends RuntimeException {
 
+    private static final long serialVersionUID = -4880964474551876448L;
+
     public BusinessException() {
         super();
     }

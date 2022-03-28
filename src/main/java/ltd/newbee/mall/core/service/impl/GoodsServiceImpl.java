@@ -50,7 +50,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
                 .addSortableTagField("tag", "|");
         jedisSearch.createIndex(Constants.GOODS_IDX_NAME, "goods:", schema);
         List<Goods> list = this.list();
+        jedisSearch.deleteGoodsList(Constants.GOODS_IDX_PREFIX);
         return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
+    }
+
+    @Override
+    public boolean saveGoods(Goods goods) {
+        this.save(goods);
+        return jedisSearch.addGoodsIndex(Constants.GOODS_IDX_PREFIX, goods);
+    }
+
+    @Override
+    public boolean updateGoods(Goods goods) {
+        this.updateById(goods);
+        return jedisSearch.addGoodsIndex(Constants.GOODS_IDX_PREFIX, goods);
     }
 
 }

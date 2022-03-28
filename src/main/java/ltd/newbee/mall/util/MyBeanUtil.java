@@ -52,7 +52,7 @@ public abstract class MyBeanUtil {
         for (PropertyDescriptor pd : beanWrapper.getPropertyDescriptors()) {
             if (!ignoreList.contains(pd.getName()) && beanWrapper.isReadableProperty(pd.getName())) {
                 Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-                map.put(pd.getName(), propertyValue.toString());
+                map.put(pd.getName(), String.valueOf(propertyValue));
             }
         }
         return map;

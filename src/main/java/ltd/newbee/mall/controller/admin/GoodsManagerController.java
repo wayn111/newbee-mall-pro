@@ -137,7 +137,7 @@ public class GoodsManagerController extends BaseController {
     @PostMapping("/save")
     @ResponseBody
     public R save(@RequestBody Goods goods) {
-        return R.result(goodsService.save(goods));
+        return R.result(goodsService.saveGoods(goods));
     }
 
     /**
@@ -146,7 +146,7 @@ public class GoodsManagerController extends BaseController {
     @PostMapping("/update")
     @ResponseBody
     public R update(@RequestBody Goods goods) {
-        return R.result(goodsService.updateById(goods));
+        return R.result(goodsService.updateGoods(goods));
     }
 
 

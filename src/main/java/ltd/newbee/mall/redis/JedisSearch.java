@@ -15,6 +15,7 @@ import redis.clients.jedis.search.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Component
@@ -125,4 +126,11 @@ public class JedisSearch {
         return true;
     }
 
+    public boolean deleteGoodsList(String goodsIdxPrefix) {
+        Set<String> keys = client.keys(goodsIdxPrefix + "*");
+        for (String key : keys) {
+            client.del(key);
+        }
+        return true;
+    }
 }

@@ -28,9 +28,25 @@ public interface GoodsService extends IService<Goods> {
     IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
     /**
-     * 同步redisSearch
+     * 同步RedisSearch
      *
      * @return boolean
      */
     boolean syncRs();
+
+    /**
+     * 保存商品信息，同步RedisSearch
+     *
+     * @param goods
+     * @return boolean
+     */
+    boolean saveGoods(Goods goods);
+
+    /**
+     * 更新商品信息，同步RedisSearch
+     *
+     * @param goods
+     * @return boolean
+     */
+    boolean updateGoods(Goods goods);
 }

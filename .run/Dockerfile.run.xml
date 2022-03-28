@@ -28,6 +28,10 @@
               <option name="containerPath" value="/opt/newbeemall/logs" />
               <option name="hostPath" value="/opt/newbeemall/logs" />
             </DockerVolumeBindingImpl>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/opt/newbeemall/upload" />
+              <option name="hostPath" value="/opt/newbeemall/upload" />
+            </DockerVolumeBindingImpl>
           </list>
         </option>
       </settings>
