@@ -227,89 +227,131 @@
 <script th:src="@{/mall/js/bootstrap.min.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script type="text/javascript">
-    $('#saveOrder').click(function () {
-        var userAddress = $(".user_address_label").html();
-        if (userAddress == '' || userAddress == '无') {
-            swal("请填写收货信息", {
-                icon: "error",
-            });
-            return;
-        }
-        if (userAddress.trim().length < 6) {
-            swal("请输入正确的收货信息", {
-                icon: "error",
-            });
-            return;
-        }
-        if ($('#isSeckillSettle').val()) {
-            window.location.href = _ctx + 'saveOrder/' + $('#seckillSuccessId').val() + '/' + $('#seckillSecretKey').val();
-        } else {
-            window.location.href = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
-        }
-    });
+    $(function () {
+        $('#saveOrder').click(function () {
+            var userAddress = $(".user_address_label").html();
+            if (userAddress == '' || userAddress == '无') {
+                swal("请填写收货信息", {
+                    icon: "error",
+                });
+                return;
+            }
+            if (userAddress.trim().length < 6) {
+                swal("请输入正确的收货信息", {
+                    icon: "error",
+                });
+                return;
+            }
+            var saveOrderUrl;
+            if ($('#isSeckillSettle').val()) {
+                saveOrderUrl = _ctx + 'saveOrder/' + $('#seckillSuccessId').val() + '/' + $('#seckillSecretKey').val()
+            } else {
+                saveOrderUrl = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
+            }
+            $.get(saveOrderUrl)
+                .then(result => {
+                    if (result.code == 200) {
+                        var orderNo = result.map.orderNo;
+                        saveOrderResult(orderNo);
+                    } else {
+                        swal(result.msg, {
+                            icon: "error",
+                        });
+                    }
+                });
+        });
 
-    function openUpdateModal() {
-        $('#personalInfoModal').modal('show');
-    }
-
-    //绑定modal上的保存按钮
-    $('#saveButton').click(function () {
-        var address = $("#address").val();
-        var userId = $("#userId").val();
-        var data = {
-            "userId": userId,
-            "address": address
-        };
-        $.ajax({
-            type: 'POST',//方法类型
-            url: _ctx + 'personal/updateInfo',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.code == 200) {
-                    $('#personalInfoModal').modal('hide');
-                    window.location.reload();
-                } else {
-                    $('#personalInfoModal').modal('hide');
-                    swal(result.msg, {
+        //绑定modal上的保存按钮
+        $('#saveButton').click(function () {
+            var address = $("#address").val();
+            var userId = $("#userId").val();
+            var data = {
+                "userId": userId,
+                "address": address
+            };
+            $.ajax({
+                type: 'POST',//方法类型
+                url: _ctx + 'personal/updateInfo',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.code == 200) {
+                        $('#personalInfoModal').modal('hide');
+                        window.location.reload();
+                    } else {
+                        $('#personalInfoModal').modal('hide');
+                        swal(result.msg, {
+                            icon: "error",
+                        });
+                    }
+                },
+                error: function () {
+                    swal('操作失败', {
                         icon: "error",
                     });
                 }
-            },
-            error: function () {
-                swal('操作失败', {
+            });
+        });
+
+        $('.order-detail-total table tr:first').hide();
+
+        $('#my-coupon ul li').on('click', function (e) {
+            var priceTotal = [[${priceTotal}]];
+            if ($(e.target).closest('li').hasClass('active')) {
+                $(e.target).closest('li').removeClass('active');
+                $('.order-detail-total table tr:first').hide();
+                $('#priceTotal').text(priceTotal)
+                return;
+            }
+            $(e.target).closest('li').siblings().removeClass('active');
+            $(e.target).closest('li').addClass('active')
+            var discount = $('#my-coupon ul li.active div.left-desc .q-price strong').text();
+            // 检查订单价格
+            var finalTotal = parseInt(priceTotal) - parseInt(discount);
+            if (finalTotal <= 0) {
+                $(e.target).closest('li').removeClass('active');
+                swal('订单价格不能小于等于0元！', {
                     icon: "error",
                 });
+                return;
             }
-        });
-    });
+            $('#discount').text(discount);
+            $('.order-detail-total table tr:first').show();
+            $('#priceTotal').text(parseInt(priceTotal) - parseInt(discount))
+        })
 
-    $('.order-detail-total table tr:first').hide();
+        function saveOrderResult(orderNo) {
+            var retryCount = 3;
+            var timeoutId = setTimeout(function () {
+                if (retryCount <= 0) {
+                    swal('下单失败', {
+                        icon: "error",
+                    });
+                    clearTimeout(timeoutId);
+                    return;
+                }
+                retryCount--;
+                $.get(_ctx + 'saveOrder/result/' + orderNo)
+                    .then((result => {
+                        if (result.code == 200) {
+                            clearTimeout(timeoutId);
+                            window.location.href = _ctx + 'orders/' + orderNo;
+                        } else {
+                            swal(result.msg, {
+                                icon: "error",
+                            });
+                        }
+                    }), (e) => {
+                        console.log(e)
+                    });
+            }, 200);
+        }
 
-    $('#my-coupon ul li').on('click', function (e) {
-        var priceTotal = [[${priceTotal}]];
-        if ($(e.target).closest('li').hasClass('active')) {
-            $(e.target).closest('li').removeClass('active');
-            $('.order-detail-total table tr:first').hide();
-            $('#priceTotal').text(priceTotal)
-            return;
+        function openUpdateModal() {
+            $('#personalInfoModal').modal('show');
         }
-        $(e.target).closest('li').siblings().removeClass('active');
-        $(e.target).closest('li').addClass('active')
-        var discount = $('#my-coupon ul li.active div.left-desc .q-price strong').text();
-        // 检查订单价格
-        var finalTotal = parseInt(priceTotal) - parseInt(discount);
-        if (finalTotal <= 0) {
-            $(e.target).closest('li').removeClass('active');
-            swal('订单价格不能小于等于0元！', {
-                icon: "error",
-            });
-            return;
-        }
-        $('#discount').text(discount);
-        $('.order-detail-total table tr:first').show();
-        $('#priceTotal').text(parseInt(priceTotal) - parseInt(discount))
     })
+    ;
 </script>
 </body>
 </html>

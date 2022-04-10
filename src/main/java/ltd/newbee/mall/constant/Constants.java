@@ -2,15 +2,21 @@ package ltd.newbee.mall.constant;
 
 public class Constants {
 
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "error";
+
     public static final Byte CATEGORY_LEVEL_ONE = 1;
     public static final Byte CATEGORY_LEVEL_TWO = 2;
     public static final Byte CATEGORY_LEVEL_THREE = 3;
-
 
     public final static int INDEX_GOODS_HOT_NUMBER = 4;//首页热卖商品数量
     public final static int INDEX_GOODS_NEW_NUMBER = 5;//首页新品数量
     public final static int INDEX_GOODS_RECOMMOND_NUMBER = 10;//首页推荐商品数量
 
+    /**
+     * 项目缓存前缀
+     */
+    public static final String CACHE_PREFIX = "newbee_mall:";
 
     public final static String MALL_USER_SESSION_KEY = "mallUser";//session中user的key
 
@@ -63,25 +69,25 @@ public class Constants {
     /**
      * 秒杀商品库存缓存
      */
-    public static final String SECKILL_GOODS_STOCK_KEY = "seckill_goods_stock:";
+    public static final String SECKILL_GOODS_STOCK_KEY = CACHE_PREFIX + "seckill_goods_stock:";
 
     /**
      * 秒杀商品缓存
      */
-    public static final String SECKILL_KEY = "seckill:";
+    public static final String SECKILL_KEY = CACHE_PREFIX + "seckill:";
     /**
      * 秒杀商品详情页面缓存
      */
-    public static final String SECKILL_GOODS_DETAIL_HTML = "seckill_goods_detail_html:";
+    public static final String SECKILL_GOODS_DETAIL_HTML = CACHE_PREFIX + "seckill_goods_detail_html:";
     /**
      * 秒杀商品列表页面缓存
      */
-    public static final String SECKILL_GOODS_LIST_HTML = "seckill_goods_list_html:";
+    public static final String SECKILL_GOODS_LIST_HTML = CACHE_PREFIX + "seckill_goods_list_html:";
 
     /**
      * 秒杀成功的用户set缓存
      */
-    public static final String SECKILL_SUCCESS_USER_ID = "seckill_success_user_id:";
+    public static final String SECKILL_SUCCESS_USER_ID = CACHE_PREFIX + "seckill_success_user_id:";
 
     /**
      * redisSearch索引名称
@@ -91,10 +97,12 @@ public class Constants {
     /**
      * redisSearch商品hash前缀
      */
-    public static final String GOODS_IDX_PREFIX = "goods:";
+    public static final String GOODS_IDX_PREFIX = CACHE_PREFIX + "goods:";
 
     /**
      * redisSearch商品索引语言
      */
     public static final String GOODS_IDX_LANGUAGE = "chinese";
+
+    public static final String SAVE_ORDER_RESULT_KEY = "save_order_result_key:";
 }

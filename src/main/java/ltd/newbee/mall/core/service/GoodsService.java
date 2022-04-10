@@ -49,4 +49,12 @@ public interface GoodsService extends IService<Goods> {
      * @return boolean
      */
     boolean updateGoods(Goods goods);
+
+    /**
+     * 减少商品库存
+     *
+     * @param goodsId
+     * @param goodsCount
+     */
+    boolean reduceStock(Long goodsId, Integer goodsCount);
 }

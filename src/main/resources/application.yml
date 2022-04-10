@@ -23,7 +23,7 @@ spring:
     store-type: redis
     timeout: 3000
     redis:
-      namespace: newbeemall_session
+      namespace: newbee_mall
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html

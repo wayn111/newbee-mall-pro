@@ -45,6 +45,12 @@
         where goods_id = #{goodsId}
     </update>
 
+    <update id="reduceStock">
+        update tb_newbee_mall_goods_info
+        set stock_num = stock_num - #{number}, update_time = now()
+        where goods_id = #{goodsId} and stock_num <![CDATA[ > ]]> 0
+    </update>
+
     <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Goods" resultMap="BaseResultMap">
         <include refid="selectGoods"></include>
         <where>

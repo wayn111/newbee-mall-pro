@@ -1,6 +1,7 @@
 package ltd.newbee.mall;
 
 
+import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.redis.JedisSearch;
@@ -51,7 +52,7 @@ public class JedisSearchTest {
     public void addAll() throws IOException {
         System.out.println("begin");
         List<Goods> list = goodsService.list();
-        jedisSearch.addGoodsListIndex("goods:", list);
+        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
         System.out.println("end");
     }
 
@@ -66,9 +67,9 @@ public class JedisSearchTest {
                 .addSortableNumericField("goodsId")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
-        jedisSearch.createIndex(idxName, "goods:", schema);
+        jedisSearch.createIndex(idxName, Constants.GOODS_IDX_PREFIX, schema);
         List<Goods> list = goodsService.list();
-        jedisSearch.addGoodsListIndex("goods:", list);
+        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
         SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为}");
         System.out.println("end");
     }

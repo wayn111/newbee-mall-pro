@@ -48,7 +48,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
                 .addSortableNumericField("sellingPrice")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
-        jedisSearch.createIndex(Constants.GOODS_IDX_NAME, "goods:", schema);
+        jedisSearch.createIndex(Constants.GOODS_IDX_NAME, Constants.GOODS_IDX_PREFIX, schema);
         List<Goods> list = this.list();
         jedisSearch.deleteGoodsList(Constants.GOODS_IDX_PREFIX);
         return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
@@ -64,6 +64,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
     public boolean updateGoods(Goods goods) {
         this.updateById(goods);
         return jedisSearch.addGoodsIndex(Constants.GOODS_IDX_PREFIX, goods);
+    }
+
+    @Override
+    public boolean reduceStock(Long goodsId, Integer goodsCount) {
+        return goodsDao.reduceStock(goodsId, goodsCount);
     }
 
 }

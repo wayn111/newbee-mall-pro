@@ -55,7 +55,7 @@
         update tb_newbee_mall_seckill
         set seckill_num = seckill_num - 1
         where seckill_id = #{seckillId}
-          and seckill_num > 0
+          and seckill_num <![CDATA[ > ]]> 0
           and seckill_begin  <![CDATA[ <= ]]>  #{now}
           and seckill_end  <![CDATA[ >= ]]>  #{now}
     </update>

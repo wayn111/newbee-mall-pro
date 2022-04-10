@@ -4,8 +4,10 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.config.AlipayConfig;
@@ -23,6 +25,7 @@ import ltd.newbee.mall.enums.OrderStatusEnum;
 import ltd.newbee.mall.enums.PayStatusEnum;
 import ltd.newbee.mall.enums.PayTypeEnum;
 import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.MyBeanUtil;
@@ -66,11 +69,15 @@ public class MallOrderController extends BaseController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private RedisCache redisCache;
+
     @Value("${wayn.serverUrl}")
     private String serverUrl;
 
+    @ResponseBody
     @GetMapping("saveOrder")
-    public String saveOrder(Long couponUserId, HttpSession session) {
+    public R saveOrder(Long couponUserId, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         List<ShopCatVO> shopcatVOList = shopCatService.getShopCatVOList(mallUserVO.getUserId());
         // 购物车中无数据则跳转至错误页
@@ -78,26 +85,38 @@ public class MallOrderController extends BaseController {
             throw new BusinessException("购物车中无数据");
         }
         String orderNo = orderService.saveOrder(mallUserVO, couponUserId, shopcatVOList);
-        return redirectTo("orders/" + orderNo);
+        return R.success().add("orderNo", orderNo);
     }
 
-
+    @ResponseBody
     @GetMapping("saveOrder/{seckillSuccessId}/{seckillSecretKey}")
-    public String seckillSaveOrder(@PathVariable Long seckillSuccessId,
-                                   @PathVariable String seckillSecretKey,
-                                   HttpSession session) {
+    public R seckillSaveOrder(@PathVariable Long seckillSuccessId,
+                              @PathVariable String seckillSecretKey,
+                              HttpSession session) {
         if (seckillSecretKey == null || !seckillSecretKey.equals(Md5Utils.hash(seckillSuccessId + Constants.SECKILL_ORDER_SALT))) {
             throw new BusinessException("秒杀商品下单不合法");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         String orderNo = orderService.seckillSaveOrder(seckillSuccessId, userVO);
-        return redirectTo("/orders/" + orderNo);
+        return R.success().add("orderNo", orderNo);
+    }
+
+    @ResponseBody
+    @GetMapping("/saveOrder/result/{orderNo}")
+    public R saveOrderResult(@PathVariable("orderNo") String orderNo) {
+        String result = redisCache.getCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo);
+        if (!Constants.SUCCESS.equals(result)) {
+            throw new BusinessException(result == null ? Constants.ERROR : result);
+        }
+        return R.success();
     }
 
     @GetMapping("/orders/{orderNo}")
     public String orderDetailPage(HttpServletRequest request, @PathVariable("orderNo") String orderNo, HttpSession session) {
         MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        Order order = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        LambdaQueryWrapper<Order> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(Order::getOrderNo, orderNo);
+        Order order = orderService.getOne(queryWrapper);
         if (order == null || !order.getUserId().equals(mallUserVO.getUserId())) {
             throw new BusinessException("订单项异常");
         }
@@ -248,7 +267,7 @@ public class MallOrderController extends BaseController {
         order.setPayTime(new Date());
         order.setUpdateTime(new Date());
         if (!orderService.updateById(order)) {
-            new BusinessException("订单状态更新异常！");
+            throw new BusinessException("订单状态更新异常！");
         }
         // 支付成功清空订单支付超期任务
         taskService.removeTask(new OrderUnPaidTask(order.getOrderId()));

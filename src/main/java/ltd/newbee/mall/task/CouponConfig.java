@@ -1,15 +1,14 @@
-package ltd.newbee.mall.config;
+package ltd.newbee.mall.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.core.entity.CouponUser;
 import ltd.newbee.mall.core.service.CouponUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,10 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@EnableAsync
-@Configuration
+@Component
 @EnableScheduling
-public class TaskConfig {
+public class CouponConfig {
 
     @Autowired
     private CouponUserService couponUserService;
@@ -30,7 +28,7 @@ public class TaskConfig {
      * cron = "0 0 2 * * ?"
      */
     @Async
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(fixedDelay = 1000 * 30)
     public void checkCouponStatus() {
         log.info("检查用户领取的优惠卷是否过期任务:开始");
         List<CouponUser> list = couponUserService.list(new QueryWrapper<CouponUser>().eq("status", 0));
