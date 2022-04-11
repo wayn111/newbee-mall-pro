@@ -104,5 +104,5 @@ public class Constants {
      */
     public static final String GOODS_IDX_LANGUAGE = "chinese";
 
-    public static final String SAVE_ORDER_RESULT_KEY = "save_order_result_key:";
+    public static final String SAVE_ORDER_RESULT_KEY = CACHE_PREFIX + "save_order_result_key:";
 }

@@ -21,6 +21,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,26 +34,37 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements OrderService {
 
+    @Resource
     private OrderDao orderDao;
 
+    @Resource
     private GoodsService goodsService;
 
+    @Resource
     private ShopCatService shopCatService;
 
+    @Resource
     private OrderItemService orderItemService;
 
+    @Resource
     private CouponService couponService;
 
+    @Resource
     private CouponUserService couponUserService;
 
+    @Resource
     private SeckillSuccessService seckillSuccessService;
 
+    @Resource
     private SeckillService seckillService;
 
+    @Resource
     private TaskService taskService;
 
+    @Resource
     private RedisCache redisCache;
 
+    @Resource
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Override

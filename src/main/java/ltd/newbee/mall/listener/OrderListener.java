@@ -116,7 +116,7 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
             taskService.addTask(new OrderUnPaidTask(orderId));
             platformTransactionManager.commit(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, Constants.SUCCESS, 10, TimeUnit.MINUTES);
-        } catch (BusinessException e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             platformTransactionManager.rollback(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, "保存订单内部异常", 10, TimeUnit.MINUTES);

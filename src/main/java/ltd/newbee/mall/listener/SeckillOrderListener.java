@@ -2,19 +2,21 @@ package ltd.newbee.mall.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.core.entity.*;
+import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.entity.Order;
+import ltd.newbee.mall.core.entity.OrderItem;
+import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
-import ltd.newbee.mall.core.entity.vo.ShopCatVO;
-import ltd.newbee.mall.core.service.*;
-import ltd.newbee.mall.event.OrderEvent;
+import ltd.newbee.mall.core.service.GoodsService;
+import ltd.newbee.mall.core.service.OrderItemService;
+import ltd.newbee.mall.core.service.OrderService;
+import ltd.newbee.mall.core.service.SeckillService;
 import ltd.newbee.mall.event.SeckillOrderEvent;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
-import ltd.newbee.mall.util.NumberUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -23,9 +25,7 @@ import org.springframework.transaction.TransactionStatus;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -100,8 +100,9 @@ public class SeckillOrderListener implements ApplicationListener<SeckillOrderEve
             }
             // 秒杀订单1分钟未支付超期任务
             taskService.addTask(new OrderUnPaidTask(orderId, 60 * 1000));
+            platformTransactionManager.commit(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, Constants.SUCCESS, 10, TimeUnit.MINUTES);
-        } catch (BusinessException e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             platformTransactionManager.rollback(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, "保存订单内部异常", 10, TimeUnit.MINUTES);

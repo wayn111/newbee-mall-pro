@@ -322,24 +322,20 @@
 
         function saveOrderResult(orderNo) {
             var retryCount = 3;
-            var timeoutId = setTimeout(function () {
+            var interval = setInterval(function () {
                 if (retryCount <= 0) {
                     swal('下单失败', {
                         icon: "error",
                     });
-                    clearTimeout(timeoutId);
+                    clearInterval(interval);
                     return;
                 }
                 retryCount--;
                 $.get(_ctx + 'saveOrder/result/' + orderNo)
                     .then((result => {
                         if (result.code == 200) {
-                            clearTimeout(timeoutId);
+                            clearInterval(interval);
                             window.location.href = _ctx + 'orders/' + orderNo;
-                        } else {
-                            swal(result.msg, {
-                                icon: "error",
-                            });
                         }
                     }), (e) => {
                         console.log(e)

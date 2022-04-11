@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
-import ltd.newbee.mall.core.entity.vo.ShopCatVO;
 import org.springframework.context.ApplicationEvent;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +22,7 @@ public class SeckillOrderEvent extends ApplicationEvent {
 
     public SeckillOrderEvent(String orderNo, Seckill seckill, MallUserVO userVO, Long nowTime) {
         super(orderNo);
+        this.orderNo = orderNo;
         this.seckill = seckill;
         this.userVO = userVO;
         this.nowTime = nowTime;
