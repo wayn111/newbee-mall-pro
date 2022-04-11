@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.OrderDao;
@@ -11,12 +12,11 @@ import ltd.newbee.mall.core.entity.*;
 import ltd.newbee.mall.core.entity.vo.*;
 import ltd.newbee.mall.core.service.*;
 import ltd.newbee.mall.event.OrderEvent;
+import ltd.newbee.mall.event.SeckillOrderEvent;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.redis.RedisCache;
-import ltd.newbee.mall.task.OrderUnPaidTask;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.NumberUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,39 +30,29 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements OrderService {
 
-    @Autowired
     private OrderDao orderDao;
 
-    @Autowired
     private GoodsService goodsService;
 
-    @Autowired
     private ShopCatService shopCatService;
 
-    @Autowired
     private OrderItemService orderItemService;
 
-    @Autowired
     private CouponService couponService;
 
-    @Autowired
     private CouponUserService couponUserService;
 
-    @Autowired
     private SeckillSuccessService seckillSuccessService;
 
-    @Autowired
     private SeckillService seckillService;
 
-    @Autowired
     private TaskService taskService;
 
-    @Autowired
     private RedisCache redisCache;
 
-    @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
 
     @Override
@@ -94,9 +84,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         applicationEventPublisher.publishEvent(new OrderEvent(orderNo, mallUserVO, couponUserId, shopcatVOList));
     }
 
+    /**
+     * 下单检查
+     *
+     * @param shopcatVOList
+     * @param goodsIdList
+     * @param cartItemIdList
+     * @param couponUserId
+     */
     private void saveOrderCheck(List<ShopCatVO> shopcatVOList, List<Long> goodsIdList, List<Long> cartItemIdList, Long couponUserId) {
         List<Goods> goods = goodsService.listByIds(goodsIdList);
-
         List<Goods> collect = goods.stream().filter(goods1 -> goods1.getGoodsSellStatus() == 1).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(collect)) {
             throw new BusinessException(collect.get(0).getGoodsName() + "已下架，无法生成订单");
@@ -138,73 +135,46 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String seckillSaveOrder(Long seckillSuccessId, MallUserVO userVO) {
+        // 秒杀订单参数检查
+        Date now = new Date();
+        Seckill seckill = seckillSaveOrderCheck(seckillSuccessId, userVO, now);
+        long nowTime = now.getTime();
+        // 生成订单号
+        String orderNo = NumberUtil.genOrderNo();
+        seckillSaveOrder(seckill, userVO, nowTime, orderNo);
+        return orderNo;
+    }
+
+    private Seckill seckillSaveOrderCheck(Long seckillSuccessId, MallUserVO userVO, Date now) {
         SeckillSuccess seckillSuccess = seckillSuccessService.getById(seckillSuccessId);
         if (!seckillSuccess.getUserId().equals(userVO.getUserId())) {
             throw new BusinessException("当前登陆用户与抢购秒杀商品的用户不匹配");
         }
         Long seckillId = seckillSuccess.getSeckillId();
-        // 更新秒杀商品库存
-        Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
-        if (stock < 0) {
-            throw new BusinessException("秒杀商品已售空");
-        }
         Seckill seckill = redisCache.getCacheObject(Constants.SECKILL_KEY + seckillId);
         if (seckill == null) {
             seckill = seckillService.getById(seckillId);
             redisCache.setCacheObject(Constants.SECKILL_KEY + seckillId, seckill, 24, TimeUnit.HOURS);
         }
+        // 更新秒杀商品库存
+        Long stock = redisCache.luaDecrement(Constants.SECKILL_GOODS_STOCK_KEY + seckillId);
+        if (stock < 0) {
+            throw new BusinessException("秒杀商品已售空");
+        }
         // 判断秒杀商品是否再有效期内
         long beginTime = seckill.getSeckillBegin().getTime();
         long endTime = seckill.getSeckillEnd().getTime();
-        Date now = new Date();
         long nowTime = now.getTime();
         if (nowTime < beginTime) {
             throw new BusinessException("秒杀未开启");
         } else if (nowTime > endTime) {
             throw new BusinessException("秒杀已结束");
         }
-        // 减库存
-        if (!seckillService.reduceStock(seckillId, now)) {
-            throw new BusinessException("秒杀商品减库存失败");
-        }
-        Long goodsId = seckill.getGoodsId();
-        Goods goods = goodsService.getById(goodsId);
-        // 生成订单号
-        String orderNo = NumberUtil.genOrderNo();
-        // 保存订单
-        Order order = new Order();
-        order.setOrderNo(orderNo);
-        order.setTotalPrice(seckill.getSeckillPrice());
-        order.setUserId(userVO.getUserId());
-        order.setUserAddress(userVO.getAddress());
-        String extraInfo = "";
-        order.setExtraInfo(extraInfo);
-        if (!save(order)) {
-            throw new BusinessException("生成订单内部异常");
-        }
-        // 记录购买过的用户
-        redisCache.setCacheSet(Constants.SECKILL_SUCCESS_USER_ID + seckillId, userVO.getUserId());
-        long endExpireTime = endTime / 1000;
-        long nowExpireTime = nowTime / 1000;
-        redisCache.expire(Constants.SECKILL_SUCCESS_USER_ID + seckillId, endExpireTime - nowExpireTime, TimeUnit.SECONDS);
+        return seckill;
+    }
 
-        // 保存订单商品项
-        OrderItem orderItem = new OrderItem();
-        Long orderId = order.getOrderId();
-        orderItem.setOrderId(orderId);
-        orderItem.setSeckillId(seckillId);
-        orderItem.setGoodsId(goods.getGoodsId());
-        orderItem.setGoodsCoverImg(goods.getGoodsCoverImg());
-        orderItem.setGoodsName(goods.getGoodsName());
-        orderItem.setGoodsCount(1);
-        orderItem.setSellingPrice(seckill.getSeckillPrice());
-        if (!orderItemService.save(orderItem)) {
-            throw new BusinessException("生成订单内部异常");
-        }
-        // 秒杀订单1分钟未支付超期任务
-        taskService.addTask(new OrderUnPaidTask(orderId, 60 * 1000));
-        redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, Constants.SUCCESS, 10, TimeUnit.MINUTES);
-        return orderNo;
+    private void seckillSaveOrder(Seckill seckill, MallUserVO userVO, Long nowTime, String orderNo) {
+        applicationEventPublisher.publishEvent(new SeckillOrderEvent(orderNo, seckill, userVO, nowTime));
     }
 
     @Override

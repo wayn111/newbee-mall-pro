@@ -244,7 +244,7 @@
             }
             var saveOrderUrl;
             if ($('#isSeckillSettle').val()) {
-                saveOrderUrl = _ctx + 'saveOrder/' + $('#seckillSuccessId').val() + '/' + $('#seckillSecretKey').val()
+                saveOrderUrl = _ctx + 'seckillSaveOrder/' + $('#seckillSuccessId').val() + '/' + $('#seckillSecretKey').val()
             } else {
                 saveOrderUrl = _ctx + 'saveOrder?couponUserId=' + ($('#my-coupon ul li.active input').val() || '');
             }

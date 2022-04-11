@@ -89,7 +89,7 @@ public class MallOrderController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("saveOrder/{seckillSuccessId}/{seckillSecretKey}")
+    @GetMapping("seckillSaveOrder/{seckillSuccessId}/{seckillSecretKey}")
     public R seckillSaveOrder(@PathVariable Long seckillSuccessId,
                               @PathVariable String seckillSecretKey,
                               HttpSession session) {
