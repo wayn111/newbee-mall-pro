@@ -4,7 +4,6 @@ package ltd.newbee.mall.core.entity.vo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.security.SecureRandom;
 
 /**
  * 秒杀服务接口地址暴露类

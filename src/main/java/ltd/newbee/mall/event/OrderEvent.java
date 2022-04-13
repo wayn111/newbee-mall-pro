@@ -1,6 +1,5 @@
 package ltd.newbee.mall.event;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;

@@ -1,5 +1,6 @@
 package ltd.newbee.mall.util.http;
 
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 
 import javax.servlet.http.Cookie;
@@ -10,11 +11,9 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 
+@Slf4j
 public class HttpUtil {
-
-    private static final Logger logger = Logger.getLogger("HttpUtil");
 
     /**
      * 允许 JS 跨域设置
@@ -73,7 +72,7 @@ public class HttpUtil {
             out.print(tip);
             out.flush();
         } catch (IOException e) {
-            logger.severe(e.toString());
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -157,8 +156,7 @@ public class HttpUtil {
         try {
             retStr.append(URLEncoder.encode(retUrl, Constants.UTF_ENCODING));
         } catch (UnsupportedEncodingException e) {
-            logger.severe("encodeRetURL error." + url);
-            e.printStackTrace();
+            log.error("encodeRetURL error." + url, e);
         }
 
         if (data != null) {
@@ -187,8 +185,7 @@ public class HttpUtil {
         try {
             retUrl = URLDecoder.decode(url, Constants.UTF_ENCODING);
         } catch (UnsupportedEncodingException e) {
-            logger.severe("encodeRetURL error." + url);
-            e.printStackTrace();
+            log.error("encodeRetURL error." + url);
         }
 
         return retUrl;
@@ -230,8 +227,7 @@ public class HttpUtil {
         try {
             response.sendRedirect(location);
         } catch (IOException e) {
-            logger.severe("sendRedirect location:" + location);
-            e.printStackTrace();
+            log.error("sendRedirect location:" + location, e);
         }
     }
 

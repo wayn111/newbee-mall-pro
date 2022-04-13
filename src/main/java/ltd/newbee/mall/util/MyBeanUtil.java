@@ -1,5 +1,6 @@
 package ltd.newbee.mall.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -9,6 +10,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.*;
 
+@Slf4j
 public abstract class MyBeanUtil {
 
     public static Object copyProperties(Object source, Object target, String... ignoreProperties) {
@@ -36,9 +38,11 @@ public abstract class MyBeanUtil {
                     targetList.add(target);
                 }
             } catch (InstantiationException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
+                ;
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
+                ;
             }
         }
         return targetList;

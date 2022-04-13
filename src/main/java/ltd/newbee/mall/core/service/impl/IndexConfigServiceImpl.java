@@ -7,9 +7,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ltd.newbee.mall.core.dao.IndexConfigDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.IndexConfig;
-import ltd.newbee.mall.enums.IndexConfigTypeEnum;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.IndexConfigService;
+import ltd.newbee.mall.enums.IndexConfigTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

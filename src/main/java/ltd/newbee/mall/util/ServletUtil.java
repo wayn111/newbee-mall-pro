@@ -1,5 +1,6 @@
 package ltd.newbee.mall.util;
 
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.util.file.FileUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * servlet帮助类
  */
+@Slf4j
 public class ServletUtil {
 
     private static ServletUtil getInstance;
@@ -94,7 +96,8 @@ public class ServletUtil {
             response.setCharacterEncoding("utf-8");
             response.getWriter().print(string);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
+            ;
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package ltd.newbee.mall.redis;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
@@ -18,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Component
 public class JedisSearch {
 
@@ -33,7 +35,7 @@ public class JedisSearch {
         try {
             client.ftDropIndex(idxName);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);;
         }
     }
 
