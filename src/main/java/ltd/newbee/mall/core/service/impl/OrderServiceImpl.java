@@ -77,7 +77,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         return orderDao.selectListPage(page, orderVO);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String saveOrder(MallUserVO mallUserVO, Long couponUserId, List<ShopCatVO> shopcatVOList) {
         List<Long> goodsIdList = shopcatVOList.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
@@ -144,7 +143,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public String seckillSaveOrder(Long seckillSuccessId, MallUserVO userVO) {
         // 秒杀订单参数检查
