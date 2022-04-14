@@ -79,8 +79,6 @@
                                             <td class="col col-price"><p class="price"
                                                                          th:text="${item.sellingPrice+'元 x '+item.goodsCount}">
                                                 1299元 × 1</p></td>
-                                            <td class="col col-actions">
-                                            </td>
                                         </tr>
                                     </th:block>
                                     </tbody>
@@ -319,35 +317,34 @@
             $('.order-detail-total table tr:first').show();
             $('#priceTotal').text(parseInt(priceTotal) - parseInt(discount))
         })
-
-        function saveOrderResult(orderNo) {
-            var retryCount = 3;
-            var interval = setInterval(function () {
-                if (retryCount <= 0) {
-                    swal('下单失败', {
-                        icon: "error",
-                    });
-                    clearInterval(interval);
-                    return;
-                }
-                retryCount--;
-                $.get(_ctx + 'saveOrder/result/' + orderNo)
-                    .then((result => {
-                        if (result.code == 200) {
-                            clearInterval(interval);
-                            window.location.href = _ctx + 'orders/' + orderNo;
-                        }
-                    }), (e) => {
-                        console.log(e)
-                    });
-            }, 200);
-        }
-
-        function openUpdateModal() {
-            $('#personalInfoModal').modal('show');
-        }
     })
-    ;
+    function saveOrderResult(orderNo) {
+        var retryCount = 3;
+        var interval = setInterval(function () {
+            if (retryCount <= 0) {
+                swal('下单失败', {
+                    icon: "error",
+                });
+                clearInterval(interval);
+                return;
+            }
+            retryCount--;
+            $.get(_ctx + 'saveOrder/result/' + orderNo)
+                .then((result => {
+                    if (result.code == 200) {
+                        clearInterval(interval);
+                        window.location.href = _ctx + 'orders/' + orderNo;
+                    }
+                }), (e) => {
+                    console.log(e)
+                });
+        }, 200);
+    }
+
+    function openUpdateModal() {
+        $('#personalInfoModal').modal('show');
+    }
+
 </script>
 </body>
 </html>

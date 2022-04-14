@@ -316,6 +316,7 @@ table {
     border-collapse: separate;
     border-spacing: 2px;
     border-color: grey;
+    width: 100%;
 }
 
 td {
@@ -345,7 +346,7 @@ td {
 }
 
 .order-view-box .uc-order-item .order-items-table .col-name {
-    width: 330px;
+    width: 70%;
 }
 .order-view-box .uc-order-item .order-items-table .col {
     height: 90px;
