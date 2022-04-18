@@ -163,12 +163,8 @@
     margin: 5px;
 }
 
-#my-coupon ul li.active {
-    border: orange 2px solid;
-}
-
 #my-coupon ul li:hover {
-    box-shadow: 0px 0px 30px #ccc;
+    box-shadow: 0 0 30px #ccc;
     position: relative;
     top: -2px;
     right: -3px;
@@ -181,7 +177,11 @@
 #my-coupon ul a .left-desc {
     width: 292px;
     height: 120px;
-    border: 2px solid #1baeae;
+    border: 2px solid lightgrey;
+}
+
+#my-coupon ul li.active a .left-desc{
+    border:  2px solid #1baeae;
 }
 
 #my-coupon ul a .left-desc .q-price {
