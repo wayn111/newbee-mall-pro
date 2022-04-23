@@ -3,6 +3,7 @@ package ltd.newbee.mall.controller.mall;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.MallUser;
@@ -51,17 +52,17 @@ public class MallUserController extends BaseController {
     @ResponseBody
     @PostMapping("/login")
     public R doLogin(MallUserVO mallUserVO,
-                     @RequestParam("verifyCode") String verifyCode,
+                     // @RequestParam("verifyCode") String verifyCode,
                      @RequestParam("destPath") String destPath,
                      HttpSession session) {
         R success = R.success();
-        String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
-        if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
-            return R.error("验证码错误");
-        }
-        MallUser user = mallUserService.getOne(new QueryWrapper<MallUser>()
-                .eq("login_name", mallUserVO.getLoginName())
-                .eq("password_md5", Md5Utils.hash(mallUserVO.getPassword())));
+        // String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
+        // if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
+        //     return R.error("验证码错误");
+        // }
+        MallUser user = mallUserService.getOne(Wrappers.<MallUser>lambdaQuery()
+                .eq(MallUser::getLoginName, mallUserVO.getLoginName())
+                .eq(MallUser::getPasswordMd5, Md5Utils.hash(mallUserVO.getPassword())));
         if (user == null) {
             return R.error("账户名称或者密码错误");
         }

@@ -19,7 +19,6 @@ import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.NumberUtil;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Collections;

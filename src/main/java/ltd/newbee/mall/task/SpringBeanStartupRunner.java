@@ -22,9 +22,9 @@ public class SpringBeanStartupRunner implements ApplicationRunner {
         // 设置spring默认的事件监听为异步执行
         SimpleApplicationEventMulticaster multicaster = SpringContextUtil.getBean(SimpleApplicationEventMulticaster.class);
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-                5,
-                10,
-                60L, TimeUnit.MILLISECONDS,
+                50,
+                50,
+                60L, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(500),
                 new CustomizableThreadFactory("newbee—event-task"),
                 new ThreadPoolExecutor.CallerRunsPolicy()

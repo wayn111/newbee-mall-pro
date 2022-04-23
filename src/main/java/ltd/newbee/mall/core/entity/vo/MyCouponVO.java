@@ -1,6 +1,5 @@
 package ltd.newbee.mall.core.entity.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,10 +27,8 @@ public class MyCouponVO implements Serializable {
 
     private String goodsValue;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
 
 }

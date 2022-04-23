@@ -1,0 +1,118 @@
+.captcha-modal {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.slider {
+    background-color: #fff;
+    width: 278px;
+    height: 284px;
+    z-index: 999;
+    box-sizing: border-box;
+    padding: 9px;
+    border-radius: 6px;
+    box-shadow: 0 0 11px 0 #999999;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -139px;
+    margin-left: -142px;
+}
+
+.slider .content {
+    width: 100%;
+    height: 159px;
+    position: relative;
+}
+
+.bg-img-div {
+    /*width: 100%;*/
+    width: 260px;
+    height: 100%;
+    position: absolute;
+    transform: translate(0px, 0px);
+}
+
+.slider-img-div {
+    height: 100%;
+    position: absolute;
+    transform: translate(0px, 0px);
+}
+
+.bg-img-div img {
+    width: 100%;
+}
+
+.slider-img-div img {
+    height: 100%;
+}
+
+.slider .slider-move {
+    height: 60px;
+    width: 100%;
+    margin: 16px 0 0 0;
+    position: relative;
+}
+
+.slider .bottom {
+    height: 19px;
+    width: 100%;
+}
+
+.refresh-btn, .close-btn, .slider-move-track, .slider-move-btn {
+    background: url(https://static.geetest.com/static/ant/sprite.1.2.4.png) no-repeat;
+}
+
+.refresh-btn, .close-btn {
+    display: inline-block;
+}
+
+.slider-move .slider-move-track {
+    line-height: 38px;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+    color: #88949d;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.slider {
+    user-select: none;
+}
+
+.slider-move .slider-move-btn {
+    transform: translate(0px, 0px);
+    background-position: -5px 11.79625%;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    width: 66px;
+    height: 66px;
+}
+
+.slider-move-btn:hover, .close-btn:hover, .refresh-btn:hover {
+    cursor: pointer
+}
+
+.bottom .close-btn {
+    width: 20px;
+    height: 20px;
+    background-position: 0 44.86874%;
+}
+
+.bottom .refresh-btn {
+    width: 20px;
+    height: 20px;
+    background-position: 0 81.38425%;
+}
+
+.after {
+    color: #88949d;
+}

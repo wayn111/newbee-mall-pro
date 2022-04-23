@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{mall/css/common.css}">
     <link rel="stylesheet" th:href="@{mall/styles/login.css}">
     <link rel="stylesheet" th:href="@{mall/styles/header.css}">
+    <link rel="stylesheet" th:href="@{mall/css/captcha.css}"/>
     <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
     <script th:inline="javascript">var _ctx = [[@{/}]];</script>
 </head>
@@ -35,18 +36,40 @@
                                                                                     type="password"
                                                                                     name="password"
                                                                                     placeholder="请输入你的密码"/></div>
-                    <div class="login-info">
-                        验证码:&nbsp;
-                        <input class="login-info-input verify-code" type="text" name="verifyCode"
-                               placeholder="请输入验证码" id="verifyCode"/>
-                        <img alt="单击图片刷新！" style="top: 14px;position: relative;" th:src="@{/common/captcha}"
-                             th:onclick="this.src=_ctx + 'common/captcha?d='+new Date()*1">
-                    </div>
+                    <!--                    <div class="login-info">-->
+                    <!--                        验证码:&nbsp;-->
+                    <!--                        <input class="login-info-input verify-code" type="text" name="verifyCode"-->
+                    <!--                               placeholder="请输入验证码" id="verifyCode"/>-->
+                    <!--                        <img alt="单击图片刷新！" style="top: 14px;position: relative;" th:src="@{/common/captcha}"-->
+                    <!--                             th:onclick="this.src=_ctx + 'common/captcha?d='+new Date()*1">-->
+                    <!--                    </div>-->
                 </div>
                 <div class="login_submit">
-                    <input class="submit" type="submit" onclick="login()" value="立即登录">
+                    <input class="submit" type="submit" onclick="loginCheck()" value="立即登录">
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<div class="captcha-modal">
+    <div class="slider">
+        <div class="content">
+            <div class="bg-img-div">
+                <img id="bg-img" src="" alt/>
+            </div>
+            <div class="slider-img-div">
+                <img id="slider-img" src="" alt/>
+            </div>
+        </div>
+        <div class="slider-move">
+            <div class="slider-move-track">
+                拖动滑块完成拼图
+            </div>
+            <div class="slider-move-btn"></div>
+        </div>
+        <div class="bottom">
+            <div class="close-btn"></div>
+            <div class="refresh-btn"></div>
         </div>
     </div>
 </div>
@@ -55,8 +78,10 @@
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/captcha.js}"></script>
 <script type="text/javascript">
-    function login() {
+
+    function loginCheck() {
         var loginName = $("#loginName").val();
         if (!validPhoneNumber(loginName)) {
             swal('请输入正确的登录名(即手机号)', {
@@ -71,13 +96,10 @@
             });
             return false;
         }
-        var verifyCode = $("#verifyCode").val();
-        if (!validLength(verifyCode, 7)) {
-            swal('请输入正确的验证码', {
-                icon: "error",
-            });
-            return false;
-        }
+        showCaptcha();
+    }
+
+    function login() {
         var url = _ctx + 'login?destPath=';
         // 添加目标地址
         var destPath = window.location.href.split('?')[1];
@@ -101,6 +123,7 @@
                     swal(result.msg, {
                         icon: "error",
                     });
+                    hideCaptcha();
                 }
             },
             error: function () {
