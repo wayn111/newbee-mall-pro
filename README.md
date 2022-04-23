@@ -24,6 +24,12 @@
 - [本项目源码](https://github.com/wayn111/newbee-mall)
 - [在线地址](http://121.89.238.61/newbeemall)
 
+### 2022年4月23日更新日志
+商城登录页面添加滑块验证码登录,优化登录体验
+
+1. 集成`tianai-captcha`滑块验证码,支持后端验证码校验
+<img style="width:80%" src="https://img-blog.csdnimg.cn/dd521d119cde4eddb934eda27532cc95.png? x-oss-process=image/watermark, type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAV2F5bjExMQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
+
 ### 2022年4月12日更新日志
 
 使用Spring事件监听机制，解耦下单流程，集成Pace美化商城进度条
