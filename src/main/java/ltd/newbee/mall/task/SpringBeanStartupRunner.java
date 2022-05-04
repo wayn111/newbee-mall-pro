@@ -1,5 +1,6 @@
 package ltd.newbee.mall.task;
 
+import ltd.newbee.mall.util.ThreadUtil;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -30,5 +31,7 @@ public class SpringBeanStartupRunner implements ApplicationRunner {
                 new ThreadPoolExecutor.CallerRunsPolicy()
         );
         multicaster.setTaskExecutor(threadPoolExecutor);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> ThreadUtil.shutdownAndAwaitTermination(threadPoolExecutor)));
+
     }
 }

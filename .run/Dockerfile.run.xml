@@ -10,6 +10,18 @@
               <option name="name" value="TZ" />
               <option name="value" value="Asia/Shanghai" />
             </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="WAYN_SERVER_URL" />
+              <option name="value" value="http://121.89.238.61" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="WAYN_UPLOAD_DIR" />
+              <option name="value" value="/opt/newbeemall/upload" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="WAYN_VIEW_MODEL" />
+              <option name="value" value="false" />
+            </DockerEnvVarImpl>
           </list>
         </option>
         <option name="portBindings">
