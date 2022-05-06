@@ -127,8 +127,8 @@ public class GoodsManagerController extends BaseController {
      */
     @PutMapping(value = "/status/{sellStatus}")
     @ResponseBody
-    public R delete(@RequestBody List<Long> ids, @PathVariable("sellStatus") int sellStatus) {
-        return R.result(goodsService.update().set("goods_sell_status", sellStatus).in("goods_id", ids).update());
+    public R changeSellStatus(@RequestBody List<Long> ids, @PathVariable("sellStatus") int sellStatus) {
+        return R.result(goodsService.changeSellStatus(ids, sellStatus));
     }
 
     /**

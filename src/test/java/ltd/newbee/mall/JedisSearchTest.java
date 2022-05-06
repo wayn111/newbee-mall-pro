@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.search.Schema;
 import redis.clients.jedis.search.SearchResult;
 
-import java.io.IOException;
 import java.util.List;
 
 @SpringBootTest
@@ -50,7 +49,7 @@ public class JedisSearchTest {
     }
 
     @Test
-    public void addAll() throws IOException {
+    public void addAll() {
         System.out.println("begin");
         List<Goods> list = goodsService.list();
         jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
@@ -72,7 +71,7 @@ public class JedisSearchTest {
         jedisSearch.createIndex(idxName, Constants.GOODS_IDX_PREFIX, schema);
         List<Goods> list = goodsService.list(Wrappers.<Goods>lambdaQuery().eq(Goods::getGoodsSellStatus, 0));
         jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
-        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为} @goodsSellStatus:{0}", "sellingPrice");
+        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为} @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
     }
 }

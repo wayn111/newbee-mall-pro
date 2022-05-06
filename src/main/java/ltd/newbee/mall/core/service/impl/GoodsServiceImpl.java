@@ -69,4 +69,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
         return goodsDao.reduceStock(goodsId, goodsCount);
     }
 
+    @Override
+    public boolean changeSellStatus(List<Long> ids, int sellStatus) {
+        lambdaUpdate().set(Goods::getGoodsSellStatus, sellStatus).in(Goods::getGoodsId, ids).update();
+        List<Goods> list = goodsDao.selectGoodsListByIds(ids);
+        return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
+    }
+
 }
