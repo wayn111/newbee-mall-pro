@@ -39,6 +39,14 @@
         from tb_newbee_mall_goods_info t
     </sql>
 
+    <sql id="selectGoodsNotContent">
+        select t.goods_id, t.goods_name, t.goods_intro, t.goods_category_id, t.goods_cover_img,
+               t.goods_carousel, t.original_price, t.selling_price, t.stock_num,
+               t.tag, t.goods_sell_status, t.update_time, t.update_user, t.create_time,
+               t.update_time
+        from tb_newbee_mall_goods_info t
+    </sql>
+
     <update id="addStock">
         update tb_newbee_mall_goods_info
         set stock_num = stock_num + #{number}, update_time = now()
@@ -52,7 +60,7 @@
     </update>
 
     <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.Goods" resultMap="BaseResultMap">
-        <include refid="selectGoods"></include>
+        <include refid="selectGoodsNotContent"></include>
         <where>
             <if test="goods.goodsId!=null">
                 and goods_id = #{goods.goodsId}
@@ -74,7 +82,7 @@
 
     <select id="findMallGoodsListBySearch" parameterType="ltd.newbee.mall.core.entity.vo.SearchObjVO"
             resultMap="SearchVOResultMap">
-        <include refid="selectGoods"></include>
+        <include refid="selectGoodsNotContent"></include>
         <where>
             <if test="searchObjVO.keyword!=null and searchObjVO.keyword!=''">
                 and (goods_name like CONCAT('%',#{searchObjVO.keyword},'%') or goods_intro like
@@ -84,6 +92,17 @@
                 and goods_category_id = #{searchObjVO.goodsCategoryId}
             </if>
             and goods_sell_status = 0
+        </where>
+    </select>
+    <select id="selectGoodsListByIds" resultMap="BaseResultMap">
+        <include refid="selectGoodsNotContent"></include>
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                and goods_id in
+                <foreach collection="ids" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
         </where>
     </select>
 </mapper>

@@ -7,8 +7,11 @@ import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 
+import java.util.List;
+
 public interface GoodsDao extends BaseMapper<Goods> {
     IPage<Goods> selectListPage(Page<Goods> page, Goods goods);
+    List<Goods> selectGoodsListByIds(List<Long> ids);
 
     IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
