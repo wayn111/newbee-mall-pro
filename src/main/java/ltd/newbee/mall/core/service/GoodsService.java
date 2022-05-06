@@ -7,8 +7,6 @@ import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 
-import java.util.List;
-
 public interface GoodsService extends IService<Goods> {
 
     /**
@@ -59,13 +57,4 @@ public interface GoodsService extends IService<Goods> {
      * @param goodsCount
      */
     boolean reduceStock(Long goodsId, Integer goodsCount);
-
-    /**
-     * 修改商品上下架状态
-     *
-     * @param ids
-     * @param sellStatus
-     * @return
-     */
-    boolean changeSellStatus(List<Long> ids, int sellStatus);
 }

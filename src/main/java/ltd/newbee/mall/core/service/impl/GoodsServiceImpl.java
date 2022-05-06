@@ -42,7 +42,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
                 .addSortableNumericField("goodsId")
-                .addSortableNumericField("goodsSellStatus")
                 .addSortableNumericField("sellingPrice")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
@@ -67,13 +66,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
     @Override
     public boolean reduceStock(Long goodsId, Integer goodsCount) {
         return goodsDao.reduceStock(goodsId, goodsCount);
-    }
-
-    @Override
-    public boolean changeSellStatus(List<Long> ids, int sellStatus) {
-        lambdaUpdate().set(Goods::getGoodsSellStatus, sellStatus).in(Goods::getGoodsId, ids).update();
-        List<Goods> list = goodsDao.selectGoodsListByIds(ids);
-        return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
     }
 
 }

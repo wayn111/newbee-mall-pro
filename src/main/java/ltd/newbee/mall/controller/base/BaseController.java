@@ -2,20 +2,14 @@ package ltd.newbee.mall.controller.base;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
-import ltd.newbee.mall.interceptor.threadlocal.AdminLoginThreadLocal;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Date;
 
-@Slf4j
 public class BaseController {
 
     @Autowired
@@ -85,27 +79,5 @@ public class BaseController {
      */
     protected String redirectTo(String url) {
         return "redirect:" + url;
-    }
-
-    /**
-     * 基本操作，填充当前用户Id，和创建时间
-     */
-    protected <T> void baseHandle(T t, boolean isCreate) {
-        Class<?> aClass = t.getClass();
-        try {
-            if (isCreate) {
-                Method userMethod = aClass.getDeclaredMethod("setCreateUser", Integer.class);
-                userMethod.invoke(t, AdminLoginThreadLocal.get());
-                Method createTimeMethod = aClass.getDeclaredMethod("setCreateUser", Date.class);
-                createTimeMethod.invoke(t, new Date());
-            } else {
-                Method userMethod = aClass.getDeclaredMethod("setUpdateUser1", Integer.class);
-                userMethod.invoke(t, AdminLoginThreadLocal.get());
-                Method createTimeMethod = aClass.getDeclaredMethod("setUpdateTime", Date.class);
-                createTimeMethod.invoke(t, new Date());
-            }
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
