@@ -1,6 +1,7 @@
 package ltd.newbee.mall;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.service.GoodsService;
@@ -43,7 +44,7 @@ public class JedisSearchTest {
     @Test
     public void query() {
         System.out.println("begin");
-        SearchResult query = jedisSearch.query(idxName, "@goodsName:(手机) @goodsIntro:(手机)");
+        SearchResult query = jedisSearch.query(idxName, "(@goodsName:(手机) | @goodsIntro:(手机)) @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
         assert query != null;
     }
@@ -63,14 +64,15 @@ public class JedisSearchTest {
         Schema schema = new Schema()
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
-                .addSortableNumericField("sellingPrice")
                 .addSortableNumericField("goodsId")
+                .addSortableNumericField("sellingPrice")
+                .addSortableNumericField("goodsSellStatus")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
         jedisSearch.createIndex(idxName, Constants.GOODS_IDX_PREFIX, schema);
-        List<Goods> list = goodsService.list();
+        List<Goods> list = goodsService.list(Wrappers.<Goods>lambdaQuery().eq(Goods::getGoodsSellStatus, 0));
         jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
-        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为}");
+        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为} @goodsSellStatus:{0}", "sellingPrice");
         System.out.println("end");
     }
 }

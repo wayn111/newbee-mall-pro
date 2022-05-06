@@ -1,5 +1,6 @@
 package ltd.newbee.mall.interceptor;
 
+import ltd.newbee.mall.interceptor.threadlocal.AdminLoginThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,11 +19,12 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        if (null == request.getSession().getAttribute("loginUser")) {
+        if (null == request.getSession().getAttribute("loginUserId")) {
             request.getSession().setAttribute("errorMsg", "请登陆");
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         } else {
+            AdminLoginThreadLocal.set((Integer) request.getSession().getAttribute("loginUserId"));
             request.getSession().removeAttribute("errorMsg");
             return true;
         }
@@ -34,6 +36,6 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-
+        AdminLoginThreadLocal.remove();
     }
 }

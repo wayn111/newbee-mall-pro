@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.entity.dto.RsGoodsDTO;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 import ltd.newbee.mall.util.MyBeanUtil;
@@ -35,7 +36,8 @@ public class JedisSearch {
         try {
             client.ftDropIndex(idxName);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);;
+            log.error(e.getMessage(), e);
+            ;
         }
     }
 
@@ -62,9 +64,12 @@ public class JedisSearch {
      * @param search  查询key
      * @return searchResult
      */
-    public SearchResult query(String idxName, String search) {
+    public SearchResult query(String idxName, String search, String sort) {
         Query q = new Query(search);
-        q.setSortBy("sellingPrice", true);
+        if (StringUtils.isNotBlank(sort)) {
+            q.setSortBy(sort, false);
+        }
+        q.setLanguage(Constants.GOODS_IDX_LANGUAGE);
         q.limit(0, 10);
         return client.ftSearch(idxName, q);
     }
@@ -92,9 +97,7 @@ public class JedisSearch {
      * @return boolean
      */
     public boolean addGoodsIndex(String keyPrefix, Goods goods) {
-        Map<String, String> hash = MyBeanUtil.toMap(goods);
-        hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
-        client.hset(keyPrefix + goods.getGoodsId(), MyBeanUtil.toMap(goods));
+        goods2RsGoods(keyPrefix, goods);
         return true;
     }
 
@@ -117,15 +120,21 @@ public class JedisSearch {
             List<Goods> subList = list.subList(i * chunk, toIndex);
             CompletableFuture<Void> voidCompletableFuture = CompletableFuture.supplyAsync(() -> subList).thenAccept(goodsList -> {
                 for (Goods goods : goodsList) {
-                    Map<String, String> hash = MyBeanUtil.toMap(goods);
-                    hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
-                    client.hset(keyPrefix + goods.getGoodsId(), MyBeanUtil.toMap(goods));
+                    goods2RsGoods(keyPrefix, goods);
                 }
             });
             futures.add(voidCompletableFuture);
         }
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         return true;
+    }
+
+    private void goods2RsGoods(String keyPrefix, Goods goods) {
+        RsGoodsDTO target = new RsGoodsDTO();
+        MyBeanUtil.copyProperties(goods, target);
+        Map<String, String> hash = MyBeanUtil.toMap(target);
+        hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
+        client.hset(keyPrefix + goods.getGoodsId(), hash);
     }
 
     public boolean deleteGoodsList(String goodsIdxPrefix) {

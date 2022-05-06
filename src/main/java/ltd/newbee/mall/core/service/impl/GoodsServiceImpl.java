@@ -42,6 +42,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
                 .addSortableNumericField("goodsId")
+                .addSortableNumericField("goodsSellStatus")
                 .addSortableNumericField("sellingPrice")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
