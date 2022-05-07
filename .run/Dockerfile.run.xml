@@ -48,6 +48,8 @@
         </option>
       </settings>
     </deployment>
-    <method v="2" />
+    <method v="2">
+      <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean package" />
+    </method>
   </configuration>
 </component>

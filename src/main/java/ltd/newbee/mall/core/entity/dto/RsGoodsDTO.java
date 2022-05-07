@@ -16,6 +16,8 @@ public class RsGoodsDTO implements Serializable {
 
     private String goodsIntro;
 
+    private String goodsCoverImg;
+
     private Long goodsCategoryId;
 
     private Integer originalPrice;

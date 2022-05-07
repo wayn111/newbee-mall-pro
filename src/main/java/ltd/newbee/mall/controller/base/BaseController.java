@@ -99,7 +99,7 @@ public class BaseController {
                 Method createTimeMethod = aClass.getDeclaredMethod("setCreateUser", Date.class);
                 createTimeMethod.invoke(t, new Date());
             } else {
-                Method userMethod = aClass.getDeclaredMethod("setUpdateUser1", Integer.class);
+                Method userMethod = aClass.getDeclaredMethod("setUpdateUser", Integer.class);
                 userMethod.invoke(t, AdminLoginThreadLocal.get());
                 Method createTimeMethod = aClass.getDeclaredMethod("setUpdateTime", Date.class);
                 createTimeMethod.invoke(t, new Date());

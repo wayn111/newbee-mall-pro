@@ -223,7 +223,7 @@ function syncRedisSearch() {
         });
     }).catch(err => {
         if (err) {
-            swal(r.msg, {
+            swal(err, {
                 icon: "error",
             });
         } else {
