@@ -3,6 +3,7 @@ package ltd.newbee.mall.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ltd.newbee.mall.core.dao.CouponDao;
@@ -97,9 +98,9 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
 
     @Override
     public List<MyCouponVO> selectMyCoupons(List<ShopCatVO> collect, int priceTotal, Long userId) {
-        List<CouponUser> couponUsers = couponUserService.list(new QueryWrapper<CouponUser>()
-                .eq("user_id", userId)
-                .eq("status", 0));
+        List<CouponUser> couponUsers = couponUserService.list(Wrappers.<CouponUser>lambdaQuery()
+                .eq(CouponUser::getUserId, userId)
+                .eq(CouponUser::getStatus, 0));
         List<MyCouponVO> myCouponVOS = MyBeanUtil.copyList(couponUsers, MyCouponVO.class);
         List<Long> couponIds = couponUsers.stream().map(CouponUser::getCouponId).collect(Collectors.toList());
         if (!couponIds.isEmpty()) {
@@ -117,7 +118,15 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                 }
             }
         }
+        long nowTime = System.currentTimeMillis();
         return myCouponVOS.stream().filter(item -> {
+            // 判断有效期
+            Date startTime = item.getStartTime();
+            Date endTime = item.getEndTime();
+            if (startTime == null || endTime == null || nowTime < startTime.getTime() || nowTime > endTime.getTime()) {
+                return false;
+            }
+            // 判断使用条件
             boolean b = false;
             if (item.getMin() <= priceTotal) {
                 if (item.getGoodsType() == 1) { // 指定分类可用
