@@ -57,7 +57,7 @@
             <div class="bg-img-div">
                 <img id="bg-img" src="" alt/>
             </div>
-            <div class="slider-img-div">
+            <div class="slider-img-div" id="slider-img-div">
                 <img id="slider-img" src="" alt/>
             </div>
         </div>
@@ -65,11 +65,11 @@
             <div class="slider-move-track">
                 拖动滑块完成拼图
             </div>
-            <div class="slider-move-btn"></div>
+            <div class="slider-move-btn" id="slider-move-btn"></div>
         </div>
         <div class="bottom">
-            <div class="close-btn"></div>
-            <div class="refresh-btn"></div>
+            <div class="close-btn" id="slider-close-btn"></div>
+            <div class="refresh-btn" id="slider-refresh-btn"></div>
         </div>
     </div>
 </div>
@@ -78,8 +78,94 @@
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
-<script th:src="@{/mall/js/captcha.js}"></script>
+<script th:src="@{/mall/js/tianai/captcha.js}"></script>
 <script type="text/javascript">
+
+    let currentCaptchaId = null;
+    $(function () {
+        clearAllPreventDefault($(".slider"));
+        refreshCaptcha();
+    })
+
+    $("#slider-move-btn").mousedown(down);
+    $("#slider-move-btn").on("touchstart", down);
+
+    $("#slider-close-btn").click(() => {
+        hideCaptcha();
+    });
+
+    $("#slider-refresh-btn").click(() => {
+        refreshCaptcha();
+    });
+
+    function valid(captchaConfig) {
+        let that = this;
+        let data = {
+            bgImageWidth: captchaConfig.bgImageWidth,
+            bgImageHeight: captchaConfig.bgImageHeight,
+            sliderImageWidth: captchaConfig.sliderImageWidth,
+            sliderImageHeight: captchaConfig.sliderImageHeight,
+            startSlidingTime: captchaConfig.startTime,
+            entSlidingTime: captchaConfig.stopTime,
+            trackList: captchaConfig.trackArr
+        };
+        console.log("valid", captchaConfig, data);
+        $.ajax({
+            type: "POST",
+            url: _ctx + "tianai/check?id=" + currentCaptchaId,
+            contentType: "application/json", //必须这样写
+            dataType: "json",
+            data: JSON.stringify(data),//schoolList是你要提交是json字符串
+            success: function (res) {
+                console.log(res);
+                if (res) {
+                    that.login();
+                } else {
+                    refreshCaptcha();
+                }
+            }
+
+        })
+    }
+
+    function refreshCaptcha() {
+        $.get(_ctx + "tianai/gen", function (data) {
+            reset();
+            currentCaptchaId = data.id;
+            const bgImg = $("#bg-img");
+            const sliderImg = $("#slider-img");
+            bgImg.attr("src", data.captcha.backgroundImage);
+            sliderImg.attr("src", data.captcha.sliderImage);
+            initConfig($(".bg-img-div").width(), bgImg.height(), sliderImg.width(), sliderImg.height(), 206);
+        })
+    }
+
+    function doDown() {
+        $("#slider-move-btn").css("background-position", "-5px 31.0092%")
+    }
+
+
+    function doMove(currentCaptchaConfig) {
+        const moveX = currentCaptchaConfig.moveX;
+        $("#slider-move-btn").css("transform", "translate(" + moveX + "px, 0px)")
+        $("#slider-img-div").css("transform", "translate(" + moveX + "px, 0px)")
+    }
+
+    function reset() {
+        $("#slider-move-btn").css("background-position", "-5px 11.79625%")
+        $("#slider-move-btn").css("transform", "translate(0px, 0px)")
+        $("#slider-img-div").css("transform", "translate(0px, 0px)")
+        currentCaptchaId = null;
+    }
+
+    function showCaptcha() {
+        $(".captcha-modal").show();
+    }
+
+    function hideCaptcha() {
+        refreshCaptcha();
+        $(".captcha-modal").hide();
+    }
 
     function loginCheck() {
         var loginName = $("#loginName").val();

@@ -3,7 +3,6 @@ package ltd.newbee.mall.core.entity.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 public class RsGoodsDTO implements Serializable {

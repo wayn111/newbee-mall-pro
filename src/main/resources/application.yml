@@ -80,12 +80,13 @@ alipay:
 
 # 滑块验证码配置， 详细请看 cloud.tianai.captcha.autoconfiguration.SliderCaptchaProperties 类
 captcha:
-  slider:
-    expire: 60000
-    obfuscate: false
-    prefix: newbee_mall:captcha:slider
-    cache:
-      enabled: true
-      cache-size: 20
-    secondary:
-      enabled: false
+  prefix: newbee_mall:captcha:slider
+  expire:
+    default: 10000
+    # 文字点选验证码 过期时间设置大一点
+    WORD_IMAGE_CLICK: 60000
+  cache:
+    enabled: true
+    cache-size: 20
+  secondary:
+    enabled: false

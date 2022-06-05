@@ -1,9 +1,10 @@
 package ltd.newbee.mall.controller.mall;
 
-import cloud.tianai.captcha.slider.SliderCaptchaApplication;
-import cloud.tianai.captcha.template.slider.validator.common.model.dto.SliderCaptchaTrack;
-import cloud.tianai.captcha.vo.CaptchaResponse;
-import cloud.tianai.captcha.vo.SliderCaptchaVO;
+import cloud.tianai.captcha.common.constant.CaptchaTypeConstant;
+import cloud.tianai.captcha.spring.application.ImageCaptchaApplication;
+import cloud.tianai.captcha.spring.vo.CaptchaResponse;
+import cloud.tianai.captcha.spring.vo.ImageCaptchaVO;
+import cloud.tianai.captcha.validator.common.model.dto.ImageCaptchaTrack;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
+ *
  * tianai-captcha接口
  */
 @Slf4j
@@ -21,20 +23,20 @@ import javax.servlet.http.HttpServletRequest;
 public class TianaiCaptchaController {
 
     @Autowired
-    private SliderCaptchaApplication sliderCaptchaApplication;
+    private ImageCaptchaApplication application;
 
     @GetMapping("gen")
     @ResponseBody
-    public CaptchaResponse<SliderCaptchaVO> genCaptcha(HttpServletRequest request) {
-        return sliderCaptchaApplication.generateSliderCaptcha();
+    public CaptchaResponse<ImageCaptchaVO> genCaptcha(HttpServletRequest request) {
+        return application.generateCaptcha(CaptchaTypeConstant.SLIDER);
     }
 
     @PostMapping("check")
     @ResponseBody
     public boolean checkCaptcha(@RequestParam("id") String id,
-                                @RequestBody SliderCaptchaTrack sliderCaptchaTrack,
+                                @RequestBody ImageCaptchaTrack imageCaptchaTrack,
                                 HttpServletRequest request) {
-        return sliderCaptchaApplication.matching(id, sliderCaptchaTrack);
+        return application.matching(id, imageCaptchaTrack);
     }
 
 
