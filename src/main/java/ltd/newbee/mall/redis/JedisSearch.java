@@ -76,7 +76,8 @@ public class JedisSearch {
 
     public SearchResult search(String goodsIdxName, SearchObjVO searchObjVO, Page<SearchPageGoodsVO> page) {
         String keyword = searchObjVO.getKeyword();
-        String queryKey = String.format("(@goodsName:(%s) | @goodsIntro:(%s))  @goodsSellStatus:[0 0]", keyword, keyword);
+        // 查询商品名、商品介绍包含搜索词，同时是上架状态的商品
+        String queryKey = String.format("(@goodsName:(%s)) | (@goodsIntro:(%s)) @goodsSellStatus:[0 0]", keyword, keyword);
         Query q = new Query(queryKey);
         String sort = searchObjVO.getSidx();
         String order = searchObjVO.getOrder();
