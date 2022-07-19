@@ -6,14 +6,14 @@ $(function () {
         colModel: [
             {label: 'id', name: 'couponId', index: 'couponId', key: true, hidden: true},
             {label: '优惠卷名称', name: 'name', index: 'name'},
-            {label: '优惠卷简介', name: 'couponDesc', index: 'couponDesc'},
+            {label: '优惠卷简介', name: 'couponDesc', index: 'couponDesc', width: '100px'},
             {label: '数量', name: 'couponTotal', index: 'couponTotal', width: '100px', formatter: totalFormatter},
             {label: '优惠金额', name: 'discount', index: 'discount', width: '100px'},
             {label: '最低消费金额', name: 'min', index: 'min', width: '100px'},
             {label: '限制数量', name: 'couponLimit', index: 'couponLimit', width: '100px', formatter: limitFormatter},
             {label: '有效天数', name: 'days', index: 'days', width: '100px'},
             {label: '赠送类型', name: 'couponType', index: 'couponType', formatter: typeFormatter},
-            {label: '状态', name: 'status', index: 'status', formatter: statusFormatter},
+            {label: '优惠卷状态', name: 'status', index: 'status', formatter: statusFormatter},
             {label: '创建时间', name: 'createTime', index: 'createTime'}
         ],
         height: 560,
@@ -70,11 +70,11 @@ $(function () {
 
     function statusFormatter(cellvalue) {
         if (cellvalue == 0) {
-            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>可用</button>";
+            return "<button type='button' class='btn btn-block btn-success btn-sm' style='width: 80%;'>上架</button>";
         } else if (cellvalue == 1) {
             return "<button type='button' class='btn btn-block btn-warning btn-sm' style='width: 80%;'>已过期</button>";
         } else {
-            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>已下架</button>";
+            return "<button type='button' class='btn btn-block btn-danger btn-sm' style='width: 80%;'>下架</button>";
         }
     }
 
