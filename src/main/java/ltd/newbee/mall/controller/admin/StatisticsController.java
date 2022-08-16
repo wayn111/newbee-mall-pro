@@ -21,7 +21,7 @@ public class StatisticsController extends BaseController {
 
     private static final String PREFIX = "admin/statistics";
 
-    private static final Integer DEFAULT_DAY_NUM = 15;
+    private static final Integer DEFAULT_DAY_NUM = 365;
 
     @Autowired
     private OrderService orderService;

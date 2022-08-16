@@ -21,8 +21,7 @@
                                         <th:block th:text="${secondLevelCategory.categoryName}"></th:block>
                                     </a></dt>
                                     <dd>
-                                        <th:block
-                                                th:each="thirdLevelCategory : ${secondLevelCategory.subCategoryVOS}">
+                                        <th:block th:each="thirdLevelCategory : ${secondLevelCategory.subCategoryVOS}">
                                             <em><a href="#"
                                                    th:href="@{'/search?goodsCategoryId='+${thirdLevelCategory.categoryId}}">
                                                 <th:block th:text="${thirdLevelCategory.categoryName}"></th:block>
@@ -74,7 +73,8 @@
                 <div class="hot-image">
                     <a th:href="@{'/goods/detail/'+${hotGoodse.goodsId}}">
                         <img th:src="@{${hotGoodse.goodsCoverImg}}" th:alt="${hotGoodse.goodsName}">
-                        <p class="name text-truncate" th:text="${hotGoodse.goodsName}">NewBeeMall</p>
+                        <p class="name text-truncate" th:title="${hotGoodse.goodsName}"
+                           th:text="${hotGoodse.goodsName}">NewBeeMall</p>
                     </a>
                 </div>
             </th:block>
@@ -90,8 +90,8 @@
                     <li>
                         <a th:href="@{'/goods/detail/'+${newGoods.goodsId}}">
                             <img th:src="@{${newGoods.goodsCoverImg}}" th:alt="${newGoods.goodsName}">
-                            <p class="name" th:text="${newGoods.goodsName}">NewBeeMall</p>
-                            <p class="discount text-truncate" th:text="${newGoods.goodsIntro}">NewBeeMall</p>
+                            <p class="name text-truncate" th:title="${newGoods.goodsName}" th:text="${newGoods.goodsName}">NewBeeMall</p>
+                            <p class="discount text-truncate" th:title="${newGoods.goodsIntro}" th:text="${newGoods.goodsIntro}">NewBeeMall</p>
                             <p class="item_price" th:text="${newGoods.sellingPrice}">NewBeeMall</p>
                         </a>
                     </li>
@@ -102,7 +102,7 @@
 
     <div id="recommend">
         <h2>为你推荐</h2>
-        <a href="##" class="more">查看更多>></a>
+        <!--<a href="##" class="more">查看更多>></a>-->
         <ul>
             <!-- 已配置推荐商品则显示配置内容 -->
             <th:block th:unless="${#lists.isEmpty(recommendGoodses)}">
@@ -113,8 +113,8 @@
                                 新品
                             </div>
                             <img th:src="@{${recommendGoods.goodsCoverImg}}" th:alt="${recommendGoods.goodsName}">
-                            <p class="name" th:text="${recommendGoods.goodsName}">NewBeeMall</p>
-                            <p class="item_price" th:text="${recommendGoods.sellingPrice}">NewBeeMall</p>
+                            <p class="name text-truncate" th:title="${recommendGoods.goodsName}" th:text="${recommendGoods.goodsName}">NewBeeMall</p>
+                            <p class="item_price" th:title="${recommendGoods.sellingPrice}" th:text="${recommendGoods.sellingPrice}">NewBeeMall</p>
                             <p class="counter">猜你喜欢</p>
                             <div class="comment">
                                 <p>新蜂精选</p>

@@ -453,9 +453,7 @@
 }
 
 #content #recommend ul li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: block;
     font-size: 14px;
     text-align: center;
     width: 100%;
@@ -471,6 +469,7 @@
     line-height: 20px;
     color: #fff;
     font-size: 10px;
+    margin: auto;
 }
 
 #content #recommend ul li a .new {
@@ -478,7 +477,7 @@
 }
 
 #content #recommend ul li a .discount {
-    background-color: #f00;
+    background-color: #45aba1;
 }
 
 #content #recommend ul li a > p {
@@ -606,7 +605,7 @@
 
 #content #seckill ul li a .priceMod .seckillPrice {
     flex: auto;
-    color: red;
+    color: #269b89;
     line-height: 50px;
     font-size: 24px;
 }
@@ -615,7 +614,8 @@
     flex: auto;
     text-align: left;
     line-height: 58px;
-    font-size: 5px;
+    font-size: 15px;
+    color: #ea1e1e;
 }
 
 
