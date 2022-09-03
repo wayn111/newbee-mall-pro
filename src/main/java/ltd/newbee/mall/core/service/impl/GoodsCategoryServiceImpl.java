@@ -47,6 +47,6 @@ public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryDao, Good
                 }
             }
         }
-        return root;
+        return root.subList(0, 9);
     }
 }

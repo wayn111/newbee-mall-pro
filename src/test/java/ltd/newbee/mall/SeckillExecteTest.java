@@ -43,6 +43,5 @@ public class SeckillExecteTest {
         }
         countDown.countDown();
         System.out.println("end");
-        System.in.read();
     }
 }

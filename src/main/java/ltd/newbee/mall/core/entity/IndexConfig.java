@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName("tb_newbee_mall_index_config")
-public class IndexConfig implements Serializable {
+public class IndexConfig extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 4505441356727312298L;
 
     @TableId(type = IdType.AUTO)
@@ -28,12 +30,5 @@ public class IndexConfig implements Serializable {
 
     private Byte isDeleted;
 
-    private Date createTime;
-
-    private Integer createUser;
-
-    private Date updateTime;
-
-    private Integer updateUser;
 
 }

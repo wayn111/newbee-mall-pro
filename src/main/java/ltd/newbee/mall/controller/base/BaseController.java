@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.core.entity.BaseEntity;
 import ltd.newbee.mall.interceptor.threadlocal.AdminLoginThreadLocal;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,24 +89,15 @@ public class BaseController {
     }
 
     /**
-     * 基本操作，填充当前用户Id，和创建时间
+     * 基本字段操作，填充当前用户Id，和创建时间
      */
-    protected <T> void baseHandle(T t, boolean isCreate) {
-        Class<?> aClass = t.getClass();
-        try {
-            if (isCreate) {
-                Method userMethod = aClass.getDeclaredMethod("setCreateUser", Integer.class);
-                userMethod.invoke(t, AdminLoginThreadLocal.get());
-                Method createTimeMethod = aClass.getDeclaredMethod("setCreateUser", Date.class);
-                createTimeMethod.invoke(t, new Date());
-            } else {
-                Method userMethod = aClass.getDeclaredMethod("setUpdateUser", Integer.class);
-                userMethod.invoke(t, AdminLoginThreadLocal.get());
-                Method createTimeMethod = aClass.getDeclaredMethod("setUpdateTime", Date.class);
-                createTimeMethod.invoke(t, new Date());
-            }
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+    protected <T extends BaseEntity> void baseFieldHandle(T t, boolean isCreate) {
+        if (isCreate) {
+            t.setCreateUser(AdminLoginThreadLocal.get());
+            t.setCreateTime(new Date());
+        } else {
+            t.setUpdateUser(AdminLoginThreadLocal.get());
+            t.setUpdateTime(new Date());
         }
     }
 }

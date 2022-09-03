@@ -3,7 +3,7 @@
     float: left;
     width: 228px;
     border-top: none;
-    background: #000;
+    background: #45aba1;
     height: 100%;
 }
 
@@ -38,7 +38,7 @@
 
 .all-sort-list .item a:hover {
     font-weight: bold;
-    color: #1baeae;
+    color: black;
 }
 
 .all-sort-list .item-list {
@@ -284,6 +284,7 @@
 
 #content #sub_banner .hot-image a img:hover {
     opacity: 1;
+    transform: scale(1.05);
 }
 
 /*新品上线*/
@@ -352,6 +353,7 @@
 
 #content #flash ul li a:hover img {
     opacity: 1;
+    transform: scale(1.05);
 }
 
 #content #flash .time {

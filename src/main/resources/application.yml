@@ -21,7 +21,7 @@ spring:
       matching-strategy: ANT_PATH_MATCHER
   session:
     store-type: redis
-    timeout: 3000
+    timeout: 3600S
     redis:
       namespace: newbee_mall
   thymeleaf:

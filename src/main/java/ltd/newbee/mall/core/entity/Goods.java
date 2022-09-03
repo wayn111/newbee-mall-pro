@@ -4,13 +4,15 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName("tb_newbee_mall_goods_info")
-public class Goods implements Serializable {
+public class Goods extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 2420217592493206057L;
 
@@ -36,14 +38,6 @@ public class Goods implements Serializable {
     private String tag;
 
     private Byte goodsSellStatus;
-
-    private Integer createUser;
-
-    private Date createTime;
-
-    private Integer updateUser;
-
-    private Date updateTime;
 
     private String goodsDetailContent;
 

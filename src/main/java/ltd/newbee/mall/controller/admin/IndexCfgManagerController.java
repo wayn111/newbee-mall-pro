@@ -47,6 +47,7 @@ public class IndexCfgManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(@RequestBody IndexConfig indexConfig) {
+        baseFieldHandle(indexConfig, true);
         return R.result(indexConfigService.save(indexConfig));
     }
 
@@ -60,6 +61,7 @@ public class IndexCfgManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/update")
     public R update(@RequestBody IndexConfig indexConfig) {
+        baseFieldHandle(indexConfig, false);
         return R.result(indexConfigService.updateById(indexConfig));
     }
 
