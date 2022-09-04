@@ -5,24 +5,39 @@
 <img src="https://img.shields.io/github/license/wayn111/newbee-mall" alt="license">
 </p>
 
-> 本项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus，集成RedisSearch作为商城搜索中间件，
-> 添加了秒杀功能、优惠劵功能以及后台搜索功能，喜欢的话麻烦给我个star
-
 ### 简介
+本项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus，集成RedisSearch作为商城搜索中间件，商城首页集成tianai-captcha作为滑块验证码，还添加了高级秒杀、优惠劵以及完善可用的后台全部功能，喜欢的话麻烦给我个star
 
-本人之前一直是在传统公司上班，接触的都是政企项目，公司各系统业务繁多数据库表设计复杂，多是业务逻辑庞大使用技术也都不算新，算是j2ee时代的遗留产物，鉴于现在springboot、微服务、中间件等等风生水起，又因本人对商城系统情有独钟，因此打算先用springboot搭建一个商城系统，刚好发现了newbee-mall项目，就在此项目的基础上添加了一些自己没有接触过的新功能，一起进步。
-
-- 后台管理模块添加了优惠卷管理、秒杀管理，统计分析
-- 商城支持RedisSearch中文分词搜索，支持新品、价格排序搜索
-- 添加Spring事件监听机制，解耦下单流程
+- 商城集成RedisSearch中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序
+- 首页使用滑块验证码登录
 - 集成Pace页面，添加网页进度条
 - 前台添加了秒杀专区，可以购买秒杀商品
 - 前台添加了优惠卷领取页面，再订单结算页面可以选择优惠卷使用
 - 支付时添加了支付宝沙箱支付
+- 后台管理模块添加了优惠卷管理、秒杀管理，统计分析
+- 添加Spring事件监听机制，解耦下单流程
 - 集成spring-session-redis，支持分布式部署
 - 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
 - [本项目源码](https://github.com/wayn111/newbee-mall)
 - [在线地址](http://121.89.238.61/newbeemall)
+
+### 2022年9月04日更新日志
+newbee-mall V2.2.0发布
+
+功能更新：
+1. 后台添加商品标签集成`select2`,支持商品标签`不存在即创建`
+2. 添加Spring事件监听机制，解耦下单流程
+3. 集成Pace，美化商城页面
+4. 集成RedisSearch中文分词搜索
+5. 集成`tianai-captcha`滑块验证码
+6. 优化商城搜索页面逻辑
+7. 升级项目依赖
+8. 添加docker-compose部署
+
+bug修复：
+1. 修复商城搜索bug
+2. 修复优惠券使用bug
+3. 修复定时任务bug
 
 ### 2022年5月08日更新日志
 商城RediSearch支持商品上下架搜索
@@ -99,7 +114,7 @@ git clone git@github.com:wayn111/newbee-mall.git
 # 2. 导入项目依赖
 将newbee-mall目录用idea打开，导入maven依赖
 
-# 3. 安装Mysql8.0+、Redis3.0+、Jdk8+、Maven3.5+
+# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk8+、Maven3.5+
 
 # 4. 导入sql文件
 在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
@@ -176,3 +191,11 @@ git clone git@github.com:wayn111/newbee-mall.git
 * [⭐⭐⭐⭐秒杀系统设计与实现.互联网工程师进阶与分析🙋🐓](https://github.com/qiurunze123/miaosha)
 
 > 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin) ,集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发
+
+
+### 后话
+
+本人之前一直是在传统公司上班，接触的都是政企项目，公司各系统业务繁多数据库表设计复杂，多是业务逻辑庞大使用技术也都不算新，
+算是j2ee时代的遗留产物，鉴于现在springboot、微服务、中间件等等风生水起，
+又因本人对商城系统情有独钟，因此打算先用springboot搭建一个商城系统，刚好发现了newbee-mall项目
+，就在此项目的基础上添加了一些自己没有接触过的新功能，一起进步。

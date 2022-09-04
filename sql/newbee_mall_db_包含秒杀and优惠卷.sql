@@ -246,7 +246,7 @@ CREATE TABLE `tb_newbee_mall_goods_info`  (
   `original_price` int(11) NOT NULL DEFAULT 1 COMMENT '商品价格',
   `selling_price` int(11) NOT NULL DEFAULT 1 COMMENT '商品实际售价',
   `stock_num` int(11) NOT NULL DEFAULT 0 COMMENT '商品库存数量',
-  `tag` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '商品标签',
+  `tag` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '商品标签',
   `goods_sell_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '商品上架状态 0-下架 1-上架',
   `create_user` int(11) NOT NULL DEFAULT 0 COMMENT '添加者主键id',
   `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '商品添加时间',
