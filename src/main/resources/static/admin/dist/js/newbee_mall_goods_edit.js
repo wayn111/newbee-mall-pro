@@ -35,10 +35,16 @@ $(function () {
         }
     });
 
+    $(".js-example-tags").select2({
+        theme: "bootstrap",
+        language: "zh-CN",
+        tags: true,
+        placeholder: "请输入商品标签",
+    });
 
     $('#confirmButton').click(function () {
         var goodsName = $('#goodsName').val();
-        var tag = $('#tag').val();
+        var tag = $('#tag').val() || [];
         var originalPrice = $('#originalPrice').val();
         var sellingPrice = $('#sellingPrice').val();
         var stockNum = $('#stockNum').val();
@@ -70,7 +76,7 @@ $(function () {
             });
             return;
         }
-        if (!validLength(tag, 100)) {
+        if (!validLength(tag.join('|'), 500)) {
             swal("标签过长", {
                 icon: "error",
             });
@@ -118,14 +124,10 @@ $(function () {
             });
             return;
         }
-        $('#goodsModal').modal('show');
-    });
-
-    $('#saveButton').click(function () {
         var goodsId = $('#goodsId').val();
         var goodsCategoryId = $('#levelThree option:selected').val();
         var goodsName = $('#goodsName').val();
-        var tag = $('#tag').val();
+        var tag = $('#tag').val().join("|");
         var originalPrice = $('#originalPrice').val();
         var sellingPrice = $('#sellingPrice').val();
         var goodsIntro = $('#goodsIntro').val();

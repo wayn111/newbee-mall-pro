@@ -47,6 +47,9 @@ spring:
         max-size: 20
         queue-capacity: 5
       thread-name-prefix: newbee-task
+  servlet:
+    multipart:
+      max-file-size: 100MB
 
 # mybatis plus
 mybatis-plus:

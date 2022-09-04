@@ -20,6 +20,8 @@
     <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/help.min.css}" rel="stylesheet"/>
     <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/third_party/spell_checker.min.css}" rel="stylesheet"/>
     <link th:href="@{/admin/plugins/froala_editor_3.2.7/css/plugins/special_characters.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/select2-v4.0.13/css/select2.min.css}" rel="stylesheet"/>
+    <link th:href="@{/admin/plugins/select2-v4.0.13/css/select2-bootstrap.css}" rel="stylesheet"/>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -61,8 +63,8 @@
                     </div>
                     <div class="card-body">
                         <form id="goodsForm" onsubmit="return false;">
-                            <div class="form-group" style="display:flex;">
-                                <label class="control-label">请选择分类:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <div class="form-group form-inline">
+                                <label class="control-label">请选择分类：</label>
                                 <select class="form-control col-sm-3" id="levelOne"
                                         data-placeholder="请选择分类...">
                                     <th:block th:unless="${null == firstLevelCategories}">
@@ -99,50 +101,84 @@
                                     </th:block>
                                 </select>
                             </div>
-                            <div class="form-group" style="display:flex;">
+                            <div class="form-group form-inline">
                                 <input type="hidden" id="goodsId" name="goodsId"
                                        th:value="${goods!=null and goods.goodsId!=null }?${goods.goodsId}: 0">
-                                <input type="text" class="form-control col-sm-6" id="goodsName" name="goodsName"
+                                <label for="goodsId" class="control-label">商品名称：</label>
+                                <input type="text" class="form-control col-sm-5" id="goodsName" name="goodsName"
                                        placeholder="*请输入商品名称(必填)"
                                        th:value="${goods!=null and goods.goodsName!=null }?${goods.goodsName}: ''"
                                        required="true">
                                 &nbsp;&nbsp;
-                                <input type="text" class="form-control col-sm-6" id="goodsIntro" name="goodsIntro"
+                                <label for="goodsIntro" class="control-label">商品简介：</label>
+                                <input type="text" class="form-control col-sm-5" id="goodsIntro" name="goodsIntro"
                                        placeholder="*请输入商品简介(100字以内)"
                                        th:value="${goods!=null and goods.goodsIntro!=null }?${goods.goodsIntro}: ''"
                                        required="true">
                             </div>
-                            <div class="form-group" style="display:flex;">
-                                <input type="number" class="form-control col-sm-6" id="originalPrice"
+                            <div class="form-group form-inline">
+                                <label for="originalPrice" class="control-label">商品价格：</label>
+                                <input type="number" class="form-control col-sm-5" id="originalPrice"
                                        name="originalPrice"
                                        placeholder="*请输入商品价格"
                                        th:value="${goods!=null and goods.originalPrice!=null }?${goods.originalPrice}"
                                        required="true">
                                 &nbsp;&nbsp;
-                                <input type="number" class="form-control col-sm-6" id="sellingPrice"
+                                <label for="sellingPrice" class="control-label">商品售价：</label>
+                                <input type="number" class="form-control col-sm-5" id="sellingPrice"
                                        name="sellingPrice"
-                                       placeholder="*请输入商品售卖价"
+                                       placeholder="*请输入商品售价"
                                        th:value="${goods!=null and goods.sellingPrice!=null }?${goods.sellingPrice}"
                                        required="true">
                             </div>
-                            <div class="form-group" style="display:flex;">
-                                <input type="number" class="form-control col-sm-6" id="stockNum" name="stockNum"
+                            <div class="form-group form-inline">
+                                <label for="sellingPrice" class="control-label">商品库存：</label>
+                                <input type="number" class="form-control col-sm-5" id="stockNum" name="stockNum"
                                        placeholder="*请输入商品库存数"
                                        th:value="${goods!=null and goods.stockNum!=null }?${goods.stockNum}"
                                        required="true">
                                 &nbsp;&nbsp;
-                                <input type="text" class="form-control col-sm-6" id="tag" name="tag"
-                                       placeholder="*请输入商品小标签"
-                                       th:value="${goods!=null and goods.tag!=null }?${goods.tag}: ''"
-                                       required="true">
+                                <label for="sellingPrice" class="control-label">商品标签：</label>
+                                <select class="form-control col-sm-5 js-example-tags" multiple="multiple" id="tag" name="tag" placeholder="*请输入商品小标签">
+                                    <th:block th:unless="${null == goods}">
+                                        <th:block th:each="item : ${#strings.listSplit(goods.tag,'|')}">
+                                            <option th:value="${item}" th:text="${item}" selected="selected"></option>
+                                        </th:block>
+                                    </th:block>
+                                </select>
+<!--                                <input type="text" class="form-control col-sm-5" id="tag" name="tag"-->
+<!--                                       placeholder="*请输入商品小标签"-->
+<!--                                       th:value="${goods!=null and goods.tag!=null }?${goods.tag}: ''"-->
+<!--                                       required="true">-->
                             </div>
                             <div class="form-group">
-                                <label class="control-label">上架状态:&nbsp;</label>
+                                <label class="control-label" for="goodsSellStatusTrue">上架状态：</label>
                                 <input name="goodsSellStatus" type="radio" id="goodsSellStatusTrue" checked=true
                                        th:checked="${null==goods||(null !=goods and null !=goods.goodsSellStatus and goods.goodsSellStatus==0)} ?true:false"
                                        value="0"/>&nbsp;上架&nbsp;
                                 <input name="goodsSellStatus" type="radio" id="goodsSellStatusFalse" value="1"
                                        th:checked="${null !=goods and null !=goods.goodsSellStatus and goods.goodsSellStatus==1} ?true:false"/>&nbsp;下架&nbsp;
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <th:block th:if="${null == goods}">
+                                        <img id="goodsCoverImg" th:src="@{/admin/dist/img/img-upload.png}"
+                                             style="height: 64px;width: 64px;">
+                                    </th:block>
+                                    <th:block th:unless="${null == goods}">
+                                        <img id="goodsCoverImg" th:src="${#strings.contains(goods.goodsCoverImg, 'http://')} ? ${goods.goodsCoverImg} : @{/} + ${goods.goodsCoverImg}"
+                                             style="width:160px ;height: 160px;display:block;">
+                                    </th:block>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <button class="btn btn-info" style="margin-bottom: 5px;"
+                                            id="uploadGoodsCoverImg">
+                                        <i class="fa fa-picture-o"></i>&nbsp;上传商品主图
+                                    </button>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div id="editor" th:utext="${goods!=null and goods.goodsDetailContent !=null}?${goods.goodsDetailContent}: ''">
@@ -171,32 +207,7 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h6 class="modal-title" id="goodsModalLabel">信息完善</h6>
-                        </div>
-                        <div class="modal-body">
-                            <form onsubmit="return false;">
-                                <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <th:block th:if="${null == goods}">
-                                            <img id="goodsCoverImg" th:src="@{/admin/dist/img/img-upload.png}"
-                                                 style="height: 64px;width: 64px;">
-                                        </th:block>
-                                        <th:block th:unless="${null == goods}">
-                                            <img id="goodsCoverImg" th:src="${#strings.contains(goods.goodsCoverImg, 'http://')} ? ${goods.goodsCoverImg} : @{/} + ${goods.goodsCoverImg}"
-                                                 style="width:160px ;height: 160px;display:block;">
-                                        </th:block>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="form-group">
-                                    <div class="col-sm-4">
-                                        <button class="btn btn-info" style="margin-bottom: 5px;"
-                                                id="uploadGoodsCoverImg">
-                                            <i class="fa fa-picture-o"></i>&nbsp;上传商品主图
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                            <h6 class="modal-title" id="goodsModalLabel">确定要提交吗？</h6>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -257,6 +268,8 @@
 <script th:src="@{/admin/plugins/froala_editor_3.2.7/js/third_party/spell_checker.min.js}"></script>
 <script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/special_characters.min.js}"></script>
 <script th:src="@{/admin/plugins/froala_editor_3.2.7/js/plugins/word_paste.min.js}"></script>
+<script th:src="@{/admin/plugins/select2-v4.0.13/js/select2.min.js}"></script>
+<script th:src="@{/admin/plugins/select2-v4.0.13/js/i18n/zh-CN.js}"></script>
 
 <script th:src="@{/admin/dist/js/public.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>

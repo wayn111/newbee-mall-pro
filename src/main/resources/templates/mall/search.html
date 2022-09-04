@@ -69,12 +69,13 @@
         <th:block th:unless="${#lists.isEmpty(pageResult.records)}">
             <th:block th:each="goods : ${pageResult.records}">
                 <div class="item_card_frame">
-                    <div class="item_card"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank"><img
-                            th:src="@{${goods.goodsCoverImg}}" th:alt="${goods.goodsName}"></a></div>
+                    <div class="item_card"><a th:href="@{'/goods/detail/'+${goods.goodsId}}" target="_blank">
+                        <img th:src="@{${goods.goodsCoverImg}}" th:alt="${goods.goodsName}"></a></div>
                     <div class="item_brand text-truncate"><a th:href="@{'/goods/detail/'+${goods.goodsId}}"
                                                              target="_blank"
+                                                             th:title="${goods.goodsName}"
                                                              th:text="${goods.goodsName}">newbee.ltd</a></div>
-                    <div class="item_sub_intro text-truncate" th:text="${goods.goodsIntro}">newbee.ltd</div>
+                    <div class="item_sub_intro text-truncate" th:title="${goods.goodsIntro}" th:text="${goods.goodsIntro}">newbee.ltd</div>
                     <div class="item_price" th:text="${goods.sellingPrice+'.00元'}">1299.00元</div>
                 </div>
             </th:block>

@@ -62,6 +62,7 @@ public class JedisSearch {
      *
      * @param idxName 索引名称
      * @param search  查询key
+     * @param sort    排序字段
      * @return searchResult
      */
     public SearchResult query(String idxName, String search, String sort) {
@@ -77,13 +78,12 @@ public class JedisSearch {
     public SearchResult search(String goodsIdxName, SearchObjVO searchObjVO, Page<SearchPageGoodsVO> page) {
         String keyword = searchObjVO.getKeyword();
         // 查询商品名、商品介绍包含搜索词，同时是上架状态的商品
-        String queryKey = String.format("(@goodsName:(%s)) | (@goodsIntro:(%s)) @goodsSellStatus:[0 0]", keyword, keyword);
+        String queryKey = String.format("(@goodsName:(%s)) | (@goodsIntro:(%s) | @tag:{%s}) @goodsSellStatus:[0 0]", keyword, keyword, keyword);
         Query q = new Query(queryKey);
         String sort = searchObjVO.getSidx();
         String order = searchObjVO.getOrder();
         if (StringUtils.isNotBlank(sort)) {
             q.setSortBy(sort, Constants.SORT_ASC.equals(order));
-
         }
         q.setLanguage(Constants.GOODS_IDX_LANGUAGE);
         q.limit((int) page.offset(), (int) page.getSize());
