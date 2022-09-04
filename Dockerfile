@@ -4,10 +4,10 @@ FROM adoptopenjdk/openjdk8
 MAINTAINER wayn111
 WORKDIR /root/workspace
 # 将当前目录下的jar包复制到docker容器的/目录下
-ADD target/newbee-mall-2.1.3.jar /opt/newbeemall/newbee-mall-2.1.3.jar
+ADD target/newbee-mall-2.2.0.jar /opt/newbeemall/newbee-mall-2.2.0.jar
 # 运行过程中创建一个mall-tiny-docker-file.jar文件
-RUN bash -c 'touch /opt/newbeemall/newbee-mall-2.1.3.jar'
+RUN bash -c 'touch /opt/newbeemall/newbee-mall-2.2.0.jar'
 # 声明服务运行在8000端口
 EXPOSE 84
 # 指定docker容器启动时运行jar包
-ENTRYPOINT ["sh", "-c", "exec java -jar -Xms1024m -Xmx1024m /opt/newbeemall/newbee-mall-2.1.3.jar"]
+ENTRYPOINT ["sh", "-c", "exec java -jar -Xms1024m -Xmx1024m /opt/newbeemall/newbee-mall-2.2.0.jar"]
