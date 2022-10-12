@@ -56,10 +56,6 @@ public class MallUserController extends BaseController {
                      @RequestParam("destPath") String destPath,
                      HttpSession session) {
         R success = R.success();
-        // String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
-        // if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
-        //     return R.error("验证码错误");
-        // }
         MallUser user = mallUserService.getOne(Wrappers.<MallUser>lambdaQuery()
                 .eq(MallUser::getLoginName, mallUserVO.getLoginName())
                 .eq(MallUser::getPasswordMd5, Md5Utils.hash(mallUserVO.getPassword())));

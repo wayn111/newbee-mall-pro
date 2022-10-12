@@ -19,15 +19,14 @@ public class Md5Utils {
             algorithm = MessageDigest.getInstance("MD5");
             algorithm.reset();
             algorithm.update(s.getBytes("UTF-8"));
-            byte[] messageDigest = algorithm.digest();
-            return messageDigest;
+            return algorithm.digest();
         } catch (Exception e) {
             log.error("MD5 Error...", e);
         }
         return null;
     }
 
-    private static final String toHex(byte hash[]) {
+    private static String toHex(byte[] hash) {
         if (hash == null) {
             return null;
         }

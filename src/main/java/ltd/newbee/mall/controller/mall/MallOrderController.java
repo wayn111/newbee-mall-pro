@@ -279,10 +279,6 @@ public class MallOrderController extends BaseController {
         log.info("支付宝return通知数据记录：orderNo: {}, 当前登陆用户：{}", orderNo, userId);
         Order order = judgeOrderUserId(orderNo, userId);
         // 刷新页面，判断订单状态是否为已支付
-        if (order.getOrderStatus() == OrderStatusEnum.OREDER_PAID.getOrderStatus()
-                && order.getPayStatus() == PayStatusEnum.PAY_SUCCESS.getPayStatus()) {
-            return renderOrderDetail(request, order);
-        }
         return renderOrderDetail(request, order);
     }
 
