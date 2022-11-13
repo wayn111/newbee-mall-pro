@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Data
 public class CouponVO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 7392480821618562611L;
 
     private Long couponId;

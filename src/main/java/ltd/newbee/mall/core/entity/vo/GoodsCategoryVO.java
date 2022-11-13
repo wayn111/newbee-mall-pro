@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  */
 @Data
 public class GoodsCategoryVO implements Serializable {
+    @Serial
     private static final long serialVersionUID = -4332099215192984767L;
     private Long categoryId;
 

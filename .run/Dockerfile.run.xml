@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker阿里云">
+  <configuration default="false" name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
     <deployment type="dockerfile">
       <settings>
         <option name="imageTag" value="newbeemall" />
@@ -12,7 +12,7 @@
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="WAYN_SERVER_URL" />
-              <option name="value" value="http://121.89.238.61" />
+              <option name="value" value="http://121.4.124.33" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="WAYN_UPLOAD_DIR" />

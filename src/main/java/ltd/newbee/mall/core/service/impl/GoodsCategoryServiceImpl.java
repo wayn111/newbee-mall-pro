@@ -4,21 +4,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.core.dao.GoodsCategoryDao;
 import ltd.newbee.mall.core.entity.GoodsCategory;
 import ltd.newbee.mall.core.entity.vo.GoodsCategoryVO;
 import ltd.newbee.mall.core.service.GoodsCategoryService;
 import ltd.newbee.mall.util.MyBeanUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class GoodsCategoryServiceImpl extends ServiceImpl<GoodsCategoryDao, GoodsCategory> implements GoodsCategoryService {
 
-    @Autowired
     private GoodsCategoryDao goodsCategoryDao;
 
     @Override

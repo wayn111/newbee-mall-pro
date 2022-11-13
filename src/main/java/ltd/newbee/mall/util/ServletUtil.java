@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 public class ServletUtil {
 
-    private static ServletUtil getInstance;
+    private static final ServletUtil getInstance;
 
     static {
         getInstance = new ServletUtil();
@@ -97,7 +97,6 @@ public class ServletUtil {
             response.getWriter().print(string);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            ;
         }
         return null;
     }

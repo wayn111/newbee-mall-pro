@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 @Data
 public class SeckillVO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -255290568158613317L;
     private Long seckillId;
 

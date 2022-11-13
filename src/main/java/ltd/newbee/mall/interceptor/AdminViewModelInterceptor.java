@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AdminViewModelInterceptor implements HandlerInterceptor {
 
-    private boolean viewModel;
+    private final boolean viewModel;
 
     public AdminViewModelInterceptor(boolean viewModel) {
         this.viewModel = viewModel;

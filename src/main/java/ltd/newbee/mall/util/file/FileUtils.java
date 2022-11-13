@@ -6,6 +6,7 @@ import ltd.newbee.mall.util.security.Md5Utils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 文件处理工具类
@@ -37,8 +38,6 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
             while ((length = fis.read(b)) > 0) {
                 os.write(b, 0, length);
             }
-        } catch (IOException e) {
-            throw e;
         } finally {
             if (os != null) {
                 try {
@@ -97,17 +96,17 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         String filename = fileName;
         if (agent.contains("MSIE")) {
             // IE浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
+            filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
             filename = filename.replace("+", " ");
         } else if (agent.contains("Firefox")) {
             // 火狐浏览器
             filename = new String(fileName.getBytes(), "ISO8859-1");
         } else if (agent.contains("Chrome")) {
             // google浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
+            filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         } else {
             // 其它浏览器
-            filename = URLEncoder.encode(filename, "utf-8");
+            filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         }
         return filename;
     }

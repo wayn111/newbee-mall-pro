@@ -30,7 +30,7 @@ public class DruidConfig {
      */
     @Bean
     @ConditionalOnProperty(name = "spring.datasource.druid.statViewServlet.enabled", havingValue = "true")
-    public FilterRegistrationBean removeDruidFilterRegistrationBean(DruidStatProperties properties) {
+    public FilterRegistrationBean<Filter> removeDruidFilterRegistrationBean(DruidStatProperties properties) {
         // 获取web监控页面的参数
         DruidStatProperties.StatViewServlet config = properties.getStatViewServlet();
         // 提取common.js的配置路径
@@ -61,7 +61,7 @@ public class DruidConfig {
             public void destroy() {
             }
         };
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(filter);
         registrationBean.addUrlPatterns(commonJsPattern);
         return registrationBean;

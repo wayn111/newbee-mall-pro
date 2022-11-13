@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
 @Data
 public class MallUserVO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 3698456957193931954L;
     private Long userId;
 

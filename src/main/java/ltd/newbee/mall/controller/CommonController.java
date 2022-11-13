@@ -13,6 +13,7 @@ import ltd.newbee.mall.util.file.FileUtils;
 import ltd.newbee.mall.util.http.HttpUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -106,11 +107,16 @@ public class CommonController extends BaseController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0);
 
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         // 算术类型
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
+        // CustomArithmeticCaptcha captcha = new CustomArithmeticCaptcha(130, 48);
         captcha.setLen(2);  // 几位数运算，默认是两位
         captcha.getArithmeticString();  // 获取运算的公式：3+2=?
         captcha.text();  // 获取运算的结果：5
+        stopWatch.stop();
+        System.out.println(stopWatch.getLastTaskInfo().getTimeMillis());
 
         // 验证码存入session
         request.getSession().setAttribute(Constants.MALL_VERIFY_CODE_KEY, captcha.text().toLowerCase());

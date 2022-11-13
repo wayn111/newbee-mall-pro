@@ -3,7 +3,9 @@ package ltd.newbee.mall.util.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Objects;
 
 /**
  * Md5加密方法
@@ -18,7 +20,7 @@ public class Md5Utils {
         try {
             algorithm = MessageDigest.getInstance("MD5");
             algorithm.reset();
-            algorithm.update(s.getBytes("UTF-8"));
+            algorithm.update(s.getBytes(StandardCharsets.UTF_8));
             return algorithm.digest();
         } catch (Exception e) {
             log.error("MD5 Error...", e);
@@ -44,9 +46,9 @@ public class Md5Utils {
 
     public static String hash(Object str) {
         try {
-            return new String(toHex(md5(String.valueOf(str))).getBytes("UTF-8"), "UTF-8");
+            return new String(Objects.requireNonNull(toHex(md5(String.valueOf(str)))).getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
         } catch (Exception e) {
-            log.error("not supported charset...{}", e);
+            log.error("not supported charset...{}", e.getMessage(), e);
             return String.valueOf(str);
         }
     }

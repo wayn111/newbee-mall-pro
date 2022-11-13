@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @TableName("tb_newbee_mall_coupon_user")
 public class CouponUser implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3630793779817995152L;
 
     @TableId(type = IdType.AUTO)

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("admin/categories")
@@ -120,11 +119,11 @@ public class GoodsCateManagerController extends BaseController {
         for (Long id : ids) {
             List<GoodsCategory> goodsCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>().select("category_id").eq("parent_id", id));
             if (CollectionUtils.isNotEmpty(goodsCategories)) {
-                List<Long> collect = goodsCategories.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
+                List<Long> collect = goodsCategories.stream().map(GoodsCategory::getCategoryId).toList();
                 list.addAll(collect);
                 for (Long aLong : collect) {
                     List<GoodsCategory> list2 = goodsCategoryService.list(new QueryWrapper<GoodsCategory>().select("category_id").eq("parent_id", aLong));
-                    List<Long> collect1 = list2.stream().map(GoodsCategory::getCategoryId).collect(Collectors.toList());
+                    List<Long> collect1 = list2.stream().map(GoodsCategory::getCategoryId).toList();
                     list.addAll(collect1);
                 }
             }

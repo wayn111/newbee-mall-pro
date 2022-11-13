@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.util.concurrent.RateLimiter;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.SeckillDao;
 import ltd.newbee.mall.core.entity.Seckill;
@@ -19,7 +20,6 @@ import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.collections4.MapUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,15 +29,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@AllArgsConstructor
 public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> implements SeckillService {
 
     // 使用令牌桶RateLimiter 限流
-    private static RateLimiter rateLimiter = RateLimiter.create(10);
-    @Autowired
+    private static final RateLimiter rateLimiter = RateLimiter.create(10);
+
     private SeckillDao seckillDao;
-    @Autowired
     private SeckillSuccessService seckillSuccessService;
-    @Autowired
     private RedisCache redisCache;
 
     @Override

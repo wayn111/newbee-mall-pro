@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Data
 public class ShopCat implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -3394611592337316111L;
     @TableId(type = IdType.AUTO)
     private Long cartItemId;

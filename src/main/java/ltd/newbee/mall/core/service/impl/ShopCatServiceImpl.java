@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.core.dao.ShopCatDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.ShopCat;
@@ -10,7 +11,6 @@ import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.ShopCatService;
 import ltd.newbee.mall.exception.BusinessException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,12 +19,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> implements ShopCatService {
 
-    @Autowired
     private ShopCatDao shopCatDao;
 
-    @Autowired
     private GoodsService goodsService;
 
     @Override
@@ -83,7 +82,7 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
                     shopCatVO.setSellingPrice(goods1.getSellingPrice());
                 }
                 return shopCatVO;
-            }).collect(Collectors.toList()));
+            }).toList());
         }
         return collect;
     }

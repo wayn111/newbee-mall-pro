@@ -2,11 +2,13 @@ package ltd.newbee.mall.core.entity.dto;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 public class RsGoodsDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 6647665932731822353L;
 
     private Long goodsId;

@@ -8,6 +8,7 @@ import org.springframework.beans.PropertyAccessorFactory;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Slf4j
@@ -30,19 +31,17 @@ public abstract class MyBeanUtil {
         if (sources != null) {
             try {
                 for (Object source : sources) {
-                    T target = clazz.newInstance();
+                    T target = clazz.getDeclaredConstructor().newInstance();
                     copyProperties(source, target);
                     if (callback != null) {
                         callback.set(source, target);
                     }
                     targetList.add(target);
                 }
-            } catch (InstantiationException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 log.error(e.getMessage(), e);
-                ;
-            } catch (IllegalAccessException e) {
-                log.error(e.getMessage(), e);
-                ;
+            } catch (InvocationTargetException | NoSuchMethodException e) {
+                throw new RuntimeException(e);
             }
         }
         return targetList;
@@ -73,7 +72,7 @@ public abstract class MyBeanUtil {
         return (T) beanWrapper.getWrappedInstance();
     }
 
-    public static interface Callback<T> {
+    public interface Callback<T> {
         void set(Object source, T target);
     }
 

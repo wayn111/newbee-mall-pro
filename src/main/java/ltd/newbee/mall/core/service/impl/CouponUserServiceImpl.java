@@ -3,6 +3,7 @@ package ltd.newbee.mall.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.core.dao.CouponDao;
 import ltd.newbee.mall.core.dao.CouponUserDao;
 import ltd.newbee.mall.core.entity.Coupon;
@@ -10,7 +11,6 @@ import ltd.newbee.mall.core.entity.CouponUser;
 import ltd.newbee.mall.core.service.CouponService;
 import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.exception.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,28 +19,13 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Service
+@AllArgsConstructor
 public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser> implements CouponUserService {
 
     private CouponService couponService;
 
     private CouponDao couponDao;
 
-    @Autowired
-    public void setCouponService(CouponService couponService) {
-        this.couponService = couponService;
-    }
-    @Autowired
-    public void setCouponDao(CouponDao couponDao) {
-        this.couponDao = couponDao;
-    }
-
-    public CouponService getCouponService() {
-        return couponService;
-    }
-
-    public CouponDao getCouponDao() {
-        return couponDao;
-    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override

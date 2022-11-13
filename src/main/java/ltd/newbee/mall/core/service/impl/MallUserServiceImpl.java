@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.core.dao.MallUserDao;
 import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.CouponUser;
@@ -12,7 +13,6 @@ import ltd.newbee.mall.core.service.CouponService;
 import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.MallUserService;
 import ltd.newbee.mall.util.security.Md5Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +22,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class MallUserServiceImpl extends ServiceImpl<MallUserDao, MallUser> implements MallUserService {
 
-    @Autowired
     private MallUserDao mallUserDao;
 
-    @Autowired
     private CouponService couponService;
 
-    @Autowired
     private CouponUserService couponUserService;
 
     @Override

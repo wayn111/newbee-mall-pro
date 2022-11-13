@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.AllArgsConstructor;
 import ltd.newbee.mall.core.dao.CouponDao;
+import ltd.newbee.mall.core.dao.CouponUserDao;
 import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.CouponUser;
 import ltd.newbee.mall.core.entity.Goods;
@@ -18,50 +20,24 @@ import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 @Service
+@AllArgsConstructor
 public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements CouponService {
 
     private CouponDao couponDao;
 
-    private CouponUserService couponUserService;
+    private CouponUserDao couponUserDao;
 
     private GoodsService goodsService;
 
-    @Autowired
-    public void setCouponDao(CouponDao couponDao) {
-        this.couponDao = couponDao;
-    }
-
-    @Lazy
-    @Autowired
-    public void setCouponUserService(CouponUserService couponUserService) {
-        this.couponUserService = couponUserService;
-    }
-
-    @Autowired
-    public void setGoodsService(GoodsService goodsService) {
-        this.goodsService = goodsService;
-    }
-
-    public CouponDao getCouponDao() {
-        return couponDao;
-    }
-
-    public CouponUserService getCouponUserService() {
-        return couponUserService;
-    }
-
-    public GoodsService getGoodsService() {
-        return goodsService;
-    }
 
     @Override
     public IPage<Coupon> selectPage(Page<Coupon> page, CouponVO coupon) {
@@ -76,7 +52,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             couponVO.setHasReceived(false);
             // 处理领取数量有限制的优惠卷
             if (userId != null && couponVO.getCouponLimit() == 1) {
-                CouponUser couponUser = couponUserService.getOne(new QueryWrapper<CouponUser>()
+                CouponUser couponUser = couponUserDao.selectOne(new QueryWrapper<CouponUser>()
                         .eq("user_id", userId)
                         .eq("coupon_id", couponVO.getCouponId())
                         .eq("coupon_id", couponVO.getCouponId()));
@@ -86,7 +62,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             }
             // 处理总数有限制的优惠卷
             if (couponVO.getCouponTotal() != 0) {
-                long count = couponUserService.count(new QueryWrapper<CouponUser>()
+                Long count = couponUserDao.selectCount(new QueryWrapper<CouponUser>()
                         .eq("coupon_id", couponVO.getCouponId()));
                 if (count >= couponVO.getCouponTotal()) {
                     couponVO.setSaleOut(true);
@@ -98,11 +74,9 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
 
     @Override
     public List<MyCouponVO> selectMyCoupons(List<ShopCatVO> collect, int priceTotal, Long userId) {
-        List<CouponUser> couponUsers = couponUserService.list(Wrappers.<CouponUser>lambdaQuery()
-                .eq(CouponUser::getUserId, userId)
-                .eq(CouponUser::getStatus, 0));
+        List<CouponUser> couponUsers = couponUserDao.selectAvailableList(userId);
         List<MyCouponVO> myCouponVOS = MyBeanUtil.copyList(couponUsers, MyCouponVO.class);
-        List<Long> couponIds = couponUsers.stream().map(CouponUser::getCouponId).collect(Collectors.toList());
+        List<Long> couponIds = couponUsers.stream().map(CouponUser::getCouponId).collect(toList());
         if (!couponIds.isEmpty()) {
             List<Coupon> coupons = listByIds(couponIds);
             for (Coupon coupon : coupons) {
@@ -131,10 +105,10 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             if (item.getMin() <= priceTotal) {
                 if (item.getGoodsType() == 1) { // 指定分类可用
                     String[] split = item.getGoodsValue().split(",");
-                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(Collectors.toList());
-                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
+                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).toList();
+                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(toList());
                     List<Goods> goods = goodsService.listByIds(goodsIds);
-                    List<Long> categoryIds = goods.stream().map(Goods::getGoodsCategoryId).collect(Collectors.toList());
+                    List<Long> categoryIds = goods.stream().map(Goods::getGoodsCategoryId).toList();
                     for (Long categoryId : categoryIds) {
                         if (goodsValue.contains(categoryId)) {
                             b = true;
@@ -143,8 +117,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                     }
                 } else if (item.getGoodsType() == 2) { // 指定商品可用
                     String[] split = item.getGoodsValue().split(",");
-                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(Collectors.toList());
-                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(Collectors.toList());
+                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).toList();
+                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).toList();
                     for (Long goodsId : goodsIds) {
                         if (goodsValue.contains(goodsId)) {
                             b = true;
@@ -156,39 +130,25 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                 }
             }
             return b;
-        }).sorted(Comparator.comparingInt(MyCouponVO::getDiscount)).collect(Collectors.toList());
+        }).sorted(Comparator.comparingInt(MyCouponVO::getDiscount)).collect(toList());
     }
 
     @Override
     public void releaseCoupon(Long orderId) {
-        List<CouponUser> couponUserList = couponUserService.list(new QueryWrapper<CouponUser>().eq("order_id", orderId));
+        List<CouponUser> couponUserList = couponUserDao.selectList(new QueryWrapper<CouponUser>().eq("order_id", orderId));
         if (CollectionUtils.isEmpty(couponUserList)) {
             return;
         }
         for (CouponUser couponUser : couponUserList) {
             couponUser.setStatus((byte) 0);
             couponUser.setUpdateTime(new Date());
-            couponUserService.updateById(couponUser);
+            couponUserDao.updateById(couponUser);
         }
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateCoupon(Coupon coupon) {
-        //  修改优惠劵状态时，还要修改用户已经领过优惠劵的状态
-        if (coupon.getStatus() == 2) {
-            couponUserService.update()
-                    .eq("coupon_id", coupon.getCouponId())
-                    .eq("status", 0)
-                    .set("status", 3)
-                    .update();
-        } else if (coupon.getStatus() == 0) {
-            couponUserService.update()
-                    .eq("coupon_id", coupon.getCouponId())
-                    .eq("status", 3)
-                    .set("status", 0)
-                    .update();
-        }
         coupon.setUpdateTime(new Date());
         return updateById(coupon);
     }

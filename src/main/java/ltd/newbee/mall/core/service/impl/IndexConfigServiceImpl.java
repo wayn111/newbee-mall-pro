@@ -4,25 +4,26 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jdk.jshell.JShell;
 import ltd.newbee.mall.core.dao.IndexConfigDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.IndexConfig;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.IndexConfigService;
 import ltd.newbee.mall.enums.IndexConfigTypeEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class IndexConfigServiceImpl extends ServiceImpl<IndexConfigDao, IndexConfig> implements IndexConfigService {
 
-    @Autowired
+    @Resource
     private IndexConfigDao indexConfigDao;
 
-    @Autowired
+    @Resource
     private GoodsService goodsService;
 
     @Override
@@ -38,5 +39,13 @@ public class IndexConfigServiceImpl extends ServiceImpl<IndexConfigDao, IndexCon
                 .orderByDesc("config_rank"));
         List<Long> collect = list.stream().map(IndexConfig::getGoodsId).collect(Collectors.toList());
         return goodsService.listByIds(collect);
+    }
+
+    public static void main(String[] args) {
+        JShell shell = JShell.create();
+        shell.eval("int a=10;");
+        shell.eval("int b=10;");
+        var eval = shell.eval("a+b;");
+        System.out.println(eval.get(0).value());
     }
 }

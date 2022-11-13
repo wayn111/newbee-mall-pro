@@ -37,7 +37,6 @@ public class JedisSearch {
             client.ftDropIndex(idxName);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            ;
         }
     }
 
