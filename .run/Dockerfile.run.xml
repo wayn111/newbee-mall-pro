@@ -20,7 +20,7 @@
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
               <option name="name" value="WAYN_VIEW_MODEL" />
-              <option name="value" value="false" />
+              <option name="value" value="true" />
             </DockerEnvVarImpl>
           </list>
         </option>

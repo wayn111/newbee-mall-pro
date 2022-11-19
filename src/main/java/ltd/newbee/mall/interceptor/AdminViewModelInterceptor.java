@@ -23,7 +23,7 @@ public class AdminViewModelInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         if (viewModel) {
-            ServletUtil.renderString(response, JSONObject.toJSONString(R.error("演示模式请勿修改！")));
+            ServletUtil.renderString(response, JSONObject.toJSONString(R.error("请下载项目源代码，演示模式无法修改！")));
             return false;
         }
         return true;
