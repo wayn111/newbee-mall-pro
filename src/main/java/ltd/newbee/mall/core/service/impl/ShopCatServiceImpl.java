@@ -86,4 +86,9 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
         }
         return collect;
     }
+
+    @Override
+    public ShopCat selectByUserIdAndGoodsId(Long userId, Long goodsId) {
+        return shopCatDao.selectByUserIdAndGoodsId(userId, goodsId);
+    }
 }

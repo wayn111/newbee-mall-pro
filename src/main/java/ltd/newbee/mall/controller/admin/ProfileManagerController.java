@@ -1,5 +1,6 @@
 package ltd.newbee.mall.controller.admin;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.AdminUser;
 import ltd.newbee.mall.core.service.AdminUserService;
@@ -8,8 +9,6 @@ import ltd.newbee.mall.util.security.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("admin/profile")

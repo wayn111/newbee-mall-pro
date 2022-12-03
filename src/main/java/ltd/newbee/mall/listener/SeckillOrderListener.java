@@ -1,5 +1,6 @@
 package ltd.newbee.mall.listener;
 
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
@@ -23,7 +24,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 

@@ -2,6 +2,7 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import jakarta.servlet.http.HttpServletRequest;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Carousels;
 import ltd.newbee.mall.core.entity.Goods;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller

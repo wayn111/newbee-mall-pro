@@ -20,4 +20,6 @@ public interface ShopCatService extends IService<ShopCat> {
      * @return 商品集合
      */
     List<ShopCatVO> getShopCatVOList(Long userId);
+
+    ShopCat selectByUserIdAndGoodsId(Long userId, Long goodsId);
 }

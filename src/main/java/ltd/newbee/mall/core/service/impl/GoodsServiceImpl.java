@@ -3,6 +3,7 @@ package ltd.newbee.mall.core.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.GoodsDao;
 import ltd.newbee.mall.core.entity.Goods;
@@ -13,7 +14,6 @@ import ltd.newbee.mall.redis.JedisSearch;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.search.Schema;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="mall/header::head-fragment('NewBee商城-搜索','search')"/>
+    <th:block th:insert="~{mall/header::head-fragment('NewBee商城-搜索','search')}"/>
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.css" rel="stylesheet">
 </head>
 <body>
-<header th:replace="mall/header::header-fragment"></header>
+<header th:replace="~{mall/header::header-fragment}"></header>
 <!-- nav -->
-<nav th:replace="mall/header::nav-fragment"></nav>
+<nav th:replace="~{mall/header::nav-fragment}"></nav>
 
 <!--分类筛选-->
 <div class="classify">
@@ -111,7 +111,7 @@
     </div>
 </div>
 
-<div th:replace="mall/footer::footer-fragment"></div>
+<div th:replace="~{mall/footer::footer-fragment}"></div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>

@@ -1,13 +1,12 @@
 package ltd.newbee.mall.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.ServletUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 演示模式拦截器

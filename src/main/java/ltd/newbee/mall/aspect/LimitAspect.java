@@ -1,6 +1,7 @@
 package ltd.newbee.mall.aspect;
 
 import com.google.common.collect.ImmutableList;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.annotation.Limit;
 import ltd.newbee.mall.exception.BusinessException;
@@ -18,7 +19,6 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**

@@ -3,7 +3,6 @@ package ltd.newbee.mall.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,6 @@ import ltd.newbee.mall.core.entity.vo.CouponVO;
 import ltd.newbee.mall.core.entity.vo.MyCouponVO;
 import ltd.newbee.mall.core.entity.vo.ShopCatVO;
 import ltd.newbee.mall.core.service.CouponService;
-import ltd.newbee.mall.core.service.CouponUserService;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.collections4.CollectionUtils;
@@ -24,9 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @AllArgsConstructor

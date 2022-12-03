@@ -145,6 +145,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/admin/carousels/list").excludePathPatterns("/admin/indexConfigs")
                 .excludePathPatterns("/admin/indexConfigs/list").excludePathPatterns("/admin/categories")
                 .excludePathPatterns("/admin/categories/list").excludePathPatterns("/admin/orders")
+                .excludePathPatterns("/admin/categories/listForSelect").excludePathPatterns("/admin/orders")
                 .excludePathPatterns("/admin/orders/list").excludePathPatterns("/admin/coupon")
                 .excludePathPatterns("/admin/coupon/list").excludePathPatterns("/admin/seckill")
                 .excludePathPatterns("/admin/seckill/list").excludePathPatterns("/admin/profile")

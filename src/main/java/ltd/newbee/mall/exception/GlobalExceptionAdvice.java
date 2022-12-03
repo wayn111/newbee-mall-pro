@@ -1,5 +1,6 @@
 package ltd.newbee.mall.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.util.R;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 

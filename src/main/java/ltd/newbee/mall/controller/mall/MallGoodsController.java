@@ -3,6 +3,7 @@ package ltd.newbee.mall.controller.mall;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.servlet.http.HttpServletRequest;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Goods;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import redis.clients.jedis.search.Document;
 import redis.clients.jedis.search.SearchResult;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -121,10 +121,7 @@ public class MallGoodsController extends BaseController {
         // 查询购物车中是否有该商品
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
         if (userVO != null) {
-            ShopCat shopCat = shopCatService.getOne(new QueryWrapper<ShopCat>()
-                    .eq("user_id", userVO.getUserId())
-                    .eq("goods_id", goodsId));
-            request.setAttribute("goodsCount", 0);
+            ShopCat shopCat = shopCatService.selectByUserIdAndGoodsId(userVO.getUserId(), goodsId);
             if (Objects.nonNull(shopCat)) {
                 request.setAttribute("cartItemId", shopCat.getCartItemId());
                 request.setAttribute("goodsCount", shopCat.getGoodsCount());

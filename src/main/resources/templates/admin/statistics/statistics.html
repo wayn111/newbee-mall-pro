@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="admin/header :: header-fragment"/>
+    <th:block th:insert="~{admin/header :: header-fragment}"/>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
     <!-- Navbar -->
-    <th:block th:include="admin/header :: navbar-fragment"/>
+    <th:block th:insert="~{admin/header :: navbar-fragment}"/>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <th:block th:include="admin/sidebar :: sidebar-fragment(${path})"/>
+    <th:block th:insert="~{admin/sidebar :: sidebar-fragment(${path})}"/>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -74,7 +74,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <th:block th:include="admin/footer :: footer-fragment"/>
+    <th:block th:insert="~{admin/footer :: footer-fragment}"/>
 </div>
 <!-- ./wrapper -->
 
