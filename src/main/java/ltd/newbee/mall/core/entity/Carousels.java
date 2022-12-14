@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Data
@@ -14,7 +13,6 @@ import java.io.Serializable;
 @TableName("tb_newbee_mall_carousel")
 public class Carousels extends BaseEntity implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -7588254263091631877L;
 
     @TableId(type = IdType.AUTO)

@@ -58,8 +58,8 @@
     </appender>
 
     <!-- 用户访问日志输出  -->
-    <appender name="file_debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/sys-debug.log</file>
+    <appender name="sys-user" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/sys-user.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
             <fileNamePattern>${log.path}/sys-user.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -69,23 +69,12 @@
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <!-- 过滤的级别 -->
-            <level>DEBUG</level>
-            <!-- 匹配时的操作：接收（记录） -->
-            <onMatch>ACCEPT</onMatch>
-            <!-- 不匹配时的操作：拒绝（不记录） -->
-            <onMismatch>DENY</onMismatch>
-        </filter>
     </appender>
 
     <!-- 系统模块日志级别控制  -->
     <logger name="ltd.newbee.mall" level="info"/>
     <!-- Spring日志级别控制  -->
     <logger name="org.springframework" level="info"/>
-    <logger name="io.lettuce.core" level="DEBUG" >
-        <appender-ref ref="file_debug"/>
-    </logger>
 
     <root level="info">
         <appender-ref ref="console"/>
@@ -97,4 +86,8 @@
         <appender-ref ref="file_error"/>
     </root>
 
+    <!--系统用户操作日志-->
+    <logger name="sys-user" level="info">
+        <appender-ref ref="sys-user"/>
+    </logger>
 </configuration>

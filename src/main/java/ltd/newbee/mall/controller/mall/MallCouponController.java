@@ -1,8 +1,6 @@
 package ltd.newbee.mall.controller.mall;
 
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.vo.CouponVO;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller

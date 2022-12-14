@@ -41,9 +41,10 @@ public abstract class Task implements Delayed, Runnable {
         if (o == null) {
             return false;
         }
-        if (!(o instanceof Task t)) {
+        if (!(o instanceof Task)) {
             return false;
         }
+        Task t = (Task) o;
         return this.id.equals(t.getId());
     }
 

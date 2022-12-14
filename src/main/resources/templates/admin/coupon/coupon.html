@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:insert="~{admin/header :: header-fragment}"/>
+    <th:block th:include="admin/header :: header-fragment"/>
     <link rel="stylesheet" th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
 </head>
 </header>
@@ -16,11 +16,11 @@
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
     <!-- Navbar -->
-    <th:block th:insert="~{admin/header :: navbar-fragment}"/>
+    <th:block th:include="admin/header :: navbar-fragment"/>
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    <th:block th:insert="~{admin/sidebar :: sidebar-fragment(${path})}"/>
+    <th:block th:include="admin/sidebar :: sidebar-fragment(${path})"/>
 
     <!-- Content Wrapper. Contains 图标content -->
     <div class="content-wrapper">
@@ -236,7 +236,7 @@
     </div>
     <!-- /.content-wrapper -->
     <!-- 引入页脚footer-fragment -->
-    <div th:replace="~{admin/footer::footer-fragment}"></div>
+    <div th:replace="admin/footer::footer-fragment"></div>
 </div>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>

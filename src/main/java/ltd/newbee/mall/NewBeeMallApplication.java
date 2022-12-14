@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @email 2449207463@qq.com
  * @link https://github.com/newbee-ltd
  */
+@EnableAsync
 @SpringBootApplication
 public class NewBeeMallApplication {
     public static void main(String[] args) {

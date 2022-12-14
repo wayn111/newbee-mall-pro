@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @AllArgsConstructor
 public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> implements ShopCatService {
@@ -82,13 +84,8 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
                     shopCatVO.setSellingPrice(goods1.getSellingPrice());
                 }
                 return shopCatVO;
-            }).toList());
+            }).collect(toList()));
         }
         return collect;
-    }
-
-    @Override
-    public ShopCat selectByUserIdAndGoodsId(Long userId, Long goodsId) {
-        return shopCatDao.selectByUserIdAndGoodsId(userId, goodsId);
     }
 }

@@ -14,28 +14,15 @@
     </resultMap>
 
     <sql id="selectShopCat">
-        select cart_item_id,
-        user_id,
-        goods_id,
-        goods_count,
-        is_deleted,
-        create_time,
-        update_time
-        from tb_newbee_mall_shopping_cart_item
+        select t.cart_item_id, t.user_id, t.goods_id, t.goods_count, t.is_deleted,
+        t.update_time, t.create_time
+        from tb_newbee_mall_carousel t
     </sql>
 
     <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.ShopCat" resultMap="BaseResultMap">
         <include refid="selectShopCat"></include>
         <where>
-            is_deleted = 0
-        </where>
-    </select>
-    <select id="selectByUserIdAndGoodsId" resultType="ltd.newbee.mall.core.entity.ShopCat">
-        <include refid="selectShopCat"></include>
-        <where>
-            is_deleted = 0
-            and user_id = #{userId}
-            and goods_id = #{goodsId}
+            t.is_deleted = 0
         </where>
     </select>
 </mapper>

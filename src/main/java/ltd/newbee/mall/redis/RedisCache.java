@@ -64,14 +64,13 @@ public class RedisCache {
      * lua原子自减脚本
      */
     private String buildLuaDecScript() {
-        return """
-                local c
-                c = redis.call('get',KEYS[1])
-                if c and tonumber(c) < 0 then
-                return c;
-                end
-                c = redis.call('decr',KEYS[1])
-                return c;""";
+        return "local c" +
+                "\nc = redis.call('get',KEYS[1])" +
+                "\nif c and tonumber(c) < 0 then" +
+                "\nreturn c;" +
+                "\nend" +
+                "\nc = redis.call('decr',KEYS[1])" +
+                "\nreturn c;";
     }
 
     /**

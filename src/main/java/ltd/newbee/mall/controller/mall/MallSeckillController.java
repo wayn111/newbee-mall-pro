@@ -2,9 +2,6 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import ltd.newbee.mall.annotation.Limit;
 import ltd.newbee.mall.annotation.RepeatSubmit;
 import ltd.newbee.mall.constant.Constants;
@@ -29,9 +26,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.spring6.view.ThymeleafViewResolver;
-import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -121,7 +120,7 @@ public class MallSeckillController extends BaseController {
         // 判断缓存中是否有当前秒杀商品列表页面
         String html = redisCache.getCacheObject(Constants.SECKILL_GOODS_LIST_HTML);
         if (StringUtils.isNotBlank(html)) {
-            // return html;
+            return html;
         }
         List<Seckill> seckillList = seckillService.list(new QueryWrapper<Seckill>().eq("status", 1).orderByDesc("seckill_rank"));
         List<Map<String, Object>> list = seckillList.stream().map(seckill -> {
@@ -138,8 +137,8 @@ public class MallSeckillController extends BaseController {
         }).collect(Collectors.toList());
         request.setAttribute("seckillList", list);
         // 缓存秒杀商品列表页
-        JakartaServletWebApplication jakartaServletWebApplication = JakartaServletWebApplication.buildApplication(request.getServletContext());
-        WebContext ctx = new WebContext(jakartaServletWebApplication.buildExchange(request, response), request.getLocale(), model.asMap());
+        WebContext ctx = new WebContext(request, response,
+                request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process("mall/seckill-list", ctx);
         if (!StringUtils.isEmpty(html)) {
             redisCache.setCacheObject(Constants.SECKILL_GOODS_LIST_HTML, html, 100, TimeUnit.HOURS);
@@ -192,8 +191,8 @@ public class MallSeckillController extends BaseController {
         request.setAttribute("seckillStatus", miaoshaStatus);
         request.setAttribute("remainSeconds", remainSeconds);
         // 缓存秒杀商品详情页
-        JakartaServletWebApplication jakartaServletWebApplication = JakartaServletWebApplication.buildApplication(request.getServletContext());
-        WebContext ctx = new WebContext(jakartaServletWebApplication.buildExchange(request, response), request.getLocale(), model.asMap());
+        WebContext ctx = new WebContext(request, response,
+                request.getServletContext(), request.getLocale(), model.asMap());
         html = thymeleafViewResolver.getTemplateEngine().process("mall/seckill-detail", ctx);
         if (!StringUtils.isEmpty(html)) {
             redisCache.setCacheObject(Constants.SECKILL_GOODS_DETAIL_HTML + seckillId, html, 30, TimeUnit.MINUTES);

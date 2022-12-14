@@ -1,11 +1,11 @@
 package ltd.newbee.mall.interceptor.impl;
 
 import com.alibaba.fastjson.JSON;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 

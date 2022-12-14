@@ -1,9 +1,9 @@
 package ltd.newbee.mall.util.file;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import ltd.newbee.mall.util.security.Md5Utils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

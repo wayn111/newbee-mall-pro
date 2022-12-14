@@ -2,7 +2,6 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -10,7 +9,6 @@ import java.io.Serializable;
  */
 @Data
 public class IndexConfigGoodsVO implements Serializable {
-    @Serial
     private static final long serialVersionUID = -8532534635955415765L;
     private Long goodsId;
 

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import jdk.jshell.JShell;
 import ltd.newbee.mall.core.dao.IndexConfigDao;
 import ltd.newbee.mall.core.entity.Goods;
@@ -14,6 +13,7 @@ import ltd.newbee.mall.core.service.IndexConfigService;
 import ltd.newbee.mall.enums.IndexConfigTypeEnum;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -2,7 +2,6 @@ package ltd.newbee.mall.core.entity.vo;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -11,7 +10,6 @@ import java.io.Serializable;
 @Data
 public class DayTransactionAmountVO implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -961725122511119233L;
     private String days;
 

@@ -1,6 +1,5 @@
 package ltd.newbee.mall.listener;
 
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.CouponUser;
@@ -21,7 +20,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -46,9 +47,7 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
     @Resource
     private RedisCache redisCache;
     @Resource
-    private PlatformTransactionManager platformTransactionManager;
-    @Resource
-    private TransactionDefinition transactionDefinition;
+    private PlatformTransactionManager masterTransactionManager;
 
     @Override
     public void onApplicationEvent(OrderEvent event) {
@@ -57,7 +56,9 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
         if (StringUtils.isBlank(orderNo)) {
             return;
         }
-        TransactionStatus transaction = platformTransactionManager.getTransaction(transactionDefinition);
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        transactionDefinition.setTimeout(30);
+        TransactionStatus transaction = masterTransactionManager.getTransaction(transactionDefinition);
         try {
             Long couponUserId = event.getCouponUserId();
             MallUserVO mallUserVO = event.getMallUserVO();
@@ -114,11 +115,11 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
             }
             // 订单支付超期任务
             taskService.addTask(new OrderUnPaidTask(orderId));
-            platformTransactionManager.commit(transaction);
+            masterTransactionManager.commit(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, Constants.SUCCESS, 10, TimeUnit.MINUTES);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            platformTransactionManager.rollback(transaction);
+            masterTransactionManager.rollback(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, "保存订单内部异常", 10, TimeUnit.MINUTES);
         }
 

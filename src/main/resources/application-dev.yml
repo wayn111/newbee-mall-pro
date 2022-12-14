@@ -1,37 +1,72 @@
 # 数据源配置
-# hikari数据源配置
 spring:
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    # 主库数据源
-    master:
-      jdbc-url: jdbc:mysql://localhost:3306/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-      username: root
-      password:
-      pool-name: hikariCP
-      minimum-idle: 100
-      maximum-pool-size: 200
-      auto-commit: true
-      idle-timeout: 10000
-      max-lifetime: 30000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
-
-  data:
-    redis:
-      host: lcoalhost
-      port: 6739
-      database: 0
-      timeout: 1000
-      password: Aa@@1688
-      client-type: lettuce
-      lettuce:
-        pool:
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://localhost:3306/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password:
+      # 主库数据源
+      slave:
+        url: jdbc:mysql://localhost:3306/newbee_mall_db2?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password:
+      # 初始连接数
+      initialSize: 20
+      # 最小连接池数量
+      minIdle: 20
+      # 最大连接池数量
+      maxActive: 50
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username:
+        login-password:
+      filter:
+        stat:
           enabled: true
-      jedis:
-        pool:
-          max-active: 5
-          max-idle: 10
-          min-idle: 10
-          max-wait: 3000
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 3000
+    password:
+    maxTotal: 50000
+    client-type: lettuce
+    lettuce:
+      pool:
+        enabled: true
+    jedis:
+      pool:
+        max-active: 5
+        max-idle: 10
+        min-idle: 10
+        max-wait: 3000

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -102,10 +103,10 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
             if (item.getMin() <= priceTotal) {
                 if (item.getGoodsType() == 1) { // 指定分类可用
                     String[] split = item.getGoodsValue().split(",");
-                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).toList();
+                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(toList());
                     List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(toList());
                     List<Goods> goods = goodsService.listByIds(goodsIds);
-                    List<Long> categoryIds = goods.stream().map(Goods::getGoodsCategoryId).toList();
+                    List<Long> categoryIds = goods.stream().map(Goods::getGoodsCategoryId).collect(toList());
                     for (Long categoryId : categoryIds) {
                         if (goodsValue.contains(categoryId)) {
                             b = true;
@@ -114,8 +115,8 @@ public class CouponServiceImpl extends ServiceImpl<CouponDao, Coupon> implements
                     }
                 } else if (item.getGoodsType() == 2) { // 指定商品可用
                     String[] split = item.getGoodsValue().split(",");
-                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).toList();
-                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).toList();
+                    List<Long> goodsValue = Arrays.stream(split).map(Long::valueOf).collect(toList());
+                    List<Long> goodsIds = collect.stream().map(ShopCatVO::getGoodsId).collect(toList());
                     for (Long goodsId : goodsIds) {
                         if (goodsValue.contains(goodsId)) {
                             b = true;

@@ -1,7 +1,6 @@
 package ltd.newbee.mall.aspect;
 
 import com.google.common.collect.ImmutableList;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.annotation.Limit;
 import ltd.newbee.mall.exception.BusinessException;
@@ -19,6 +18,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -69,16 +69,15 @@ public class LimitAspect {
      * 限流脚本
      */
     private String buildLuaScript() {
-        return """
-                local c
-                c = redis.call('get',KEYS[1])
-                if c and tonumber(c) > tonumber(ARGV[1]) then
-                return c;
-                end
-                c = redis.call('incr',KEYS[1])
-                if tonumber(c) == 1 then
-                redis.call('expire',KEYS[1],ARGV[2])
-                end
-                return c;""";
+        return "local c" +
+                "\nc = redis.call('get',KEYS[1])" +
+                "\nif c and tonumber(c) > tonumber(ARGV[1]) then" +
+                "\nreturn c;" +
+                "\nend" +
+                "\nc = redis.call('incr',KEYS[1])" +
+                "\nif tonumber(c) == 1 then" +
+                "\nredis.call('expire',KEYS[1],ARGV[2])" +
+                "\nend" +
+                "\nreturn c;";
     }
 }

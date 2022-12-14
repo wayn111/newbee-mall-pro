@@ -18,33 +18,36 @@ import java.time.Duration;
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.data.redis.host}")
+    @Value("${spring.redis.host}")
     private String host = "127.0.0.1";
 
-    @Value("${spring.data.redis.port}")
+    @Value("${spring.redis.port}")
     private int port = 6379;
 
     //timeout for jedis try to connect to redis server, not expire time! In milliseconds
-    @Value("${spring.data.redis.timeout}")
+    @Value("${spring.redis.timeout}")
     private int timeout = 0;
 
-    @Value("${spring.data.redis.password}")
+    @Value("${spring.redis.password}")
     private String password = "";
 
-    @Value("${spring.data.redis.database}")
+    @Value("${spring.redis.database}")
     private Integer database = 0;
 
-    @Value("${spring.data.redis.jedis.pool.max-idle}")
+    @Value("${spring.redis.jedis.pool.max-idle}")
     private int maxIdle;
 
+    @Value("${spring.redis.maxTotal}")
+    private int maxTotal;
 
-    @Value("${spring.data.redis.jedis.pool.max-wait}")
+    @Value("${spring.redis.jedis.pool.max-wait}")
     private int maxWaitMillis;
 
     @Bean
     public JedisPoolConfig jedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxTotal(maxTotal);
         jedisPoolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
         jedisPoolConfig.setJmxEnabled(false);
         return jedisPoolConfig;
