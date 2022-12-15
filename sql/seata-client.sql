@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 腾讯云mysql
- Source Server Type    : MySQL
- Source Server Version : 80022
- Source Host           : sh-cynosdbmysql-grp-6159f0n2.sql.tencentcdb.com:22114
- Source Schema         : newbee_mall_db
-
- Target Server Type    : MySQL
- Target Server Version : 80022
- File Encoding         : 65001
-
- Date: 14/12/2022 00:33:38
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
