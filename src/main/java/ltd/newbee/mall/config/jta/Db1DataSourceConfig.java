@@ -41,9 +41,9 @@
 //     @ConfigurationProperties("spring.datasource.druid.master")
 //     public DataSource masterDataSource(DruidProperties druidProperties) {
 //         DruidXADataSource dataSource = druidProperties.dataSource(new DruidXADataSource());
-//         dataSource.setUrl("jdbc:mysql://sh-cynosdbmysql-grp-6159f0n2.sql.tencentcdb.com:22114/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
-//         dataSource.setUsername("wayn");
-//         dataSource.setPassword("admin@@123456");
+//         dataSource.setUrl("jdbc:mysql://localhost:3306/newbee_mall_db?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
+//         dataSource.setUsername("root");
+//         dataSource.setPassword("");
 //         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 //         AtomikosDataSourceBean atomikosDataSourceBean = new AtomikosDataSourceBean();
 //         atomikosDataSourceBean.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
