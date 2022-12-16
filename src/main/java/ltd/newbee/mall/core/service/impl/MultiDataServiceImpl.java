@@ -10,6 +10,7 @@ import ltd.newbee.mall.slave.entity.TbTable2;
 import ltd.newbee.mall.slave.service.TbTable2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -27,12 +28,15 @@ public class MultiDataServiceImpl implements MultiDataService {
     private TbTable2Service tbTable2Service;
 
     @Autowired(required = false)
-    private JtaTransactionManager transactionManager;
+    private JtaTransactionManager jtaTransactionManager;
+
+    @Autowired(required = false)
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public void jtaTestSuccess() {
         DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-        TransactionStatus transaction = transactionManager.getTransaction(transactionDefinition);
+        TransactionStatus transaction = jtaTransactionManager.getTransaction(transactionDefinition);
         try {
             TbTable1 tbTable1 = new TbTable1();
             tbTable1.setName("test1");
@@ -40,18 +44,18 @@ public class MultiDataServiceImpl implements MultiDataService {
             TbTable2 tbTable2 = new TbTable2();
             tbTable2.setName("test2");
             boolean save2 = tbTable2Service.save(tbTable2);
-            transactionManager.commit(transaction);
+            jtaTransactionManager.commit(transaction);
             Assert.isTrue(save1 && save2);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
-            transactionManager.rollback(transaction);
+            jtaTransactionManager.rollback(transaction);
         }
     }
 
     @Override
     public void jtaTestRollback() {
         DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-        TransactionStatus transaction = transactionManager.getTransaction(transactionDefinition);
+        TransactionStatus transaction = jtaTransactionManager.getTransaction(transactionDefinition);
         try {
             TbTable1 tbTable1 = new TbTable1();
             tbTable1.setName("test1");
@@ -60,11 +64,11 @@ public class MultiDataServiceImpl implements MultiDataService {
             tbTable2.setName("test2");
             boolean save2 = tbTable2Service.save(tbTable2);
             int i = 1 / 0;
-            transactionManager.commit(transaction);
+            jtaTransactionManager.commit(transaction);
             Assert.isTrue(save1 && save2);
         } catch (Exception e) {
             log.info(e.getMessage(), e);
-            transactionManager.rollback(transaction);
+            jtaTransactionManager.rollback(transaction);
         }
     }
 
@@ -94,4 +98,23 @@ public class MultiDataServiceImpl implements MultiDataService {
         int i = 1 / 0;
     }
 
+    @Override
+    public void testRollback() {
+        DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        TransactionStatus transaction = transactionManager.getTransaction(transactionDefinition);
+        try {
+            TbTable1 tbTable1 = new TbTable1();
+            tbTable1.setName("test1");
+            boolean save1 = tbTable1Service.save(tbTable1);
+            TbTable2 tbTable2 = new TbTable2();
+            tbTable2.setName("test2");
+            boolean save2 = tbTable2Service.save(tbTable2);
+            int i = 1 / 0;
+            transactionManager.commit(transaction);
+            Assert.isTrue(save1 && save2);
+        } catch (Exception e) {
+            log.info(e.getMessage(), e);
+            transactionManager.rollback(transaction);
+        }
+    }
 }

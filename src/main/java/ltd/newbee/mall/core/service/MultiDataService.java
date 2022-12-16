@@ -9,4 +9,5 @@ public interface MultiDataService {
 
     void seataTestRollback();
 
+    void testRollback();
 }

@@ -24,7 +24,6 @@ import javax.sql.DataSource;
 
 
 @Slf4j
-@ConditionalOnProperty(value = "transactional.mode", havingValue = "seata")
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @Configuration

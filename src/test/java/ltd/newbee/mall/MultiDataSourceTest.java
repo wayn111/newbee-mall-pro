@@ -18,6 +18,12 @@ public class MultiDataSourceTest {
     private MultiDataService multiDataService;
 
     @Test
+    public void testRollback() {
+        multiDataService.testRollback();
+    }
+
+
+    @Test
     public void jtaTestSuccess() {
         multiDataService.jtaTestSuccess();
     }
