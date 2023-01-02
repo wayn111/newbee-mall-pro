@@ -6,7 +6,7 @@
 </p>
 
 ### 简介
-本项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus，集成RedisSearch作为商城搜索中间件，商城首页集成tianai-captcha作为滑块验证码，还添加了高级秒杀、优惠劵以及完善可用的后台全部功能，喜欢的话麻烦给我个star
+本项目是在newbee-mall项目的springboot2.7分支版本，支持多数据源配置以及分布式事务，代码主要在[Db1DataSourceConfig.java](src%2Fmain%2Fjava%2Fltd%2Fnewbee%2Fmall%2Fconfig%2Fseata%2FDb1DataSourceConfig.java)以及[Db2DataSourceConfig.java](src%2Fmain%2Fjava%2Fltd%2Fnewbee%2Fmall%2Fconfig%2Fseata%2FDb2DataSourceConfig.java)
 
 - 商城集成RedisSearch中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序
 - 整合多数据源配置，引入seata解决分布式事务问题
