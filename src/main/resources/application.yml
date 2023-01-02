@@ -62,7 +62,7 @@ mybatis-plus:
 # wayn配置
 wayn:
   serverUrl: ${WAYN_SERVER_URL:localhost} # 支付回调地址，项目部署到公网环境时，必须是外网地址
-  viewModel: ${WAYN_VIEW_MODEL:true} # 演示模式true只能查看，不能修改
+  viewModel: ${WAYN_VIEW_MODEL:false} # 演示模式true只能查看，不能修改
   uploadDir: ${WAYN_UPLOAD_DIR:D:/upload}
 
 # alipay

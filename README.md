@@ -18,11 +18,14 @@
 - 添加Spring事件监听机制，解耦下单流程
 - 集成spring-session-redis，支持分布式部署
 - 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
+- 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
 - [本项目源码](https://github.com/wayn111/newbee-mall)
 - [在线地址](http://121.89.238.61/newbeemall)
 
-### 2022年12月18日更新日志
-1. Springboot版本升级至3.0.0
+### 2023年1月2日更新日志
+1. newbee-mall V2.4.0发布
+2. Springboot版本升级至3.0.1
+3. Mybatis plus升级至3.5.2支持Springboot3.0
 
 ### 2022年11月17日更新日志
 newbee-mall V2.3.0发布
