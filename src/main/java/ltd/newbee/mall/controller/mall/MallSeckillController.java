@@ -121,7 +121,7 @@ public class MallSeckillController extends BaseController {
         // 判断缓存中是否有当前秒杀商品列表页面
         String html = redisCache.getCacheObject(Constants.SECKILL_GOODS_LIST_HTML);
         if (StringUtils.isNotBlank(html)) {
-            // return html;
+            return html;
         }
         List<Seckill> seckillList = seckillService.list(new QueryWrapper<Seckill>().eq("status", 1).orderByDesc("seckill_rank"));
         List<Map<String, Object>> list = seckillList.stream().map(seckill -> {

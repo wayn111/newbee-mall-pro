@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface SeckillDao extends BaseMapper<Seckill> {
 
-    IPage<Seckill> selectListPage(Page page, SeckillVO seckill);
+    IPage<Seckill> selectListPage(Page<Seckill> page, SeckillVO seckill);
 
     /**
      * 秒杀商品减扣库存

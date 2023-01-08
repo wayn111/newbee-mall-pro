@@ -67,7 +67,9 @@ $(function () {
         if (cellvalue.toString().indexOf('http://') > -1) {
             return "<img src='" + cellvalue + "' height=\"80\" width=\"80\" alt='商品主图'/>";
         }
-        return "<img src='" + _ctx + cellvalue + "' height=\"80\" width=\"80\" alt='商品主图'/>";
+        var ctx = _ctx + cellvalue;
+        ctx = ctx.replaceAll('//', '/');
+        return "<img src='" + ctx + "' height=\"80\" width=\"80\" alt='商品主图'/>";
     }
 
 });

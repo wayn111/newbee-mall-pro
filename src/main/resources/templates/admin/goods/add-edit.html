@@ -139,17 +139,18 @@
                                        required="true">
                                 &nbsp;&nbsp;
                                 <label for="sellingPrice" class="control-label">商品标签：</label>
-                                <select class="form-control col-sm-5 js-example-tags" multiple="multiple" id="tag" name="tag" placeholder="*请输入商品小标签">
+                                <select class="form-control col-sm-5 js-example-tags" multiple="multiple" id="tag"
+                                        name="tag" placeholder="*请输入商品小标签">
                                     <th:block th:unless="${null == goods}">
                                         <th:block th:each="item : ${#strings.listSplit(goods.tag,'|')}">
                                             <option th:value="${item}" th:text="${item}" selected="selected"></option>
                                         </th:block>
                                     </th:block>
                                 </select>
-<!--                                <input type="text" class="form-control col-sm-5" id="tag" name="tag"-->
-<!--                                       placeholder="*请输入商品小标签"-->
-<!--                                       th:value="${goods!=null and goods.tag!=null }?${goods.tag}: ''"-->
-<!--                                       required="true">-->
+                                <!--                                <input type="text" class="form-control col-sm-5" id="tag" name="tag"-->
+                                <!--                                       placeholder="*请输入商品小标签"-->
+                                <!--                                       th:value="${goods!=null and goods.tag!=null }?${goods.tag}: ''"-->
+                                <!--                                       required="true">-->
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="goodsSellStatusTrue">上架状态：</label>
@@ -161,14 +162,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <th:block th:if="${null == goods}">
-                                        <img id="goodsCoverImg" th:src="@{/admin/dist/img/img-upload.png}"
-                                             style="height: 64px;width: 64px;">
-                                    </th:block>
-                                    <th:block th:unless="${null == goods}">
-                                        <img id="goodsCoverImg" th:src="${#strings.contains(goods.goodsCoverImg, 'http://')} ? ${goods.goodsCoverImg} : @{/} + ${goods.goodsCoverImg}"
-                                             style="width:160px ;height: 160px;display:block;">
-                                    </th:block>
+                                    <img id="goodsCoverImg" th:src="null == goods ? @{/admin/dist/img/img-upload.png} : @{${goods.goodsCoverImg}}"
+                                         style="width:160px ;height: 160px;display:block;">
                                 </div>
                             </div>
                             <br>
@@ -181,7 +176,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div id="editor" th:utext="${goods!=null and goods.goodsDetailContent !=null}?${goods.goodsDetailContent}: ''">
+                                <div id="editor"
+                                     th:utext="${goods!=null and goods.goodsDetailContent !=null}?${goods.goodsDetailContent}: ''">
                                 </div>
                             </div>
                             <div class="form-group">

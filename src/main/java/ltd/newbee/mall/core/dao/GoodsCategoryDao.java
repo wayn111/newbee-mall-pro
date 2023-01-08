@@ -7,5 +7,5 @@ import ltd.newbee.mall.core.entity.GoodsCategory;
 
 public interface GoodsCategoryDao extends BaseMapper<GoodsCategory> {
 
-    IPage<GoodsCategory> selectListPage(Page page, GoodsCategory goodsCategory);
+    IPage<GoodsCategory> selectListPage(Page<GoodsCategory> page, GoodsCategory goodsCategory);
 }

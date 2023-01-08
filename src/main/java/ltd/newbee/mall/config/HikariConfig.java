@@ -16,11 +16,11 @@ import javax.sql.DataSource;
 
 
 @Slf4j
-@EnableTransactionManagement
-@EnableAspectJAutoProxy
 @Configuration
+@EnableAspectJAutoProxy
+@EnableTransactionManagement
 @MapperScan(basePackages = "ltd.newbee.mall.core.dao")
-public class HikariCpConfig {
+public class HikariConfig {
 
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

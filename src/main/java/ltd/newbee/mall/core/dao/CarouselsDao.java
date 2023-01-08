@@ -7,5 +7,5 @@ import ltd.newbee.mall.core.entity.Carousels;
 
 public interface CarouselsDao extends BaseMapper<Carousels> {
 
-    IPage<Carousels> selectListPage(Page page, Carousels carousels);
+    IPage<Carousels> selectListPage(Page<Carousels> page, Carousels carousels);
 }

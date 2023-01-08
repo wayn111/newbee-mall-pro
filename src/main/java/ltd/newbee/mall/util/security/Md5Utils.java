@@ -9,8 +9,6 @@ import java.util.Objects;
 
 /**
  * Md5加密方法
- *
- * @author ruoyi
  */
 public class Md5Utils {
     private static final Logger log = LoggerFactory.getLogger(Md5Utils.class);
@@ -32,7 +30,7 @@ public class Md5Utils {
         if (hash == null) {
             return null;
         }
-        StringBuffer buf = new StringBuffer(hash.length * 2);
+        StringBuilder buf = new StringBuilder(hash.length * 2);
         int i;
 
         for (i = 0; i < hash.length; i++) {
