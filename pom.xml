@@ -18,13 +18,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <mybatis.plus.version>3.5.3.1</mybatis.plus.version>
-        <fastjson.version>2.0.22</fastjson.version>
+        <fastjson.version>2.0.23</fastjson.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
-        <alipay.version>4.35.9.ALL</alipay.version>
+        <alipay.version>4.35.37.ALL</alipay.version>
         <jedis.version>4.3.1</jedis.version>
         <guava.version>31.1-jre</guava.version>
         <hutool.version>5.8.11</hutool.version>

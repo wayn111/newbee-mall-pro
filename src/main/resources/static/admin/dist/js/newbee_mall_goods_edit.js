@@ -5,6 +5,7 @@ $(function () {
 
     var editor = new FroalaEditor('#editor', {
         language: 'zh_cn',
+        height: 300,
         fullPage: true,
         imageUploadURL: _ctx + 'common/froalaUpload',
         imageManagerToggleTags: false,

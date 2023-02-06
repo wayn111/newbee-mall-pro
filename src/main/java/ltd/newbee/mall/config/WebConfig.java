@@ -87,15 +87,15 @@ public class WebConfig implements WebMvcConfigurer {
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(
                 DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
         javaTimeModule.addSerializer(LocalDate.class,
-                                     new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
+                new LocalDateSerializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
         javaTimeModule.addSerializer(LocalTime.class,
-                                     new LocalTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
+                new LocalTimeSerializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(
                 DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT)));
         javaTimeModule.addDeserializer(LocalDate.class,
-                                       new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
+                new LocalDateDeserializer(DateTimeFormatter.ofPattern(DEFAULT_DATE_FORMAT)));
         javaTimeModule.addDeserializer(LocalTime.class,
-                                       new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
+                new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
 
         // Date序列化和反序列化
         javaTimeModule.addSerializer(Date.class, new JsonSerializer<>() {
@@ -119,24 +119,28 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MallLoginValidateInterceptor()).excludePathPatterns("/login")
-                .excludePathPatterns("/logout").excludePathPatterns("/").excludePathPatterns("/index")
-                .excludePathPatterns("/search").excludePathPatterns("/coupon").excludePathPatterns("/goods/**")
-                .excludePathPatterns("/shopCart/getUserShopCartCount").excludePathPatterns("/seckill/list")
-                .excludePathPatterns("/seckill/detail/*").excludePathPatterns("/seckill/time/now")
-                .excludePathPatterns("/seckill/*/exposer").excludePathPatterns("/register")
-                .excludePathPatterns("/upload/**").excludePathPatterns("/goods-img/**")
-                .excludePathPatterns("/common/**").excludePathPatterns("/mall/**").excludePathPatterns("/admin/**")
-                .excludePathPatterns("/tianai/**");
+        // 商城前台登录拦截器
+        registry.addInterceptor(new MallLoginValidateInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/", "/index", "/login", "/logout", "/register",
+                        "/search", "/coupon", "/goods/**", "/shopCart/getUserShopCartCount",
+                        "/seckill/list", "/seckill/detail/*", "/seckill/time/now", "/seckill/*/exposer",
+                        "/upload/**", "/goods-img/**", "/common/**", "/mall/**", "/admin/**", "/tianai/**"
+                );
+
 
         // 添加一个拦截器，拦截以/admin为前缀的url路径（后台登陆拦截）
         registry.addInterceptor(new AdminLoginInterceptor()).addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login").excludePathPatterns("/admin/dist/**")
                 .excludePathPatterns("/admin/plugins/**");
 
+        // 防止重复提交拦截器
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
 
-        registry.addInterceptor(new AdminViewModelInterceptor(viewModel)).addPathPatterns("/admin/**")
+        // 后台演示模式拦截器
+        registry.addInterceptor(new AdminViewModelInterceptor(viewModel))
+                .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login").excludePathPatterns("/admin")
                 .excludePathPatterns("/admin/statistics").excludePathPatterns("/admin/goods")
                 .excludePathPatterns("/admin/goods/add").excludePathPatterns("/admin/goods/edit/*")
