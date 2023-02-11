@@ -1,36 +1,79 @@
 <p align="center">
-<img src="https://img.shields.io/github/issues/wayn111/newbee-mall" alt="issues">
-<img src="https://img.shields.io/github/forks/wayn111/newbee-mall" alt="forks">
-<img src="https://img.shields.io/github/stars/wayn111/newbee-mall" alt="stars">
-<img src="https://img.shields.io/github/license/wayn111/newbee-mall" alt="license">
+<img src="https://img.shields.io/github/issues/wayn111/newbee-mall-pro" alt="issues">
+<img src="https://img.shields.io/github/forks/wayn111/newbee-mall-pro" alt="forks">
+<img src="https://img.shields.io/github/stars/wayn111/newbee-mall-pro" alt="stars">
+<img src="https://img.shields.io/github/license/wayn111/newbee-mall-pro" alt="license">
 </p>
 
-### 简介
-本项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus，集成RedisSearch作为商城搜索中间件，商城首页集成tianai-captcha作为滑块验证码，还添加了高级秒杀、优惠劵以及完善可用的后台全部功能，喜欢的话麻烦给我个star
+## 简介
+newbee-mall-pro本项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus作为orm层框架，并添加了一系列高级功能以及代码优化，功能如下：
 
-- 商城集成RedisSearch中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序
-- 首页使用滑块验证码登录
-- 集成Pace页面，添加网页进度条
-- 前台添加了秒杀专区，可以购买秒杀商品
-- 前台添加了优惠卷领取页面，再订单结算页面可以选择优惠卷使用
-- 支付时添加了支付宝沙箱支付
-- 后台管理模块添加了优惠卷管理、秒杀管理，统计分析
-- 添加Spring事件监听机制，解耦下单流程
-- 集成spring-session-redis，支持分布式部署
-- 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
-- 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
-- [本项目源码](https://github.com/wayn111/newbee-mall)
-- [在线地址](http://121.89.238.61/newbeemall)
+1. RedisSearch：支持中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序， 详情可见：[更新日志](#2022年3月27日更新日志)
+2. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
+3. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
+4. 商城首页使用滑块验证码登录 详情可见：[更新日志](#2022年4月23日更新日志)
+5. 支付时添加了支付宝沙箱支付
+6. 集成Pace页面，添加网页进度条
+7. 添加Spring事件监听机制，解耦下单流程
+8. 集成spring-session-redis，支持分布式部署
+9. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
+10. 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
+11. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
+12. [在线地址](http://121.4.124.33/newbeemall)
 
+如果有任何使用问题，欢迎提交Issue或加我QQ:1669738430告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
+
+---
+- [开发部署](#开发部署)
+- [在线截图](#在线截图)
+- [更新内容](#更新日志)
+- [参考资料](#参考资料)
+
+
+---
+
+## 开发部署
+
+```
+# 1. 克隆项目
+git clone git@github.com:wayn111/newbee-mall-pro.git
+
+# 2. 导入项目依赖
+将newbee-mall-pro目录用idea打开，导入maven依赖
+
+# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk8+、Maven3.5+
+docker安装RediSearch
+docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:lates
+
+# 4. 导入sql文件
+在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
+
+# 5. 解压项目图片
+将项目根目录下upload.zip文件加压缩到D盘upload文件夹中，eg:D:\\upload
+
+# 6. 修改Mysql、Redis连接配置
+修改`application-dev.yml`文件中数据连接配置相关信息
+
+# 7. 启动项目
+找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
+
+# 8. 访问
+打开浏览器输入：http://localhost:84/newbeemall
+```
+
+
+## 更新日志
 ### 2023年1月2日更新日志
-1. newbee-mall V2.4.0发布
-2. Springboot版本升级至3.0.1
-3. Mybatis plus升级至3.5.2支持Springboot3.0
+newbee-mall-pro V2.4.0发布
+
+更新内容：
+1. Springboot版本升级至3.0.2
+2. Mybatis plus升级至3.5.3.1支持Springboot3.0
 
 ### 2022年11月17日更新日志
-newbee-mall V2.3.0发布
+newbee-mall-pro V2.3.0发布
 
-功能更新：
+更新内容：
 1. Springboot版本升级至2.7.5，jdk升级至17
 2. 使用switch表达式语法扩展，优化switch语句
 3. 使用instanceof类型匹配语法简化，直接给对象赋值
@@ -44,9 +87,9 @@ bug修复：
 
 
 ### 2022年9月04日更新日志
-newbee-mall V2.2.0发布
+newbee-mall-pro V2.2.0发布
 
-功能更新：
+更新内容：
 1. 后台添加商品标签集成`select2`,支持商品标签`不存在即创建`
 2. 添加Spring事件监听机制，解耦下单流程
 3. 集成Pace，美化商城页面
@@ -108,7 +151,7 @@ bug修复：
    ![QQ截图20210530155159.png](https://upload-images.jianshu.io/upload_images/10522714-1631176d29e984a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 5. 升级pom文件部分依赖
 
-### 2021年1月14日 秒杀接口升级
+### 2021年1月14日秒杀接口升级
 
 本次升级主要在原有秒杀功能的基础上进行了完善，秒杀优化如下：
 
@@ -125,36 +168,7 @@ bug修复：
 11. 下单后启用秒杀订单5分钟未支付超期任务
 12. 订单5分钟内未支付则自动取消订单并回退库存
 
-------
-
-### 开发部署
-
-```
-# 1. 克隆项目
-git clone git@github.com:wayn111/newbee-mall.git
-
-# 2. 导入项目依赖
-将newbee-mall目录用idea打开，导入maven依赖
-
-# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk8+、Maven3.5+
-
-# 4. 导入sql文件
-在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
-
-# 5. 解压项目图片
-将项目根目录下upload.zip文件加压缩到D盘upload文件夹中，eg:D:\\upload
-
-# 6. 修改Mysql、Redis连接配置
-修改`application-dev.yml`文件中数据连接配置相关信息
-
-# 7. 启动项目
-找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
-
-# 8. 访问
-打开浏览器输入：http://localhost:84/newbeemall
-```
-
-------
+---
 
 **这里推荐另一套H5商城项目， [waynboot-mall](https://github.com/wayn111/waynboot-mall) 是一套全部开源的微商城项目，包含一个运营后台、h5商城和api接口。
 实现了一个商城所需的首页展示、商品分类、商品详情、sku详情、商品搜索、加入购物车、结算下单、订单状态流转、商品评论等一系列功能。
@@ -162,7 +176,9 @@ git clone git@github.com:wayn111/newbee-mall.git
 贴近生产环境实际经验开发而来不断完善、优化、改进中。                                        
 在线地址：http://82.157.141.70/mall**
 
-### 在线截图
+---
+
+## 在线截图
 
 | 商城首页 ![index](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/index-01.gif)                                         | 商品搜索 ![search](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/search.png)                                        |
 |------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -172,7 +188,7 @@ git clone git@github.com:wayn111/newbee-mall.git
 | 优惠劵管理 ![优惠劵管理](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d795de360a0042a88e66f7e40807dfcd~tplv-k3u1fbpfcp-watermark.image) | 商品管理 ![商品管理](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9cbe8bcdba2448c091a6f56a85e4277f~tplv-k3u1fbpfcp-watermark.image) |
 | 秒杀管理 ![秒杀管理](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e1a2adfd2300497b9f5e95aade9b7fe7~tplv-k3u1fbpfcp-watermark.image)   | 订单管理 ![订单管理](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/612fa67ad62d48929ae64d10e9ea58c7~tplv-k3u1fbpfcp-watermark.image) |
 
-------
+---
 
 ##### 秒杀专区
 
@@ -198,13 +214,11 @@ git clone git@github.com:wayn111/newbee-mall.git
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c7b1a13fa17400ca72380daca83e3b0~tplv-k3u1fbpfcp-watermark.image)
 
-------
+---
 
-### 感谢
+## 参考资料
 
-* [newbee-mall](https://github.com/newbee-ltd/newbee-mall) 项目原作者十三提供的基础项目支持
-
-##### 参考资料
+* 感谢 [newbee-mall](https://github.com/newbee-ltd/newbee-mall) 项目原作者十三提供的基础项目支持
 
 * [秒杀架构模型设计](https://www.cnblogs.com/wyq178/p/11261711.html)
 
@@ -212,12 +226,4 @@ git clone git@github.com:wayn111/newbee-mall.git
 
 * [⭐⭐⭐⭐秒杀系统设计与实现.互联网工程师进阶与分析🙋🐓](https://github.com/qiurunze123/miaosha)
 
-> 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/spring-mybatis-admin) ,集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发
-
-
-### 后话
-
-本人之前一直是在传统公司上班，接触的都是政企项目，公司各系统业务繁多数据库表设计复杂，多是业务逻辑庞大使用技术也都不算新，
-算是j2ee时代的遗留产物，鉴于现在springboot、微服务、中间件等等风生水起，
-又因本人对商城系统情有独钟，因此打算先用springboot搭建一个商城系统，刚好发现了newbee-mall项目
-，就在此项目的基础上添加了一些自己没有接触过的新功能，一起进步。
+> 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/crowd-admin) ,集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发
