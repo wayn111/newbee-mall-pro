@@ -20,9 +20,9 @@ public class ThreadUtil {
         if (pool != null && !pool.isShutdown()) {
             pool.shutdown();
             try {
-                if (!pool.awaitTermination(120, TimeUnit.SECONDS)) {
+                if (!pool.awaitTermination(10, TimeUnit.SECONDS)) {
                     pool.shutdownNow();
-                    if (!pool.awaitTermination(120, TimeUnit.SECONDS)) {
+                    if (!pool.awaitTermination(10, TimeUnit.SECONDS)) {
                         log.info("Pool did not terminate");
                     }
                 }

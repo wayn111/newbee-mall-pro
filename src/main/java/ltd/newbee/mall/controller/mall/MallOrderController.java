@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.config.AlipayConfig;
+import ltd.newbee.mall.config.NewbeeMallConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Coupon;
@@ -36,7 +37,6 @@ import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,8 +72,8 @@ public class MallOrderController extends BaseController {
     @Autowired
     private RedisCache redisCache;
 
-    @Value("${wayn.serverUrl}")
-    private String serverUrl;
+    @Autowired
+    private NewbeeMallConfig newbeeMallConfig;
 
     @ResponseBody
     @GetMapping("saveOrder")
@@ -213,7 +213,7 @@ public class MallOrderController extends BaseController {
             // 创建API对应的request
             AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
             // 在公共参数中设置回调和通知地址
-            String url = serverUrl + request.getContextPath();
+            String url = newbeeMallConfig.getServerUrl() + request.getContextPath();
             alipayRequest.setReturnUrl(url + "/returnOrders/" + order.getOrderNo() + "/" + mallUserVO.getUserId());
             alipayRequest.setNotifyUrl(url + "/paySuccess?payType=1&orderNo=" + order.getOrderNo());
 
@@ -239,7 +239,7 @@ public class MallOrderController extends BaseController {
             // 请求
             String form;
             try {
-                form = alipayClient.pageExecute(alipayRequest).getBody();//调用SDK生成表单
+                form = alipayClient.pageExecute(alipayRequest).getBody();// 调用SDK生成表单
                 request.setAttribute("form", form);
             } catch (AlipayApiException e) {
                 log.error(e.getMessage(), e);

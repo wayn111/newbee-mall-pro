@@ -3,6 +3,7 @@ package ltd.newbee.mall.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ltd.newbee.mall.config.NewbeeMallConfig;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.ServletUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -13,16 +14,17 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AdminViewModelInterceptor implements HandlerInterceptor {
 
-    private final boolean viewModel;
+    private final NewbeeMallConfig newbeeMallConfig;
 
-    public AdminViewModelInterceptor(boolean viewModel) {
-        this.viewModel = viewModel;
+
+    public AdminViewModelInterceptor(NewbeeMallConfig newbeeMallConfig) {
+        this.newbeeMallConfig = newbeeMallConfig;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        if (viewModel) {
-            ServletUtil.renderString(response, JSONObject.toJSONString(R.error("请下载项目源代码，演示模式无法修改！")));
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) {
+        if (newbeeMallConfig.getViewModel()) {
+            ServletUtil.renderString(response, JSONObject.toJSONString(R.error(newbeeMallConfig.getViewModelTip())));
             return false;
         }
         return true;

@@ -5,6 +5,7 @@ import com.wf.captcha.ArithmeticCaptcha;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import ltd.newbee.mall.config.NewbeeMallConfig;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.exception.BusinessException;
@@ -13,7 +14,7 @@ import ltd.newbee.mall.util.ServletUtil;
 import ltd.newbee.mall.util.file.FileUploadUtil;
 import ltd.newbee.mall.util.file.FileUtils;
 import ltd.newbee.mall.util.http.HttpUtil;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,8 @@ import java.util.Map;
 @RequestMapping("common")
 public class CommonController extends BaseController {
 
-    @Value("${wayn.uploadDir}")
-    private String filePath;
+    @Autowired
+    private NewbeeMallConfig newbeeMallConfig;
 
     /**
      * 通用下载请求
@@ -44,7 +45,7 @@ public class CommonController extends BaseController {
     @GetMapping("/download")
     public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
         try {
-            String uploadDir = filePath;
+            String uploadDir = newbeeMallConfig.getUploadDir();
             if (!FileUtils.isValidFilename(fileName)) {
                 throw new BusinessException("文件名称(" + fileName + ")非法，不允许下载。 ");
             }
@@ -73,7 +74,7 @@ public class CommonController extends BaseController {
     public R uploadFile(MultipartFile file, HttpServletRequest request) {
         try {
             // 上传文件路径
-            String fileName = FileUploadUtil.uploadFile(file, filePath);
+            String fileName = FileUploadUtil.uploadFile(file, newbeeMallConfig.getUploadDir());
             String requestUrl = HttpUtil.getRequestContext(request);
             String url = requestUrl + "/upload/" + fileName;
             return R.success().add("url", url).add("fileName", fileName);
@@ -88,7 +89,7 @@ public class CommonController extends BaseController {
     public void froalaUploadFile(MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         try {
             // 上传文件路径
-            String fileName = FileUploadUtil.uploadFile(file, filePath);
+            String fileName = FileUploadUtil.uploadFile(file, newbeeMallConfig.getUploadDir());
             String requestUrl = HttpUtil.getRequestContext(request);
             String url = requestUrl + "/upload/" + fileName;
             Map<String, Object> data = new HashMap<>();

@@ -16,7 +16,7 @@ $(function () {
                     if (r == 'success') {
                         alert('修改成功');
                     } else {
-                        alert('修改失败');
+                        alert(r.msg);
                     }
                 }
             });
@@ -39,7 +39,7 @@ $(function () {
                         alert('修改成功');
                         window.location.href = _ctx + 'admin/login';
                     } else {
-                        alert('修改失败');
+                        alert(r.msg);
                     }
                 }
             });

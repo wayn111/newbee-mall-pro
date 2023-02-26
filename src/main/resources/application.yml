@@ -60,9 +60,10 @@ mybatis-plus:
   type-aliases-package: com.wayn.**.entity
 
 # wayn配置
-wayn:
+newbee-mall:
   serverUrl: ${WAYN_SERVER_URL:localhost} # 支付回调地址，项目部署到公网环境时，必须是外网地址
   viewModel: ${WAYN_VIEW_MODEL:false} # 演示模式true只能查看，不能修改
+  viewModelTip: ${WAYN_VIEW_MODEL_TIP:请下载项目源代码，演示模式后台无法修改！} # 演示模式true只能查看，不能修改
   uploadDir: ${WAYN_UPLOAD_DIR:D:/upload}
 
 # alipay
