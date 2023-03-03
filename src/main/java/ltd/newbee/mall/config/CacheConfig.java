@@ -35,19 +35,15 @@ public class CacheConfig implements CachingConfigurer {
      */
     @Bean
     public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
-        return clientConfigurationBuilder -> {
-            LettuceClientConfiguration clientConfiguration = clientConfigurationBuilder.build();
-            ClientOptions clientOptions = clientConfiguration.getClientOptions().orElseGet(ClientOptions::create);
-            ClientOptions build = clientOptions.mutate().build();
-            SocketOptions.KeepAliveOptions.Builder builder = build.getSocketOptions().getKeepAlive().mutate();
-            builder.enable(true);
-            builder.idle(Duration.ofSeconds(30));
-            SocketOptions.Builder socketOptionsBuilder = clientOptions.getSocketOptions().mutate();
-            SocketOptions.KeepAliveOptions keepAliveOptions = builder.build();
-            socketOptionsBuilder.keepAlive(keepAliveOptions);
-            SocketOptions socketOptions = socketOptionsBuilder.build();
-            ClientOptions clientOptions1 = ClientOptions.builder().socketOptions(socketOptions).build();
-            clientConfigurationBuilder.clientOptions(clientOptions1);
+        return builder -> {
+            builder.clientOptions(ClientOptions.builder().socketOptions(SocketOptions.builder()
+                    .keepAlive(SocketOptions.KeepAliveOptions.builder()
+                            .enable(true)
+                            .idle(Duration.ofMinutes(3))
+                            .count(3)
+                            .interval(Duration.ofSeconds(10))
+                            .build()
+                    ).build()).build());
         };
     }
 

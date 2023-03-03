@@ -59,32 +59,25 @@ public class RedisLock {
      * @return boolean
      */
     public boolean lock(String key, Integer timeout) {
-        Integer timeoutTmp;
+        Integer timeoutTmp = timeout;
         if (timeout == null) {
             timeoutTmp = DEFAULT_TIME_OUT;
-        } else {
-            timeoutTmp = timeout;
         }
-        String nanoId;
-        if (stringThreadLocal.get() != null) {
-            nanoId = stringThreadLocal.get();
-        } else {
-            nanoId = IdUtil.nanoId();
-            stringThreadLocal.set(nanoId);
-        }
+        String nanoId = IdUtil.nanoId();
+        stringThreadLocal.set(nanoId);
         RedisScript<Long> redisScript = new DefaultRedisScript<>(buildLuaLockScript(), Long.class);
         Long execute = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key), nanoId, timeoutTmp);
         boolean flag = execute != null && execute == 1;
-        if (flag) {
+        if (flag && timeout <= 0) {
             ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
             executorServiceThreadLocal.set(scheduledExecutorService);
             scheduledExecutorService.scheduleWithFixedDelay(() -> {
                 RedisScript<Long> renewRedisScript = new DefaultRedisScript<>(buildLuaRenewScript(), Long.class);
-                Long result = (Long) redisTemplate.execute(renewRedisScript, Collections.singletonList(key), nanoId, timeoutTmp);
+                Long result = (Long) redisTemplate.execute(renewRedisScript, Collections.singletonList(key), nanoId, DEFAULT_TIME_OUT);
                 if (result != null && result == 2) {
                     ThreadUtil.shutdownAndAwaitTermination(scheduledExecutorService);
                 }
-            }, 0, timeoutTmp / 3, TimeUnit.SECONDS);
+            }, 0, DEFAULT_TIME_OUT / 3, TimeUnit.SECONDS);
         }
         return flag;
     }
@@ -113,12 +106,8 @@ public class RedisLock {
                 local key = KEYS[1]
                 local value = ARGV[1]
                 local time_out = ARGV[2]
-                local result = redis.call('get', key)
-                if result == value then
-                    return 1;
-                end
-                local lock_result = redis.call('setnx', key, value)
-                if tonumber(lock_result) == 1 then
+                local result = redis.call('setnx', key, value)
+                if tonumber(result) == 1 then
                     redis.call('expire', key, time_out)
                     return 1;
                 else

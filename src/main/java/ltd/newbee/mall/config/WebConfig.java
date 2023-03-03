@@ -16,7 +16,6 @@ import ltd.newbee.mall.interceptor.AdminViewModelInterceptor;
 import ltd.newbee.mall.interceptor.MallLoginValidateInterceptor;
 import ltd.newbee.mall.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
@@ -50,12 +49,8 @@ public class WebConfig implements WebMvcConfigurer {
      */
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
 
-    @Value("${wayn.uploadDir}")
-    private String uploadDir;
-
-    @Value("${wayn.viewModel}")
-    private boolean viewModel;
-
+    @Autowired
+    private NewbeeMallConfig newbeeMallConfig;
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
@@ -68,7 +63,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 本地文件上传路径
-        registry.addResourceHandler("/upload/**", "/goods-img/**").addResourceLocations("file:" + uploadDir + "/");
+        registry.addResourceHandler("/upload/**", "/goods-img/**").addResourceLocations("file:" + newbeeMallConfig.getUploadDir() + "/");
     }
 
 
@@ -139,7 +134,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
 
         // 后台演示模式拦截器
-        registry.addInterceptor(new AdminViewModelInterceptor(viewModel))
+        registry.addInterceptor(new AdminViewModelInterceptor(newbeeMallConfig))
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login").excludePathPatterns("/admin")
                 .excludePathPatterns("/admin/statistics").excludePathPatterns("/admin/goods")

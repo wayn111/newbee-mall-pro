@@ -117,7 +117,7 @@ $('#saveButton').click(function () {
                 reload();
             } else {
                 $('#carouselModal').modal('hide');
-                swalAlert.error(r.msg);
+                swalAlert.error(result.msg);
             }
         },
         error: function () {

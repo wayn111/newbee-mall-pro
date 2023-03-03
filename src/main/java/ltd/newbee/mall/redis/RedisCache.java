@@ -40,7 +40,6 @@ public class RedisCache {
      */
     public Long decrement(final String key) {
         return redisTemplate.opsForValue().decrement(key);
-
     }
 
     /**
@@ -52,7 +51,7 @@ public class RedisCache {
     public Long luaDecrement(final String key) {
         RedisScript<Long> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Long.class);
         Long execute = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key));
-        if (execute == null) {
+        if (execute != null) {
             return -1L;
         }
         return execute;
@@ -63,13 +62,12 @@ public class RedisCache {
      */
     private String buildLuaDecScript() {
         return """
-                local c
-                c = redis.call('get',KEYS[1])
+                local c = redis.call('get',KEYS[1])
                 if c and tonumber(c) < 0 then
-                return c;
+                    return c;
                 end
-                c = redis.call('decr',KEYS[1])
-                return c;""";
+                return redis.call('decr',KEYS[1])
+                """;
     }
 
     /**

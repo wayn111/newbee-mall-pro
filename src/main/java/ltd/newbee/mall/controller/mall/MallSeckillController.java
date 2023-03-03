@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ltd.newbee.mall.annotation.Limit;
-import ltd.newbee.mall.annotation.RepeatSubmit;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Goods;
@@ -69,8 +68,8 @@ public class MallSeckillController extends BaseController {
     }
 
     @ResponseBody
-    @RepeatSubmit // 接口防重复提交注解
-    @Limit(key = "seckill", period = 1, count = 1000, name = "执行秒杀限制", prefix = "limit") // 接口限流注解
+    // 接口限流注解
+    @Limit(key = "seckill", period = 1, count = 200, name = "执行秒杀限制", prefix = Constants.CACHE_PREFIX)
     @PostMapping(value = "/{seckillId}/{md5}/execution")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {
