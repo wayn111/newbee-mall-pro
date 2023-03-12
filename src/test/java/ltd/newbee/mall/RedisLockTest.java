@@ -20,6 +20,9 @@ public class RedisLockTest {
     @Autowired
     private RedisLock redisLock;
 
+    /**
+     * 自动续期测试
+     */
     @Test
     public void redisLockNeNewTest() {
         String key = "test";
@@ -39,6 +42,10 @@ public class RedisLockTest {
     }
 
 
+    /**
+     * 多个线程释放自身锁测试
+     * @throws IOException
+     */
     @Test
     public void redisLockReleaseSelfTest() throws IOException {
         new Thread(() -> {
@@ -82,6 +89,9 @@ public class RedisLockTest {
     }
 
 
+    /**
+     * 锁重入性测试
+     */
     @Test
     public void redisLockReEntryTest() {
         String key = "test";
