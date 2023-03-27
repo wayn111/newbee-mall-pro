@@ -17,6 +17,7 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 7. 添加Spring事件监听机制，解耦下单流程
 8. 集成spring-session-redis，支持分布式部署
 9. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
+9. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持xml文件热加载
 10. 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
 11. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
 12. [在线地址](http://121.4.124.33/newbeemall)
@@ -63,6 +64,14 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 
 
 ## 更新日志
+### 2023年3月27日更新日志
+newbee-mall-pro V2.4.1发布
+
+更新内容：
+1. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持xml文件热加载
+2. 代码优化，通过阿里巴巴代码规范检测
+3. 升级部分依赖至最新
+
 ### 2023年1月2日更新日志
 newbee-mall-pro V2.4.0发布
 
