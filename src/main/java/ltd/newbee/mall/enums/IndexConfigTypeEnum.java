@@ -4,11 +4,23 @@ package ltd.newbee.mall.enums;
  * 首页配置枚举类
  */
 public enum IndexConfigTypeEnum {
+    /**
+     * 默认
+     */
     DEFAULT(0, "DEFAULT"),
-    INDEX_SEARCH_HOTS(1, "INDEX_SEARCH_HOTS"),
-    INDEX_SEARCH_DOWN_HOTS(2, "INDEX_SEARCH_DOWN_HOTS"),
+    /**
+     * 首页热门商品
+     */
     INDEX_GOODS_HOT(3, "INDEX_GOODS_HOTS"),
+
+    /**
+     * 首页新品
+     */
     INDEX_GOODS_NEW(4, "INDEX_GOODS_NEW"),
+
+    /**
+     * 首页推荐商品
+     */
     INDEX_GOODS_RECOMMOND(5, "INDEX_GOODS_RECOMMOND");
 
     private int type;

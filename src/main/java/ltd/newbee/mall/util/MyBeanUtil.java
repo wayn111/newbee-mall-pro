@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Slf4j
-public abstract class MyBeanUtil {
+public class MyBeanUtil {
 
     public static Object copyProperties(Object source, Object target, String... ignoreProperties) {
         if (source == null) {
@@ -76,7 +76,7 @@ public abstract class MyBeanUtil {
         void set(Object source, T target);
     }
 
-    //检查Pojo对象是否有null字段
+    // 检查Pojo对象是否有null字段
     public static boolean checkPojoNullField(Object o, Class<?> clz) {
         try {
             Field[] fields = clz.getDeclaredFields();

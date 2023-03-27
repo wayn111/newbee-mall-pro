@@ -113,9 +113,12 @@ public class CommonController extends BaseController {
         // 算术类型
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
         // CustomArithmeticCaptcha captcha = new CustomArithmeticCaptcha(130, 48);
-        captcha.setLen(2);  // 几位数运算，默认是两位
-        captcha.getArithmeticString();  // 获取运算的公式：3+2=?
-        captcha.text();  // 获取运算的结果：5
+        // 几位数运算，默认是两位
+        captcha.setLen(2);
+        // 获取运算的公式：3+2=?
+        captcha.getArithmeticString();
+        // 获取运算的结果：5
+        captcha.text();
         stopWatch.stop();
         System.out.println(stopWatch.getLastTaskInfo().getTimeMillis());
 

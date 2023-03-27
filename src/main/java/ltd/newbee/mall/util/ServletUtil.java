@@ -17,10 +17,10 @@ import java.util.Map;
 @Slf4j
 public class ServletUtil {
 
-    private static final ServletUtil getInstance;
+    private static final ServletUtil GET_INSTANCE;
 
     static {
-        getInstance = new ServletUtil();
+        GET_INSTANCE = new ServletUtil();
     }
 
     /**
@@ -80,7 +80,7 @@ public class ServletUtil {
      */
     public static ServletUtil setParameter(String name, Object value) {
         getRequest().setAttribute(name, value);
-        return getInstance;
+        return GET_INSTANCE;
     }
 
     /**

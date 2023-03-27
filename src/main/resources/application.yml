@@ -90,3 +90,8 @@ captcha:
     cache-size: 20
   secondary:
     enabled: false
+
+# xml热加载配置
+mybatis-xml-reload:
+  enabled: ${XML_RELOAD:false}
+  mapper-locations: classpath*:mapper/*.xml

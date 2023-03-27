@@ -9,23 +9,44 @@ public class Constants {
     public static final Byte CATEGORY_LEVEL_TWO = 2;
     public static final Byte CATEGORY_LEVEL_THREE = 3;
 
-    public final static int INDEX_GOODS_HOT_NUMBER = 4;//首页热卖商品数量
-    public final static int INDEX_GOODS_NEW_NUMBER = 5;//首页新品数量
-    public final static int INDEX_GOODS_RECOMMOND_NUMBER = 10;//首页推荐商品数量
+    /**
+     * 首页热卖商品数量
+     */
+    public final static int INDEX_GOODS_HOT_NUMBER = 4;
+    /**
+     * 首页新品数量
+     */
+    public final static int INDEX_GOODS_NEW_NUMBER = 5;
+    /**
+     * 首页推荐商品数量
+     */
+    public final static int INDEX_GOODS_RECOMMOND_NUMBER = 10;
 
     /**
      * 项目缓存前缀
      */
     public static final String CACHE_PREFIX = "newbee_mall:";
 
-    public static final String MALL_USER_SESSION_KEY = "mallUser";//session中user的key
+    /**
+     * session中user的key
+     */
+    public static final String MALL_USER_SESSION_KEY = "mallUser";
 
-    public static final String MALL_VERIFY_CODE_KEY = "mallVerifyCode";//验证码key
+    /**
+     * 验证码key
+     */
+    public static final String MALL_VERIFY_CODE_KEY = "mallVerifyCode";
 
 
-    public static final int GOODS_SEARCH_PAGE_LIMIT = 20;//搜索分页的默认条数(每页10条)
+    /**
+     * 搜索分页的默认条数(每页10条)
+     */
+    public static final int GOODS_SEARCH_PAGE_LIMIT = 20;
 
-    public static final int ORDER_SEARCH_PAGE_LIMIT = 3;//我的订单列表分页的默认条数(每页3条)
+    /**
+     * 我的订单列表分页的默认条数(每页3条)
+     */
+    public static final int ORDER_SEARCH_PAGE_LIMIT = 3;
 
     /**
      * 字符编码

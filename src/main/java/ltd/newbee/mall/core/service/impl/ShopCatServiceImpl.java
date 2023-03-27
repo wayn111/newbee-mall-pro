@@ -34,7 +34,9 @@ public class ShopCatServiceImpl extends ServiceImpl<ShopCatDao, ShopCat> impleme
             temp = getOne(new QueryWrapper<ShopCat>()
                     .eq("user_id", shopCat.getUserId())
                     .eq("goods_id", shopCat.getGoodsId()));
-            if (temp != null) shopCat.setGoodsCount(temp.getGoodsCount());
+            if (temp != null) {
+                shopCat.setGoodsCount(temp.getGoodsCount());
+            }
         }
         // 购物车商品已存在，修改数量
         if (temp != null) {

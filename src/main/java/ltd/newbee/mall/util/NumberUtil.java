@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
  */
 public class NumberUtil {
 
+    public static final Pattern phonePattern = Pattern.compile("^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0-8])|(18[0-9]))\\d{8}$");
+
     private NumberUtil() {
     }
 
@@ -22,8 +24,7 @@ public class NumberUtil {
      * @return
      */
     public static boolean isPhone(String phone) {
-        Pattern pattern = Pattern.compile("^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0-8])|(18[0-9]))\\d{8}$");
-        Matcher matcher = pattern.matcher(phone);
+        Matcher matcher = phonePattern.matcher(phone);
         return matcher.matches();
     }
 

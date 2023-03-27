@@ -38,11 +38,16 @@ public class MallIndexController {
         List<Carousels> carousels = carouselsService.list(new QueryWrapper<Carousels>()
                 .eq("is_deleted", 0)
                 .orderByAsc("carousel_rank"));
-        request.setAttribute("categories", root);// 分类数据
-        request.setAttribute("carousels", carousels);// 轮播图
-        request.setAttribute("hotGoodses", hotGoodses);// 热销商品
-        request.setAttribute("newGoodses", newGoodses);// 新品
-        request.setAttribute("recommendGoodses", recommendGoodses);// 推荐商品
+        // 分类数据
+        request.setAttribute("categories", root);
+        // 轮播图
+        request.setAttribute("carousels", carousels);
+        // 热销商品
+        request.setAttribute("hotGoodses", hotGoodses);
+        // 新品
+        request.setAttribute("newGoodses", newGoodses);
+        // 推荐商品
+        request.setAttribute("recommendGoodses", recommendGoodses);
         return "mall/index";
     }
 }

@@ -239,7 +239,8 @@ public class MallOrderController extends BaseController {
             // 请求
             String form;
             try {
-                form = alipayClient.pageExecute(alipayRequest).getBody();// 调用SDK生成表单
+                // 调用SDK生成表单
+                form = alipayClient.pageExecute(alipayRequest).getBody();
                 request.setAttribute("form", form);
             } catch (AlipayApiException e) {
                 log.error(e.getMessage(), e);

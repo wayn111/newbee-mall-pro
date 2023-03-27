@@ -57,7 +57,7 @@ public class MallSeckillController extends BaseController {
     @ResponseBody
     @GetMapping("time/now")
     public R getTimeNow() {
-        return R.success().add("now", new Date().getTime());
+        return R.success().add("now", System.currentTimeMillis());
     }
 
     @ResponseBody
@@ -176,13 +176,16 @@ public class MallSeckillController extends BaseController {
         long endAt = seckill.getSeckillEnd().getTime();
         int miaoshaStatus;
         int remainSeconds;
-        if (now < startAt) {// 秒杀还没开始，倒计时
+        if (now < startAt) {
+            // 秒杀还没开始，倒计时
             miaoshaStatus = 0;
             remainSeconds = (int) ((startAt - now) / 1000);
-        } else if (now > endAt) {// 秒杀已经结束
+        } else if (now > endAt) {
+            // 秒杀已经结束
             miaoshaStatus = 2;
             remainSeconds = -1;
-        } else {// 秒杀进行中
+        } else {
+            // 秒杀进行中
             miaoshaStatus = 1;
             remainSeconds = 0;
         }

@@ -14,6 +14,6 @@ public interface CouponDao extends BaseMapper<Coupon> {
 
     List<Coupon> selectAvailableCoupon();
 
-    int reduceCouponTotal(Long couponId);
+    Integer reduceCouponTotal(Long couponId);
 
 }

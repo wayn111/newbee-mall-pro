@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> implements SeckillService {
 
     // 使用令牌桶RateLimiter 限流
-    private static final RateLimiter rateLimiter = RateLimiter.create(10);
+    private static final RateLimiter RATE_LIMITER = RateLimiter.create(10);
 
     private SeckillDao seckillDao;
     private SeckillSuccessService seckillSuccessService;
@@ -202,7 +202,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     @Override
     public SeckillSuccessVO executeSeckillLimiting(Long seckillId, MallUserVO userVO) {
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
-        if (!rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS)) {
+        if (!RATE_LIMITER.tryAcquire(500, TimeUnit.MILLISECONDS)) {
             // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
             throw new BusinessException("秒杀失败");
         }
@@ -273,7 +273,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
      */
     public SeckillSuccessVO executeSeckillFinal(Long seckillId, MallUserVO userVO) {
         // 判断能否在500毫秒内得到令牌，如果不能则立即返回false，不会阻塞程序
-        if (!rateLimiter.tryAcquire(500, TimeUnit.MILLISECONDS)) {
+        if (!RATE_LIMITER.tryAcquire(500, TimeUnit.MILLISECONDS)) {
             // System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
             throw new BusinessException("秒杀失败");
         }

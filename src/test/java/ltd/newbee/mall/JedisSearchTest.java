@@ -32,7 +32,7 @@ public class JedisSearchTest {
     @Autowired
     private RedisLock redisLock;
 
-    private static final String idxName = "idx:goods";
+    private static final String IDX_NAME = "idx:goods";
 
     @Test
     public void createIndex() {
@@ -41,7 +41,7 @@ public class JedisSearchTest {
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
                 .addSortableTagField("tag", "|");
-        jedisSearch.createIndex(idxName, "goods", schema);
+        jedisSearch.createIndex(IDX_NAME, "goods", schema);
         System.out.println("end");
     }
 
@@ -49,7 +49,7 @@ public class JedisSearchTest {
     @Test
     public void query() {
         System.out.println("begin");
-        SearchResult query = jedisSearch.query(idxName, "(@goodsName:(手机) | @goodsIntro:(手机)) @goodsSellStatus:[0 0]", "sellingPrice");
+        SearchResult query = jedisSearch.query(IDX_NAME, "(@goodsName:(手机) | @goodsIntro:(手机)) @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
         assert query != null;
     }
@@ -65,7 +65,7 @@ public class JedisSearchTest {
     @Test
     public void goodsSync() {
         System.out.println("begin");
-        jedisSearch.dropIndex(idxName);
+        jedisSearch.dropIndex(IDX_NAME);
         Schema schema = new Schema()
                 .addSortableTextField("goodsName", 1.0)
                 .addSortableTextField("goodsIntro", 0.5)
@@ -74,10 +74,10 @@ public class JedisSearchTest {
                 .addSortableNumericField("goodsSellStatus")
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
-        jedisSearch.createIndex(idxName, Constants.GOODS_IDX_PREFIX, schema);
+        jedisSearch.createIndex(IDX_NAME, Constants.GOODS_IDX_PREFIX, schema);
         List<Goods> list = goodsService.list(Wrappers.<Goods>lambdaQuery().eq(Goods::getGoodsSellStatus, 0));
         jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
-        SearchResult query = jedisSearch.query(idxName, "@tag:{小米|华为} @goodsSellStatus:[0 0]", "sellingPrice");
+        SearchResult query = jedisSearch.query(IDX_NAME, "@tag:{小米|华为} @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
     }
 
