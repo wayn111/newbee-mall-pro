@@ -49,9 +49,9 @@ public class RedisCache {
      * @return 递减后返回值
      */
     public Long luaDecrement(final String key) {
-        RedisScript<Long> redisScript = new DefaultRedisScript<>(buildLuaDecScript(), Long.class);
+        RedisScript<Long> redisScript = new DefaultRedisScript<>(buildLuaDecrScript(), Long.class);
         Long execute = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key));
-        if (execute != null) {
+        if (execute == null) {
             return -1L;
         }
         return execute;
@@ -60,7 +60,7 @@ public class RedisCache {
     /**
      * lua原子自减脚本
      */
-    private String buildLuaDecScript() {
+    private String buildLuaDecrScript() {
         return """
                 local c = redis.call('get',KEYS[1])
                 if c and tonumber(c) < 0 then
