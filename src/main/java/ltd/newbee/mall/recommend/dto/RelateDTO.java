@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RelateDTO {
     // 用户id
-    private Integer userId;
-    // 业务id
-    private Integer productId;
+    private Long userId;
+    // 商品id
+    private Long productId;
+    // 类目id
+    private Long categoryId;
     // 指数
     private Integer index;
 

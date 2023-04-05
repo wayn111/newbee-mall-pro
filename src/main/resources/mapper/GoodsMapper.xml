@@ -105,4 +105,10 @@
             </if>
         </where>
     </select>
+    <select id="selectUpGoodsList" resultMap="BaseResultMap">
+        <include refid="selectGoodsNotContent"></include>
+        <where>
+            goods_sell_status = 0
+        </where>
+    </select>
 </mapper>

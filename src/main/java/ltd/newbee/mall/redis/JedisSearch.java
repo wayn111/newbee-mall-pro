@@ -74,6 +74,16 @@ public class JedisSearch {
         return client.ftSearch(idxName, q);
     }
 
+    public SearchResult queryAll(String idxName, String search, String sort) {
+        Query q = new Query(search);
+        if (StringUtils.isNotBlank(sort)) {
+            q.setSortBy(sort, false);
+        }
+        q.setLanguage(Constants.GOODS_IDX_LANGUAGE);
+        q.limit(0, 10000);
+        return client.ftSearch(idxName, q);
+    }
+
     public SearchResult search(String goodsIdxName, SearchObjVO searchObjVO, Page<SearchPageGoodsVO> page) {
         String keyword = searchObjVO.getKeyword();
         // 查询商品名、商品介绍包含搜索词，同时是上架状态的商品
@@ -133,6 +143,7 @@ public class JedisSearch {
         RsGoodsDTO target = new RsGoodsDTO();
         MyBeanUtil.copyProperties(goods, target);
         Map<String, String> hash = MyBeanUtil.toMap(target);
+        // 支持中文
         hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
         client.hset(keyPrefix + goods.getGoodsId(), hash);
     }

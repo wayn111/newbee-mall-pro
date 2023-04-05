@@ -77,4 +77,10 @@
         GROUP BY
             days;
     </select>
+
+    <select id="selectOrderIds" resultMap="BaseResultMap">
+        SELECT t.order_id, t.user_id
+        FROM tb_newbee_mall_order t
+        WHERE is_deleted = 0
+    </select>
 </mapper>

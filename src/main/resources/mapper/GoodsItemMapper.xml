@@ -22,4 +22,16 @@
             order_id = #{orderId}
         </where>
     </select>
+    <select id="selectByOrderIds" resultType="ltd.newbee.mall.core.entity.vo.OrderItemVO">
+        select t.order_id, t.goods_id, t.goods_count, g.goods_category_id category_id
+        from tb_newbee_mall_order_item t join tb_newbee_mall_goods_info g on t.goods_id = g.goods_id
+        <where>
+            order_id in
+            (
+            <foreach collection="orderIds" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+        </where>
+    </select>
 </mapper>

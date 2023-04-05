@@ -13,6 +13,8 @@ public class OrderItemVO implements Serializable {
 
     private Long goodsId;
 
+    private Long categoryId;
+
     private Integer goodsCount;
 
     private String goodsName;

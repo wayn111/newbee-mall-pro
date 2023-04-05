@@ -13,6 +13,8 @@ public interface GoodsDao extends BaseMapper<Goods> {
     IPage<Goods> selectListPage(Page<Goods> page, Goods goods);
     List<Goods> selectGoodsListByIds(List<Long> ids);
 
+    List<Goods> selectUpGoodsList();
+
     IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 
     boolean addStock(Long goodsId, Integer number);

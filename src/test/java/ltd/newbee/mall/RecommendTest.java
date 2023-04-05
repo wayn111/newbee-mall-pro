@@ -1,6 +1,7 @@
 package ltd.newbee.mall;
 
 import com.alibaba.fastjson2.JSONArray;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.recommend.core.CoreMath;
 import ltd.newbee.mall.recommend.dto.ProductDTO;
 import ltd.newbee.mall.recommend.dto.RelateDTO;
@@ -16,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NewBeeMallApplication.class)
 public class RecommendTest {
@@ -54,25 +56,15 @@ public class RecommendTest {
      */
     @Test
     public void recommendGoods() {
+        log.info("begin");
         List<ProductDTO> productData = recommendService.getProductData();
         // 协同过滤算法
         CoreMath coreMath = new CoreMath();
         // 获取商品数据
         List<RelateDTO> relateData = recommendService.getRelateData();
         // 执行算法，返回推荐商品id
-        List<Integer> recommendIdLists = coreMath.recommend(901, relateData);
-
-        System.out.println("recommendIdLists size = " + recommendIdLists.size());
-        for (Integer recommendIdList : recommendIdLists) {
-            System.out.println(recommendIdList);
-        }
-
-        // 获取商品DTO
-        List<ProductDTO> productDTOList = productData.stream().filter(e -> recommendIdLists.contains(e.getProductId())).toList();
-        System.out.println("productDTOList size=" + productDTOList.size());
-
-        for (ProductDTO productDTO : productDTOList) {
-            System.out.println(productDTO.getProductId());
-        }
+        List<Long> recommendIdLists = coreMath.recommend(71L, 10, relateData);
+        log.info(recommendIdLists.toString());
+        log.info("end");
     }
 }
