@@ -9,6 +9,12 @@ public class Constants {
     public static final Byte CATEGORY_LEVEL_TWO = 2;
     public static final Byte CATEGORY_LEVEL_THREE = 3;
 
+    public static final String CATEGORIES = "categories";
+    public static final String CAROUSELS = "carousels";
+    public static final String HOT_GOODSES = "hotGoodses";
+    public static final String NEW_GOODSES = "newGoodses";
+    public static final String RECOMMEND_GOODSES = "recommendGoodses";
+
     /**
      * 首页热卖商品数量
      */

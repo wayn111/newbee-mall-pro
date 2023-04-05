@@ -33,19 +33,9 @@ public class IndexConfigServiceImpl extends ServiceImpl<IndexConfigDao, IndexCon
 
     @Override
     public List<Goods> listIndexConfig(IndexConfigTypeEnum indexGoodsHot, int limit) {
-        List<IndexConfig> list = list(new QueryWrapper<IndexConfig>()
-                .eq("config_type", indexGoodsHot.getType())
-                .last("limit " + limit)
-                .orderByDesc("config_rank"));
+        List<IndexConfig> list = indexConfigDao.selectListIndexConfig(indexGoodsHot.getType(), limit);
         List<Long> collect = list.stream().map(IndexConfig::getGoodsId).collect(Collectors.toList());
         return goodsService.listByIds(collect);
     }
 
-    public static void main(String[] args) {
-        JShell shell = JShell.create();
-        shell.eval("int a=10;");
-        shell.eval("int b=10;");
-        var eval = shell.eval("a+b;");
-        System.out.println(eval.get(0).value());
-    }
 }

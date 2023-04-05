@@ -22,7 +22,12 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 11. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
 12. [在线地址](http://121.4.124.33/newbeemall)
 
-如果有任何使用问题，欢迎提交Issue或加我QQ:1669738430告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
+> 如果有任何使用问题，欢迎提交Issue或加我微信告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
+
+关注公众号：waynblog，回复"学习"进群交流。
+
+<img src="images/wx-mp-code.png" width = "100" />
+
 
 ---
 - [开发部署](#开发部署)

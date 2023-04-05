@@ -3,12 +3,6 @@ package ltd.newbee.mall.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link https://github.com/newbee-ltd
- */
 public class NumberUtil {
 
     public static final Pattern phonePattern = Pattern.compile("^((13[0-9])|(14[5,7])|(15[^4,\\D])|(17[0-8])|(18[0-9]))\\d{8}$");

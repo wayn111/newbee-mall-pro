@@ -6,14 +6,6 @@ import ltd.newbee.mall.interceptor.threadlocal.AdminLoginThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * 后台系统身份验证拦截器
- *
- * @author 13
- * @qq交流群 796794009
- * @email 2449207463@qq.com
- * @link https://github.com/newbee-ltd
- */
 public class AdminLoginInterceptor implements HandlerInterceptor {
 
     @Override

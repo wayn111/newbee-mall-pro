@@ -18,17 +18,26 @@
     </resultMap>
 
     <sql id="selectIndexConfig">
-        select t.config_id, t.config_name, t.config_type, t.goods_id, t.is_deleted,
+        SELECT t.config_id, t.config_name, t.config_type, t.goods_id, t.is_deleted,
         t.redirect_url,t.config_rank, t.update_time, t.update_user, t.create_time,
         t.update_time
-        from tb_newbee_mall_index_config t
+        FROM tb_newbee_mall_index_config t
     </sql>
 
     <select id="selectListPage" parameterType="ltd.newbee.mall.core.entity.IndexConfig" resultMap="BaseResultMap">
         <include refid="selectIndexConfig"></include>
         <where>
             t.config_type = #{indexConfig.configType}
-            and t.is_deleted = 0
+            AND t.is_deleted = 0
+        </where>
+    </select>
+
+    <select id="selectListIndexConfig" resultType="ltd.newbee.mall.core.entity.IndexConfig">
+        <include refid="selectIndexConfig"></include>
+        <where>
+            t.config_type = #{configType}
+            AND t.is_deleted = 0
+            ORDER BY config_rank desc limit ${limit}
         </where>
     </select>
 </mapper>

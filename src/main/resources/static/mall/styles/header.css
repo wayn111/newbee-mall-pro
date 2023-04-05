@@ -171,9 +171,9 @@
 }
 
 #nav .banner_x .gif {
-    width: 180px;
+    width: 100px;
     text-indent: -10000px;
-    background: url(../image/new-bee2.gif) no-repeat;
+    background: url(../image/wx-mp-code.png) no-repeat;
     background-size: 100%;
     background-position: center;
 }

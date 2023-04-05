@@ -22,6 +22,10 @@
               <option name="name" value="WAYN_VIEW_MODEL" />
               <option name="value" value="true" />
             </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="XML_RELOAD" />
+              <option name="value" value="false" />
+            </DockerEnvVarImpl>
           </list>
         </option>
         <option name="portBindings">
