@@ -15,11 +15,11 @@
         <div class="category_bar">
             <th:block th:if="${searchPageCategoryVO!=null}">
                 <div class="fm c">
-                    <a href="##" class="qqq" th:text="${searchPageCategoryVO.secondLevelCategoryName}">newbee-mall</a>
+                    <a href="##" class="qqq" th:text="${searchPageCategoryVO.secondLevelCategoryName}">newbee-mall-pro</a>
                     <div>
                         <th:block th:each="thirdLevelCategory : ${searchPageCategoryVO.thirdLevelCategoryList}">
                             <a th:href="@{${'/search?goodsCategoryId='+thirdLevelCategory.categoryId}}"
-                               th:text="${thirdLevelCategory.categoryName}">newbee-mall</a>
+                               th:text="${thirdLevelCategory.categoryName}">newbee-mall-pro</a>
                         </th:block>
                     </div>
                 </div>

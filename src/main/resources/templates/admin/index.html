@@ -43,29 +43,17 @@
                         <div style="padding: 10px 0 20px 10px;">
                             <a href="https://github.com/wayn111/newbee-mall-pro" target="_blank">
                                 <img th:src="@{/admin/dist/img/newbee-logo.png}" style="width: 480px;height: 240px;">
-                                <p>newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 newbee-mall-admin
-                                    商城后台管理系统，基于 Spring Boot
-                                    2.X
-                                    及相关技术栈开发。
-                                    前台商城系统包含首页门户、商品分类、新品上线、首页轮播、商品推荐、商品搜索、商品展示、购物车、订单结算、订单流程、个人订单管理、会员中心、帮助中心等模块。
-                                    后台管理系统包含数据面板、轮播图管理、商品管理、订单管理、会员管理、分类管理、设置等模块。</p>
+                                <p>newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus作为orm层框架，并添加了一系列高级功能以及代码优化，功能如下：</p>
                                 <ul>
-                                    <li>newbee-mall 对新手开发者十分友好，无需复杂的操作步骤，仅需 2
-                                        秒就可以启动这个完整的商城项目；
-                                    </li>
-                                    <li>newbee-mall 也是一个企业级别的 Spring Boot 大型项目，对于各个阶段的 Java
-                                        开发者都是极佳的选择；
-                                    </li>
-                                    <li>你可以把它作为 Spring Boot 技术栈的综合实践项目，newbee-mall
-                                        足够符合要求，且代码开源、功能完备、流程完整、页面交互美观；
-                                    </li>
-                                    <li>
-                                        技术栈新颖且知识点丰富，学习后可以提升大家对于知识的理解和掌握，可以进一步提升你的市场竞争力；
-                                    </li>
-                                    <li>对于部分求职中的 Java 开发者，你也可以将该项目放入求职简历中以丰富你的工作履历；
-                                    </li>
-                                    <li>newbee-mall 还有一些不完善的地方，鄙人才疏学浅，望见谅；</li>
-                                    <li>有任何问题都可以反馈给我，我会尽量完善该项目。</li>
+                                    <li>RedisSearch：支持中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序；</li>
+                                    <li>秒杀专区：支持功能完备，生产可用的高级秒杀功能；</li>
+                                    <li>优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能；</li>
+                                    <li>商城首页使用滑块验证码登录；</li>
+                                    <li>支付时添加了支付宝沙箱支付；</li>
+                                    <li>添加Spring事件监听机制，解耦下单流程；</li>
+                                    <li>集成spring-session-redis，支持分布式部署</li>
+                                    <li>集成mybatis-xmlreload，支持xml文件热加载</li>
+                                    <li>本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手</li>
                                 </ul>
                             </a>
                             <h3>联系作者</h3>
@@ -77,7 +65,7 @@
                             </ul>
                             <p>源码地址</p>
                             <ul>
-                                <li><a href="https://github.com/wayn111/newbee-mall-pro" target="_blank">newbee-mall in
+                                <li><a href="https://github.com/wayn111/newbee-mall-pro" target="_blank">newbee-mall-pro in
                                     GitHub</a></li>
                             </ul>
                         </div>
