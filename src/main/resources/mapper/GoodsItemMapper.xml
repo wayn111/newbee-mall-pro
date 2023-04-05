@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ltd.newbee.mall.core.dao.OrderItemDao">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="OrderItemVOResultMap" type="ltd.newbee.mall.core.entity.vo.OrderItemVO">
+        <id column="order_id" property="orderId"/>
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_count" property="goodsCount"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_cover_img" property="goodsCoverImg"/>
+        <result column="selling_price" property="sellingPrice"/>
+    </resultMap>
+
+    <sql id="selectOrderItem">
+        select t.order_id, t.goods_id, t.goods_name, t.goods_count, t.goods_cover_img, t.selling_price
+        from tb_newbee_mall_order_item t
+    </sql>
+
+    <select id="selectByOrderId" resultType="ltd.newbee.mall.core.entity.vo.OrderItemVO">
+        <include refid="selectOrderItem"></include>
+        <where>
+            order_id = #{orderId}
+        </where>
+    </select>
+</mapper>
