@@ -425,9 +425,10 @@
 #content #recommend ul {
     display: flex;
     height: 614px;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-content: space-between;
     flex-wrap: wrap;
+    padding: 0 8px;
 }
 
 #content #recommend ul li {
@@ -436,7 +437,7 @@
     background-color: #fff;
     margin-bottom: 20px;
     margin-left: 4px;
-    margin-right: 6px;
+    margin-right: 4px;
 }
 
 #content #recommend ul li:nth-child(1) .hot-image,

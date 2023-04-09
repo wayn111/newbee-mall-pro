@@ -8,25 +8,26 @@
 ## 简介
 newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus作为orm层框架，并添加了一系列高级功能以及代码优化，功能如下：
 
-1. RedisSearch：支持中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序， 详情可见：[更新日志](#2022年3月27日更新日志)
-2. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
-3. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
-4. 商城首页使用滑块验证码登录 详情可见：[更新日志](#2022年4月23日更新日志)
-5. 支付时添加了支付宝沙箱支付
-6. 集成Pace页面，添加网页进度条
-7. 添加Spring事件监听机制，解耦下单流程
-8. 集成spring-session-redis，支持分布式部署
-9. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
-9. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持xml文件热加载
-10. 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
-11. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
-12. [在线地址](http://121.4.124.33/newbeemall)
+1. 商城首页 【为你推荐】 栏目添加协同过滤算法。按照UserCF基于用户的协同过滤、ItemCF基于物品的协同过滤。 实现了两种不同的推荐逻辑， 详情可见：[更新日志](#2023年4月08日更新日志)
+2. RedisSearch：支持中文分词搜索，支持商品名称、简介、标签作为搜索项，以及新品、价格排序， 详情可见：[更新日志](#2022年3月27日更新日志)
+3. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
+4. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
+5. 商城首页使用滑块验证码登录 详情可见：[更新日志](#2022年4月23日更新日志)
+6. 支付时添加了支付宝沙箱支付
+7. 集成Pace页面，添加网页进度条
+8. 添加Spring事件监听机制，解耦下单流程
+9. 集成spring-session-redis，支持分布式部署
+10. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
+11. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持xml文件热加载
+12. 多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
+13. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
+14. [在线地址](http://121.4.124.33/newbeemall)
 
 > 如果有任何使用问题，欢迎提交Issue或加我微信告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
 关注公众号：waynblog，回复"学习"进群交流。
 
-<img src="images/wx-mp-code.png" width = "100" />
+<img src="images/wx-mp-code.png" width = "100"  alt=""/>
 
 
 ---
@@ -69,6 +70,22 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 
 
 ## 更新日志
+### 2023年4月08日更新日志
+newbee-mall-pro V2.4.2发布
+
+更新内容：
+
+商城首页 **【为你推荐】** 栏目添加协同过滤算法。按照UserCF基于用户的协同过滤、ItemCF基于物品的协同过滤。 
+实现了两种不同的推荐逻辑。
+- **UserCF**：基于用户的协同过滤。当一个用户A需要个性化推荐的时候，我们可以先找到和他有相似兴趣的其他用户，然后把那些用户喜欢的，而用户A没有听说过的物品推荐给A。
+   ![userCF.png](images/userCF.png)
+
+  假设用户 A 喜欢物品 A、物品 C，用户 B 喜欢物品 B，用户 C 喜欢物品 A 、物品 C 和物品 D；从这些用户的历史喜好信息中，我们可以发现用户 A 和用户 C 的口味和偏好是比较类似的，同时用户 C 还喜欢物品 D，那么我们可以推断用户 A 可能也喜欢物品 D，因此可以将物品 D 推荐给用户 A。 具体代码在 `ltd.newbee.mall.recommend.core.UserCF` 中。
+- **itemCF**：基于物品的协同过滤。预先根据所以用户的历史偏好数据计算物品之间的相似度，然后把与用户喜欢的物品相类似的物品推荐给用户。
+    ![itemCF.png](images/itemCF.png)
+  
+   假如用户A喜欢物品A和物品C，用户B喜欢物品A、物品B和物品C，用户C喜欢物品A，从这些用户的历史喜好中可以认为物品A与物品C比较类似，喜欢物品A的都喜欢物品C，基于这个判断用户C可能也喜欢物品C，所以推荐系统将物品C推荐给用户C。 具体代码在 `ltd.newbee.mall.recommend.core.ItemCF` 中。
+
 ### 2023年3月27日更新日志
 newbee-mall-pro V2.4.1发布
 

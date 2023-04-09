@@ -3,6 +3,8 @@ package ltd.newbee.mall;
 import com.alibaba.fastjson2.JSONArray;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.recommend.core.CoreMath;
+import ltd.newbee.mall.recommend.core.ItemCF;
+import ltd.newbee.mall.recommend.core.UserCF;
 import ltd.newbee.mall.recommend.dto.ProductDTO;
 import ltd.newbee.mall.recommend.dto.RelateDTO;
 import ltd.newbee.mall.recommend.service.RecommendService;
@@ -58,12 +60,10 @@ public class RecommendTest {
     public void recommendGoods() {
         log.info("begin");
         List<ProductDTO> productData = recommendService.getProductData();
-        // 协同过滤算法
-        CoreMath coreMath = new CoreMath();
         // 获取商品数据
         List<RelateDTO> relateData = recommendService.getRelateData();
         // 执行算法，返回推荐商品id
-        List<Long> recommendIdLists = coreMath.recommend(71L, 10, relateData);
+        List<Long> recommendIdLists = ItemCF.recommend(1L, 10, relateData);
         log.info(recommendIdLists.toString());
         log.info("end");
     }

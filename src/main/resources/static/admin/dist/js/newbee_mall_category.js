@@ -7,8 +7,24 @@ $(function () {
         datatype: "json",
         viewrecords: true,
         colModel: [
-            {label: 'id', name: 'categoryId', index: 'categoryId', width: 50, key: true, hidden: true},
-            {label: '分类名称', name: 'categoryName', index: 'categoryName', width: 240},
+            {label: 'id', name: 'categoryId', index: 'categoryId', width: 20, key: true},
+            {
+                label: '分类名称',
+                name: 'categoryName',
+                index: 'categoryName',
+                width: 240,
+                formatter: function (cellValue, obj, res) {
+                    if (res.categoryLevel < 3) {
+                        var categoryLevel = res.categoryLevel + 1;
+                        var parentId = res.parentId;
+                        var id = res.categoryId;
+                        var href  = _ctx + 'admin/categories?categoryLevel=' + categoryLevel + '&parentId=' + id + '&backParentId=' + parentId;
+                        return `<a href="${href}">${cellValue}</a>`;
+                    } else {
+                        return cellValue;
+                    }
+                },
+            },
             {label: '排序值', name: 'categoryRank', index: 'categoryRank', width: 120},
             {label: '添加时间', name: 'createTime', index: 'createTime', width: 120}
         ],

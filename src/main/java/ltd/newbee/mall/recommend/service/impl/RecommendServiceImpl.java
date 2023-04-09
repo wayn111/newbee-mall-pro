@@ -1,7 +1,5 @@
 package ltd.newbee.mall.recommend.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.RandomUtil;
 import lombok.AllArgsConstructor;
 import ltd.newbee.mall.constant.Constants;
@@ -12,13 +10,14 @@ import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.vo.OrderItemVO;
 import ltd.newbee.mall.recommend.core.CoreMath;
+import ltd.newbee.mall.recommend.core.ItemCF;
+import ltd.newbee.mall.recommend.core.UserCF;
 import ltd.newbee.mall.recommend.dto.ProductDTO;
 import ltd.newbee.mall.recommend.dto.RelateDTO;
 import ltd.newbee.mall.recommend.service.RecommendService;
 import ltd.newbee.mall.redis.JedisSearch;
 import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import org.mockito.exceptions.misusing.NullInsteadOfMockException;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.search.SearchResult;
 
@@ -101,12 +100,10 @@ public class RecommendServiceImpl implements RecommendService {
     @Override
     public List<Goods> recommendGoods(Long userId, Integer num) {
         List<Goods> recommendGoods = new ArrayList<>();
-        // 协同过滤算法
-        CoreMath coreMath = new CoreMath();
         // 获取商品数据
         List<RelateDTO> relateDTOList = getRelateData();
         // 执行算法，返回推荐商品id
-        List<Long> recommendIdLists = coreMath.recommend(userId, num, relateDTOList);
+        List<Long> recommendIdLists = ItemCF.recommend(userId, num, relateDTOList);
         Map<Long, Integer> integerMap = IntStream.range(0, recommendIdLists.size()).boxed().collect(Collectors.toMap(recommendIdLists::get, i -> i));
         if (CollectionUtils.isNotEmpty(recommendIdLists)) {
             // 获取商品DTO（这里的过滤是防止商品表该id商品已下架或删除）
