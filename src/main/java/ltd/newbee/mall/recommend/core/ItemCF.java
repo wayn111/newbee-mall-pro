@@ -9,13 +9,23 @@ import java.util.stream.Collectors;
 
 public class ItemCF {
 
+    /**
+     * 物品协同推荐
+     *
+     * @param userId 用户ID
+     * @param num    返回数量
+     * @param list   预处理数据
+     * @return 商品id集合
+     */
     public static List<Long> recommend(Long userId, Integer num, List<RelateDTO> list) {
         // 按物品分组
-        Map<Long, List<RelateDTO>> userMap = list.stream().collect(Collectors.groupingBy(RelateDTO::getUserId));
-        List<Long> userProductItems = userMap.get(userId).stream().map(RelateDTO::getProductId).toList();
-        Map<Long, List<RelateDTO>> itemMap = list.stream().collect(Collectors.groupingBy(RelateDTO::getProductId));
+        Map<Long, List<RelateDTO>> userMap = list.stream()
+                .collect(Collectors.groupingBy(RelateDTO::getUserId));
+        List<Long> userProductItems = userMap.get(userId).stream()
+                .map(RelateDTO::getProductId).toList();
+        Map<Long, List<RelateDTO>> itemMap = list.stream()
+                .collect(Collectors.groupingBy(RelateDTO::getProductId));
         List<Long> similarProductIdList = new ArrayList<>();
-        // Map<Double, Long> itemTotalDisMap = new HashMap<>();
         Multimap<Double, Long> itemTotalDisMap = TreeMultimap.create();
         for (Long itemId : userProductItems) {
             // 获取其他物品与当前物品的关系值
@@ -36,6 +46,5 @@ public class ItemCF {
             }
         }
         return similarProductIdList.stream().distinct().limit(num).toList();
-
     }
 }

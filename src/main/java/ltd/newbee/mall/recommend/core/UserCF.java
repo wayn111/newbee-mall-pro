@@ -6,10 +6,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserCF {
-
-    public static List<Long> recommend(Long userId, Integer num, List<RelateDTO> list, Integer type) {
+    /**
+     * 物用户协同推荐
+     *
+     * @param userId 用户ID
+     * @param num    返回数量
+     * @param list   预处理数据
+     * @return 商品id集合
+     */
+    public static List<Long> recommend(Long userId, Integer num,
+                                       List<RelateDTO> list, Integer type) {
         // 对每个用户的购买商品记录进行分组
-        Map<Long, List<RelateDTO>> userMap = list.stream().collect(Collectors.groupingBy(RelateDTO::getUserId));
+        Map<Long, List<RelateDTO>> userMap = list.stream()
+                .collect(Collectors.groupingBy(RelateDTO::getUserId));
         // 获取其他用户与当前用户的关系值
         Map<Double, Long> userDisMap = CoreMath.computeNeighbor(userId, userMap, type);
         List<Long> similarUserIdList = new ArrayList<>();
@@ -23,13 +32,16 @@ public class UserCF {
         List<Long> similarProductIdList = new ArrayList<>();
         for (Long similarUserId : similarUserIdList) {
             // 获取相似用户购买商品的记录
-            List<Long> collect = userMap.get(similarUserId).stream().map(RelateDTO::getProductId).toList();
+            List<Long> collect = userMap.get(similarUserId).stream()
+                    .map(RelateDTO::getProductId).toList();
             // 过滤掉重复的商品
-            List<Long> collect1 = collect.stream().filter(e -> !similarProductIdList.contains(e)).toList();
+            List<Long> collect1 = collect.stream()
+                    .filter(e -> !similarProductIdList.contains(e)).toList();
             similarProductIdList.addAll(collect1);
         }
         // 当前登录用户购买过的商品
-        List<Long> userProductIdList = userMap.getOrDefault(userId, Collections.emptyList()).stream().map(RelateDTO::getProductId).toList();
+        List<Long> userProductIdList = userMap.getOrDefault(userId,
+                        Collections.emptyList()).stream().map(RelateDTO::getProductId).toList();
         // 相似用户买过，但是当前用户没买过的商品作为推荐
         List<Long> recommendList = new ArrayList<>();
         for (Long similarProduct : similarProductIdList) {

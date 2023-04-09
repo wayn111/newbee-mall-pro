@@ -46,13 +46,14 @@ public class CoreMath {
         List<Integer> xs = Lists.newArrayList();
         List<Integer> ys = Lists.newArrayList();
         xList.forEach(x -> yList.forEach(y -> {
-            // 购买的商品相同，交集
             if (type == 0 || type == 2) {
+                // 基于用户推荐时如果两个用户购买的商品相同，则计算相似度
                 if (x.getProductId().longValue() == y.getProductId().longValue()) {
                     xs.add(x.getIndex());
                     ys.add(y.getIndex());
                 }
             } else if (type == 1) {
+                // 基于物品推荐时如果两个用户id相同，则计算相似度
                 if (x.getUserId().longValue() == y.getUserId().longValue()) {
                     xs.add(x.getIndex());
                     ys.add(y.getIndex());
@@ -102,7 +103,7 @@ public class CoreMath {
      *
      * @param xs
      * @param xs
-     * @return
+     * @return double
      */
     private static double cosineSimilarity(List<Integer> xs, List<Integer> ys) {
         double dotProduct = 0;

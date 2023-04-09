@@ -9,9 +9,7 @@ import ltd.newbee.mall.core.dao.OrderItemDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.vo.OrderItemVO;
-import ltd.newbee.mall.recommend.core.CoreMath;
 import ltd.newbee.mall.recommend.core.ItemCF;
-import ltd.newbee.mall.recommend.core.UserCF;
 import ltd.newbee.mall.recommend.dto.ProductDTO;
 import ltd.newbee.mall.recommend.dto.RelateDTO;
 import ltd.newbee.mall.recommend.service.RecommendService;
@@ -63,20 +61,25 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     /**
-     * 获取所有用户购买商品的记录
+     * 根据所有用户购买商品的记录进行数据手机
      *
-     * @return
+     * @return List<RelateDTO>
      */
     @Override
     public List<RelateDTO> getRelateData() {
         List<RelateDTO> relateDTOList = new ArrayList<>();
+        // 获取所有订单以及订单关联商品的集合
         List<Order> newBeeMallOrders = orderDao.selectOrderIds();
         List<Long> orderIds = newBeeMallOrders.stream().map(Order::getOrderId).toList();
         List<OrderItemVO> newBeeMallOrderItems = orderItemDao.selectByOrderIds(orderIds);
-        Map<Long, List<OrderItemVO>> listMap = newBeeMallOrderItems.stream().collect(Collectors.groupingBy(OrderItemVO::getOrderId));
-        Map<Long, List<OrderItemVO>> goodsListMap = newBeeMallOrderItems.stream().collect(Collectors.groupingBy(OrderItemVO::getGoodsId));
+        Map<Long, List<OrderItemVO>> listMap = newBeeMallOrderItems.stream()
+                .collect(Collectors.groupingBy(OrderItemVO::getOrderId));
+        Map<Long, List<OrderItemVO>> goodsListMap = newBeeMallOrderItems.stream()
+                .collect(Collectors.groupingBy(OrderItemVO::getGoodsId));
+        // 遍历订单，生成预处理数据
         for (Order newBeeMallOrder : newBeeMallOrders) {
             Long orderId = newBeeMallOrder.getOrderId();
+            // 遍历订单商品
             for (OrderItemVO newBeeMallOrderItem : listMap.getOrDefault(orderId, Collections.emptyList())) {
                 Long goodsId = newBeeMallOrderItem.getGoodsId();
                 Long categoryId = newBeeMallOrderItem.getCategoryId();
@@ -84,13 +87,10 @@ public class RecommendServiceImpl implements RecommendService {
                 relateDTO.setUserId(newBeeMallOrder.getUserId());
                 relateDTO.setProductId(goodsId);
                 relateDTO.setCategoryId(categoryId);
-                // 模拟购买商品的次数(点击浏览商品的次数）
-                // relateDTO.setIndex(RandomUtil.randomInt(10, 9999));
+                // 通过计算商品购买次数，来建立相似度
                 List<OrderItemVO> list = goodsListMap.getOrDefault(goodsId, Collections.emptyList());
                 int sum = list.stream().mapToInt(OrderItemVO::getGoodsCount).sum();
                 relateDTO.setIndex(sum);
-                // 不能设置为1，否则皮尔森系数计算为0.0
-                // relateDTO.setIndex(1);
                 relateDTOList.add(relateDTO);
             }
         }
