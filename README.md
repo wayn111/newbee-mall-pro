@@ -25,7 +25,9 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 
 > 如果有任何使用问题，欢迎提交Issue或加我微信告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
-关注公众号：waynblog，回复"学习"进群交流。
+关注公众号：waynblog，每周更新最新技术文章。回复关键字：
+- **学习**：加群交流，群内问题都会一一解答。
+- **演示账号**：获得线上商城管理后台演示账号。
 
 <img src="images/wx-mp-code.png" width = "100"  alt=""/>
 
@@ -64,8 +66,13 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 # 7. 启动项目
 找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
 
-# 8. 访问
+# 8. 访问商城首页
 打开浏览器输入：http://localhost:84/newbeemall
+
+# 9. 访问商城管理后台
+打开浏览器输入：http://localhost:84/newbeemall/admin/login
+账号：admin
+密码：123456
 ```
 
 
