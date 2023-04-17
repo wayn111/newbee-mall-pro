@@ -20,7 +20,7 @@ spring:
 
   data:
     redis:
-      host: lcoalhost
+      host: localhost
       port: 6739
       database: 0
       timeout: 1000
