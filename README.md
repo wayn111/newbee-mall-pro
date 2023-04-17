@@ -50,7 +50,7 @@ git clone git@github.com:wayn111/newbee-mall-pro.git
 # 2. 导入项目依赖
 将newbee-mall-pro目录用idea打开，导入maven依赖
 
-# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk8+、Maven3.5+
+# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk17+、Maven3.5+
 docker安装RediSearch
 docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:lates
 
