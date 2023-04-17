@@ -21,7 +21,7 @@ public class ItemCF {
         // 按物品分组
         Map<Long, List<RelateDTO>> userMap = list.stream()
                 .collect(Collectors.groupingBy(RelateDTO::getUserId));
-        List<Long> userProductItems = userMap.get(userId).stream()
+        List<Long> userProductItems = userMap.getOrDefault(userId, Collections.emptyList()).stream()
                 .map(RelateDTO::getProductId).toList();
         Map<Long, List<RelateDTO>> itemMap = list.stream()
                 .collect(Collectors.groupingBy(RelateDTO::getProductId));
