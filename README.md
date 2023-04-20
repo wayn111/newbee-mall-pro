@@ -52,7 +52,7 @@ git clone git@github.com:wayn111/newbee-mall-pro.git
 
 # 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk17+、Maven3.5+
 docker安装RediSearch
-docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:lates
+docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
 
 # 4. 导入sql文件
 在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
