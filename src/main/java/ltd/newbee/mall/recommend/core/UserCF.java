@@ -12,6 +12,7 @@ public class UserCF {
      * @param userId 用户ID
      * @param num    返回数量
      * @param list   预处理数据
+     * @param type   类型0基于用户推荐使用余弦相似度 1基于物品推荐使用余弦相似度 2基于用户推荐使用皮尔森系数计算
      * @return 商品id集合
      */
     public static List<Long> recommend(Long userId, Integer num,
@@ -41,7 +42,7 @@ public class UserCF {
         }
         // 当前登录用户购买过的商品
         List<Long> userProductIdList = userMap.getOrDefault(userId,
-                        Collections.emptyList()).stream().map(RelateDTO::getProductId).toList();
+                Collections.emptyList()).stream().map(RelateDTO::getProductId).toList();
         // 相似用户买过，但是当前用户没买过的商品作为推荐
         List<Long> recommendList = new ArrayList<>();
         for (Long similarProduct : similarProductIdList) {

@@ -27,7 +27,7 @@ public class CoreMath {
                 // 关系系数
                 double coefficient = relateDist(v, items, type);
                 // 关系距离
-                //   double distance=Math.abs(coefficient);
+                // double distance=Math.abs(coefficient);
                 distMap.put(coefficient, k);
             }
         });

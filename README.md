@@ -66,13 +66,15 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 # 7. 启动项目
 找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
 
-# 8. 访问商城首页
-打开浏览器输入：http://localhost:84/newbeemall
-
-# 9. 访问商城管理后台
-打开浏览器输入：http://localhost:84/newbeemall/admin/login
+# 8. 访问商城管理后台
+打开浏览器输入：http://localhost:84/newbeemall/admin/login，找到商品管理菜单，点击【同步RS】按钮，初始化RediSearch数据
 账号：admin
 密码：123456
+
+# 9. 访问商城首页
+打开浏览器输入：http://localhost:84/newbeemall
+
+
 ```
 
 

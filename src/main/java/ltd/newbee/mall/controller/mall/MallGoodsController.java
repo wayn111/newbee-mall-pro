@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
 import ltd.newbee.mall.core.entity.Goods;
@@ -27,6 +28,7 @@ import redis.clients.jedis.search.SearchResult;
 
 import java.util.*;
 
+@Slf4j
 @Controller
 public class MallGoodsController extends BaseController {
 
@@ -52,50 +54,46 @@ public class MallGoodsController extends BaseController {
         request.setAttribute("orderBy", searchObjVO.getSidx());
         request.setAttribute("order", searchObjVO.getOrder());
         Long goodsCategoryId = searchObjVO.getGoodsCategoryId();
-        if (goodsCategoryId != null) {
-            Goods goods = new Goods();
-            goods.setGoodsCategoryId(goodsCategoryId);
-            SearchPageCategoryVO searchPageCategoryVO = new SearchPageCategoryVO();
-            GoodsCategory thirdCategory = goodsCategoryService.getById(goodsCategoryId);
-            GoodsCategory secondCategory = goodsCategoryService.getById(thirdCategory.getParentId());
-            List<GoodsCategory> thirdCateGoryList = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                    .eq("parent_id", thirdCategory.getParentId()));
-            searchPageCategoryVO.setCurrentCategoryName(thirdCategory.getCategoryName());
-            searchPageCategoryVO.setSecondLevelCategoryName(secondCategory.getCategoryName());
-            searchPageCategoryVO.setThirdLevelCategoryList(thirdCateGoryList);
-            request.setAttribute("goodsCategoryId", goodsCategoryId);
-            request.setAttribute("searchPageCategoryVO", searchPageCategoryVO);
-        }
-        return "mall/search";
+        return goodsCategoryHandler(request, goodsCategoryId);
     }
 
     @GetMapping("/search")
-    public String rsRearch(SearchObjVO searchObjVO, HttpServletRequest request) {
+    public String rsSearch(SearchObjVO searchObjVO, HttpServletRequest request) {
         Page<SearchPageGoodsVO> page = getPage(request, Constants.GOODS_SEARCH_PAGE_LIMIT);
         String keyword = searchObjVO.getKeyword();
         long size = page.getSize();
+        SearchResult query;
         IPage<Goods> iPage = new Page<>(page.getCurrent(), size);
+        try {
+            query = jedisSearch.search(Constants.GOODS_IDX_NAME, searchObjVO, page);
+            List<Goods> list = new ArrayList<>();
+            for (Document document : query.getDocuments()) {
+                Map<String, Object> map = new HashMap<>();
+                for (Map.Entry<String, Object> property : document.getProperties()) {
+                    String key = property.getKey();
+                    Object value = property.getValue();
+                    map.put(key, value);
+                }
+                Goods goods = MyBeanUtil.toBean(map, Goods.class);
+                list.add(goods);
+            }
+            long totalResults = query.getTotalResults();
+            iPage.setTotal(totalResults);
+            iPage.setRecords(list);
+            iPage.setPages((long) Math.ceil(totalResults / (double) size));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            iPage = goodsService.findMallGoodsListBySearch(page, searchObjVO);
+        }
         Long goodsCategoryId = searchObjVO.getGoodsCategoryId();
         request.setAttribute("keyword", keyword);
         request.setAttribute("pageResult", iPage);
         request.setAttribute("orderBy", searchObjVO.getSidx());
         request.setAttribute("order", searchObjVO.getOrder());
-        SearchResult query = jedisSearch.search(Constants.GOODS_IDX_NAME, searchObjVO, page);
-        List<Goods> list = new ArrayList<>();
-        for (Document document : query.getDocuments()) {
-            Map<String, Object> map = new HashMap<>();
-            for (Map.Entry<String, Object> property : document.getProperties()) {
-                String key = property.getKey();
-                Object value = property.getValue();
-                map.put(key, value);
-            }
-            Goods goods = MyBeanUtil.toBean(map, Goods.class);
-            list.add(goods);
-        }
-        long totalResults = query.getTotalResults();
-        iPage.setTotal(totalResults);
-        iPage.setRecords(list);
-        iPage.setPages((long) Math.ceil(totalResults / (double) size));
+        return goodsCategoryHandler(request, goodsCategoryId);
+    }
+
+    private String goodsCategoryHandler(HttpServletRequest request, Long goodsCategoryId) {
         if (goodsCategoryId != null) {
             Goods goods = new Goods();
             goods.setGoodsCategoryId(goodsCategoryId);

@@ -1,7 +1,10 @@
 package ltd.newbee.mall.recommend.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.GoodsDao;
 import ltd.newbee.mall.core.dao.OrderDao;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class RecommendServiceImpl implements RecommendService {
@@ -40,17 +44,26 @@ public class RecommendServiceImpl implements RecommendService {
     @Override
     public List<ProductDTO> getProductData() {
         List<ProductDTO> productDTOList = new ArrayList<>();
-        SearchResult query = jedisSearch.queryAll(Constants.GOODS_IDX_NAME, "*", null);
-        List<Goods> newBeeMallGoodsList = query.getDocuments().stream().map(document -> {
-            Map<String, Object> map = new HashMap<>();
-            for (Map.Entry<String, Object> property : document.getProperties()) {
-                String key = property.getKey();
-                Object value = property.getValue();
-                map.put(key, value);
-            }
-            return MyBeanUtil.toBean(map, Goods.class);
-        }).toList();
-
+        List<Goods> newBeeMallGoodsList = null;
+        try {
+            SearchResult query = jedisSearch.queryAll(Constants.GOODS_IDX_NAME, "*", null);
+            newBeeMallGoodsList = query.getDocuments().stream().map(document -> {
+                Map<String, Object> map = new HashMap<>();
+                for (Map.Entry<String, Object> property : document.getProperties()) {
+                    String key = property.getKey();
+                    Object value = property.getValue();
+                    map.put(key, value);
+                }
+                return MyBeanUtil.toBean(map, Goods.class);
+            }).toList();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        if (CollectionUtils.isEmpty(newBeeMallGoodsList)) {
+            LambdaQueryWrapper<Goods> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(Goods::getGoodsSellStatus, 0);
+            newBeeMallGoodsList = goodsDao.selectList(queryWrapper);
+        }
         List<Long> goodIds = newBeeMallGoodsList.stream().map(Goods::getGoodsId).toList();
         for (Long goodId : goodIds) {
             ProductDTO productDTO = new ProductDTO();
@@ -103,9 +116,10 @@ public class RecommendServiceImpl implements RecommendService {
         // 获取商品数据
         List<RelateDTO> relateDTOList = getRelateData();
         // 执行算法，返回推荐商品id
+        // List<Long> recommendIdLists = UserCF.recommend(userId, num, relateDTOList, 0);
         List<Long> recommendIdLists = ItemCF.recommend(userId, num, relateDTOList);
-        Map<Long, Integer> integerMap = IntStream.range(0, recommendIdLists.size()).boxed().collect(Collectors.toMap(recommendIdLists::get, i -> i));
         if (CollectionUtils.isNotEmpty(recommendIdLists)) {
+            Map<Long, Integer> integerMap = IntStream.range(0, recommendIdLists.size()).boxed().collect(Collectors.toMap(recommendIdLists::get, i -> i));
             // 获取商品DTO（这里的过滤是防止商品表该id商品已下架或删除）
             List<ProductDTO> productDTOList = getProductData().stream().filter(e -> recommendIdLists.contains(e.getProductId())).toList();
             // 获取商品ids
@@ -114,6 +128,18 @@ public class RecommendServiceImpl implements RecommendService {
                 // 获取所有推荐商品
                 recommendGoods = goodsDao.selectGoodsListByIds(goodIds);
                 recommendGoods.sort(Comparator.comparingInt(o -> integerMap.get(o.getGoodsId())));
+            }
+        } else {
+            // 用户未购买过商品时，基于用户点击量推荐
+            Map<Long, Long> collect = relateDTOList.stream().collect(Collectors.groupingBy(RelateDTO::getProductId, Collectors.counting()));
+            LinkedHashSet<Map.Entry<Long, Long>> linkedHashSet = collect.entrySet().stream().sorted((o1, o2) -> Math.toIntExact(o2.getValue() - o1.getValue()))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            List<Long> goodIds = linkedHashSet.stream().map(Map.Entry::getKey).distinct().limit(num).toList();
+            Map<Long, Integer> integerMap = IntStream.range(0, goodIds.size()).boxed().collect(Collectors.toMap(goodIds::get, i -> i));
+            if (CollectionUtils.isNotEmpty(goodIds)) {
+                // 获取所有推荐商品
+                recommendGoods = goodsDao.selectGoodsListByIds(goodIds);
+                recommendGoods.sort(Comparator.comparingLong(o -> integerMap.get(o.getGoodsId())));
             }
         }
         return recommendGoods.stream().limit(num).toList();
