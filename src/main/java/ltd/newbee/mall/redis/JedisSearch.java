@@ -86,8 +86,18 @@ public class JedisSearch {
 
     public SearchResult search(String goodsIdxName, SearchObjVO searchObjVO, Page<SearchPageGoodsVO> page) {
         String keyword = searchObjVO.getKeyword();
+        Long goodsCategoryId = searchObjVO.getGoodsCategoryId();
         // 查询商品名、商品介绍包含搜索词，同时是上架状态的商品
-        String queryKey = String.format("(@goodsName:(%s)) | (@goodsIntro:(%s) | @tag:{%s}) @goodsSellStatus:[0 0]", keyword, keyword, keyword);
+        String queryKey;
+        if (StringUtils.isNotBlank(keyword)) {
+            // 根据关键字搜索
+            queryKey = String.format("(@goodsName:(%s)) | (@goodsIntro:(%s) | @tag:{%s}) @goodsSellStatus:[0 0]",
+                    keyword, keyword, keyword);
+        } else {
+            // 根据分类id搜索
+            queryKey = String.format("@goodsCategoryId:[%s %s] @goodsSellStatus:[0 0]",
+                    goodsCategoryId, goodsCategoryId);
+        }
         Query q = new Query(queryKey);
         String sort = searchObjVO.getSidx();
         String order = searchObjVO.getOrder();
