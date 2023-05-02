@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.controller.base.BaseController;
+import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.Seckill;
 import ltd.newbee.mall.core.entity.vo.SeckillVO;
+import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.core.service.SeckillService;
 import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.R;
@@ -24,6 +26,8 @@ public class SeckillManagerController extends BaseController {
 
     @Autowired
     private SeckillService seckillService;
+    @Autowired
+    private GoodsService goodsService;
     @Autowired
     private RedisCache redisCache;
 
@@ -46,6 +50,15 @@ public class SeckillManagerController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     public R save(@RequestBody Seckill seckill) {
+        Long goodsId = seckill.getGoodsId();
+        Goods goods = goodsService.getById(goodsId);
+        if (goods == null) {
+            return R.error("秒杀商品不存在！");
+        }
+        if (goods.getGoodsSellStatus() != 0) {
+            return R.error("秒杀商品未上架！");
+        }
+
         boolean save = seckillService.save(seckill);
         if (save) {
             // 库存预热

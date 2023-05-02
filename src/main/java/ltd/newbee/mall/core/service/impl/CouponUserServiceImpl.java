@@ -75,4 +75,9 @@ public class CouponUserServiceImpl extends ServiceImpl<CouponUserDao, CouponUser
         ZoneId zone = ZoneId.systemDefault();
         return Date.from(endLocalDate.atStartOfDay().atZone(zone).toInstant());
     }
+
+    @Override
+    public Coupon getCouponByCouponUserId(Long couponUserId) {
+        return couponDao.getCouponByCouponUserId(couponUserId);
+    }
 }

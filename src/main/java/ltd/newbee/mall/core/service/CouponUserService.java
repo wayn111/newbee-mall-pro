@@ -32,4 +32,10 @@ public interface CouponUserService extends IService<CouponUser> {
      */
     Date calculateEndDate(Short days);
 
+    /**
+     * 获取优惠卷信息
+     * @param couponUserId 用户优惠劵ID
+     * @return 优惠劵信息
+     */
+    Coupon getCouponByCouponUserId(Long couponUserId);
 }

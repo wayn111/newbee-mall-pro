@@ -69,6 +69,23 @@
         order by create_time desc limit 25
     </select>
 
+    <select id="getCouponByCouponUserId" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            tb_newbee_mall_coupon
+        WHERE
+                coupon_id = (
+                SELECT
+                    coupon_id
+                FROM
+                    tb_newbee_mall_coupon_user
+                WHERE
+                    coupon_user_id = #{couponUserId}
+                  AND is_deleted = 0
+            )
+    </select>
+
     <update id="reduceCouponTotal">
         update tb_newbee_mall_coupon
         set coupon_total = coupon_total - 1

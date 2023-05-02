@@ -3,6 +3,7 @@ package ltd.newbee.mall.listener;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
+import ltd.newbee.mall.core.entity.Coupon;
 import ltd.newbee.mall.core.entity.CouponUser;
 import ltd.newbee.mall.core.entity.Order;
 import ltd.newbee.mall.core.entity.OrderItem;
@@ -42,6 +43,8 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
     @Resource
     private CouponUserService couponUserService;
     @Resource
+    private CouponService couponService;
+    @Resource
     private TaskService taskService;
     @Resource
     private RedisCache redisCache;
@@ -68,20 +71,30 @@ public class OrderListener implements ApplicationListener<OrderEvent> {
             if (!shopCatService.removeByIds(cartItemIdList)) {
                 throw new BusinessException("删除购物车异常");
             }
+            // 更新商品库存
             shopcatVOList.forEach(shopCatVO -> {
-                // 更新商品库存
                 if (!goodsService.reduceStock(shopCatVO.getGoodsId(), shopCatVO.getGoodsCount())) {
                     throw new BusinessException("扣减商品库存失败");
                 }
             });
-            int priceTotal = 0;
+            Integer discountPrice = 0;
+            // 查询优惠卷
+            if (couponUserId != null) {
+                Coupon coupon = couponUserService.getCouponByCouponUserId(couponUserId);
+                if (coupon != null) {
+                    discountPrice = coupon.getDiscount();
+                }
+            }
+
+            // 计算总价
+            int totalPrice = 0;
             for (ShopCatVO shopCatVO : shopcatVOList) {
-                priceTotal += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
+                totalPrice += shopCatVO.getGoodsCount() * shopCatVO.getSellingPrice();
             }
             // 保存订单
             Order order = new Order();
             order.setOrderNo(orderNo);
-            order.setTotalPrice(priceTotal);
+            order.setTotalPrice(totalPrice - discountPrice);
             order.setUserId(mallUserVO.getUserId());
             order.setUserAddress(mallUserVO.getAddress());
             // 订单body字段，用来作为生成支付单描述信息，暂时未接入第三方支付接口，故该字段暂时设为空字符串
