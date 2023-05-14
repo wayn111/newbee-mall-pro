@@ -3,7 +3,6 @@ package ltd.newbee.mall.task;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.*;
@@ -19,9 +18,9 @@ public class TaskService {
                 .setNamePrefix("task-pool-%d").build();
         // 通用线程池
         ExecutorService pool = new ThreadPoolExecutor(5, 20,
-                0L, TimeUnit.MILLISECONDS,
+                30L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
-        Executors.newSingleThreadExecutor().execute(() -> {
+        pool.execute(() -> {
             while (true) {
                 try {
                     Task task = delayQueue.take();

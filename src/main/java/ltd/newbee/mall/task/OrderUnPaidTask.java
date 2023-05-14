@@ -1,7 +1,6 @@
 package ltd.newbee.mall.task;
 
 import lombok.extern.slf4j.Slf4j;
-import ltd.newbee.mall.manager.OrderUnPaidManager;
 import ltd.newbee.mall.util.spring.SpringContextUtil;
 
 /**
@@ -11,9 +10,9 @@ import ltd.newbee.mall.util.spring.SpringContextUtil;
 public class OrderUnPaidTask extends Task {
 
     /**
-     * 默认延迟时间30秒，单位毫秒
+     * 默认延迟时间30分钟，单位毫秒
      */
-    private static final long DELAY_TIME = 30 * 1000;
+    private static final long DELAY_TIME = 30 * 60 * 1000;
 
     /**
      * 订单id

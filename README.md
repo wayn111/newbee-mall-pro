@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/github/license/wayn111/newbee-mall-pro" alt="license">
 </p>
 
-## 简介
+# 简介
 newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus作为orm层框架，并添加了一系列高级功能以及代码优化，功能如下：
 
 1. 商城首页 【为你推荐】 栏目添加协同过滤算法。按照UserCF基于用户的协同过滤、ItemCF基于物品的协同过滤。 实现了两种不同的推荐逻辑， 详情可见：[更新日志](#2023年4月08日更新日志)
@@ -41,7 +41,33 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 
 ---
 
-## 开发部署
+# 代码结构
+```
+|-- ltd.newbee.mall
+|   -- annotatino                   // 自定义注解
+|   -- aspect                       // 切面逻辑
+|   -- config                       // 全局配置，包括支付宝、缓存、数据库连接池、web配置等 
+|   -- constant                     // 常量定义
+|   -- controller                   
+|       -- admin                    // 后台接口对应的控制器
+|       -- mall                     // 前台接口对应的控制器
+|   -- core                         
+|       -- entity                   // entity类目录，每个entity都有对应的数据表
+|       -- dao                      // mybatis框架对应的dao目录，通过dao与数据库进行交互
+|       -- service                  // service类目录，对应项目中业务处理目录
+|   -- enums                        // 枚举类存放
+|   -- event                        // Spring事件发布订阅对应的自定义事件
+|   -- exception                    // 包含自定义异常以及全局异常处理类
+|   -- interceptor                  // Spring拦截器对应
+|   -- listener                     // Spring事件发布订阅对应的自定义订阅
+|   -- recomment                    // 协同过滤算法实现
+|   -- redis                        // 包含redis配置以及redis常用操作类
+|   -- task                         // 项目定时任务配置
+|   -- util                         // 项目帮助类
+|   -- NewBeeMallApplication.java   // 项目启动类
+```
+
+# 开发部署
 
 ```
 # 1. 克隆项目
@@ -75,8 +101,8 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 打开浏览器输入：http://localhost:84/newbeemall
 ```
 
-## 更新日志
-### 2023年4月08日更新日志
+# 更新日志
+## 2023年4月08日更新日志
 newbee-mall-pro V2.4.2发布
 
 更新内容：
@@ -94,7 +120,7 @@ newbee-mall-pro V2.4.2发布
   
    假如用户A喜欢物品A和物品C，用户B喜欢物品A、物品B和物品C，用户C喜欢物品A，从这些用户的历史喜好中可以认为物品A与物品C比较类似，喜欢物品A的都喜欢物品C，基于这个判断用户C可能也喜欢物品C，所以推荐系统将物品C推荐给用户C。 具体代码在 `ltd.newbee.mall.recommend.core.ItemCF` 中。
 
-### 2023年3月27日更新日志
+## 2023年3月27日更新日志
 newbee-mall-pro V2.4.1发布
 
 更新内容：
@@ -102,14 +128,14 @@ newbee-mall-pro V2.4.1发布
 2. 代码优化，通过阿里巴巴代码规范检测
 3. 升级部分依赖至最新
 
-### 2023年1月2日更新日志
+## 2023年1月2日更新日志
 newbee-mall-pro V2.4.0发布
 
 更新内容：
 1. Springboot版本升级至3.0.2
 2. Mybatis plus升级至3.5.3.1支持Springboot3.0
 
-### 2022年11月17日更新日志
+## 2022年11月17日更新日志
 newbee-mall-pro V2.3.0发布
 
 更新内容：
@@ -125,7 +151,7 @@ bug修复：
 1. 修复优惠券使用bug
 
 
-### 2022年9月04日更新日志
+## 2022年9月04日更新日志
 newbee-mall-pro V2.2.0发布
 
 更新内容：
@@ -143,23 +169,23 @@ bug修复：
 2. 修复优惠券使用bug
 3. 修复定时任务bug
 
-### 2022年5月08日更新日志
+## 2022年5月08日更新日志
 商城RediSearch支持商品上下架搜索
 
-### 2022年4月23日更新日志
+## 2022年4月23日更新日志
 商城登录页面添加滑块验证码登录,优化登录体验
 
 1. 集成`tianai-captcha`滑块验证码,支持后端验证码校验
 <img style="width:80%" src="https://img-blog.csdnimg.cn/dd521d119cde4eddb934eda27532cc95.png? x-oss-process=image/watermark, type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAV2F5bjExMQ==,size_20,color_FFFFFF,t_70,g_se,x_16">
 
-### 2022年4月12日更新日志
+## 2022年4月12日更新日志
 
 使用Spring事件监听机制，解耦下单流程，集成Pace美化商城进度条
 
 1. 添加Spring事件监听机制，解耦下单流程，将下单流程拆解为订单校验、生成订单号、发送事件异步保存订单流程
 2. 集成Pace页面，添加网页进度条，美化商城页面
 
-### 2022年3月27日更新日志
+## 2022年3月27日更新日志
 
 商城添加RedisSearch搜索，支持中文分词搜索，推荐、新品、价格排序搜索
 
@@ -167,7 +193,7 @@ bug修复：
 2. 后台添加RedisSearch同步按钮
 3. 商城支持RedisSearch中文分词搜索
 
-### 2022年3月21日更新日志
+## 2022年3月21日更新日志
 
 升级版本号至2.1.3，是一个功能完善版本
 
@@ -176,7 +202,7 @@ bug修复：
 3. 升级mybatis-plus至3.5.1
 4. 添加Dockerfile文件支持容器部署
 
-### 2021年5月30日更新日志
+## 2021年5月30日更新日志
 
 升级版本号至2.1.2，是一个代码优化版本
 
@@ -190,7 +216,7 @@ bug修复：
    ![QQ截图20210530155159.png](https://upload-images.jianshu.io/upload_images/10522714-1631176d29e984a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 5. 升级pom文件部分依赖
 
-### 2021年1月14日秒杀接口升级
+## 2021年1月14日秒杀接口升级
 
 本次升级主要在原有秒杀功能的基础上进行了完善，秒杀优化如下：
 
@@ -209,7 +235,7 @@ bug修复：
 
 ---
 
-## 在线截图
+# 在线截图
 
 | 商城首页 ![index](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/index-01.gif)                                         | 商品搜索 ![search](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/search.png)                                        |
 |------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -221,7 +247,7 @@ bug修复：
 
 ---
 
-##### 秒杀专区
+## 秒杀专区
 
 秒杀专区为用户展示了后台设置的秒杀商品，在秒杀有效期内可以进行商品秒杀操作. 秒杀接口使用了接口限流、Redis以及储存过程提高秒杀操作的tps
 
@@ -231,7 +257,7 @@ bug修复：
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c3159a78f6204176822baa2823b7005e~tplv-k3u1fbpfcp-watermark.image)
 ------
 
-##### 优惠劵领取
+## 优惠劵领取
 
 优惠劵页面为用户展示了后台设置的可用优惠劵，在下单时可以使用优惠卷减少下单金额
 
@@ -239,7 +265,7 @@ bug修复：
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/263b6e8143a343e5b4d759df289135a3~tplv-k3u1fbpfcp-watermark.image)
 ------
 
-##### 商城15天交易额统计
+## 商城15天交易额统计
 
 商城15天交易额统计可以为商城运营人员展示商城近期总交易金额
 
@@ -247,7 +273,7 @@ bug修复：
 
 ---
 
-## 参考资料
+# 参考资料
 
 * 感谢 [newbee-mall](https://github.com/newbee-ltd/newbee-mall) 项目原作者十三提供的基础项目支持
 

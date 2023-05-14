@@ -98,8 +98,8 @@ public class SeckillOrderListener implements ApplicationListener<SeckillOrderEve
             if (!orderItemService.save(orderItem)) {
                 throw new BusinessException("生成订单内部异常");
             }
-            // 秒杀订单1分钟未支付超期任务
-            taskService.addTask(new OrderUnPaidTask(orderId, 60 * 1000));
+            // 秒杀订单30分钟未支付超期任务
+            taskService.addTask(new OrderUnPaidTask(orderId));
             platformTransactionManager.commit(transaction);
             redisCache.setCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo, Constants.SUCCESS, 10, TimeUnit.MINUTES);
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package ltd.newbee.mall.manager;
+package ltd.newbee.mall.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
