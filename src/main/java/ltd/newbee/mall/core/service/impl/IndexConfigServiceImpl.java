@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jdk.jshell.JShell;
 import ltd.newbee.mall.core.dao.IndexConfigDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.IndexConfig;
@@ -41,11 +40,4 @@ public class IndexConfigServiceImpl extends ServiceImpl<IndexConfigDao, IndexCon
         return goodsService.listByIds(collect);
     }
 
-    public static void main(String[] args) {
-        JShell shell = JShell.create();
-        shell.eval("int a=10;");
-        shell.eval("int b=10;");
-        var eval = shell.eval("a+b;");
-        System.out.println(eval.get(0).value());
-    }
 }

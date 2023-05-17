@@ -30,7 +30,7 @@
 newbee-mall V2.3.0发布
 
 功能更新：
-1. Springboot版本升级至2.7.5，jdk升级至17
+1. Springboot版本升级至2.7.5
 2. 使用switch表达式语法扩展，优化switch语句
 3. 使用instanceof类型匹配语法简化，直接给对象赋值
 4. 使用文本块优化现有lua脚本显示

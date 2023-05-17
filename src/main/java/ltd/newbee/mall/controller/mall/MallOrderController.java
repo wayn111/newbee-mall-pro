@@ -47,6 +47,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static ltd.newbee.mall.constant.Constants.UTF_ENCODING;
+
 @Slf4j
 @Controller
 public class MallOrderController extends BaseController {
@@ -205,7 +207,7 @@ public class MallOrderController extends BaseController {
         request.setAttribute("orderNo", orderNo);
         request.setAttribute("totalPrice", order.getTotalPrice());
         if (payType == 1) {
-            request.setCharacterEncoding("utf-8");
+            request.setCharacterEncoding(UTF_ENCODING);
             // 初始化
             AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig.getGateway(), alipayConfig.getAppId(),
                     alipayConfig.getRsaPrivateKey(), alipayConfig.getFormat(), alipayConfig.getCharset(), alipayConfig.getAlipayPublicKey(),

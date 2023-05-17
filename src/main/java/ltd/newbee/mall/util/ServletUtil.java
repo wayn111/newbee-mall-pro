@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+import static ltd.newbee.mall.constant.Constants.UTF_ENCODING;
+
 /**
  * servlet帮助类
  */
@@ -93,7 +95,7 @@ public class ServletUtil {
     public static String renderString(HttpServletResponse response, String string) {
         try {
             response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding(UTF_ENCODING);
             response.getWriter().print(string);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
@@ -110,7 +112,7 @@ public class ServletUtil {
      * @throws UnsupportedEncodingException 不支持字符编码异常
      */
     public static void setExportResponse(HttpServletRequest request, HttpServletResponse response, String fileName, Integer size) throws UnsupportedEncodingException {
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding(UTF_ENCODING);
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Length", size + "");
         response.setHeader("Content-Disposition",

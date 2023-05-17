@@ -98,14 +98,14 @@ public class WebConfig implements WebMvcConfigurer {
                                        new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DEFAULT_TIME_FORMAT)));
 
         // Date序列化和反序列化
-        javaTimeModule.addSerializer(Date.class, new JsonSerializer<>() {
+        javaTimeModule.addSerializer(Date.class, new JsonSerializer<Date>() {
             @Override
             public void serialize(Date date, JsonGenerator jsonGenerator,
                                   SerializerProvider serializerProvider) throws IOException {
                 jsonGenerator.writeString(DateUtil.formatDate(date));
             }
         });
-        javaTimeModule.addDeserializer(Date.class, new JsonDeserializer<>() {
+        javaTimeModule.addDeserializer(Date.class, new JsonDeserializer<Date>() {
             @Override
             public Date deserialize(JsonParser jsonParser,
                                     DeserializationContext deserializationContext) throws IOException {

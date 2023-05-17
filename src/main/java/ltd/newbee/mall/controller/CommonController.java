@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ltd.newbee.mall.constant.Constants.UTF_ENCODING;
+
 @Slf4j
 @Controller
 @RequestMapping("common")
@@ -52,7 +54,7 @@ public class CommonController extends BaseController {
             String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
             String filePath = uploadDir + File.separatorChar + fileName;
 
-            response.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding(UTF_ENCODING);
             response.setContentType("multipart/form-data");
             response.setHeader("Content-Disposition",
                     "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
