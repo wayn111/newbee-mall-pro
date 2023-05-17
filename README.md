@@ -5,6 +5,12 @@
 <img src="https://img.shields.io/github/license/wayn111/newbee-mall-pro" alt="license">
 </p>
 
+| 分支名称                                                       | Spring Boot 版本 | Jdk 版本 |
+|--------------------------------------------------------------------|----------------|--------| 
+| [master](https://github.com/wayn111/waynboot-mall)                     | 3.0.6          | 17     |
+| [springboot-2.7](https://github.com/wayn111/waynboot-mall/tree/springboot-2.7) | 2.7.5          | 1.8    |     
+
+---
 # 简介
 newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用mybatis-plus作为orm层框架，并添加了一系列高级功能以及代码优化，功能如下：
 
