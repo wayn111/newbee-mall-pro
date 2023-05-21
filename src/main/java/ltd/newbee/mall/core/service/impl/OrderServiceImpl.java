@@ -1,10 +1,11 @@
 package ltd.newbee.mall.core.service.impl;
 
+import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
@@ -13,58 +14,53 @@ import ltd.newbee.mall.core.entity.*;
 import ltd.newbee.mall.core.entity.vo.*;
 import ltd.newbee.mall.core.service.*;
 import ltd.newbee.mall.event.OrderEvent;
-import ltd.newbee.mall.event.SeckillOrderEvent;
 import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.task.TaskService;
 import ltd.newbee.mall.util.NumberUtil;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static ltd.newbee.mall.mq.RabbitMQConstant.EXCHANGE_NAME;
+import static ltd.newbee.mall.mq.RabbitMQConstant.ROUTE_NAME;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements OrderService {
 
-    @Resource
     private OrderDao orderDao;
 
-    @Resource
     private GoodsService goodsService;
 
-    @Resource
     private ShopCatService shopCatService;
 
-    @Resource
     private OrderItemService orderItemService;
 
-    @Resource
     private CouponService couponService;
 
-    @Resource
     private CouponUserService couponUserService;
 
-    @Resource
     private SeckillSuccessService seckillSuccessService;
 
-    @Resource
     private SeckillService seckillService;
 
-    @Resource
     private TaskService taskService;
 
-    @Resource
     private RedisCache redisCache;
 
-    @Resource
     private ApplicationEventPublisher applicationEventPublisher;
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public IPage<OrderListVO> selectMyOrderPage(Page<OrderListVO> page, Order order) {
@@ -183,7 +179,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
     }
 
     private void seckillSaveOrder(Seckill seckill, MallUserVO userVO, Long nowTime, String orderNo) {
-        applicationEventPublisher.publishEvent(new SeckillOrderEvent(orderNo, seckill, userVO, nowTime));
+        // 异步下单，发送消息到RabbitMQ
+        String uid = IdUtil.fastSimpleUUID();
+        CorrelationData correlationData = new CorrelationData(uid);
+        Map<String, Object> map = new HashMap<>();
+        map.put("seckill", seckill);
+        map.put("userVO", userVO);
+        map.put("nowTime", nowTime);
+        map.put("orderNo", orderNo);
+        try {
+            Message message = MessageBuilder
+                    .withBody(JSON.toJSONString(map).getBytes(Constants.UTF_ENCODING))
+                    .setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN)
+                    .setDeliveryMode(MessageDeliveryMode.PERSISTENT)
+                    .build();
+            rabbitTemplate.convertAndSend(EXCHANGE_NAME, ROUTE_NAME, message, correlationData);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     @Override

@@ -69,8 +69,8 @@ public class MallSeckillController extends BaseController {
 
     @ResponseBody
     // 接口限流注解
-    @Limit(key = "seckill", period = 1, count = 200, name = "执行秒杀限制", prefix = Constants.CACHE_PREFIX)
-    @PostMapping(value = "/{seckillId}/{md5}/execution")
+    @Limit(key = "seckill", period = 1, count = 20, name = "执行秒杀限制", prefix = Constants.CACHE_PREFIX)
+    @PostMapping(value = "/{seckillId}/{md5}/executionFour")
     public R execute(@PathVariable Long seckillId,
                      @PathVariable String md5, HttpSession session) {
         if (md5 == null || !md5.equals(Md5Utils.hash(seckillId))) {

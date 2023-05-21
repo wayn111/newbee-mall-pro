@@ -1,5 +1,6 @@
 package ltd.newbee.mall.listener;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
@@ -53,6 +54,14 @@ public class SeckillOrderListener implements ApplicationListener<SeckillOrderEve
         log.info("SeckillOrderListener onApplicationEvent:{}", event);
         String orderNo = event.getOrderNo();
         if (StringUtils.isBlank(orderNo)) {
+            log.info("秒杀订单编号不存在");
+            return;
+        }
+        // 检查订单是否存在
+        Order orderExists = orderService.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        // 判断订单userId
+        if (orderExists != null) {
+            log.info("秒杀订单已存在");
             return;
         }
         TransactionStatus transaction = platformTransactionManager.getTransaction(transactionDefinition);

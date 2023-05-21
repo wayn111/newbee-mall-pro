@@ -106,7 +106,7 @@ public class MallOrderController extends BaseController {
     public R saveOrderResult(@PathVariable("orderNo") String orderNo) {
         String result = redisCache.getCacheObject(Constants.SAVE_ORDER_RESULT_KEY + orderNo);
         if (!Constants.SUCCESS.equals(result)) {
-            throw new BusinessException(result == null ? Constants.ERROR : result);
+            return R.error("正在处理");
         }
         return R.success();
     }

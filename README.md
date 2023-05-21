@@ -16,18 +16,19 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 
 1. 商城首页 【为你推荐】 栏目添加协同过滤算法。按照UserCF基于用户的协同过滤、ItemCF基于物品的协同过滤。 实现了两种不同的推荐逻辑， 详情可见：[更新日志](#2023年4月08日更新日志)
 2. 使用Redis作为缓存中间件，并引入RedisSearch，支持中文分词搜索。详情可见：[更新日志](#2022年3月27日更新日志)
-3. 使用Spring事件监听，完成异步下单，解耦下单流程
-4. 集成Spring-Session-Redis，支持分布式集群部署
-5. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
-6. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
-7. 商城首页使用滑块验证码登录 详情可见：[更新日志](#2022年4月23日更新日志)
-8. 支付时添加了支付宝沙箱支付
-9. 集成Pace页面，添加网页进度条
-10. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持mybatis xml文件热加载
-11. 支持多数据源：多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
-12. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
-13. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
-14. [在线地址](http://121.4.124.33/newbeemall)
+3. 集成RabbitMQ，增加生产者、消费者常用配置
+4. 使用Spring事件监听，完成异步下单，解耦下单流程
+5. 集成Spring-Session-Redis，支持分布式集群部署
+6. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
+7. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
+8. 商城首页使用滑块验证码登录 详情可见：[更新日志](#2022年4月23日更新日志)
+9. 支付时添加了支付宝沙箱支付
+10. 集成Pace页面，添加网页进度条
+11. 集成[mybatis-xmlreload](https://github.com/wayn111/mybatis-xmlreload-spring-boot-starter)，支持mybatis xml文件热加载
+12. 支持多数据源：多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
+13. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
+14. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
+15. [在线地址](http://121.4.124.33/newbeemall)
 
 > 如果有任何使用问题，欢迎提交Issue或加我微信告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
@@ -65,6 +66,9 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 |   -- exception                    // 包含自定义异常以及全局异常处理类
 |   -- interceptor                  // Spring拦截器对应
 |   -- listener                     // Spring事件发布订阅对应的自定义订阅
+|   -- mq                     
+|       -- config                   // mq配置  
+|       -- reciver                  // mq消费者
 |   -- recomment                    // 协同过滤算法实现
 |   -- redis                        // 包含redis配置以及redis常用操作类
 |   -- task                         // 项目定时任务配置
@@ -107,6 +111,16 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 ```
 
 # 更新日志
+## 2023年5月23日更新日志
+newbee-mall-pro V2.4.3发布
+
+更新内容：
+
+秒杀专区集成RabbitMQ消息队列，秒杀成功后，下单接口会发送消息到MQ，再由消费者处理，提升下单能力。
+- 生产者发送消息采用异步confirm模式
+- 消费者消费消息时使用手动ack模式，并且添加了消息幂等性、消息异常最多处理5次的逻辑。
+
+
 ## 2023年4月08日更新日志
 newbee-mall-pro V2.4.2发布
 

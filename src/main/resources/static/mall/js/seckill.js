@@ -13,7 +13,7 @@ var seckill = {
             return seckill.URL.basePath() + 'seckill/' + seckillId + '/exposer';
         },
         execution: function (seckillId, md5) {
-            return seckill.URL.basePath() + 'seckill/' + seckillId + '/' + md5 + '/execution';
+            return seckill.URL.basePath() + 'seckill/' + seckillId + '/' + md5 + '/executionFour';
         },
         settle: function (seckillSuccessId, md5) {
             return seckill.URL.basePath() + 'seckill/' + seckillSuccessId + '/' + md5 + '/settle';

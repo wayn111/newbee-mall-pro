@@ -60,7 +60,7 @@ public class RedisCache {
     /**
      * lua原子自减脚本
      */
-    private String buildLuaDecrScript() {
+    public static final String buildLuaDecrScript() {
         return """
                 local c = redis.call('get',KEYS[1])
                 if c and tonumber(c) < 0 then
@@ -68,6 +68,31 @@ public class RedisCache {
                 end
                 return redis.call('decr',KEYS[1])
                 """;
+    }
+
+
+    /**
+     * lua 脚本
+     */
+    public static final String SETNX_SCRIPT = "return redis.call('setnx',KEYS[1], ARGV[1])";
+
+    /**
+     * redis实现分布式锁
+     *
+     * @param key 缓存的键值
+     * @return boolean
+     */
+    public boolean setNx(String key, int time) {
+        // 自定义脚本
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>(SETNX_SCRIPT, Long.class);
+        // 执行脚本,传入参数,由于value没啥用,这里随便写死的"1"
+        Long execute = (Long) redisTemplate.execute(redisScript, Collections.singletonList(key));
+        if (execute == null || execute != 1) {
+            return false;
+        }
+        // 设置过期时间
+        expire(key, time);
+        return true;
     }
 
     /**
@@ -336,6 +361,28 @@ public class RedisCache {
     public <T> Set<T> getCacheZset(String key, double min, double max) {
         ZSetOperations operations = redisTemplate.opsForZSet();
         return operations.rangeByScore(key, min, max);
+    }
+
+    /**
+     * 删除hash中的key
+     *
+     * @param key  键名
+     * @param hKey hash类型中所属key
+     */
+    public void delCacheMapValue(final String key, final String hKey) {
+        redisTemplate.opsForHash().delete(key, hKey);
+    }
+
+    /**
+     * 原子自增hash类型key
+     *
+     * @param key   　键名
+     * @param hKey  　hash类型中所属key
+     * @param value 　自增步长
+     * @return　自增后的结果
+     */
+    public long incrByCacheMapValue(final String key, final String hKey, long value) {
+        return redisTemplate.opsForHash().increment(key, hKey, value);
     }
 
 }

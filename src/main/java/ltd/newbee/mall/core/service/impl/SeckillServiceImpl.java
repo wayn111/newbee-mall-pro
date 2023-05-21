@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> implements SeckillService {
 
     // 使用令牌桶RateLimiter 限流
-    private static final RateLimiter RATE_LIMITER = RateLimiter.create(10);
+    private static final RateLimiter RATE_LIMITER = RateLimiter.create(20);
 
     private SeckillDao seckillDao;
     private SeckillSuccessService seckillSuccessService;
@@ -69,6 +69,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     }
 
     /**
+     * 秒杀执行方案一
      * 1、判断用户是否买过<br>
      * 2、判断商品库存是否大于0<br>
      * 3、判断秒杀商品是否再有效期内<br>
@@ -122,6 +123,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     }
 
     /**
+     * 秒杀执行方案二
      * 1、判断用户是否买过<br>
      * 2、使用redis原子自减，判断商品缓存库存是否大于0<br>
      * 3、获取商品缓存，判断秒杀商品是否再有效期内<br>
@@ -187,6 +189,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
     }
 
     /**
+     * 秒杀执行方案三
      * 1、使用令牌桶算法过滤用户请求<br>
      * 2、使用redis-set数据结构判断用户是否买过秒杀商品<br>
      * 3、使用redis原子自减，判断商品缓存库存是否大于0<br>
@@ -262,7 +265,7 @@ public class SeckillServiceImpl extends ServiceImpl<SeckillDao, Seckill> impleme
 
 
     /**
-     * 秒杀最终方案
+     * 秒杀执行方案四
      * 1、使用令牌桶算法过滤用户请求<br>
      * 2、使用redis-set数据结构判断用户是否买过秒杀商品<br>
      * 3、返回用户秒杀成功VO

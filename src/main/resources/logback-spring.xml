@@ -82,7 +82,7 @@
     <!-- 系统模块日志级别控制  -->
     <logger name="ltd.newbee.mall" level="info"/>
     <!-- Spring日志级别控制  -->
-    <logger name="org.springframework" level="info"/>
+    <logger name="org.springframework" level="error"/>
     <logger name="io.lettuce.core" level="info" >
         <appender-ref ref="file_debug"/>
     </logger>
