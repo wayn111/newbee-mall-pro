@@ -5,10 +5,10 @@
 <img src="https://img.shields.io/github/license/wayn111/newbee-mall-pro" alt="license">
 </p>
 
-| 分支名称                                                       | Spring Boot 版本 | Jdk 版本 |
-|--------------------------------------------------------------------|----------------|--------| 
-| [master](https://github.com/wayn111/waynboot-mall)                     | 3.0.6          | 17     |
-| [springboot-2.7](https://github.com/wayn111/waynboot-mall/tree/springboot-2.7) | 2.7.5          | 1.8    |     
+| 分支名称                                                       | Spring Boot 版本 | JDK 版本 |
+|--------------------------------------------------------------------|----------------|------| 
+| [master](https://github.com/wayn111/waynboot-mall)                     | 3.0.6          | 17   |
+| [springboot2.7](https://github.com/wayn111/waynboot-mall/tree/springboot-2.7) | 2.7.5          | 1.8  |     
 
 ---
 # 简介
@@ -31,7 +31,7 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 
 > 如果有任何使用问题，欢迎提交Issue或加我微信告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
-关注公众号：waynblog，每周更新最新技术文章。回复关键字：
+关注公众号：waynblog，每周更新最新技术干货。回复关键字：
 - **学习**：加群交流，群内问题都会一一解答。
 - **演示账号**：获得线上商城管理后台演示账号。
 - **开源项目**：获取博主自己写的三个开源项目，包含PC商城、H5商城、通用后台权限管理系统等。
