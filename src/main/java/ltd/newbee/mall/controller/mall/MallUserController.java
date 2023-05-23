@@ -88,9 +88,10 @@ public class MallUserController extends BaseController {
         if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
             return R.error("验证码错误");
         }
-        List<MallUser> list = mallUserService.list(new QueryWrapper<MallUser>()
+        // 查询用户账号是否已经注册
+        long count = mallUserService.count(new QueryWrapper<MallUser>()
                 .eq("login_name", loginName));
-        if (CollectionUtils.isNotEmpty(list) && list.size() != 1) {
+        if (count > 0) {
             return R.error("该账户名已存在");
         }
         return R.result(mallUserService.register(loginName, password));
