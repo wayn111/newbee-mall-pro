@@ -26,7 +26,7 @@ $(function () {
         if (res.code == 200) {
             $('.user-not-login').hide();
             $('.user-login').css({"display": "flex"});
-            $('#nickName').text(res.map.userInfo.nickName);
+            $('#headNickName').text(res.map.userInfo.nickName);
         } else {
             $('.user-login').hide();
             $('.user-not-login').css({"display": "flex"});
