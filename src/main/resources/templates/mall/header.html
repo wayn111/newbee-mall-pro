@@ -9,8 +9,10 @@
     <link rel="stylesheet" th:href="@{/mall/styles/header.css}">
     <link rel="stylesheet" th:href="@{'/mall/styles/'+${path}+'.css'}">
     <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
-    <meta name="keywords" content="新蜂商城,newbee-mall-pro,新蜂,商城,开源商城,newbee,企业级商城,大型商城项目,Java商城,springboot商城,SpringBoot商城项目,Spring Boot 大型线上商城项目实战教程" />
-    <meta name="description" content="newbee-mall-pro 项目（新蜂商城）是一套电商系统，包括 newbee-mall 商城系统及 newbee-mall-admin 商城后台管理系统，基于 Spring Boot 2.X 及相关技术栈开发。前台商城系统包含首页门户、商品分类、新品上线、首页轮播、商品推荐、商品搜索、商品展示、购物车、订单结算、订单流程、个人订单管理、会员中心、帮助中心等模块。后台管理系统包含数据面板、轮播图管理、商品管理、订单管理、会员管理、分类管理、设置等模块。Spring Boot 大型线上商城项目实战教程"/>
+    <meta name="keywords"
+          content="新蜂商城,newbee-mall-pro,新蜂,商城,开源商城,newbee,企业级商城,大型商城项目,Java商城,springboot商城,SpringBoot商城项目,Spring Boot 大型线上商城项目实战教程"/>
+    <meta name="description"
+          content="newbee-mall-pro 项目（新蜂商城）是一套电商系统，包括 newbee-mall 商城系统及 newbee-mall-admin 商城后台管理系统，基于 Spring Boot 2.X 及相关技术栈开发。前台商城系统包含首页门户、商品分类、新品上线、首页轮播、商品推荐、商品搜索、商品展示、购物车、订单结算、订单流程、个人订单管理、会员中心、帮助中心等模块。后台管理系统包含数据面板、轮播图管理、商品管理、订单管理、会员管理、分类管理、设置等模块。Spring Boot 大型线上商城项目实战教程"/>
 </head>
 <nav id="nav" th:fragment="nav-fragment">
     <div class="banner_x center">
@@ -38,7 +40,7 @@
             <li><a href="https://github.com/wayn111/newbee-mall-pro">GitHub 地址</a></li>
         </ul>
         <div class="fr">
-            <th:block th:unless="${session.mallUser==null}">
+            <div class="user-login" style="display: none">
                 <div class="user">
                     <ul class="selector">
                         <li>
@@ -58,7 +60,7 @@
                         </li>
                     </ul>
                     <a href="##" class="username">
-                        <th:block th:text="${session.mallUser.nickName}"></th:block>
+                        <span id="nickName">0</span>
                         <i class="iconfont icon-down"></i>
                     </a>
                 </div>
@@ -66,9 +68,9 @@
                     <a th:href="@{/shopCart}" style="color: white;"><i class="iconfont icon-cart"></i>
                         购物车(<span id="shopCatCount">0</span>)</a>
                 </div>
-            </th:block>
-            <th:block th:if="${session.mallUser==null}">
-                <ul class="login">
+            </div>
+            <div class="user-not-login">
+                <ul class="login ">
                     <li><a th:href="@{/login}">登录</a></li>
                     <li><a th:href="@{/register}">注册</a></li>
                 </ul>
@@ -76,9 +78,8 @@
                     <a th:href="@{/login}" style="color: white;"><i class="iconfont icon-cart"></i>
                         购物车(0)</a>
                 </div>
-            </th:block>
+            </div>
         </div>
     </div>
-
 </header>
 

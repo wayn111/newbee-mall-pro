@@ -18,6 +18,20 @@ $(function () {
             $('#shopCatCount').text(res.map.count);
         }
     });
+
+    /**
+     * 查询用户信息
+     */
+    $.get(_ctx + 'personal/info', function (res) {
+        if (res.code == 200) {
+            $('.user-not-login').hide();
+            $('.user-login').css({"display": "flex"});
+            $('#nickName').text(res.map.userInfo.nickName);
+        } else {
+            $('.user-login').hide();
+            $('.user-not-login').css({"display": "flex"});
+        }
+    });
 });
 
 function search() {

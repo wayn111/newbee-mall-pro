@@ -100,13 +100,25 @@ public class MallUserController extends BaseController {
     @PostMapping("/personal/updateInfo")
     @ResponseBody
     public R updateInfo(@RequestBody MallUser mallUser) {
+        MallUserVO mallUserVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        mallUser.setUserId(mallUserVO.getUserId());
         if (!mallUserService.updateById(mallUser)) {
             throw new BusinessException("修改用户信息异常");
         }
-        MallUser user = mallUserService.getById(mallUser.getUserId());
-        MallUserVO mallUserVO = new MallUserVO();
-        BeanUtils.copyProperties(user, mallUserVO);
-        session.setAttribute(Constants.MALL_USER_SESSION_KEY, mallUserVO);
+        MallUser user = mallUserService.getById(mallUserVO.getUserId());
+        MallUserVO tempUser = new MallUserVO();
+        BeanUtils.copyProperties(user, tempUser);
+        session.setAttribute(Constants.MALL_USER_SESSION_KEY, tempUser);
         return R.success();
+    }
+
+    @GetMapping("/personal/info")
+    @ResponseBody
+    public R info() {
+        Object obj = session.getAttribute(Constants.MALL_USER_SESSION_KEY);
+        if (obj instanceof MallUserVO mallUserVO) {
+            return R.success().add("userInfo", mallUserVO);
+        }
+        return R.error();
     }
 }

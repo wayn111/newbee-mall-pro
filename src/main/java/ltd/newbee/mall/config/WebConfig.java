@@ -117,7 +117,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new MallLoginValidateInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/", "/index", "/login", "/logout", "/register",
+                        "/", "/index", "/login", "/logout", "/register", "/personal/info",
                         "/search", "/coupon", "/goods/**", "/shopCart/getUserShopCartCount",
                         "/seckill/list", "/seckill/detail/*", "/seckill/time/now", "/seckill/*/exposer",
                         "/upload/**", "/goods-img/**", "/common/**", "/mall/**", "/admin/**", "/tianai/**"
