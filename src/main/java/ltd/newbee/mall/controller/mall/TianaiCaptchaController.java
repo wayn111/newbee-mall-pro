@@ -35,8 +35,7 @@ public class TianaiCaptchaController {
     public boolean checkCaptcha(@RequestParam("id") String id,
                                 @RequestBody ImageCaptchaTrack imageCaptchaTrack,
                                 HttpServletRequest request) {
-        return application.matching(id, imageCaptchaTrack);
+        return application.matching(id, imageCaptchaTrack).getCode() == 200;
     }
-
 
 }

@@ -103,8 +103,8 @@
         let data = {
             bgImageWidth: captchaConfig.bgImageWidth,
             bgImageHeight: captchaConfig.bgImageHeight,
-            sliderImageWidth: captchaConfig.sliderImageWidth,
-            sliderImageHeight: captchaConfig.sliderImageHeight,
+            templateImageWidth: captchaConfig.templateImageWidth,
+            templateImageHeight: captchaConfig.templateImageHeight,
             startSlidingTime: captchaConfig.startTime,
             entSlidingTime: captchaConfig.stopTime,
             trackList: captchaConfig.trackArr
@@ -135,7 +135,7 @@
             const bgImg = $("#bg-img");
             const sliderImg = $("#slider-img");
             bgImg.attr("src", data.captcha.backgroundImage);
-            sliderImg.attr("src", data.captcha.sliderImage);
+            sliderImg.attr("src", data.captcha.templateImage);
             initConfig($(".bg-img-div").width(), bgImg.height(), sliderImg.width(), sliderImg.height(), 206);
         })
     }

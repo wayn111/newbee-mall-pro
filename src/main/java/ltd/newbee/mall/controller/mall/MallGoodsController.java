@@ -59,6 +59,7 @@ public class MallGoodsController extends BaseController {
 
     @GetMapping("/search")
     public String rsSearch(SearchObjVO searchObjVO, HttpServletRequest request) {
+        log.info("esSearch begin searchObjVO:{}", searchObjVO);
         Page<SearchPageGoodsVO> page = getPage(request, Constants.GOODS_SEARCH_PAGE_LIMIT);
         String keyword = searchObjVO.getKeyword();
         long size = page.getSize();
