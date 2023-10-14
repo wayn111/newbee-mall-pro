@@ -129,6 +129,9 @@ mkdir -p /opt/newbeemall/logs
 cd /opt/newbeemall
 docker build -t newbeemall .
 docker run -p 84:84 -v /opt/newbeemall/logs:/opt/newbeemall/logs -v /opt/newbeemall/upload:/opt/newbeemall/upload --env TZ=Asia/Shanghai --env WAYN_SERVER_URL=http://服务器公网ip/newbeemall --env WAYN_UPLOAD_DIR=/opt/newbeemall/upload --env WAYN_VIEW_MODEL=false --env XML_RELOAD=false --name newbeemall newbeemall
+
+# 6. 访问项目
+打开浏览器，输入http://服务器ip:84/newbeemall
 ```
 
 # 更新日志
