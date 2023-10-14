@@ -110,7 +110,35 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 打开浏览器输入：http://localhost:84/newbeemall
 ```
 
+# 远程部署
+
+推荐使用 Dockerfile 方式进行远程部署，这里介绍 CentOS 系统下部署方式（默认大家已安装 docker 环境）
+
+```
+# 1. 新建 /opt/newbeemall 目录
+mkdir -p /opt/newbeemall/target
+mkdir -p /opt/newbeemall/logs
+
+# 2. 上传打包后的 newbee-mall.jar 文件至目录 /opt/newbeemall/target 目录下
+
+# 3. 上传解压项目根目录下 upload.zip 文件至目录 /opt/newbeemall 下 
+
+# 4. 上传项目根目录下 Dockerfile 文件至 /opt/newbeemall 目录下
+
+# 5. 构建 docker 镜像，启动容器
+cd /opt/newbeemall
+docker build -t newbeemall .
+docker run -p 84:84 -v /opt/newbeemall/logs:/opt/newbeemall/logs -v /opt/newbeemall/upload:/opt/newbeemall/upload --env TZ=Asia/Shanghai --env WAYN_SERVER_URL=http://服务器公网ip/newbeemall --env WAYN_UPLOAD_DIR=/opt/newbeemall/upload --env WAYN_VIEW_MODEL=false --env XML_RELOAD=false --name newbeemall newbeemall
+```
+
 # 更新日志
+## 2023年10月15日更新日志
+newbee-mall-pro V2.4.5发布
+
+更新内容：
+
+支付包沙箱升级、支付回调代码逻辑完善。
+
 ## 2023年5月23日更新日志
 newbee-mall-pro V2.4.3发布
 
@@ -119,7 +147,6 @@ newbee-mall-pro V2.4.3发布
 秒杀专区集成RabbitMQ消息队列，秒杀成功后，下单接口会发送消息到MQ，再由消费者处理，提升下单能力。
 - 生产者发送消息采用异步confirm模式
 - 消费者消费消息时使用手动ack模式，并且添加了消息幂等性、消息异常最多处理5次的逻辑。
-
 
 ## 2023年4月08日更新日志
 newbee-mall-pro V2.4.2发布
