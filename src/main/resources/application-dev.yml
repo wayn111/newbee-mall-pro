@@ -10,8 +10,8 @@ spring:
       username: root
       password:
       pool-name: hikariCP
-      minimum-idle: 100
-      maximum-pool-size: 200
+      minimum-idle: 5
+      maximum-pool-size: 10
       auto-commit: true
       idle-timeout: 10000
       max-lifetime: 30000

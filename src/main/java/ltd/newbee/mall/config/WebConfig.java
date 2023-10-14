@@ -120,7 +120,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/", "/index", "/login", "/logout", "/register", "/personal/info",
                         "/search", "/coupon", "/goods/**", "/shopCart/getUserShopCartCount",
                         "/seckill/list", "/seckill/detail/*", "/seckill/time/now", "/seckill/*/exposer",
-                        "/upload/**", "/goods-img/**", "/common/**", "/mall/**", "/admin/**", "/tianai/**"
+                        "/upload/**", "/goods-img/**", "/common/**", "/mall/**", "/admin/**", "/tianai/**",
+                        "/pay/callback/**"
                 );
 
 

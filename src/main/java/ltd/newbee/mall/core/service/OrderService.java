@@ -54,4 +54,22 @@ public interface OrderService extends IService<Order> {
      * @return 返回参数天内交易金额集合
      */
     List<DayTransactionAmountVO> countMallTransactionAmount(Integer dayNum);
+
+
+    /**
+     * 判断订单关联用户id和当前登陆用户是否一致
+     *
+     * @param orderNo 订单编号
+     * @param userId  用户ID
+     * @return 返回订单对象
+     */
+    Order judgeOrderUserId(String orderNo, Long userId);
+
+    /**
+     * 更具订单编号获取订单详情
+     *
+     * @param orderNo 订单编号
+     * @return 返回订单对象
+     */
+    Order getOrderByOrderNo(String orderNo);
 }

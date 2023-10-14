@@ -77,7 +77,7 @@
         var orderNo = $("#orderNoValue").val();
         $.ajax({
             type: 'GET',
-            url: _ctx + 'paySuccess?payType=2&orderNo=' + orderNo,
+            url: _ctx + 'pay/callback/weixinPaySuccess?orderNo=' + orderNo,
             success: function (result) {
                 if (result.code == 200) {
                     window.location.href = _ctx + 'orders/' + orderNo;

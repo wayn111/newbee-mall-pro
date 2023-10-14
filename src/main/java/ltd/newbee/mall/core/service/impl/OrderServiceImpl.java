@@ -2,6 +2,7 @@ package ltd.newbee.mall.core.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -205,5 +206,20 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
             return Collections.emptyList();
         }
         return orderDao.countMallTransactionAmount(dayNum);
+    }
+
+    @Override
+    public Order judgeOrderUserId(String orderNo, Long userId) {
+        Order order = this.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
+        // 判断订单userId
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new BusinessException("当前订单用户异常");
+        }
+        return order;
+    }
+
+    @Override
+    public Order getOrderByOrderNo(String orderNo) {
+        return this.getOne(new QueryWrapper<Order>().eq("order_no", orderNo));
     }
 }
