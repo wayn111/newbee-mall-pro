@@ -16,8 +16,8 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 
 1. 商城首页 【为你推荐】 栏目添加协同过滤算法。按照UserCF基于用户的协同过滤、ItemCF基于物品的协同过滤。 实现了两种不同的推荐逻辑， 详情可见：[更新日志](#2023年4月08日更新日志)
 2. 使用Redis作为缓存中间件，并引入RedisSearch，支持中文分词搜索。详情可见：[更新日志](#2022年3月27日更新日志)
-3. 集成RabbitMQ，增加生产者、消费者常用配置
-4. 使用Spring事件监听，完成异步下单，解耦下单流程
+3. 集成RabbitMQ，解耦下单流程，增加生产者、消费者常用配置
+4. 使用Spring事件监听，解耦代码
 5. 集成Spring-Session-Redis，支持分布式集群部署
 6. 秒杀专区：支持功能完备，生产可用的高级秒杀功能，详情可见：[更新日志](#2021年1月14日秒杀接口升级)
 7. 优惠卷专区：支持优惠卷后台配置、用户注册赠卷、下单页面优惠卷使用等功能
@@ -36,8 +36,9 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 - **学习**：加群交流，群内问题都会一一解答。
 - **演示账号**：获得线上商城管理后台演示账号。
 - **开源项目**：获取博主自己写的三个开源项目，包含PC商城、H5商城、通用后台权限管理系统等。
+- **加微信**：联系博主。
 
-<img src="images/wx-mp-code.png" width = "100"  alt=""/>
+<img src="images/wx-mp-code.png" width = "200"  alt=""/>
 
 ---
 - [本地开发](#本地开发)
@@ -85,9 +86,13 @@ git clone git@github.com:wayn111/newbee-mall-pro.git
 # 2. 导入项目依赖
 将newbee-mall-pro目录用idea打开，导入maven依赖
 
-# 3. 安装Mysql8.0+、Redis3.0+(RediSearch2.0+)、Jdk17+、Maven3.5+
+# 3. 安装Jdk17+、Maven3.5+、Mysql8.0+、Redis3.0+(RediSearch2.0+)、RabbitMQ
 docker安装RediSearch
 docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
+
+docker安装RabbitMQ以及管理后台
+docker pull rabbitmq:management
+docker run -d --name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25672 -p 15671:15671 -p 15672:15672 rabbitmq:management
 
 # 4. 导入sql文件
 在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
@@ -112,7 +117,7 @@ docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:la
 
 # 远程部署
 
-推荐使用 Dockerfile 方式进行远程部署，这里介绍 CentOS 系统下部署方式（默认大家已安装 docker 环境）
+推荐使用 Dockerfile 方式进行远程部署，这里介绍 CentOS 系统下部署方式（默认大家已安装 docker 环境以及中间件依赖）
 
 ```
 # 1. 新建 /opt/newbeemall 目录
@@ -241,6 +246,7 @@ bug修复：
 1. 添加RedisSearch测试用例
 2. 后台添加RedisSearch同步按钮
 3. 商城支持RedisSearch中文分词搜索
+4. 本项目教学 [RedisSearch实战教程](https://mp.weixin.qq.com/s?__biz=MzU4NjMyMjM1Nw==&mid=2247483749&idx=1&sn=c13c6c8ff5bf9faf6e08164adfb1dd69&chksm=fdfc59bfca8bd0a9d6d06df0f075eced5782897e747b78e31e2416516306b43934c469e79791&token=2131544789&lang=zh_CN#rd)
 
 ## 2022年3月21日更新日志
 
