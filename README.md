@@ -28,7 +28,7 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 12. 支持多数据源：多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
 13. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
 14. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
-15. [在线地址](http://62.234.206.94/newbeemall)
+15. 演示地址以及账号：关注我的公众号【waynblog】，发送 演示账号
 
 > 如果有任何使用问题，欢迎提交Issue或加关注我公众号私信我告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
