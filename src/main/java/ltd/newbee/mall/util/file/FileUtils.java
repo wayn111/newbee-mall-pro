@@ -2,6 +2,7 @@ package ltd.newbee.mall.util.file;
 
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.util.security.Md5Utils;
 
 import java.io.*;
@@ -11,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 文件处理工具类
  */
+@Slf4j
 public class FileUtils extends org.apache.commons.io.FileUtils {
     public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-|.\\u4e00-\\u9fa5]+";
 
@@ -41,14 +43,14 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
                 try {
                     os.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    log.error(e1.getMessage(), e1);
                 }
             }
             if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    log.error(e1.getMessage(), e1);
                 }
             }
         }

@@ -8,6 +8,7 @@ import io.lettuce.core.resource.NettyCustomizer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.epoll.EpollChannelOption;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +26,6 @@ public class CacheConfig implements CachingConfigurer {
 
     @Bean
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        if (redisConnectionFactory instanceof LettuceConnectionFactory c) {
-            c.setValidateConnection(true);
-        }
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(keySerializer());
@@ -36,47 +34,30 @@ public class CacheConfig implements CachingConfigurer {
         return redisTemplate;
     }
 
-    /**
-     * lettuce客户端配置
-     *
-     * @return LettuceClientConfigurationBuilderCustomizer
-     */
     @Bean
-    public LettuceClientConfigurationBuilderCustomizer lettuceClientConfigurationBuilderCustomizer() {
+    public LettuceClientConfigurationBuilderCustomizer lettuceCustomizer() {
         return builder -> {
-            builder.clientOptions(ClientOptions.builder().socketOptions(SocketOptions.builder()
-                    .keepAlive(SocketOptions.KeepAliveOptions.builder()
-                            .enable(true)
-                            .idle(Duration.ofMinutes(3))
-                            .count(3)
-                            .interval(Duration.ofSeconds(10))
-                            .build()
-                    ).build()).build());
-        };
-    }
-
-    @Bean
-    public ClientResources clientResources() {
-        NettyCustomizer nettyCustomizer = new NettyCustomizer() {
-            @Override
-            public void afterChannelInitialized(Channel channel) {
-                // channel.pipeline().addLast(new IdleStateHandler(40, 0, 0));
-                // channel.pipeline().addLast(new ChannelDuplexHandler() {
-                //     @Override
-                //     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
-                //         if (evt instanceof IdleStateEvent) {
-                //             ctx.disconnect();
-                //         }
-                //     }
-                // });
-            }
-
-            @Override
-            public void afterBootstrapInitialized(Bootstrap bootstrap) {
-                bootstrap.option(EpollChannelOption.TCP_USER_TIMEOUT, 100);
+            if (SystemUtils.IS_OS_LINUX) {
+                // create your socket options
+                SocketOptions socketOptions = SocketOptions.builder()
+                        .tcpUserTimeout(SocketOptions.TcpUserTimeoutOptions.builder()
+                                .enable(true)
+                                .tcpUserTimeout(Duration.ofSeconds(5))
+                                .build()
+                        )
+                        .keepAlive(SocketOptions.KeepAliveOptions.builder()
+                                .enable()
+                                .idle(Duration.ofSeconds(30))
+                                .interval(Duration.ofSeconds(10))
+                                .count(3)
+                                .build()
+                        ).build();
+                builder.clientOptions(ClientOptions.builder()
+                        .socketOptions(socketOptions)
+                        .build())
+                ;
             }
         };
-        return ClientResources.builder().nettyCustomizer(nettyCustomizer).build();
     }
 
     private RedisSerializer<String> keySerializer() {

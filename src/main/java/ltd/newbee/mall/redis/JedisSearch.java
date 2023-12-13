@@ -1,5 +1,6 @@
 package ltd.newbee.mall.redis;
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
@@ -11,14 +12,16 @@ import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.AbstractPipeline;
 import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.params.ScanParams;
+import redis.clients.jedis.resps.ScanResult;
 import redis.clients.jedis.search.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
@@ -28,13 +31,23 @@ public class JedisSearch {
     private UnifiedJedis client;
 
     /**
+     * 查询索引列表
+     */
+    public Set<String> listIndex() {
+        return client.ftList();
+    }
+
+    /**
      * 删除索引
      *
      * @param idxName 索引名称
      */
     public void dropIndex(String idxName) {
         try {
-            client.ftDropIndex(idxName);
+            Set<String> strings = listIndex();
+            if (strings.contains(idxName)) {
+                client.ftDropIndex(idxName);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -129,23 +142,19 @@ public class JedisSearch {
      */
     public boolean addGoodsListIndex(String keyPrefix, List<Goods> list) {
         int chunk = 200;
-        int size = list.size();
-        int ceil = (int) Math.ceil(size / (double) chunk);
-        List<CompletableFuture<Void>> futures = new ArrayList<>(4);
-        for (int i = 0; i < ceil; i++) {
-            int toIndex = (i + 1) * chunk;
-            if (toIndex > size) {
-                toIndex = i * chunk + size % chunk;
+        List<List<Goods>> partition = ListUtil.partition(list, chunk);
+        AbstractPipeline pipelined = client.pipelined();
+        for (List<Goods> goodsList : partition) {
+            for (Goods goods : goodsList) {
+                RsGoodsDTO target = new RsGoodsDTO();
+                MyBeanUtil.copyProperties(goods, target);
+                Map<String, String> hash = MyBeanUtil.toMap(target);
+                // 支持中文
+                hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
+                pipelined.hset(keyPrefix + goods.getGoodsId(), hash);
             }
-            List<Goods> subList = list.subList(i * chunk, toIndex);
-            CompletableFuture<Void> voidCompletableFuture = CompletableFuture.supplyAsync(() -> subList).thenAccept(goodsList -> {
-                for (Goods goods : goodsList) {
-                    goods2RsGoods(keyPrefix, goods);
-                }
-            });
-            futures.add(voidCompletableFuture);
         }
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+        pipelined.sync();
         return true;
     }
 
@@ -159,10 +168,45 @@ public class JedisSearch {
     }
 
     public boolean deleteGoodsList(String goodsIdxPrefix) {
-        Set<String> keys = client.keys(goodsIdxPrefix + "*");
-        for (String key : keys) {
-            client.del(key);
+        List<String> keys = new ArrayList<>();
+        // 游标初始值为0
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanParams scanParams = new ScanParams();
+        // 匹配 goodsIdxPrefix 为前缀的 key
+        scanParams.match(goodsIdxPrefix + "*");
+        scanParams.count(1000);
+        while (true) {
+            ScanResult<String> scanResult = client.scan(cursor, scanParams);
+            cursor = scanResult.getCursor();
+            // 返回0 说明遍历完成
+            keys.addAll(scanResult.getResult());
+            if (scanResult.isCompleteIteration()) {
+                break;
+            }
         }
+
+        AbstractPipeline pipelined = client.pipelined();
+        for (String key : keys) {
+            pipelined.del(key);
+        }
+        pipelined.sync();
         return true;
+    }
+
+    /**
+     * 同义词更新
+     * @param group
+     * @param keywords
+     * @return
+     */
+    public boolean synonymsUpdate(String idxName, String group, List<String> keywords) {
+        return "OK".equals(client.ftSynUpdate(idxName, group, keywords.toArray(new String[]{})));
+    }
+
+    public Map<String, Map<String, Double>> spellCheck(String idxName, String query) {
+        FTSpellCheckParams spellCheckParams = FTSpellCheckParams.spellCheckParams();
+        spellCheckParams.distance(1);
+        spellCheckParams.includeTerm("dict");
+        return client.ftSpellCheck(idxName, query, spellCheckParams);
     }
 }

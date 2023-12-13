@@ -10,7 +10,7 @@ spring:
       username: root
       password:
       pool-name: hikariCP
-      minimum-idle: 5
+      minimum-idle: 10
       maximum-pool-size: 10
       auto-commit: true
       idle-timeout: 10000
@@ -26,9 +26,6 @@ spring:
       timeout: 1000
       password:
       client-type: lettuce
-      lettuce:
-        pool:
-          enabled: true
       jedis:
         pool:
           max-active: 5

@@ -2,10 +2,11 @@ package ltd.newbee.mall.aspect;
 
 import com.google.common.collect.ImmutableList;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.annotation.Limit;
-import ltd.newbee.mall.exception.BusinessException;
 import ltd.newbee.mall.util.IpUtils;
+import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.ServletUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -39,6 +40,7 @@ public class LimitAspect {
     @Around("pointcut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ServletUtil.getRequest();
+        HttpServletResponse response = ServletUtil.getResponse();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method signatureMethod = signature.getMethod();
         Limit limit = signatureMethod.getAnnotation(Limit.class);
@@ -58,10 +60,11 @@ public class LimitAspect {
         RedisScript<Long> redisScript = new DefaultRedisScript<>(luaScript, Long.class);
         Long count = redisTemplate.execute(redisScript, keys, limit.count(), limit.period());
         if (null != count && count.intValue() <= limit.count()) {
-            log.info("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
+            log.debug("第{}次访问key为 {}，描述为 [{}] 的接口", count, keys, limit.name());
             return joinPoint.proceed();
         } else {
-            throw new BusinessException("访问次数受限制");
+            // throw new BusinessException("访问次数受限制");
+            return R.error("访问次数受限制");
         }
     }
 

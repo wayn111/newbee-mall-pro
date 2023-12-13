@@ -17,9 +17,7 @@ public class TaskService {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNamePrefix("task-pool-%d").build();
         // 通用线程池
-        ExecutorService pool = new ThreadPoolExecutor(5, 20,
-                30L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+        ExecutorService pool = Executors.newVirtualThreadPerTaskExecutor();
         pool.execute(() -> {
             while (true) {
                 try {

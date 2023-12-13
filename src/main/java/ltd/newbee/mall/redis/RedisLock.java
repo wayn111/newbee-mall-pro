@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -60,11 +61,7 @@ public class RedisLock {
      */
     public boolean lock(String key, Integer timeout) {
         Integer timeoutTmp;
-        if (timeout == null) {
-            timeoutTmp = DEFAULT_TIME_OUT;
-        } else {
-            timeoutTmp = timeout;
-        }
+        timeoutTmp = Objects.requireNonNullElse(timeout, DEFAULT_TIME_OUT);
         String nanoId;
         if (stringThreadLocal.get() != null) {
             nanoId = stringThreadLocal.get();

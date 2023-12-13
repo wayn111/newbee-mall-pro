@@ -60,7 +60,7 @@ public class RedisCache {
     /**
      * lua原子自减脚本
      */
-    public static final String buildLuaDecrScript() {
+    public static String buildLuaDecrScript() {
         return """
                 local c = redis.call('get',KEYS[1])
                 if c and tonumber(c) < 0 then

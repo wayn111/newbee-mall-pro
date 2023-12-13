@@ -67,7 +67,7 @@ public class GoodsCateManagerController extends BaseController {
             if (!CollectionUtils.isEmpty(secondLevelCategories)) {
                 // 查询二级分类列表中第一个实体的所有三级分类
                 List<GoodsCategory> thirdLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                        .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.get(0).getCategoryId()));
+                        .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.getFirst().getCategoryId()));
                 categoryResult.put("secondLevelCategories", secondLevelCategories);
                 categoryResult.put("thirdLevelCategories", thirdLevelCategories);
             }

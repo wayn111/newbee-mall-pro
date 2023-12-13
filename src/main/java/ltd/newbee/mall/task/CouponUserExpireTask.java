@@ -28,8 +28,8 @@ public class CouponUserExpireTask {
      * 每天凌晨2点执行任务，检查用户领取的优惠卷是否过期
      * cron = "0 0 2 * * ?"
      */
-    @Async
-    @Scheduled(fixedDelay = 1000 * 30)
+    // @Async
+    // @Scheduled(fixedDelay = 1000 * 30)
     public void checkCouponStatus() {
         log.info("检查用户领取的优惠卷是否过期任务:开始");
         try {

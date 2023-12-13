@@ -56,11 +56,11 @@ public class GoodsManagerController extends BaseController {
         if (CollectionUtils.isNotEmpty(firstLevelCategories)) {
             // 查询一级分类列表中第一个实体的所有二级分类
             List<GoodsCategory> secondLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                    .eq("category_level", Constants.CATEGORY_LEVEL_TWO).eq("parent_id", firstLevelCategories.get(0).getCategoryId()));
+                    .eq("category_level", Constants.CATEGORY_LEVEL_TWO).eq("parent_id", firstLevelCategories.getFirst().getCategoryId()));
             if (CollectionUtils.isNotEmpty(secondLevelCategories)) {
                 // 查询一级分类列表中第一个实体的所有二级分类
                 List<GoodsCategory> thirdLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                        .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.get(0).getCategoryId()));
+                        .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.getFirst().getCategoryId()));
                 request.setAttribute("firstLevelCategories", firstLevelCategories);
                 request.setAttribute("secondLevelCategories", secondLevelCategories);
                 request.setAttribute("thirdLevelCategories", thirdLevelCategories);
@@ -82,11 +82,11 @@ public class GoodsManagerController extends BaseController {
             if (CollectionUtils.isNotEmpty(firstLevelCategories)) {
                 // 查询一级分类列表中第一个实体的所有二级分类
                 List<GoodsCategory> secondLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                        .eq("category_level", Constants.CATEGORY_LEVEL_TWO).eq("parent_id", firstLevelCategories.get(0).getCategoryId()));
+                        .eq("category_level", Constants.CATEGORY_LEVEL_TWO).eq("parent_id", firstLevelCategories.getFirst().getCategoryId()));
                 if (CollectionUtils.isNotEmpty(secondLevelCategories)) {
                     // 查询一级分类列表中第一个实体的所有二级分类
                     List<GoodsCategory> thirdLevelCategories = goodsCategoryService.list(new QueryWrapper<GoodsCategory>()
-                            .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.get(0).getCategoryId()));
+                            .eq("category_level", Constants.CATEGORY_LEVEL_THREE).eq("parent_id", secondLevelCategories.getFirst().getCategoryId()));
                     request.setAttribute("firstLevelCategories", firstLevelCategories);
                     request.setAttribute("secondLevelCategories", secondLevelCategories);
                     request.setAttribute("thirdLevelCategories", thirdLevelCategories);

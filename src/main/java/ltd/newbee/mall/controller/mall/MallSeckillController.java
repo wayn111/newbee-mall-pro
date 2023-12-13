@@ -77,7 +77,12 @@ public class MallSeckillController extends BaseController {
             throw new BusinessException("秒杀商品不存在");
         }
         MallUserVO userVO = (MallUserVO) session.getAttribute(Constants.MALL_USER_SESSION_KEY);
-        SeckillSuccessVO seckillSuccessVO = seckillService.executeSeckillFinal(seckillId, userVO);
+        SeckillSuccessVO seckillSuccessVO = null;
+        try {
+            seckillSuccessVO = seckillService.executeSeckillFinal(seckillId, userVO);
+        } catch (BusinessException e) {
+            return R.error(e.getMessage());
+        }
         return R.success().add("seckillSuccess", seckillSuccessVO);
     }
 

@@ -106,7 +106,7 @@ public class HttpUtil {
      */
     public static boolean inContainURL(HttpServletRequest request, String url) {
         boolean result = false;
-        if (url != null && !"".equals(url.trim())) {
+        if (url != null && !url.trim().isEmpty()) {
             String[] urlArr = url.split(";");
             StringBuilder reqUrl = new StringBuilder(request.getRequestURL());
             for (String s : urlArr) {

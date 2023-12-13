@@ -120,7 +120,7 @@ public class CommonController extends BaseController {
         // 获取运算的结果：5
         captcha.text();
         stopWatch.stop();
-        log.info("生成滑块验证码好事：{}", stopWatch.getLastTaskInfo().getTimeMillis());
+        log.info("生成滑块验证码好事：{}", stopWatch.lastTaskInfo().getTimeMillis());
 
         // 验证码存入session
         request.getSession().setAttribute(Constants.MALL_VERIFY_CODE_KEY, captcha.text().toLowerCase());

@@ -1,26 +1,17 @@
 server:
-  # 服务器配置
-  undertow:
-    threads:
-      io: 8
-      worker: 512
-  compression:
-    enabled: true
-    min-response-size: 1KB
   port: 84
   servlet:
     context-path: /newbeemall
-#  tomcat:
-#    # tomcat的URI编码
-#    uri-encoding: UTF-8
-#    # tomcat最大线程数，默认为200
-#    # Tomcat启动初始化的线程数，默认值25
-#    accept-count: 2000
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    # Tomcat启动初始化的线程数，默认值25
+#    accept-count: 500
 #    threads:
-#      max: 1000
-#      min-spare: 1000
-#    max-connections: 10240
-
+#      max: 2000
+#      min-spare: 2000
+#    max-connections: 181920
 # spring
 spring:
   session:
@@ -53,6 +44,9 @@ spring:
   servlet:
     multipart:
       max-file-size: 100MB
+  threads:
+    virtual:
+      enabled: true
 
 # mybatis plus
 mybatis-plus:
@@ -97,8 +91,3 @@ captcha:
     cache-size: 20
   secondary:
     enabled: false
-
-# xml热加载配置
-mybatis-xml-reload:
-  enabled: ${XML_RELOAD:true}
-  mapper-locations: classpath*:mapper/*.xml

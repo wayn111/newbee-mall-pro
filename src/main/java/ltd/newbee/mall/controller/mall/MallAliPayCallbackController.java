@@ -31,10 +31,8 @@ import java.util.Map;
 @RequestMapping("pay/callback")
 public class MallAliPayCallbackController extends BaseController {
 
-
     @Autowired
     private OrderService orderService;
-
 
     @Autowired
     private TaskService taskService;
@@ -90,7 +88,7 @@ public class MallAliPayCallbackController extends BaseController {
             params.put(entry.getKey(), ArrayUtil.join(entry.getValue(), StrUtil.COMMA));
         }
         boolean signVerified = AlipaySignature.rsaCheckV1(params, alipayConfig.getAlipayPublicKey(), charset, signType);
-        log.info("支付宝回调:verifySignparams={},signVerified={}", JSON.toJSONString(params), signVerified);
+        log.info("支付宝回调:verifySign params={},signVerified={}", JSON.toJSONString(params), signVerified);
         return signVerified;
     }
 }

@@ -103,7 +103,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, Order> implements Or
         List<Goods> goods = goodsService.listByIds(goodsIdList);
         List<Goods> collect = goods.stream().filter(goods1 -> goods1.getGoodsSellStatus() == 1).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(collect)) {
-            throw new BusinessException(collect.get(0).getGoodsName() + "已下架，无法生成订单");
+            throw new BusinessException(collect.getFirst().getGoodsName() + "已下架，无法生成订单");
         }
         Map<Long, Goods> goodsMap = goods.stream().collect(Collectors.toMap(Goods::getGoodsId, goods1 -> goods1));
         for (ShopCatVO shopCatVO : shopcatVOList) {
