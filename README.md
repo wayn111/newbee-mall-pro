@@ -141,6 +141,17 @@ docker run -p 84:84 -v /opt/newbeemall/logs:/opt/newbeemall/logs -v /opt/newbeem
 ```
 
 # 更新日志
+## 2023年12月18日更新日志
+newbee-mall-pro V2.5.0发布
+
+更新内容：
+
+升级至 Spring Boot3.2，使用虚拟线程。首页重构，大量样式美化。
+
+- 基础光加升级至 Spring Boot3.2
+- 首页重构，大量样式美化、
+- 修复一些样式 bug
+
 ## 2023年10月15日更新日志
 newbee-mall-pro V2.4.5发布
 
