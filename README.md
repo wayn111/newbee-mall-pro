@@ -116,12 +116,18 @@ docker run -d --name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25
 打开浏览器输入：http://localhost:84
 ```
 
-# 演示GIF
+# 商城演示
 
-## 商城演示
+## 商城首页
+![首页截图.png](./images/首页截图.png)
+
+## 商城分类
+![商城分类.png](./images/商城分类.png)
+
+## 商城操作GIF
 ![商城首页](./images/商城演示.gif)
 
-## 后台演示
+## 后台操作GIF
 ![后台演示](./images/后台演示.gif)
 
 ---
