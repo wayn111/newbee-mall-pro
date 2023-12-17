@@ -1,4 +1,10 @@
 $(function () {
+    var params = new URLSearchParams(window.location.search);
+    var key = params.get('keyword')
+    if (key) {
+        $('#keyword').val(key)
+    }
+
     $('#keyword').keypress(function (e) {
         var key = e.which; //e.which是按键的值
         if (key == 13) {
@@ -40,6 +46,8 @@ function search() {
     if (q && q != '') {
         window.location.href = _ctx + 'search?keyword=' + q + '&goodsCategoryId=' + c;
     } else {
-        $('#keyword').attr('placeholder', '请输入商品信息');
+        swal("请输入商品信息", {
+            icon: "warning",
+        });
     }
 }

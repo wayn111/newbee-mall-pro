@@ -20,9 +20,9 @@
     align-items: center;
     height: 12px;
     font-size: 14px;
-    color: #b0b0b0;
+    color: #fff;
     padding: 0 8px;
-    border-right: 1px solid #b0b0b0;
+    /*border-right: 1px solid #b0b0b0;*/
 }
 
 #header .center ul li:last-of-type a {
@@ -41,7 +41,7 @@
 }
 
 #header .center .fr .user {
-    width: 120px;
+    width: 90px;
     height: 40px;
     line-height: 40px;
     font-size: 12px;
@@ -55,8 +55,8 @@
 }
 
 #header .center .fr .user:hover .selector {
-    padding: 7px 0;
-    height: 120px;
+    padding: 5px 0;
+    height: 107px;
 }
 
 #header .center .fr .user .username {
@@ -64,7 +64,7 @@
     width: 100%;
     height: 100%;
     line-height: 40px;
-    color: #b0b0b0;
+    color: #fff;
     position: relative;
     z-index: 201;
 }
@@ -85,12 +85,11 @@
 #header .center .fr .user .selector li {
     width: 100%;
     height: 27px;
-    margin-top: 8px;
+    padding: 3px 0;
 }
 
-#header .center .fr .user .selector li:hover a {
-    color: #1baeae;
-    background-color: #fafafa;
+#header .center .fr .user .selector li:hover {
+    background-color: #287873;
 }
 
 #header .center .fr .user .selector li a {
@@ -100,13 +99,18 @@
     line-height: 30px;
     padding: 0;
     border: 0;
+    color: #1baeae;
+}
+
+#header .center .fr .user .selector li a:hover {
+    color: #fff;
 }
 
 #header .center .fr .login {
     display: flex;
     align-items: center;
     width: 98px;
-    height: 40px;
+    /*height: 40px;*/
 }
 
 #header .user-login {
@@ -122,7 +126,7 @@
     align-items: center;
     height: 12px;
     font-size: 12px;
-    color: #b0b0b0;
+    color: #fff;
     padding: 0 8px;
     border-right: 1px solid #b0b0b0;
 }
@@ -133,13 +137,11 @@
 
 #header .center .fr .shopcart {
     display: flex;
-    width: 120px;
+    width: 90px;
     font-size: 12px;
-    color: #fff;
-    margin: 0 20px;
     justify-content: center;
     align-items: center;
-    background-color: #1baeae;
+    /*background-color: #1baeae;*/
 }
 
 
@@ -148,6 +150,7 @@
     height: 100px;
     flex-shrink: 0;
     position: relative;
+    background-color: #fff;
 }
 
 #nav .banner_x {
@@ -162,12 +165,11 @@
 }
 
 #nav .banner_x .logo {
-    width: 240px;
+    width: 228px;
     text-indent: -10000px;
-    background: url(../image/login-logo-2.png) no-repeat;
+    background: url(../image/mall-logo.gif) no-repeat;
     background-size: 100%;
     background-position: center;
-    margin-top: 10px;
 }
 
 #nav .banner_x .icon-search {
@@ -192,7 +194,6 @@
 }
 
 #nav .banner_x .list a {
-    color: red;
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
@@ -326,6 +327,45 @@
 .container:before, .container:after {
     content: " ";
     display: table;
+}
+
+.saoyisao {
+    background: #fff;
+    position: fixed;
+    top: 64%;
+    left: 96%;
+    z-index: 1000;
+}
+
+
+.saoyisao > .item{
+    height: 68px;
+    width: 68px;
+    font-size: 12px;
+    background-color: #fff;
+    color: #666;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e8e8e8;
+    transition: background-color .2s;
+}
+
+.saoyisao > .wx-img{
+    position: absolute;
+    top: 0%;
+    left: -240%;
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+}
+
+.saoyisao > .wx-img > .wz {
+    font-size: 14px;
+    font-weight: bolder;
+    color: #1baeae;
 }
 
 .site-footer { font-size: 14px; line-height: 1.8; color: #a8aaba; background: #32333b;}

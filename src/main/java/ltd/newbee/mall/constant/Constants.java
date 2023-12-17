@@ -18,7 +18,7 @@ public class Constants {
     /**
      * 首页热卖商品数量
      */
-    public final static int INDEX_GOODS_HOT_NUMBER = 4;
+    public final static int INDEX_GOODS_HOT_NUMBER = 5;
     /**
      * 首页新品数量
      */

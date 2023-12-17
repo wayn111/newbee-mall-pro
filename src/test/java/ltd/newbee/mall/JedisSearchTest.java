@@ -76,12 +76,5 @@ public class JedisSearchTest {
         SearchResult query = jedisSearch.query(IDX_NAME, "@tag:{小米|华为} @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
     }
-    @Test
-
-    public void spellCheck() {
-        System.out.println("begin");
-        System.out.println(jedisSearch.spellCheck(IDX_NAME, "huawe"));
-        System.out.println("end");
-    }
 
 }

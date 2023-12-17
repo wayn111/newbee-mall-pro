@@ -133,10 +133,8 @@ a:focus {
 body, .body {
     background: #f7f7f7;
     height: 100%;
-    max-width: 640px;
     min-width: 300px;
     min-height: 100%;
-
     margin: 0 auto;
 }
 

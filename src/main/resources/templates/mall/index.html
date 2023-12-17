@@ -10,9 +10,10 @@
         <div class="all-sort-list">
             <th:block th:each="category : ${categories}">
                 <div class="item">
-                    <h3><span>·</span><a href="##">
+                    <a href="##">
                         <th:block th:text="${category.categoryName}"></th:block>
-                    </a></h3>
+                        <i class="iconfont icon-right"></i>
+                    </a>
                     <div class="item-list clearfix">
                         <div class="subitem">
                             <th:block th:each="secondLevelCategory : ${category.subCategoryVOS}">
@@ -92,7 +93,7 @@
                             <img th:src="@{${newGoods.goodsCoverImg}}" th:alt="${newGoods.goodsName}">
                             <p class="name text-truncate" th:title="${newGoods.goodsName}" th:text="${newGoods.goodsName}">NewBeeMall</p>
                             <p class="discount text-truncate" th:title="${newGoods.goodsIntro}" th:text="${newGoods.goodsIntro}">NewBeeMall</p>
-                            <p class="item_price" th:text="${newGoods.sellingPrice}">NewBeeMall</p>
+                            <p class="item_price" th:text="${'¥ ' + newGoods.sellingPrice}">NewBeeMall</p>
                         </a>
                     </li>
                 </th:block>
@@ -109,9 +110,9 @@
                 <th:block th:each="recommendGoods : ${recommendGoodses}">
                     <li>
                         <a th:href="@{'/goods/detail/'+${recommendGoods.goodsId}}">
-                            <div class="info discount" th:text="${recommendGoods.tag}">
+                            <!--<div class="info discount" th:text="${recommendGoods.tag}">
                                 新品
-                            </div>
+                            </div>-->
                             <img th:src="@{${recommendGoods.goodsCoverImg}}" th:alt="${recommendGoods.goodsName}">
                             <p class="name text-truncate" th:title="${recommendGoods.goodsName}" th:text="${recommendGoods.goodsName}">NewBeeMall</p>
                             <p class="item_price" th:title="${recommendGoods.sellingPrice}" th:text="${recommendGoods.sellingPrice}">NewBeeMall</p>

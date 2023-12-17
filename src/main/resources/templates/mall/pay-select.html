@@ -3,6 +3,8 @@
 <head th:replace="~{mall/header::head-fragment('NewBee商城-选择支付方式','pay-select')}">
 </head>
 <body>
+<header th:replace="~{mall/header::header-fragment}"></header>
+
 <div class="page-main">
     <div class="container confirm-box">
         <form target="_blank" action="#" id="J_payForm" method="post">
@@ -157,9 +159,9 @@
 </div>
 
 <div th:replace="~{mall/footer::footer-fragment}"></div>
-
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script type="text/javascript">
     //给出提醒

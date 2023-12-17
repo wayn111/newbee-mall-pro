@@ -16,8 +16,7 @@
 </head>
 <nav id="nav" th:fragment="nav-fragment">
     <div class="banner_x center">
-        <a th:href="@{/index}" class="logo"><h1>新蜂商城</h1></a>
-        <a th:href="@{/index}" class="gif"></a>
+        <a th:href="@{/index}" class="logo"><h1>newbee-mall-pro</h1></a>
         <ul class="list">
             <li><a th:href="@{/seckill/list}">秒杀专区</a></li>
             <li><a th:href="@{/coupon}">优惠券</a></li>
@@ -32,10 +31,11 @@
         </div>
     </div>
 </nav>
+
 <header id="header" th:fragment="header-fragment">
     <div class="center">
         <ul class="fl">
-            <li><a th:href="@{/index}">新蜂商城</a></li>
+            <li><a th:href="@{/index}">newbee-mall-pro</a></li>
             <li><a th:href="@{/admin}" target="_blank">后台管理系统</a></li>
             <li><a href="https://github.com/wayn111/newbee-mall-pro">GitHub 地址</a></li>
         </ul>
@@ -58,6 +58,7 @@
                                 退出登录
                             </a>
                         </li>
+                        <div style="clear:both;"></div> <!--新添加的空div，它和浮动元素同一级别，且位于最后-->
                     </ul>
                     <a href="##" class="username">
                         <span id="headNickName">0</span>
@@ -79,6 +80,22 @@
                         购物车(0)</a>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="saoyisao" style="">
+        <div class="item" style="">
+            <img src="https://dsfs.oppo.com/oppo/shop-pc-v2/main/img/d9d91c7.svg">
+            <span data-v-28dfe53a="" style="color: rgb(243, 65, 65);">扫一扫</span>
+        </div>
+        <div class="item" style="">
+            <img src="https://dsfs.oppo.com/oppo/shop-pc-v2/main/img/e1a1212.svg">
+            <span data-v-28dfe53a="">在线客服</span>
+        </div>
+        <div class="wx-img">
+            <div>
+                <img style="width: 120px" th:src="@{/mall/image/wx-mp-code.png}">
+            </div>
+            <div class="wz">微信扫码，加技术群</div>
         </div>
     </div>
 </header>

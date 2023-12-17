@@ -2,47 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="~{mall/header::head-fragment('NewBee商城-搜索','search')}"/>
-    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.0/css/all.css" rel="stylesheet">
 </head>
 <body>
 <header th:replace="~{mall/header::header-fragment}"></header>
 <!-- nav -->
 <nav th:replace="~{mall/header::nav-fragment}"></nav>
-
-<!--分类筛选-->
-<div class="classify">
-    <div class="category">
-        <div class="category_bar">
-            <th:block th:if="${searchPageCategoryVO!=null}">
-                <div class="fm c">
-                    <a href="##" class="qqq" th:text="${searchPageCategoryVO.secondLevelCategoryName}">newbee-mall-pro</a>
-                    <div>
-                        <th:block th:each="thirdLevelCategory : ${searchPageCategoryVO.thirdLevelCategoryList}">
-                            <a th:href="@{${'/search?goodsCategoryId='+thirdLevelCategory.categoryId}}"
-                               th:text="${thirdLevelCategory.categoryName}">newbee-mall-pro</a>
-                        </th:block>
-                    </div>
-                </div>
-                <i><img src="mall/image/right-@1x.png" alt=""></i>
-                <div class="findword">
-                    <input type="hidden" id="goodsCategoryId" th:value="${goodsCategoryId}">
-                    <span>[[${searchPageCategoryVO.currentCategoryName}]]</span>
-                    <span style="float: right;display: block">关键词 "
-                        [[${keyword}]]
-                        "</span>
-                </div>
-            </th:block>
-            <th:block th:if="${searchPageCategoryVO==null}">
-                <th:block th:if="${keyword!=null and keyword !=''}">
-                    <div class="findword">搜索 "
-                        <th:block th:text="${keyword}"></th:block>
-                        "
-                    </div>
-                </th:block>
-            </th:block>
-        </div>
-    </div>
-</div>
 
 <!--排序-->
 <div class="sort">
@@ -112,6 +76,9 @@
 </div>
 
 <div th:replace="~{mall/footer::footer-fragment}"></div>
+<script th:src="@{/mall/css/fontawesome-free-6.4.0-web/js/fontawesome.js}"></script>
+<script th:src="@{/mall/css/fontawesome-free-6.4.0-web/js/solid.js}"></script>
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <!-- jQuery -->
 <script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>

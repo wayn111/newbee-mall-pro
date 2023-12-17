@@ -4,18 +4,15 @@ body {
 
 .top {
     width: 100%;
-    height: 100px;
     background: #fff;
 }
 
 .top .logo {
     width: 1130px;
-    height: 130px;
 }
 
 .top .logo img {
-    width: 360px;
-    height: 160px;
+    width: 208px;
     border: none;
     margin-top: -5px;
 }

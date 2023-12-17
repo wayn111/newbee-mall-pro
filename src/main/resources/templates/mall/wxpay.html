@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<!--<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="zh-cn">
     <meta name="apple-mobile-web-app-capable" content="no"/>
@@ -17,9 +17,12 @@
     <title>newbee-mall-pro 支付</title>
     <link th:href="@{/mall/styles/pay.css}" rel="stylesheet" media="screen">
     <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
+</head>-->
+<head th:replace="~{mall/header::head-fragment('NewBee商城-微信支付','pay')}">
 </head>
-
 <body>
+
+<header th:replace="~{mall/header::header-fragment}"></header>
 <div class="body">
     <h1 class="mod-title">
         <span class="ico_log icon-wx-pay"></span>
@@ -71,6 +74,10 @@
     <div class="foot">
     </div>
 </div>
+
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/mall/js/search.js}" type="text/javascript"></script>
 <script th:inline="javascript"> var _ctx = [[@{/}]]; </script>
 <script type="text/javascript">
     function payOrderSuccess() {

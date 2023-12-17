@@ -5,7 +5,7 @@ $(function () {
 
     var editor = new FroalaEditor('#editor', {
         language: 'zh_cn',
-        height: 300,
+        height: 800,
         fullPage: true,
         imageUploadURL: _ctx + 'common/froalaUpload',
         imageManagerToggleTags: false,
@@ -26,8 +26,11 @@ $(function () {
             }
         },
         onComplete: function (file, r) {
+            debugger
             if (r != null && r.code == 200) {
-                $("#goodsCoverImg").attr("src", r.map.url);
+                var ctx = _ctx + r.map.url;
+                var fileurl = ctx.replaceAll('//', '/');
+                $("#goodsCoverImg").attr("src", fileurl);
                 $("#goodsCoverImg").attr("style", "width: 128px;height: 128px;display:block;");
                 return false;
             } else {
@@ -135,7 +138,7 @@ $(function () {
         var stockNum = $('#stockNum').val();
         var goodsSellStatus = $("input[name='goodsSellStatus']:checked").val();
         var goodsDetailContent = editor.html.get();
-        var goodsCoverImg = $('#goodsCoverImg')[0].src;
+        var goodsCoverImg = $('#goodsCoverImg').attr("src");
         if (isNull(goodsCoverImg) || goodsCoverImg.indexOf('img-upload') != -1) {
             swal("封面图片不能为空", {
                 icon: "error",

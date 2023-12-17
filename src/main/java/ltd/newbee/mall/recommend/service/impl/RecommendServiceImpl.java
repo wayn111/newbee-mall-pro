@@ -84,6 +84,9 @@ public class RecommendServiceImpl implements RecommendService {
         // 获取所有订单以及订单关联商品的集合
         List<Order> newBeeMallOrders = orderDao.selectOrderIds();
         List<Long> orderIds = newBeeMallOrders.stream().map(Order::getOrderId).toList();
+        if (orderIds.isEmpty()) {
+            return Collections.emptyList();
+        }
         List<OrderItemVO> newBeeMallOrderItems = orderItemDao.selectByOrderIds(orderIds);
         Map<Long, List<OrderItemVO>> listMap = newBeeMallOrderItems.stream()
                 .collect(Collectors.groupingBy(OrderItemVO::getOrderId));

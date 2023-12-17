@@ -40,6 +40,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
         jedisSearch.dropIndex(Constants.GOODS_IDX_NAME);
         Schema schema = new Schema()
                 .addSortableTextField("goodsName", 1.0)
+                .addSortableTextField("goodsNamePinyin", 0.5)
                 .addSortableTextField("goodsIntro", 0.5)
                 .addSortableNumericField("goodsId")
                 .addSortableNumericField("goodsCategoryId")

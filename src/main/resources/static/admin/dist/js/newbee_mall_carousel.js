@@ -38,7 +38,12 @@ $(function () {
     });
 
     function coverImageFormatter(cellvalue) {
-        return "<img src='" + cellvalue + "' height=\"120\" width=\"160\" alt='coverImage'/>";
+        if (cellvalue.toString().indexOf('http://') > -1) {
+            return "<img src='" + cellvalue + "' height=\"120\" />";
+        }
+        var ctx = _ctx + cellvalue;
+        ctx = ctx.replaceAll('//', '/');
+        return "<img src='" + ctx + "' height=\"120\" />";
     }
 
     $(window).resize(function () {
@@ -58,7 +63,9 @@ $(function () {
         },
         onComplete: function (file, r) {
             if (r != null && r.code == 200) {
-                $("#carouselImg").attr("src", r.map.url);
+                var ctx = _ctx + r.map.url;
+                var fileurl = ctx.replaceAll('//', '/');
+                $("#carouselImg").attr("src", fileurl);
                 $("#carouselImg").attr("style", "width: 128px;height: 128px;display:block;");
                 return false;
             } else {
@@ -88,7 +95,7 @@ function carouselAdd() {
 $('#saveButton').click(function () {
     var redirectUrl = $("#redirectUrl").val();
     var carouselRank = $("#carouselRank").val();
-    var carouselUrl = $('#carouselImg')[0].src;
+    var carouselUrl = $('#carouselImg').attr("src");
     var data = {
         "carouselUrl": carouselUrl,
         "carouselRank": carouselRank,

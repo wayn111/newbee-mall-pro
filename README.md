@@ -6,9 +6,9 @@
 </p>
 
 | 分支名称                                                       | Spring Boot 版本 | JDK 版本 |
-|--------------------------------------------------------------------|----------------|------| 
-| [master](https://github.com/wayn111/waynboot-mall)                     | 3.0.6          | 17   |
-| [springboot2.7](https://github.com/wayn111/waynboot-mall/tree/springboot-2.7) | 2.7.5          | 1.8  |     
+|--------------------------------------------------------------------|----------------|--------| 
+| [master](https://github.com/wayn111/waynboot-mall)                     | 3.2.0          | 21     |
+| [springboot2.7](https://github.com/wayn111/waynboot-mall/tree/springboot-2.7) | 2.7.5          | 1.8    |     
 
 ---
 # 简介
@@ -28,7 +28,7 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 12. 支持多数据源：多数据源配置在Springboot2.7分支，通过jta和seata支持分布式事务
 13. 本项目秉持原作者简单易用的原则，代码书写清晰，注释完整，便于新人理解，快速上手
 14. [本项目源码](https://github.com/wayn111/newbee-mall-pro)
-15. 演示地址以及账号：关注我的公众号【waynblog】，发送 演示账号
+15. [在线地址](http://62.234.206.94/newbeemall)
 
 > 如果有任何使用问题，欢迎提交Issue或加关注我公众号私信我告知，方便互相交流反馈～ 💘。最后，喜欢的话麻烦给我个star
 
@@ -86,7 +86,7 @@ git clone git@github.com:wayn111/newbee-mall-pro.git
 # 2. 导入项目依赖
 将newbee-mall-pro目录用idea打开，导入maven依赖
 
-# 3. 安装Jdk17+、Maven3.5+、Mysql8.0+、Redis3.0+(RediSearch2.0+)、RabbitMQ
+# 3. 安装Jdk21+、Maven3.5+、Mysql8.0+、Redis3.0+(RediSearch2.0+)、RabbitMQ
 docker安装RediSearch
 docker run -d --name redis-stack-server -p 6379:6379 redis/redis-stack-server:latest
 
@@ -95,10 +95,10 @@ docker pull rabbitmq:management
 docker run -d --name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25672 -p 15671:15671 -p 15672:15672 rabbitmq:management
 
 # 4. 导入sql文件
-在项目根目录下sql文件夹下，找到`newbee_mall_db_包含秒杀and优惠卷.sql`文件，新建mysql数据库newbee_mall_db，导入其中
+在项目根目录下sql文件夹下，找到`newbeepro_*.sql`文件，新建mysql数据库newbee_mall_db，导入其中
 
 # 5. 解压项目图片
-将项目根目录下upload.zip文件加压缩到D盘upload文件夹中，eg:D:\\upload
+关注我的公众号，发送 【newbeepro图片】，获取图片压缩包下载地址，下载 newbeepro-upload.zip 后，解压缩到D盘upload文件夹中，eg:D:\\upload
 
 # 6. 修改Mysql、Redis连接配置
 修改`application-dev.yml`文件中数据连接配置相关信息
@@ -107,12 +107,12 @@ docker run -d --name rabbitmq -p 5671:5671 -p 5672:5672 -p 4369:4369 -p 25672:25
 找到NewBeeMallApplication文件，右键`run AdminApplication`，启动项目
 
 # 8. 访问商城管理后台
-打开浏览器输入：http://localhost:84/newbeemall/admin/login，找到商品管理菜单，点击【同步RS】按钮，初始化RediSearch数据
+打开浏览器输入：http://localhost:84/admin/login，找到商品管理菜单，点击【同步RS】按钮，初始化RediSearch数据
 账号：admin
 密码：123456
 
 # 9. 访问商城首页
-打开浏览器输入：http://localhost:84/newbeemall
+打开浏览器输入：http://localhost:84
 ```
 
 # 远程部署
@@ -126,7 +126,7 @@ mkdir -p /opt/newbeemall/logs
 
 # 2. 上传打包后的 newbee-mall.jar 文件至目录 /opt/newbeemall/target 目录下
 
-# 3. 上传解压项目根目录下 upload.zip 文件至目录 /opt/newbeemall 下 
+# 3. 上传解压 newbeepro-upload.zip 文件至目录 /opt/newbeemall 下 
 
 # 4. 上传项目根目录下 Dockerfile 文件至 /opt/newbeemall 目录下
 
@@ -136,7 +136,7 @@ docker build -t newbeemall .
 docker run -p 84:84 -v /opt/newbeemall/logs:/opt/newbeemall/logs -v /opt/newbeemall/upload:/opt/newbeemall/upload --env TZ=Asia/Shanghai --env WAYN_SERVER_URL=http://服务器公网ip/newbeemall --env WAYN_UPLOAD_DIR=/opt/newbeemall/upload --env WAYN_VIEW_MODEL=false --env XML_RELOAD=false --name newbeemall newbeemall
 
 # 6. 访问项目
-打开浏览器，输入http://服务器ip:84/newbeemall
+打开浏览器，输入http://服务器ip:84
 ```
 
 # 更新日志
@@ -290,52 +290,19 @@ bug修复：
 
 ---
 
-# 在线截图
+# 演示GIF
 
-| 商城首页 ![index](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/index-01.gif)                                         | 商品搜索 ![search](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/search.png)                                        |
-|------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| 购物车 ![cart](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/cart.png)                                               | 订单结算 ![settle](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/settle.png)                                        |
-| 订单列表 ![orders](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/orders.png)                                          | 支付页面 ![settle](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/product/wx-pay.png)                                        |
-| 分类管理 ![分类管理](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4b04d591cf7c4b64b69998936298a521~tplv-k3u1fbpfcp-watermark.image)   | 会员管理 ![会员管理](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/92d7d36101d14fd8bb2a78ac776f4061~tplv-k3u1fbpfcp-watermark.image) |
-| 优惠劵管理 ![优惠劵管理](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d795de360a0042a88e66f7e40807dfcd~tplv-k3u1fbpfcp-watermark.image) | 商品管理 ![商品管理](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9cbe8bcdba2448c091a6f56a85e4277f~tplv-k3u1fbpfcp-watermark.image) |
-| 秒杀管理 ![秒杀管理](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e1a2adfd2300497b9f5e95aade9b7fe7~tplv-k3u1fbpfcp-watermark.image)   | 订单管理 ![订单管理](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/612fa67ad62d48929ae64d10e9ea58c7~tplv-k3u1fbpfcp-watermark.image) |
+## 商城演示
+ ![商城首页](./images/商城演示.gif) 
 
----
-
-## 秒杀专区
-
-秒杀专区为用户展示了后台设置的秒杀商品，在秒杀有效期内可以进行商品秒杀操作. 秒杀接口使用了接口限流、Redis以及储存过程提高秒杀操作的tps
-
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e712d152fec14cc2ab2ba49a7fa8ffaa~tplv-k3u1fbpfcp-watermark.image)
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6cbe7bc5834947f888f3264de5b377c7~tplv-k3u1fbpfcp-watermark.image)
-![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6dc788dffb534669888aff9791498be0~tplv-k3u1fbpfcp-watermark.image)
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c3159a78f6204176822baa2823b7005e~tplv-k3u1fbpfcp-watermark.image)
-------
-
-## 优惠劵领取
-
-优惠劵页面为用户展示了后台设置的可用优惠劵，在下单时可以使用优惠卷减少下单金额
-
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d182eaea972b4de7862207bcf1910551~tplv-k3u1fbpfcp-watermark.image)
-![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/263b6e8143a343e5b4d759df289135a3~tplv-k3u1fbpfcp-watermark.image)
-------
-
-## 商城15天交易额统计
-
-商城15天交易额统计可以为商城运营人员展示商城近期总交易金额
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6c7b1a13fa17400ca72380daca83e3b0~tplv-k3u1fbpfcp-watermark.image)
-
+## 后台演示
+![后台演示](./images/后台演示.gif)
 ---
 
 # 参考资料
-
-* 感谢 [newbee-mall](https://github.com/newbee-ltd/newbee-mall) 项目原作者十三提供的基础项目支持
 
 * [秒杀架构模型设计](https://www.cnblogs.com/wyq178/p/11261711.html)
 
 * [Java高并发秒杀API（慕课网）](https://github.com/liyifeng1994/seckill)
 
 * [⭐⭐⭐⭐秒杀系统设计与实现.互联网工程师进阶与分析🙋🐓](https://github.com/qiurunze123/miaosha)
-
-> 推荐一下本人的[后台权限管理系统](https://github.com/wayn111/crowd-admin) ,集成了消息通知，任务调度，代码生成等常用功能，易于上手，学习，使用二次开发

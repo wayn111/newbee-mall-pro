@@ -44,22 +44,9 @@ public class MallGoodsController extends BaseController {
     @Autowired
     private JedisSearch jedisSearch;
 
-    @GetMapping("/search1")
-    public String searchPage(SearchObjVO searchObjVO, HttpServletRequest request) {
-        Page<SearchPageGoodsVO> page = getPage(request, Constants.GOODS_SEARCH_PAGE_LIMIT);
-        String keyword = searchObjVO.getKeyword();
-        IPage<Goods> iPage = goodsService.findMallGoodsListBySearch(page, searchObjVO);
-        request.setAttribute("keyword", keyword);
-        request.setAttribute("pageResult", iPage);
-        request.setAttribute("orderBy", searchObjVO.getSidx());
-        request.setAttribute("order", searchObjVO.getOrder());
-        Long goodsCategoryId = searchObjVO.getGoodsCategoryId();
-        return goodsCategoryHandler(request, goodsCategoryId);
-    }
-
     @GetMapping("/search")
     public String rsSearch(SearchObjVO searchObjVO, HttpServletRequest request) {
-        log.info("esSearch begin searchObjVO:{}", searchObjVO);
+        log.info("search begin searchObjVO:{}", searchObjVO);
         Page<SearchPageGoodsVO> page = getPage(request, Constants.GOODS_SEARCH_PAGE_LIMIT);
         String keyword = searchObjVO.getKeyword();
         long size = page.getSize();

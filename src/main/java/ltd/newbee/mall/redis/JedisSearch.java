@@ -1,6 +1,7 @@
 package ltd.newbee.mall.redis;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
@@ -8,6 +9,7 @@ import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.dto.RsGoodsDTO;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
+import ltd.newbee.mall.util.ChineseUtil;
 import ltd.newbee.mall.util.MyBeanUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,8 +106,13 @@ public class JedisSearch {
         String queryKey = "@goodsSellStatus:[0 0]";
         // 根据关键字搜索
         if (StringUtils.isNotBlank(keyword)) {
-            queryKey += String.format(" ( @goodsName:(%s)) | (@goodsIntro:(%s) | @tag:{%s} ) ",
-                    keyword, keyword, keyword);
+            if (ChineseUtil.hasChinese(keyword)) {
+                queryKey += String.format(" ( @goodsName:(%s) | (@goodsIntro:(%s) | @tag:{%s} ))",
+                        keyword, keyword, keyword);
+            } else {
+                queryKey += String.format(" ( @goodsNamePinyin:(%s) | (@goodsIntro:(%s) | @tag:{%s} ))",
+                        "*" + keyword + "*", keyword, keyword);
+            }
         }
         // 根据分类ID搜索
         if (goodsCategoryId != null) {
@@ -149,6 +156,8 @@ public class JedisSearch {
                 RsGoodsDTO target = new RsGoodsDTO();
                 MyBeanUtil.copyProperties(goods, target);
                 Map<String, String> hash = MyBeanUtil.toMap(target);
+                String pinyin = PinyinUtil.getPinyin(goods.getGoodsName(), "");
+                hash.put("goodsNamePinyin", pinyin);
                 // 支持中文
                 hash.put("_language", Constants.GOODS_IDX_LANGUAGE);
                 pipelined.hset(keyPrefix + goods.getGoodsId(), hash);
@@ -194,7 +203,18 @@ public class JedisSearch {
     }
 
     /**
+     * 同义词列表
+     *
+     * @param idxName
+     * @return
+     */
+    public Map<String, List<String>> synonymsList(String idxName) {
+        return client.ftSynDump(idxName);
+    }
+
+    /**
      * 同义词更新
+     *
      * @param group
      * @param keywords
      * @return
@@ -203,10 +223,4 @@ public class JedisSearch {
         return "OK".equals(client.ftSynUpdate(idxName, group, keywords.toArray(new String[]{})));
     }
 
-    public Map<String, Map<String, Double>> spellCheck(String idxName, String query) {
-        FTSpellCheckParams spellCheckParams = FTSpellCheckParams.spellCheckParams();
-        spellCheckParams.distance(1);
-        spellCheckParams.includeTerm("dict");
-        return client.ftSpellCheck(idxName, query, spellCheckParams);
-    }
 }

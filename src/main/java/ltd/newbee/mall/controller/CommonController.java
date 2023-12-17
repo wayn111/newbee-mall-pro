@@ -75,8 +75,7 @@ public class CommonController extends BaseController {
         try {
             // 上传文件路径
             String fileName = FileUploadUtil.uploadFile(file, newbeeMallConfig.getUploadDir());
-            String requestUrl = HttpUtil.getRequestContext(request);
-            String url = requestUrl + "/upload/" + fileName;
+            String url = "/upload/" + fileName;
             return R.success().add("url", url).add("fileName", fileName);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -90,8 +89,7 @@ public class CommonController extends BaseController {
         try {
             // 上传文件路径
             String fileName = FileUploadUtil.uploadFile(file, newbeeMallConfig.getUploadDir());
-            String requestUrl = HttpUtil.getRequestContext(request);
-            String url = requestUrl + "/upload/" + fileName;
+            String url = "/upload/" + fileName;
             Map<String, Object> data = new HashMap<>();
             data.put("link", url);
             ServletUtil.renderString(response, JSONObject.toJSONString(data));
