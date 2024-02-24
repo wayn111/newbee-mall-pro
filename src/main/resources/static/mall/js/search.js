@@ -16,6 +16,14 @@ $(function () {
         }
     });
 
+    $('#keyword').focus(function (e) {
+        $(this).addClass("search_btn")
+        $("#nav .banner_x .fr .button").addClass("search_btn")
+    }).blur(function (e) {
+        $(this).removeClass("search_btn")
+        $("#nav .banner_x .fr .button").removeClass("search_btn")
+    });
+
     /**
      * 查询购物车数量
      */

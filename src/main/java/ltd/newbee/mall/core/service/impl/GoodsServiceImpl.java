@@ -7,6 +7,7 @@ import jakarta.annotation.Resource;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.dao.GoodsDao;
 import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 import ltd.newbee.mall.core.service.GoodsService;
@@ -49,7 +50,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
                 .addSortableNumericField("originalPrice")
                 .addSortableTagField("tag", "|");
         jedisSearch.createIndex(Constants.GOODS_IDX_NAME, Constants.GOODS_IDX_PREFIX, schema);
-        List<Goods> list = goodsDao.selectUpGoodsList();
+        List<GoodsVO> list = goodsDao.selectUpGoodsList();
         jedisSearch.deleteGoodsList(Constants.GOODS_IDX_PREFIX);
         return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
     }
@@ -74,7 +75,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsDao, Goods> implements Go
     @Override
     public boolean changeSellStatus(List<Long> ids, int sellStatus) {
         lambdaUpdate().set(Goods::getGoodsSellStatus, sellStatus).in(Goods::getGoodsId, ids).update();
-        List<Goods> list = goodsDao.selectGoodsListByIds(ids);
+        List<GoodsVO> list = goodsDao.selectGoodsListByIds(ids);
         return jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
     }
 

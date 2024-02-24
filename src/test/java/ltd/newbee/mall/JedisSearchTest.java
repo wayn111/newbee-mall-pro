@@ -5,14 +5,15 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.core.service.GoodsService;
 import ltd.newbee.mall.redis.JedisSearch;
+import ltd.newbee.mall.util.MyBeanUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.clients.jedis.search.Document;
 import redis.clients.jedis.search.Schema;
 import redis.clients.jedis.search.SearchResult;
 
@@ -61,7 +62,8 @@ public class JedisSearchTest {
     public void addAll() {
         System.out.println("begin");
         List<Goods> list = goodsService.list();
-        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
+        List<GoodsVO> goodsVOS = MyBeanUtil.copyList(list, GoodsVO.class);
+        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, goodsVOS);
         System.out.println("end");
     }
 
@@ -72,7 +74,8 @@ public class JedisSearchTest {
         Schema schema = new Schema().addSortableTextField("goodsName", 1.0).addSortableTextField("goodsIntro", 0.5).addSortableNumericField("goodsId").addSortableNumericField("sellingPrice").addSortableNumericField("goodsSellStatus").addSortableNumericField("originalPrice").addSortableTagField("tag", "|");
         jedisSearch.createIndex(IDX_NAME, Constants.GOODS_IDX_PREFIX, schema);
         List<Goods> list = goodsService.list(Wrappers.<Goods>lambdaQuery().eq(Goods::getGoodsSellStatus, 0));
-        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, list);
+        List<GoodsVO> goodsVOS = MyBeanUtil.copyList(list, GoodsVO.class);
+        jedisSearch.addGoodsListIndex(Constants.GOODS_IDX_PREFIX, goodsVOS);
         SearchResult query = jedisSearch.query(IDX_NAME, "@tag:{小米|华为} @goodsSellStatus:[0 0]", "sellingPrice");
         System.out.println("end");
     }

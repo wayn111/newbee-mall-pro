@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import ltd.newbee.mall.constant.Constants;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.dto.RsGoodsDTO;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 import ltd.newbee.mall.util.ChineseUtil;
@@ -147,12 +148,12 @@ public class JedisSearch {
      * @param keyPrefix 要索引的数据前缀
      * @return boolean
      */
-    public boolean addGoodsListIndex(String keyPrefix, List<Goods> list) {
+    public boolean addGoodsListIndex(String keyPrefix, List<GoodsVO> list) {
         int chunk = 200;
-        List<List<Goods>> partition = ListUtil.partition(list, chunk);
+        List<List<GoodsVO>> partition = ListUtil.partition(list, chunk);
         AbstractPipeline pipelined = client.pipelined();
-        for (List<Goods> goodsList : partition) {
-            for (Goods goods : goodsList) {
+        for (List<GoodsVO> goodsList : partition) {
+            for (GoodsVO goods : goodsList) {
                 RsGoodsDTO target = new RsGoodsDTO();
                 MyBeanUtil.copyProperties(goods, target);
                 Map<String, String> hash = MyBeanUtil.toMap(target);

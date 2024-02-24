@@ -4,6 +4,7 @@ body {
 
 .top {
     width: 100%;
+    height: 74px;
     background: #fff;
 }
 
@@ -12,9 +13,8 @@ body {
 }
 
 .top .logo img {
-    width: 208px;
+    width: 179px;
     border: none;
-    margin-top: -5px;
 }
 
 .form {

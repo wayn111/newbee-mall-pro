@@ -20,6 +20,9 @@ $(function () {
         loadtext: '信息读取中...',
         rownumbers: false,
         rownumWidth: 20,
+        sortable: true,
+        sortname: 'configRank', //设置默认的排序列
+        sortorder: 'desc',
         autowidth: true,
         multiselect: true,
         pager: "#jqGridPager",

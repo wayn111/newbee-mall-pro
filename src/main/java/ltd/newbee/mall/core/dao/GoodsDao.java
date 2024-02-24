@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ltd.newbee.mall.core.entity.Goods;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.core.entity.vo.SearchObjVO;
 import ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO;
 
@@ -11,9 +12,10 @@ import java.util.List;
 
 public interface GoodsDao extends BaseMapper<Goods> {
     IPage<Goods> selectListPage(Page<Goods> page, Goods goods);
-    List<Goods> selectGoodsListByIds(List<Long> ids);
 
-    List<Goods> selectUpGoodsList();
+    List<GoodsVO> selectGoodsListByIds(List<Long> ids);
+
+    List<GoodsVO> selectUpGoodsList();
 
     IPage<Goods> findMallGoodsListBySearch(Page<SearchPageGoodsVO> page, SearchObjVO searchObjVO);
 

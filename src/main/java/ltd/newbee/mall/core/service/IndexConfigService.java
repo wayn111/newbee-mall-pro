@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.IndexConfig;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.enums.IndexConfigTypeEnum;
 
 import java.util.List;
@@ -25,5 +26,5 @@ public interface IndexConfigService extends IService<IndexConfig> {
      * @param limit 查询限制数量
      * @return 商品集合
      */
-    List<Goods> listIndexConfig(IndexConfigTypeEnum indexConfigTypeEnum, int limit);
+    List<GoodsVO> listIndexConfig(IndexConfigTypeEnum indexConfigTypeEnum, int limit);
 }

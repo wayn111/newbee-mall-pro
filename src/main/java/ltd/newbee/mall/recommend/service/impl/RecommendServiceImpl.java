@@ -11,6 +11,7 @@ import ltd.newbee.mall.core.dao.OrderDao;
 import ltd.newbee.mall.core.dao.OrderItemDao;
 import ltd.newbee.mall.core.entity.Goods;
 import ltd.newbee.mall.core.entity.Order;
+import ltd.newbee.mall.core.entity.vo.GoodsVO;
 import ltd.newbee.mall.core.entity.vo.OrderItemVO;
 import ltd.newbee.mall.recommend.core.ItemCF;
 import ltd.newbee.mall.recommend.dto.ProductDTO;
@@ -114,8 +115,8 @@ public class RecommendServiceImpl implements RecommendService {
     }
 
     @Override
-    public List<Goods> recommendGoods(Long userId, Integer num) {
-        List<Goods> recommendGoods = new ArrayList<>();
+    public List<GoodsVO> recommendGoods(Long userId, Integer num) {
+        List<GoodsVO> recommendGoods = new ArrayList<>();
         // 获取商品数据
         List<RelateDTO> relateDTOList = getRelateData();
         // 执行算法，返回推荐商品id

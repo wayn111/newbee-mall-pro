@@ -22,6 +22,22 @@
         <result column="goods_detail_content" property="goodsDetailContent"/>
     </resultMap>
 
+    <resultMap id="BaseVOResultMap" type="ltd.newbee.mall.core.entity.vo.GoodsVO">
+        <id column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_intro" property="goodsIntro"/>
+        <result column="goods_category_id" property="goodsCategoryId"/>
+        <result column="goods_cover_img" property="goodsCoverImg"/>
+        <result column="goods_carousel" property="goodsCarousel"/>
+        <result column="original_price" property="originalPrice"/>
+        <result column="selling_price" property="sellingPrice"/>
+        <result column="stock_num" property="stockNum"/>
+        <result column="tag" property="tag"/>
+        <result column="goods_sell_status" property="goodsSellStatus"/>
+        <result column="goods_detail_content" property="goodsDetailContent"/>
+    </resultMap>
+
+
     <!-- 通用查询映射结果 -->
     <resultMap id="SearchVOResultMap" type="ltd.newbee.mall.core.entity.vo.SearchPageGoodsVO">
         <id column="goods_id" property="goodsId"/>
@@ -94,7 +110,7 @@
             and goods_sell_status = 0
         </where>
     </select>
-    <select id="selectGoodsListByIds" resultMap="BaseResultMap">
+    <select id="selectGoodsListByIds" resultMap="BaseVOResultMap">
         <include refid="selectGoodsNotContent"></include>
         <where>
             <if test="ids != null and ids.size() > 0">
@@ -105,7 +121,7 @@
             </if>
         </where>
     </select>
-    <select id="selectUpGoodsList" resultMap="BaseResultMap">
+    <select id="selectUpGoodsList" resultMap="BaseVOResultMap">
         <include refid="selectGoodsNotContent"></include>
         <where>
             goods_sell_status = 0

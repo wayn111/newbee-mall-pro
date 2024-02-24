@@ -23,7 +23,7 @@ html {
 
 body {
   width: 100vw;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 ::-webkit-scrollbar {
   /*整体样式*/

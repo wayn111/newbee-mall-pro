@@ -20,6 +20,9 @@
         <ul class="list">
             <li><a th:href="@{/seckill/list}">秒杀专区</a></li>
             <li><a th:href="@{/coupon}">优惠券</a></li>
+            <li><a th:href="@{/search?keyword=小米}">手机专区</a></li>
+            <li><a href="#">服务</a></li>
+            <li><a href="#">商城</a></li>
         </ul>
         <div class="fr">
             <div class="search">
@@ -27,7 +30,7 @@
                 <div class="search_hot">
                 </div>
             </div>
-            <div class="button iconfont icon-search" onclick="search()"></div>
+            <div class="button iconfont icon-search1" onclick="search()"></div>
         </div>
     </div>
 </nav>
@@ -35,7 +38,7 @@
 <header id="header" th:fragment="header-fragment">
     <div class="center">
         <ul class="fl">
-            <li><a th:href="@{/index}">newbee-mall-pro</a></li>
+            <li><a th:href="@{/index}">newbee-mall-pro官网</a></li>
             <li><a th:href="@{/admin}" target="_blank">后台管理系统</a></li>
             <li><a href="https://github.com/wayn111/newbee-mall-pro">GitHub 地址</a></li>
         </ul>
@@ -66,7 +69,7 @@
                     </a>
                 </div>
                 <div class="shopcart">
-                    <a th:href="@{/shopCart}" style="color: white;"><i class="iconfont icon-cart"></i>
+                    <a th:href="@{/shopCart}"><i class="iconfont icon-cart"></i>
                         购物车(<span id="shopCatCount">0</span>)</a>
                 </div>
             </div>
@@ -76,7 +79,7 @@
                     <li><a th:href="@{/register}">注册</a></li>
                 </ul>
                 <div class="shopcart">
-                    <a th:href="@{/login}" style="color: white;"><i class="iconfont icon-cart"></i>
+                    <a th:href="@{/login}"><i class="iconfont icon-cart"></i>
                         购物车(0)</a>
                 </div>
             </div>

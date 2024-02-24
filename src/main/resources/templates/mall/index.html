@@ -42,7 +42,7 @@
                 <th:block th:unless="${#lists.isEmpty(carousels)}">
                     <th:block th:each="carousel : ${carousels}">
                         <div class="swiper-slide">
-                            <a th:href="@{${carousel.redirectUrl}}">
+                            <a th:href="@{${carousel.redirectUrl}}" target="_blank">
                                 <img th:src="@{${carousel.carouselUrl}}" alt="">
                             </a>
                         </div>
@@ -72,14 +72,25 @@
         <th:block th:unless="${#lists.isEmpty(hotGoodses)}">
             <th:block th:each="hotGoodse : ${hotGoodses}">
                 <div class="hot-image">
-                    <a th:href="@{'/goods/detail/'+${hotGoodse.goodsId}}">
+                    <a th:href="@{'/goods/detail/'+${hotGoodse.goodsId}}" target="_blank">
                         <img th:src="@{${hotGoodse.goodsCoverImg}}" th:alt="${hotGoodse.goodsName}">
                         <p class="name text-truncate" th:title="${hotGoodse.goodsName}"
                            th:text="${hotGoodse.goodsName}">NewBeeMall</p>
+                        <p class="grid-tips">
+                            <em class="thumb"><span class="color01" style="background-color:#FF6A6E">热卖商品</span></em>
+                        </p>
                     </a>
                 </div>
             </th:block>
         </th:block>
+    </div>
+
+    <div class="home-banner-box">
+        <a href="javascript:;">
+            <img alt="test" width="1226" height="120"
+                 th:src="@{/mall/image/home-banner.jpg}" lazy="loaded"
+                 style="margin-top: 20px;">
+        </a>
     </div>
 
     <div id="flash">
@@ -89,11 +100,14 @@
             <th:block th:unless="${#lists.isEmpty(newGoodses)}">
                 <th:block th:each="newGoods : ${newGoodses}">
                     <li>
-                        <a th:href="@{'/goods/detail/'+${newGoods.goodsId}}">
+                        <a th:href="@{'/goods/detail/'+${newGoods.goodsId}}" target="_blank">
                             <img th:src="@{${newGoods.goodsCoverImg}}" th:alt="${newGoods.goodsName}">
                             <p class="name text-truncate" th:title="${newGoods.goodsName}" th:text="${newGoods.goodsName}">NewBeeMall</p>
                             <p class="discount text-truncate" th:title="${newGoods.goodsIntro}" th:text="${newGoods.goodsIntro}">NewBeeMall</p>
                             <p class="item_price" th:text="${'¥ ' + newGoods.sellingPrice}">NewBeeMall</p>
+                            <p class="grid-tips">
+                                <em class="thumb"><span class="color01" style="background-color:#68BEFF">新品上线</span></em>
+                            </p>
                         </a>
                     </li>
                 </th:block>
@@ -109,13 +123,13 @@
             <th:block th:unless="${#lists.isEmpty(recommendGoodses)}">
                 <th:block th:each="recommendGoods : ${recommendGoodses}">
                     <li>
-                        <a th:href="@{'/goods/detail/'+${recommendGoods.goodsId}}">
+                        <a th:href="@{'/goods/detail/'+${recommendGoods.goodsId}}" target="_blank">
                             <!--<div class="info discount" th:text="${recommendGoods.tag}">
                                 新品
                             </div>-->
                             <img th:src="@{${recommendGoods.goodsCoverImg}}" th:alt="${recommendGoods.goodsName}">
                             <p class="name text-truncate" th:title="${recommendGoods.goodsName}" th:text="${recommendGoods.goodsName}">NewBeeMall</p>
-                            <p class="item_price" th:title="${recommendGoods.sellingPrice}" th:text="${recommendGoods.sellingPrice}">NewBeeMall</p>
+                            <p class="item_price" th:title="${'¥ ' + recommendGoods.sellingPrice}" th:text="${'¥ ' + recommendGoods.sellingPrice}">NewBeeMall</p>
                             <p class="counter">猜你喜欢</p>
                             <div class="comment">
                                 <p>新蜂精选</p>
