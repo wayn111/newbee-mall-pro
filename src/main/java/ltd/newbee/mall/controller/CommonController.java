@@ -13,7 +13,6 @@ import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.ServletUtil;
 import ltd.newbee.mall.util.file.FileUploadUtil;
 import ltd.newbee.mall.util.file.FileUtils;
-import ltd.newbee.mall.util.http.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
@@ -109,7 +108,7 @@ public class CommonController extends BaseController {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         // 算术类型
-        ArithmeticCaptcha captcha = new ArithmeticCaptcha(130, 48);
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha(120, 32);
         // CustomArithmeticCaptcha captcha = new CustomArithmeticCaptcha(130, 48);
         // 几位数运算，默认是两位
         captcha.setLen(2);

@@ -13,10 +13,12 @@ html {
 :root {
   overflow-y: auto;
   overflow-x: hidden;
+  --bg-color-l: #2b1136;
+  --bg-color-r: #f1404b;
 }
 
 :root body {
-  position: absolute;
+  /*position: absolute;*/
 }
 
 body {

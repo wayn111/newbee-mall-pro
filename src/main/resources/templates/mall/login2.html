@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>NewBee商城-登录</title>
+    <link rel="stylesheet" th:href="@{mall/css/common.css}">
+    <link rel="stylesheet" th:href="@{mall/css/captcha.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/plugins/sweetalert/sweetalert.css}"/>
+    <style>
+        .body_login {
+            width: 100%;
+            min-height: 100vh;
+            vertical-align: baseline;
+            word-wrap: break-word;
+            color: #282a2d;
+            background: #f9f9f9;
+            transition: background-color .3s;
+            font-size: 14px;
+            background: linear-gradient(45deg, var(--bg-color-l), var(--bg-color-r));
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login_center {
+            width: 370px;
+            height: 450px;
+            margin: auto;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, .75) !important;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+            border-radius: 0.525rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .login-info {
+            margin-bottom: 20px;
+        }
+
+        .login-info-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid rgba(136, 136, 136, .2) !important;
+            border-radius: 0;
+            padding: 0.375rem 0;
+            background: transparent !important;
+            transition: .3s;
+            box-shadow: none;
+            letter-spacing: .025rem;
+            font-size: inherit;
+            line-height: inherit;
+        }
+
+        .login-info-input:focus {
+            border: none;
+            border-color: #f1404b !important;
+        }
+
+        .submit {
+            cursor: pointer;
+            width: 100px;
+            display: inline-block;
+            font-weight: 400;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: #f1404b;
+            border: 1px solid transparent;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+        .submit:hover {
+            background-color: black;
+        }
+
+        .login_bottom {
+            margin-top: 10px;
+        }
+
+        .login_submit {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+    </style>
+    <script th:inline="javascript">var _ctx = [[@{/}]];</script>
+</head>
+<body class="body_login">
+<div class="login_center" style="">
+    <div style="width: 300px;height: 348px;">
+        <div class="login_top">
+            <div style="font-size: 35px;margin-bottom: 25px;font-weight: bolder;">newbee-pro商城</div>
+        </div>
+
+        <div class="login_top">
+            <div style="font-size: 25px;margin-bottom: 20px;">会员登录</div>
+        </div>
+        <form id="registerForm" onsubmit="return false;" action="##">
+            <div class="login_main">
+                <div class="login-info"><input class="login-info-input" type="text" name="loginName"
+                                               autocomplete="off"
+                                               placeholder="请输入你的手机号" id="loginName"/>
+                </div>
+                <div class="login-info"><input class="login-info-input"
+                                               autocomplete="off"
+                                               type="password"
+                                               name="password"
+                                               id="password"
+                                               placeholder="请输入你的密码"/>
+                </div>
+                <div class="login-info">
+                    <input type="checkbox" style="position: relative;top: 2px;" checked="checked" name="rememberme" id="check1" value="forever">
+                    <label class="" style="font-size: 12px" for="check1">记住我的登录信息</label>
+                </div>
+            </div>
+            <div class="login_submit" style="">
+                <input class="submit" type="button" onclick="loginCheck()" value="登录">
+                <input class="submit" type="button" th:onclick="window.location.href=_ctx + '?d='+new Date()*1"
+                       value="首页">
+            </div>
+        </form>
+        <div class="login_bottom">
+            <small>没有账号? <a th:href="@{/register}" class="signup">去注册</a></small>
+        </div>
+    </div>
+</div>
+<div class="captcha-modal">
+    <div class="slider">
+        <div class="content">
+            <div class="bg-img-div">
+                <img id="bg-img" src="" alt/>
+            </div>
+            <div class="slider-img-div" id="slider-img-div">
+                <img id="slider-img" src="" alt/>
+            </div>
+        </div>
+        <div class="slider-move">
+            <div class="slider-move-track">
+                拖动滑块完成拼图
+            </div>
+            <div class="slider-move-btn" id="slider-move-btn"></div>
+        </div>
+        <div class="bottom">
+            <div class="close-btn" id="slider-close-btn"></div>
+            <div class="refresh-btn" id="slider-refresh-btn"></div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- jQuery -->
+<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/admin/dist/js/public.js}"></script>
+<script th:src="@{/admin/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/tianai/captcha.js}"></script>
+<script type="text/javascript">
+
+    let currentCaptchaId = null;
+    $(function () {
+        clearAllPreventDefault($(".slider"));
+        refreshCaptcha();
+    })
+
+    $("#slider-move-btn").mousedown(down);
+    $("#slider-move-btn").on("touchstart", down);
+
+    $("#slider-close-btn").click(() => {
+        hideCaptcha();
+    });
+
+    $("#slider-refresh-btn").click(() => {
+        refreshCaptcha();
+    });
+
+    function valid(captchaConfig) {
+        let that = this;
+        let data = {
+            bgImageWidth: captchaConfig.bgImageWidth,
+            bgImageHeight: captchaConfig.bgImageHeight,
+            templateImageWidth: captchaConfig.templateImageWidth,
+            templateImageHeight: captchaConfig.templateImageHeight,
+            startSlidingTime: captchaConfig.startTime,
+            entSlidingTime: captchaConfig.stopTime,
+            trackList: captchaConfig.trackArr
+        };
+        console.log("valid", captchaConfig, data);
+        $.ajax({
+            type: "POST",
+            url: _ctx + "tianai/check?id=" + currentCaptchaId,
+            contentType: "application/json", //必须这样写
+            dataType: "json",
+            data: JSON.stringify(data),//schoolList是你要提交是json字符串
+            success: function (res) {
+                console.log(res);
+                if (res) {
+                    that.login();
+                } else {
+                    refreshCaptcha();
+                }
+            }
+
+        })
+    }
+
+    function refreshCaptcha() {
+        $.get(_ctx + "tianai/gen", function (data) {
+            reset();
+            currentCaptchaId = data.id;
+            const bgImg = $("#bg-img");
+            const sliderImg = $("#slider-img");
+            bgImg.attr("src", data.captcha.backgroundImage);
+            sliderImg.attr("src", data.captcha.templateImage);
+            initConfig($(".bg-img-div").width(), bgImg.height(), sliderImg.width(), sliderImg.height(), 206);
+        })
+    }
+
+    function doDown() {
+        $("#slider-move-btn").css("background-position", "-5px 31.0092%")
+    }
+
+
+    function doMove(currentCaptchaConfig) {
+        const moveX = currentCaptchaConfig.moveX;
+        $("#slider-move-btn").css("transform", "translate(" + moveX + "px, 0px)")
+        $("#slider-img-div").css("transform", "translate(" + moveX + "px, 0px)")
+    }
+
+    function reset() {
+        $("#slider-move-btn").css("background-position", "-5px 11.79625%")
+        $("#slider-move-btn").css("transform", "translate(0px, 0px)")
+        $("#slider-img-div").css("transform", "translate(0px, 0px)")
+        currentCaptchaId = null;
+    }
+
+    function showCaptcha() {
+        $(".captcha-modal").show();
+    }
+
+    function hideCaptcha() {
+        refreshCaptcha();
+        $(".captcha-modal").hide();
+    }
+
+    function loginCheck() {
+        var loginName = $("#loginName").val();
+        if (!validPhoneNumber(loginName)) {
+            swal('请输入正确的登录名(即手机号)', {
+                icon: "error",
+            });
+            return false;
+        }
+        var password = $("#password").val();
+        if (!validPassword(password)) {
+            swal('请输入正确的密码格式(6-20位字符和数字组合)', {
+                icon: "error",
+            });
+            return false;
+        }
+        showCaptcha();
+    }
+
+    //注册按钮onclick事件改为register()即可
+    function login() {
+        var url = _ctx + 'login?destPath=';
+        // 添加目标地址
+        var destPath = window.location.href.split('?')[1];
+        if (destPath) {
+            url = url + destPath;
+        }
+        //验证
+        var params = $("#registerForm").serialize();
+        $.ajax({
+            type: 'POST',//方法类型
+            url: url,
+            data: params,
+            success: function (result) {
+                if (result.code == 200) {
+                    if (result.map.destPath) {
+                        window.location.href = _ctx + result.map.destPath;
+                    } else {
+                        window.location.href = _ctx + 'index';
+                    }
+                } else {
+                    swal(result.msg, {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error",
+                });
+            }
+        });
+    }
+</script>
+</html>

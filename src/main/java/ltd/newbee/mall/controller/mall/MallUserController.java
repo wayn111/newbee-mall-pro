@@ -2,7 +2,6 @@ package ltd.newbee.mall.controller.mall;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class MallUserController extends BaseController {
 
@@ -38,7 +35,7 @@ public class MallUserController extends BaseController {
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
         httpSession.removeAttribute(Constants.MALL_USER_SESSION_KEY);
-        return "mall/login";
+        return "mall/login2";
     }
 
     @GetMapping("/login")
@@ -46,7 +43,7 @@ public class MallUserController extends BaseController {
         if (HttpUtil.isAjax(request)) {
             throw new BusinessException("请先登陆！");
         }
-        return "mall/login";
+        return "mall/login2";
     }
 
     @ResponseBody
@@ -75,7 +72,7 @@ public class MallUserController extends BaseController {
 
     @GetMapping("/register")
     public String registerPage() {
-        return "mall/register";
+        return "mall/register2";
     }
 
     @ResponseBody
@@ -83,11 +80,18 @@ public class MallUserController extends BaseController {
     public R register(@RequestParam("loginName") String loginName,
                       @RequestParam("verifyCode") String verifyCode,
                       @RequestParam("password") String password,
+                      @RequestParam("repassword") String repassword,
                       HttpSession session) {
         String kaptchaCode = (String) session.getAttribute(Constants.MALL_VERIFY_CODE_KEY);
         if (!StringUtils.equalsIgnoreCase(verifyCode, kaptchaCode)) {
             return R.error("验证码错误");
         }
+
+        // 判断密码是否一致
+        if (!StringUtils.equals(repassword, password)) {
+            return R.error("两次密码不一致");
+        }
+
         // 查询用户账号是否已经注册
         long count = mallUserService.count(new QueryWrapper<MallUser>()
                 .eq("login_name", loginName));
