@@ -35,7 +35,7 @@ newbee-mall-pro项目是在newbee-mall项目的基础上改造而来, 使用myba
 # 演示GIF
 
 ## 商城演示
-![商城首页](./images/商城演示.gif)
+![商城首页](./images/商城.gif)
 
 ## 后台演示
 ![后台演示](./images/后台演示.gif)
