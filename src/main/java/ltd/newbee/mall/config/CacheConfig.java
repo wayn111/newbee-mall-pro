@@ -3,18 +3,12 @@ package ltd.newbee.mall.config;
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.SocketOptions;
-import io.lettuce.core.resource.ClientResources;
-import io.lettuce.core.resource.NettyCustomizer;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.epoll.EpollChannelOption;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.cache.annotation.CachingConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -29,7 +23,8 @@ public class CacheConfig implements CachingConfigurer {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(keySerializer());
-        redisTemplate.setValueSerializer(valueSerializer());
+        redisTemplate.setHashKeySerializer(keySerializer());
+        redisTemplate.setDefaultSerializer(valueSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
@@ -66,6 +61,16 @@ public class CacheConfig implements CachingConfigurer {
 
     private RedisSerializer<Object> valueSerializer() {
         return new GenericFastJsonRedisSerializer();
+    }
+
+    /**
+     * 指定spring-session的默认序列化方式
+     *
+     * @return RedisSerializer
+     */
+    @Bean("springSessionDefaultRedisSerializer")
+    public RedisSerializer<Object> redisSerializer() {
+        return valueSerializer();
     }
 
 }

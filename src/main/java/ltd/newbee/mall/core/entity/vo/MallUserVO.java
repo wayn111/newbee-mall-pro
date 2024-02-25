@@ -33,4 +33,6 @@ public class MallUserVO implements Serializable {
     private Byte lockedFlag;
 
     private Date createTime;
+
+    private boolean rememberme;
 }

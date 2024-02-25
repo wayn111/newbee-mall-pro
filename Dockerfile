@@ -1,5 +1,5 @@
 # 该镜像需要依赖的基础镜像
-FROM amazoncorretto:21.0.1
+FROM ibm-semeru-runtimes:open-21-jdk
 # 指定维护者的名字
 MAINTAINER wayn111
 WORKDIR /root/workspace

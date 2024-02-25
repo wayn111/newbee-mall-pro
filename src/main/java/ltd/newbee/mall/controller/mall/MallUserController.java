@@ -11,12 +11,14 @@ import ltd.newbee.mall.core.entity.MallUser;
 import ltd.newbee.mall.core.entity.vo.MallUserVO;
 import ltd.newbee.mall.core.service.MallUserService;
 import ltd.newbee.mall.exception.BusinessException;
+import ltd.newbee.mall.redis.RedisCache;
 import ltd.newbee.mall.util.R;
 import ltd.newbee.mall.util.http.HttpUtil;
 import ltd.newbee.mall.util.security.Md5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,12 @@ public class MallUserController extends BaseController {
 
     @Autowired
     private MallUserService mallUserService;
+
+    @Autowired
+    private RedisCache redisCache;
+
+    @Autowired
+    private Environment environment;
 
     @GetMapping("/personal")
     public String personalPage(HttpServletRequest request) {
@@ -49,7 +57,6 @@ public class MallUserController extends BaseController {
     @ResponseBody
     @PostMapping("/login")
     public R doLogin(MallUserVO mallUserVO,
-                     // @RequestParam("verifyCode") String verifyCode,
                      @RequestParam("destPath") String destPath,
                      HttpSession session) {
         R success = R.success();
@@ -64,6 +71,13 @@ public class MallUserController extends BaseController {
         }
         BeanUtils.copyProperties(user, mallUserVO);
         session.setAttribute(Constants.MALL_USER_SESSION_KEY, mallUserVO);
+        String namespace = environment.getProperty("spring.session.redis.namespace");
+        int timeout = Integer.parseInt(environment.getProperty("spring.session.timeout"));
+        if (mallUserVO.isRememberme()) {
+            redisCache.setCacheMapValue(namespace + ":sessions:" + session.getId(), "maxInactiveInterval", timeout * 24 * 7);
+        } else {
+            redisCache.setCacheMapValue(namespace + ":sessions:" + session.getId(), "maxInactiveInterval", timeout);
+        }
         if (StringUtils.isNotEmpty(destPath) && StringUtils.contains(destPath, "=")) {
             success.add("destPath", destPath.split("=")[1].substring(1));
         }

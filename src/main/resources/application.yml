@@ -15,7 +15,7 @@ server:
 # spring
 spring:
   session:
-    timeout: 3600S
+    timeout: 3600
     redis:
       namespace: newbee_mall
   thymeleaf:
